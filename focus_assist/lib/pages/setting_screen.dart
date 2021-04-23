@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/my_bottom_navigation_bar.dart';
+import 'package:focus_assist/pages/account_setting_screen.dart';
 
 class SettingScreen extends StatelessWidget {
   @override
@@ -35,7 +36,9 @@ class SettingScreen extends StatelessWidget {
             SizedBox(height: 5.0,),
             Card(
               child: ListTile (
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, '/SettingScreen/Account');
+                },
                 title: Text(
                   'Account',
                   style: TextStyle(
