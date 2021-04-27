@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
+import 'package:sqflite/sqflite.dart';
 
 class AccountSettingScreen extends StatefulWidget {
   @override
@@ -65,6 +67,54 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   ),
                 ),
                 tileColor: Colors.lightBlue[50],
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                Map<String, dynamic> row = {'USERID': 2, 'USERNAME': 'Henry'};
+                int i = await DbProvider.instance.insert(
+                  'USER', row);
+                print('value of insert: $i');
+              },
+              child: Text(
+                'Insert',
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                List<Map<String, dynamic>> queryRows = await DbProvider.instance.query('USER');
+                print(queryRows);
+              },
+              child: Text(
+                'Query',
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                Database db = await DbProvider.instance.database;
+                db.execute(
+                  '''
+                  UPDATE USER
+                  SET USERNAME = 'Walt'
+                  WHERE USERID = 3;
+                  '''
+                );
+              },
+              child: Text(
+                'Update',
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                Database db = await DbProvider.instance.database;
+                db.execute(
+                  '''
+                  DELETE FROM USER;
+                  '''
+                );
+              },
+              child: Text(
+                'Delete',
               ),
             ),
           ],
