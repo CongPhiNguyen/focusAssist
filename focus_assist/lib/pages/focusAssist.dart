@@ -9,7 +9,7 @@ class FocusAssist extends StatefulWidget {
 
 class _FocusAssistState extends State<FocusAssist> {
   int selectedIndex = 0;
-  final List<Widget> widgetOptions = <Widget> [
+  final List<Widget> widgetOptions = <Widget>[
     Center(
       child: Text(
         'Focus Timer',
@@ -25,11 +25,7 @@ class _FocusAssistState extends State<FocusAssist> {
         'Reward',
       ),
     ),
-    Center(
-      child: Text(
-        'Progress',
-      ),
-    ),
+    Center(child: ProgressScreen()),
     SettingScreen(),
   ];
 
