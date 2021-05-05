@@ -8,7 +8,7 @@ class FocusAssist extends StatefulWidget {
 }
 
 class _FocusAssistState extends State<FocusAssist> {
-  int selectedIndex = 0;
+  int selectedIndex = 4;
   final List<Widget> widgetOptions = <Widget> [
     Center(
       child: Text(
@@ -25,11 +25,12 @@ class _FocusAssistState extends State<FocusAssist> {
         'Reward',
       ),
     ),
-    Center(
+    /*Center(
       child: Text(
         'Progress',
       ),
-    ),
+    ),*/
+    ProgressScreen(),
     SettingScreen(),
   ];
 
