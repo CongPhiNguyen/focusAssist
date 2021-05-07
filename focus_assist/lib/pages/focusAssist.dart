@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:focus_assist/pages/progress_screen.dart';
+import 'package:focus_assist/pages/journal_screen.dart';
 import 'package:focus_assist/pages/setting_screen.dart';
 
 class FocusAssist extends StatefulWidget {
@@ -15,23 +15,24 @@ class _FocusAssistState extends State<FocusAssist> {
         'Focus Timer',
       ),
     ),
-    Center(
-      child: Text(
-        'Journal',
-      ),
-    ),
+    Center(child: JournalScreen()),
     Center(
       child: Text(
         'Reward',
       ),
     ),
-    Center(child: ProgressScreen()),
+    Center(
+      child: Text(
+        'Progress',
+      ),
+    ),
     SettingScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         body: widgetOptions.elementAt(selectedIndex),
