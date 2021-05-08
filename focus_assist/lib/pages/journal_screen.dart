@@ -327,7 +327,8 @@ class _JournalScreenState extends State<JournalScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ViewAllActivity()),
+                                  builder: (context) => ViewAllActivity(
+                                      name: allActivity[index])),
                             );
                           },
                           child: ListTile(

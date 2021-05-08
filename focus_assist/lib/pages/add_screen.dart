@@ -64,23 +64,59 @@ class _AddNewState extends State<AddNew> {
       SizedBox(
         height: 20,
       ),
-      Container(
-          height: 60,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: dayOfWeek.length,
-            itemBuilder: (context, index) {
-              return RaisedButton(
-                onPressed: () {
-                  setState(() {
-                    checkDay[index] = !checkDay[index];
-                  });
-                },
-                color: checkDay[index] ? Colors.cyan : Colors.white12,
-                child: Text(dayOfWeek[index]),
-              );
-            },
-          )),
+      Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Container(
+            height: 50,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: dayOfWeek.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    setState(() {
+                      checkDay[index] = !checkDay[index];
+                    });
+                  },
+                  child: Container(
+                      decoration: BoxDecoration(
+                        color: checkDay[index]
+                            ? Color(0xff8A2BE2)
+                            : Color(0xffF0FFF0),
+                        border: Border(
+                            bottom: BorderSide(
+                                color: !checkDay[index]
+                                    ? Color(0xff8A2BE2)
+                                    : Color(0xffF0FFF0),
+                                width: 1),
+                            top: BorderSide(
+                                color: !checkDay[index]
+                                    ? Color(0xff8A2BE2)
+                                    : Color(0xffF0FFF0),
+                                width: 1),
+                            right: BorderSide(
+                                color: !checkDay[index]
+                                    ? Color(0xff8A2BE2)
+                                    : Color(0xffF0FFF0),
+                                width: 1),
+                            left: BorderSide(
+                                color: !checkDay[index]
+                                    ? Color(0xff8A2BE2)
+                                    : Color(0xffF0FFF0),
+                                width: (index == 0) ? 1 : 0)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(dayOfWeek[index],
+                            style: TextStyle(
+                                color: !checkDay[index]
+                                    ? Color(0xff8A2BE2)
+                                    : Color(0xffF0FFF0))),
+                      )),
+                );
+              },
+            )),
+      ),
     ];
   }
 
@@ -90,21 +126,24 @@ class _AddNewState extends State<AddNew> {
         padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
         child: Text("Repeating every: ", style: TextStyle(fontSize: 20)),
       ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-        child: Row(
-          children: [
-            Expanded(
-                flex: 1, child: Text("Every", style: TextStyle(fontSize: 20))),
-            Expanded(
-                flex: 1,
-                child: TextField(
-                  decoration: InputDecoration(hintText: 'num'),
-                  style: TextStyle(fontSize: 20),
-                )),
-            Expanded(
-                flex: 1, child: Text("day", style: TextStyle(fontSize: 20))),
-          ],
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
+          child: Row(
+            children: [
+              Expanded(
+                  flex: 1,
+                  child: Text("Every", style: TextStyle(fontSize: 20))),
+              Expanded(
+                  flex: 1,
+                  child: TextField(
+                    decoration: InputDecoration(hintText: 'num'),
+                    style: TextStyle(fontSize: 20),
+                  )),
+              Expanded(
+                  flex: 4, child: Text("day", style: TextStyle(fontSize: 20))),
+            ],
+          ),
         ),
       )
     ];
@@ -251,7 +290,7 @@ class _AddNewState extends State<AddNew> {
                             lastDate: DateTime.utc(2120, 31, 12))
                         .then((date) {
                       setState(() {
-                        startTime = date;
+                        if (date != null) startTime = date;
                       });
                     });
                   },
@@ -310,12 +349,6 @@ class _AddNewState extends State<AddNew> {
                     : (dropDownValue == 'Flexible')
                         ? Flexible()
                         : Repeating()),
-            Center(
-              child: RaisedButton(
-                onPressed: () {},
-                child: Text("Add"),
-              ),
-            )
           ],
         ));
   }
