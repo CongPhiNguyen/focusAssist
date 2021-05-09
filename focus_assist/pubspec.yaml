@@ -32,6 +32,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  fluttertoast: ^8.0.6
+  rflutter_alert: ^2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +58,20 @@ flutter:
     - assets/login/icon/facebook.png
     - assets/login/icon/google.png
     - assets/login/icon/twitter.png
+    - assets/achievenment/achieImage/dragon3.png
+    - assets/achievenment/achieImage/dragon2.png
+    - assets/achievenment/achieImage/dragon1.png
+    - assets/achievenment/achieImage/clock.png
+    - assets/achievenment/Eggs/eggCarpentry.png
+    - assets/achievenment/Eggs/eggElectric.png
+    - assets/achievenment/Eggs/eggFire.png
+    - assets/achievenment/Eggs/eggIce.png
+    - assets/achievenment/Eggs/eggMagic.png
+    - assets/achievenment/Eggs/eggRock.png
+    - assets/achievenment/Eggs/eggSky.png
+    - assets/achievenment/Eggs/eggWater.png
+    - assets/achievenment/ui/treasure.png
+    - assets/achievenment/ui/UI_shop_volumn.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

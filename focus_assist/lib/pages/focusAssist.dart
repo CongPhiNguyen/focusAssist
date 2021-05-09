@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/pages/achievenment/screen/achievenment_screen.dart';
 import 'package:focus_assist/pages/progress_screen.dart';
 import 'package:focus_assist/pages/setting_screen.dart';
 
@@ -19,17 +20,18 @@ class _FocusAssistState extends State<FocusAssist> {
       child: Text(
         'Journal',
       ),
-    ),
+    ),/*
     Center(
       child: Text(
         'Reward',
       ),
-    ),
+    ),*/
     /*Center(
       child: Text(
         'Progress',
       ),
     ),*/
+    AchievenmentScreen(),
     ProgressScreen(),
     SettingScreen(),
   ];
