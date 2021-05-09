@@ -29,3 +29,12 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+/*
+task wrapper(type: Wrapper){
+   // group 'Wrapper'
+   // description 'Download gradle wrapper'
+  //  gradle wrapper --gradle-version 6.2 --distribution-type all
+    gradleVersion = '6.2'
+}
+*/
