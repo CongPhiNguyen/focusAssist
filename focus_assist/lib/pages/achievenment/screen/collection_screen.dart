@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/achievenment/feature/CardCollection.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
 class CollectionScreen extends StatefulWidget {
   @override
   _CollectionScreenState createState() => _CollectionScreenState();

@@ -6,6 +6,7 @@ import 'package:focus_assist/pages/achievenment/screen/shop_screen.dart';
 
 
 class AchievenmentScreen extends StatefulWidget {
+  final double totalMoney = 0;
   @override
   _AchievenmentScreenState createState() => _AchievenmentScreenState();
 }
@@ -33,11 +34,12 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
       body: ListView.builder(
           itemCount: items.length,
           itemBuilder: (context,num) {
+
             return  Center(
               child: CardAchievement(
                 name: items[num].name,
                 iconImage: items[num].image,
-                diemThanhtuu: 15,
+                diemThanhtuu: items[num].diemThanhtuu,
                 star: items[num].star,
                 endColor: items[num].endColor,
                 startColor: items[num].startColor,

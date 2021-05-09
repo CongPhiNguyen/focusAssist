@@ -67,15 +67,7 @@ class card_shop extends StatelessWidget {
                           child: FlatButton(
                             color: Colors.green[400],
                             onPressed: (){
-                              Fluttertoast.showToast(
-                                  msg: "Đã mua",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 9.0
-                              );
+
                             },
                             child: Text(
                               'Buy',
@@ -95,8 +87,8 @@ class card_shop extends StatelessWidget {
                   flex: 2,
                   child: Image.asset(
                     imageEgg,
-                    height: 70,
-                    width: 70,
+                    height: size.width*0.2,
+                    width: size.width*0.2,
                   ),
                 ),
               ],
@@ -107,4 +99,5 @@ class card_shop extends StatelessWidget {
     );
   }
 }
+
 

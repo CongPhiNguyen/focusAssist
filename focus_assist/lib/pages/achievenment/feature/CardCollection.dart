@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+
 import 'package:focus_assist/classes/ClassCardShop.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -52,7 +53,15 @@ class DetailCardCollection extends StatelessWidget {
                   child: IconButton(
                     icon: Icon(Icons.search,size: 20 ,),
                     padding: EdgeInsets.only(bottom: 20),
-                    onPressed:(){},
+                    onPressed:(){
+                      _show(
+                          context,
+                          value[index].name,
+                          value[index].rareColor,
+                          value[index].price,
+                           value[index].imageEgg,
+                      );
+                    },
                   ),
                 ),
               ],
@@ -63,3 +72,35 @@ class DetailCardCollection extends StatelessWidget {
     );
   }
 }
+
+
+void _show(context, String name, Color rareColor,double price, String imageEgg){
+  Alert(
+    context: context,
+    title: 'Information',
+    closeIcon: Icon(Icons.info_outlined),
+    desc: 'Đã sở hữu',
+    content: Column(
+      children: <Widget>[
+        Text(name,style: TextStyle(color: rareColor),),
+        Image.asset(imageEgg),
+        Text('Price: ' + price.toString(),),
+
+      ],
+    ),
+    buttons: [
+      DialogButton(
+        child: Text(
+          "ACCEPT",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
+
+
+
