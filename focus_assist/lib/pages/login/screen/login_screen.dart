@@ -36,17 +36,16 @@ class LoginScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text('Login', style: TextStyle(color: Colors.white, fontSize: 40.0,fontWeight: FontWeight.bold,),),
-                  SizedBox(height: 0.0,),
+                  SizedBox(height: size.height*0.01,),
                   Text('Welcome you comeback',style: TextStyle(color: Colors.white,fontSize: 20.0),),
-                  SizedBox(height: 10.0,),
+                  SizedBox(height: size.height*0.01,),
 
                 ],
               ),
             ),
             SizedBox(height: size.height*0.01,),
-            Expanded(
 
-              child: Container(
+            Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40))
@@ -66,10 +65,21 @@ class LoginScreen extends StatelessWidget {
                         onChanged: (value){},
                       ),
                       SizedBox(height: size.height*0.06,),
+                      GestureDetector(
+                        onTap: (){},
+                        child: Text(
+                          'Forgot password ? ',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
                       button_login(
                         text: 'LOGIN',
                         press: (){
-                         runApp(FocusAssist());
+                          runApp(FocusAssist());
                         },
                       ),
                       Donthaveanaccount(
@@ -87,7 +97,6 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),

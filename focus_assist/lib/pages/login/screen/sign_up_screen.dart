@@ -36,15 +36,14 @@ class SignUpScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),),
-                  SizedBox(height: 0.0,),
+                  SizedBox(height: size.height*0.01,),
                   Text('Welcome you to Focus Assistance',style: TextStyle(color: Colors.white,fontSize: 15.0),),
-                  SizedBox(height: 10,),
+                  SizedBox(height: size.height*0.01,),
                 ],
               ),
             ),
-            SizedBox(height: 20,),
-            Expanded(
-              child: Container(
+            SizedBox(height: size.height*0.01,),
+            Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40)),
@@ -98,7 +97,6 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
