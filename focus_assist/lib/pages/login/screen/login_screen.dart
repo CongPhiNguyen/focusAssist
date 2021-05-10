@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
+import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/dontyouhaveaccount.dart';
 import 'package:focus_assist/pages/login/feature_ui/edit_text_login.dart';
@@ -35,9 +36,9 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Login', style: TextStyle(color: Colors.white, fontSize: 40.0,fontWeight: FontWeight.bold,),),
+                  FadeAnimation(1.4,Text('Login', style: TextStyle(color: Colors.white, fontSize: 40.0,fontWeight: FontWeight.bold,),)),
                   SizedBox(height: size.height*0.01,),
-                  Text('Welcome you comeback',style: TextStyle(color: Colors.white,fontSize: 20.0),),
+                  FadeAnimation(1.8,  Text('Welcome you comeback',style: TextStyle(color: Colors.white,fontSize: 20.0),)),
                   SizedBox(height: size.height*0.01,),
 
                 ],
@@ -56,17 +57,17 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: size.height*0.03,),
-                      edit_text_login(
+                      FadeAnimation(2.0,edit_text_login(
                         icon: Icons.person,
                         hintText: "Your Email",
                         onChanged: (value){},
-                      ),
+                      )),
                       SizedBox(height: size.height*0.03,),
-                      edit_text_password_login(
+                      FadeAnimation(2.2,edit_text_password_login(
                         onChanged: (value){},
-                      ),
-                      SizedBox(height: size.height*0.06,),
-                      GestureDetector(
+                      )),
+                      SizedBox(height: size.height*0.1,),
+                      FadeAnimation(2.4, GestureDetector(
                         onTap: (){},
                         child: Text(
                           'Forgot password ? ',
@@ -76,24 +77,24 @@ class LoginScreen extends StatelessWidget {
                             fontSize: 15,
                           ),
                         ),
-                      ),
-                      button_login(
+                      )),
+                       FadeAnimation(2.6,button_login(
                         text: 'LOGIN',
                         press: (){
                           runApp(focus());
 
                         },
-                      ),
-                      Donthaveanaccount(
+                      )),
+                       FadeAnimation(2.8, Donthaveanaccount(
                         login: true,
                         press: () {Navigator.push(context, MaterialPageRoute(builder: (context){return SignUpScreen();}));},
-                      ),
-                      Container(
+                      )),
+                       FadeAnimation(3.0, Container(
                         height: size.height*0.15,
                         width: size.width*3,
                         child: Image.asset(
                           'assets/login/ui/UI_login_screen.png',
-                        ),
+                        )),
                       ),
                     ],
                   ),

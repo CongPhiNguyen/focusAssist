@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
+import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/dontyouhaveaccount.dart';
 import 'package:focus_assist/pages/login/feature_ui/edit_text_login.dart';
@@ -35,9 +36,9 @@ class SignUpScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),),
+                  FadeAnimation(1.4,  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
                   SizedBox(height: size.height*0.01,),
-                  Text('Welcome you to Focus Assistance',style: TextStyle(color: Colors.white,fontSize: 15.0),),
+                  FadeAnimation(1.8,  Text('Welcome you to Focus Assistance',style: TextStyle(color: Colors.white,fontSize: 15.0),)),
                   SizedBox(height: size.height*0.01,),
                 ],
               ),
@@ -53,31 +54,37 @@ class SignUpScreen extends StatelessWidget {
                   padding: EdgeInsets.all(20),
                   child:  Column(
                     children: <Widget>[
-                      edit_text_login(
+                      FadeAnimation(2.0,edit_text_login(
+                        icon: Icons.drive_file_rename_outline,
+                        hintText: "Full name",
+                        onChanged: (value){},
+                      )),
+                      SizedBox(height: size.height*0.0015,),
+                      FadeAnimation(2.2,edit_text_login(
                         icon: Icons.person,
                         hintText: "Your Email",
                         onChanged: (value){},
-                      ),
+                      )),
                       SizedBox(height: size.height*0.0015,),
-                      edit_text_password_login(
+                      FadeAnimation(2.4,edit_text_password_login(
                         onChanged: (value){},
-                      ),
+                      )),
                       SizedBox(height: size.height*0.03,),
-                      button_login(
+                      FadeAnimation(2.6, button_login(
                         text: 'SIGN UP',
                         press: (){
                           runApp(focus());
                         },
-                      ),
+                      )),
                       SizedBox(height: size.height*0.02,),
-                      Donthaveanaccount(
+                      FadeAnimation(2.8, Donthaveanaccount(
                         login: false,
                         press: (){Navigator.push(context, MaterialPageRoute(builder: (context){return LoginScreen();}));},
-                      ),
+                      )),
                       SizedBox(height: size.height*0.02,),
-                      Or(),
+                      FadeAnimation(3.0,Or()),
                       SizedBox(height: size.height*0.03,),
-                      Row(
+                      FadeAnimation(3.2,  Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           login_with_socialnetwork(
@@ -93,7 +100,7 @@ class SignUpScreen extends StatelessWidget {
                             press: (){runApp(focus());},
                           ),
                         ],
-                      ),
+                      )),
                     ],
                   ),
                 ),
