@@ -27,27 +27,30 @@ class _ShopScreenState extends State<ShopScreen> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,),
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          design_appbar_shop(size: size),
-          Container(
-            height: size.height*0.65,
-            child: ListView.builder(
-                itemCount: value.length,
-                itemBuilder: (context,num) {
-                  return Center(
-                    child: card_shop(
-                      size: size,
-                      name: value[num].name,
-                      price: value[num].price,
-                      rareColor: value[num].rareColor,
-                      imageEgg: value[num].imageEgg,
-                    ),
-                  );
-                }
+      body: Container(
+        height: size.height,
+        child: Column(
+          children: <Widget>[
+            design_appbar_shop(size: size),
+            Container(
+              height: size.height*0.65,
+              child: ListView.builder(
+                  itemCount: value.length,
+                  itemBuilder: (context,num) {
+                    return Center(
+                      child: card_shop(
+                        size: size,
+                        name: value[num].name,
+                        price: value[num].price,
+                        rareColor: value[num].rareColor,
+                        imageEgg: value[num].imageEgg,
+                      ),
+                    );
+                  }
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

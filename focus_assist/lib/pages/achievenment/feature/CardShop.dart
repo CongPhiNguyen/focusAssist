@@ -20,7 +20,7 @@ class card_shop extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Container(
-            height: 100,
+            height: size.height*0.15,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
