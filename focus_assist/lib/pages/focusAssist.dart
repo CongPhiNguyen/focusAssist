@@ -109,7 +109,7 @@ class FocusAssist extends StatefulWidget {
 
 class _FocusAssistState extends State<FocusAssist> {
   int _page = 0;
-  GlobalKey _bottomNavigationKey = GlobalKey();
+ // GlobalKey _bottomNavigationKey = GlobalKey();
 
   Widget _showPage = new SettingScreen();
 
@@ -143,7 +143,7 @@ class _FocusAssistState extends State<FocusAssist> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
-        key: _bottomNavigationKey,
+       // key: _bottomNavigationKey,
         index: _page,
         items: <Widget>[
           Icon(Icons.timer, size: 30),

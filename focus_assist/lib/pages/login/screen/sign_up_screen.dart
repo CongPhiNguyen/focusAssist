@@ -66,7 +66,7 @@ class SignUpScreen extends StatelessWidget {
                       button_login(
                         text: 'SIGN UP',
                         press: (){
-                          runApp(FocusAssist());
+                          runApp(focus());
                         },
                       ),
                       SizedBox(height: size.height*0.02,),
@@ -82,15 +82,15 @@ class SignUpScreen extends StatelessWidget {
                         children: <Widget>[
                           login_with_socialnetwork(
                             iconImage: "assets/login/icon/facebook.png",
-                            press: (){runApp(FocusAssist());},
+                            press: (){runApp(focus());},
                           ),
                           login_with_socialnetwork(
                             iconImage: "assets/login/icon/google.png",
-                            press: (){runApp(FocusAssist());},
+                            press: (){runApp(focus());},
                           ),
                           login_with_socialnetwork(
                             iconImage: "assets/login/icon/twitter.png",
-                            press: (){runApp(FocusAssist());},
+                            press: (){runApp(focus());},
                           ),
                         ],
                       ),

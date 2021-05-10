@@ -33,7 +33,7 @@ class _ShopScreenState extends State<ShopScreen> {
           children: <Widget>[
             design_appbar_shop(size: size),
             Container(
-              height: size.height*0.65,
+              height: size.height*0.6,
               child: ListView.builder(
                   itemCount: value.length,
                   itemBuilder: (context,num) {
