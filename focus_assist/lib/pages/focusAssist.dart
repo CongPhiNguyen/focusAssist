@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/progress_screen.dart';
 import 'package:focus_assist/pages/setting_screen.dart';
+import 'package:focus_assist/classes/LocalNotificationManager.dart';
+import 'package:flutter_config/flutter_config.dart';
 
 class FocusAssist extends StatefulWidget {
   @override
@@ -33,6 +35,22 @@ class _FocusAssistState extends State<FocusAssist> {
     ProgressScreen(),
     SettingScreen(),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    localNotificationManager.setOnNotificationReceive(onNotificationReceive);
+    localNotificationManager.setOnNotificationClick(onNotificationClick);
+  }
+
+  onNotificationReceive(ReceiveNotification notification) {
+    print('Notification Received: ${notification.id}');
+  }
+
+  onNotificationClick(String payload) {
+    print('Payload: $payload');
+  }
 
   @override
   Widget build(BuildContext context) {

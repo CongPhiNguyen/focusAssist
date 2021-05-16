@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AccountSettingScreen extends StatefulWidget {
@@ -9,7 +14,46 @@ class AccountSettingScreen extends StatefulWidget {
 
 class _AccountSettingScreenState extends State<AccountSettingScreen> {
   String username = 'Username';
-  String image;
+  Image image;
+  TextEditingController usernameEditingController = new TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    LoadUsername();
+    LoadUserImage();
+  }
+
+  Future<void> LoadUsername() async {
+    Database db = await DbProvider.instance.database;
+    List<dynamic> whereArguments = ['ND001'];
+    List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG', where: 'MANGUOIDUNG = ?', whereArgs: whereArguments);
+    if (queryRows.first['HOTEN'] == null || queryRows.first['HOTEN'] == '') return;
+    try {
+      setState(() {
+        username = queryRows.first['HOTEN'];
+      });
+    }
+    catch (e) {
+      print('Error setting username: $e');
+    }
+  }
+
+  Future<void> LoadUserImage() async {
+    Database db = await DbProvider.instance.database;
+    List<dynamic> whereArguments = ['ND001'];
+    List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG', where: 'MANGUOIDUNG = ?', whereArgs: whereArguments);
+    if (queryRows.first['ANH'] == null || queryRows.first['ANH'] == '') return;
+    try {
+      setState(() {
+        image = imageFromBase64String(queryRows.first['ANH']);
+      });
+    }
+    catch (e) {
+      print('Error setting avatar: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,23 +79,64 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                         width: 100.0,
                         child: Center(
                           child: CircleAvatar(
-                            backgroundImage: AssetImage('assets/default.png'),
-                            backgroundColor: Colors.blue,
-                            radius: 40.0,
+                            backgroundImage: (image == null)?AssetImage('assets/default.png'):null,
+                            backgroundColor: Colors.white,
+                            radius: 50.0,
+                            child: ClipRRect(
+                              child: (image != null)?image:null,
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
                           ),
                         ),
                       ),
                       Container(
                         alignment: Alignment.topRight,
                         width: 100.0,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Edit',
-                            style: TextStyle(
-                              fontSize: 16.0,
+                        child: PopupMenuButton(
+                          onSelected: (value) {
+                            print(value);
+                            switch (value) {
+                              case 1:
+                                _showAvatarChoiceDialog(context);
+                                break;
+                              case 2:
+                                _showEditUsernameDialog(context);
+                                break;
+                            }
+                          },
+                          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                            PopupMenuItem(
+                              child: Container(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.account_circle,
+                                      color: Colors.blue,
+                                    ),
+                                    Text('   Change Avatar'),
+                                  ],
+                                ),
+                              ),
+                              value: 1,
                             ),
-                          ),
+                            PopupMenuDivider(height: 5.0),
+                            PopupMenuItem(
+                              child: Container(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.edit,
+                                      color: Colors.blue,
+                                    ),
+                                    Text('   Edit Username'),
+                                  ],
+                                ),
+                              ),
+                              value: 2,
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -180,10 +265,26 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               ),
               TextButton(
                 onPressed: () async {
-                  Map<String, dynamic> row = {'USERID': 1, 'USERNAME': 'Steve'};
-                  int i = await DbProvider.instance.insert(
-                    'USER', row);
-                  print('value of insert: $i');
+                  // Map<String, dynamic> row = {
+                  //   'MANGUOIDUNG': 'ND001',
+                  //   'HOTEN': 'Crack of Dawn',
+                  //   'ANH': '',
+                  //   'VANG': 100,
+                  //   'THONGBAO': true,
+                  //   'THONGBAOSANG': true,
+                  //   'THONGBAOTOI': true,
+                  //   'THOIGIANTHONGBAOSANG': '07:00:00',
+                  //   'THOIGIANTHONGBAOTOI': '21:00:00',
+                  //   'DARKMODE': false,
+                  // };
+                  Database db = await DbProvider.instance.database;
+                  await db.execute(
+                    '''
+                    INSERT INTO THONGTINNGUOIDUNG VALUES ('ND002', 'Crack of Dawn', '', 100, 1, 1, 1, '07:00:00', '21:00:00', 0);
+                    '''
+                  );
+                  // print(await db.insert('THONGTINNGUOIDUNG', row));
+                  print('Complete insert into table');
                 },
                 child: Text(
                   'Insert',
@@ -191,8 +292,9 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               ),
               TextButton(
                 onPressed: () async {
-                  List<Map<String, dynamic>> queryRows = await DbProvider.instance.query('USER');
-                  print(queryRows);
+                  Database db = await DbProvider.instance.database;
+                  List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG');
+                  print (queryRows);
                 },
                 child: Text(
                   'Query',
@@ -201,10 +303,32 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               TextButton(
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
+                  // db.execute(
+                  //   '''
+                  //   UPDATE THONGTINNGUOIDUNG
+                  //   SET THONGBAO = TRUE, THONGBAOSANG = TRUE, THONGBAOTOI = TRUE,
+                  //       THOIGIANTHONGBAOSANG = '07:00:00', THOIGIANTHONGBAOTOI = '21:00:00',
+                  //       DARKMODE = FALSE
+                  //   WHERE MANGUOIDUNG = 'ND001';
+                  //   '''
+                  // );
                   db.execute(
                     '''
+                    CREATE TABLE THONGTINNGUOIDUNG (
+                        MANGUOIDUNG TEXT PRIMARY KEY,
+                        HOTEN TEXT,
+                        ANH BLOB,
+                        VANG INTEGER,
+                        THONGBAO BOOL,
+                        THONGBAOSANG BOOL,
+                        THONGBAOTOI BOOL,
+                        THOIGIANTHONGBAOSANG TIME,
+                        THOIGIANTHONGBAOTOI TIME,
+                        DARKMODE BOOL
+                    );
                     '''
                   );
+                  print('Complete create table');
                 },
                 child: Text(
                   'Update',
@@ -213,11 +337,58 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               TextButton(
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
+                  // db.execute(
+                  //   '''
+                  //   ALTER TABLE THONGTINNGUOIDUNG
+                  //   ADD COLUMN THONGBAO BOOL;
+                  //   '''
+                  // );
+                  // db.execute(
+                  //   '''
+                  //   ALTER TABLE THONGTINNGUOIDUNG
+                  //   ADD COLUMN THONGBAOSANG BOOL;
+                  //   '''
+                  // );
+                  // db.execute(
+                  //   '''
+                  //   ALTER TABLE THONGTINNGUOIDUNG
+                  //   ADD COLUMN THONGBAOTOI BOOL;
+                  //   '''
+                  // );
+                  // db.execute(
+                  //   '''
+                  //   ALTER TABLE THONGTINNGUOIDUNG
+                  //   ADD COLUMN THOIGIANTHONGBAOSANG TIME;
+                  //   '''
+                  // );
+                  // db.execute(
+                  //   '''
+                  //   ALTER TABLE THONGTINNGUOIDUNG
+                  //   ADD COLUMN THOIGIANTHONGBAOTOI TIME;
+                  //   '''
+                  // );
+                  // db.execute(
+                  //   '''
+                  //   ALTER TABLE THONGTINNGUOIDUNG
+                  //   ADD COLUMN DARKMODE BOOL;
+                  //   '''
+                  // );
+                  // db.execute(
+                  //   '''
+                  //   UPDATE THONGTINNGUOIDUNG
+                  //   SET THONGBAO = TRUE, THONGBAOSANG = TRUE, THONGBAOTOI = TRUE,
+                  //       THOIGIANTHONGBAOSANG = '07:00:00', THOIGIANTHONGBAOTOI = '21:00:00',
+                  //       DARKMODE = FALSE
+                  //   WHERE MANGUOIDUNG = 'ND001';
+                  //   '''
+                  // );
                   db.execute(
                     '''
-                    DELETE TABLE USER;
+                    DELETE FROM THONGTINNGUOIDUNG
+                    WHERE MANGUOIDUNG = 'ND002';
                     '''
                   );
+                  print('Complete drop table');
                 },
                 child: Text(
                   'Delete',
@@ -228,5 +399,152 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
         ),
       ),
     );
+  }
+
+  _showEditUsernameDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(child: Text('Edit Username', style: TextStyle(color: Colors.blue),)),
+          content: SingleChildScrollView (
+            child: ListBody(
+              children: <Widget>[
+                Divider(height: 1,color: Colors.blue,),
+                TextField(
+                  controller: usernameEditingController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    //labelText: 'Username',
+                    hintText: username,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                print('Cancel');
+                setState(() {
+                  usernameEditingController.clear();
+                });
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                print('OK');
+                setState(() {
+                  username = usernameEditingController.text;
+                });
+                UpdateUsername('ND001');    // user.getID()
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future _showAvatarChoiceDialog(BuildContext context)
+  {
+    return showDialog(context: context,builder: (BuildContext context){
+      return AlertDialog(
+        title: Text("Choose option",style: TextStyle(color: Colors.blue),),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Divider(height: 1,color: Colors.blue,),
+              ListTile(
+                onTap: (){
+                  _openGallery(context);
+                },
+                title: Text("Gallery"),
+                leading: Icon(Icons.account_box,color: Colors.blue,),
+              ),
+              Divider(height: 1,color: Colors.blue,),
+              ListTile(
+                onTap: (){
+                  _openCamera(context);
+                },
+                title: Text("Camera"),
+                leading: Icon(Icons.camera,color: Colors.blue,),
+              ),
+            ],
+          ),
+        ),);
+    });
+  }
+
+  void _openCamera(BuildContext context)  async{
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+    );
+    // setState(() {
+    //   image = Image.file(File(pickedFile.path));
+    // });
+    String imgString = base64String(await pickedFile.readAsBytes());
+    UpdateUserAvatar('ND001', imgString);
+    setState(() {
+      image = imageFromBase64String(imgString);
+    });
+    Navigator.pop(context);
+  }
+
+  void _openGallery(BuildContext context) async{
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+    // setState(() {
+    //   image = Image.file(File(pickedFile.path));
+    // });
+    String imgString = base64String(await pickedFile.readAsBytes());
+    UpdateUserAvatar('ND001', imgString);
+    setState(() {
+      image = imageFromBase64String(imgString);
+    });
+    Navigator.pop(context);
+  }
+
+  Future UpdateUsername(String userID) async {
+    Database db = await DbProvider.instance.database;
+    db.execute(
+        '''
+        UPDATE THONGTINNGUOIDUNG
+        SET HOTEN = '$username'
+        WHERE MANGUOIDUNG = '$userID';
+        '''
+    );
+  }
+
+  Future UpdateUserAvatar(String userID, String imageByteString) async {
+    Database db = await DbProvider.instance.database;
+    db.execute(
+        '''
+        UPDATE THONGTINNGUOIDUNG
+        SET ANH = '$imageByteString'
+        WHERE MANGUOIDUNG = '$userID';
+        '''
+    );
+  }
+
+  static Image imageFromBase64String(String base64String) {
+    return Image.memory(
+      base64Decode(base64String),
+      fit: BoxFit.fill,
+    );
+  }
+
+  static Uint8List dataFromBase64String(String base64String) {
+    return base64Decode(base64String);
+  }
+
+  static String base64String(Uint8List data) {
+    return base64Encode(data);
   }
 }
