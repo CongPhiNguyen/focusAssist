@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/Data.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
+import 'dart:math';
 
 class AddNew extends StatefulWidget {
   @override
@@ -6,10 +9,24 @@ class AddNew extends StatefulWidget {
 }
 
 class _AddNewState extends State<AddNew> {
+  final dbHelper = DbProvider.instance;
   String dropDownValue;
   DateTime startTime;
   List<String> dayOfWeek;
   List<bool> checkDay;
+
+  // Những biến để get Text
+  TextEditingController getActivity, getDescription;
+  //Biến để getText của Flexible
+  int dayPerWeek;
+  TextEditingController getDayPerWeek;
+  //Biến để gettext Repeating
+  int repeatingDay;
+  TextEditingController getRepeatingDay;
+
+  //Dùng để debug
+  String text = "FUCK";
+
   @override
   void initState() {
     // TODO: implement initState
@@ -17,7 +34,17 @@ class _AddNewState extends State<AddNew> {
     dropDownValue = 'Fixed';
     startTime = DateTime.now();
     dayOfWeek = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-    checkDay = [false, false, false, false, false, false, false];
+    checkDay = [true, true, true, true, true, true, true];
+    getActivity = TextEditingController();
+    getDescription = TextEditingController();
+    getDayPerWeek = TextEditingController();
+    getRepeatingDay = TextEditingController();
+  }
+
+  String getRandomString(int len) {
+    var r = Random();
+    return String.fromCharCodes(
+        List.generate(len, (index) => r.nextInt(33) + 89));
   }
 
   List<Widget> Flexible() {
@@ -36,6 +63,7 @@ class _AddNewState extends State<AddNew> {
             Expanded(
               flex: 4,
               child: TextField(
+                controller: getDayPerWeek,
                 decoration: InputDecoration(hintText: 'days'),
                 style: TextStyle(fontSize: 20),
               ),
@@ -137,6 +165,7 @@ class _AddNewState extends State<AddNew> {
               Expanded(
                   flex: 1,
                   child: TextField(
+                    controller: getRepeatingDay,
                     decoration: InputDecoration(hintText: 'num'),
                     style: TextStyle(fontSize: 20),
                   )),
@@ -157,8 +186,46 @@ class _AddNewState extends State<AddNew> {
           title: Text("Add new activity", style: TextStyle(fontSize: 25)),
           actions: [
             FlatButton(
-                onPressed: () {
-                  print("Fucjjj");
+                onPressed: () async {
+                  Map<String, dynamic> row = {
+                    'MAMUCTIEU': getRandomString(5),
+                    'MANGUOIDUNG': (StaticData.userID == null)
+                        ? 'MANGUOIDUNG'
+                        : StaticData.userID,
+                    'MANHOM': '1',
+                    'TENMUCTIEU': (getActivity.text == null)
+                        ? 'TENMUCTIEU'
+                        : getActivity.text,
+                    'MOTA': (getDescription.text == null)
+                        ? 'MOTA'
+                        : getDescription.text,
+                    'NGAYBATDAU': startTime
+                        .toString()
+                        .substring(0, 10)
+                        .replaceAll('-', '/'),
+                    'LOAIHINH': dropDownValue,
+                  };
+                  if (dropDownValue == 'Fixed') {
+                    String fixedDay = "";
+                    for (int i = 0; i < dayOfWeek.length; i++) {
+                      if (checkDay[i] == false) {
+                        fixedDay += '0';
+                      } else
+                        fixedDay += '1';
+                    }
+                    row['CACNGAY'] = int.parse(fixedDay);
+                  } else if (dropDownValue == 'Flexible') {
+                    if (getDayPerWeek.text != null)
+                      row['SOLAN'] = int.parse(getDayPerWeek.text);
+                  } else if (dropDownValue == 'Repeating') {
+                    if (getRepeatingDay.text != null)
+                      row['KHOANGTHOIGIAN'] = getRepeatingDay.text;
+                  }
+                  setState(() {
+                    text = row.toString();
+                  });
+                  final id = await dbHelper.insert('MUCTIEU', row);
+                  print('inserted row id: $id');
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
@@ -189,6 +256,7 @@ class _AddNewState extends State<AddNew> {
                         height: 10,
                       ),
                       TextField(
+                        controller: getActivity,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Activity Name',
@@ -226,6 +294,7 @@ class _AddNewState extends State<AddNew> {
                       ),
                       // Description
                       TextField(
+                        controller: getDescription,
                         decoration: InputDecoration(
                             isDense: true,
                             contentPadding: EdgeInsets.all(28),
@@ -261,7 +330,8 @@ class _AddNewState extends State<AddNew> {
                             labelText: 'Description',
                             labelStyle:
                                 TextStyle(color: Colors.white, fontSize: 20)),
-                        style: TextStyle(fontSize: 15, color: Colors.white),
+                        maxLines: 3,
+                        style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       SizedBox(
                         height: 10,
@@ -349,6 +419,16 @@ class _AddNewState extends State<AddNew> {
                     : (dropDownValue == 'Flexible')
                         ? Flexible()
                         : Repeating()),
+            Text(StaticData.userID == null ? "NGUOIDUNG" : StaticData.userID),
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Text(text, style: TextStyle(fontSize: 30)),
+            ),
+            TextButton(
+                onPressed: () {
+                  dbHelper.delete('MUCTIEU', 'MANHOM', '1');
+                },
+                child: Text("DELETE", style: TextStyle(fontSize: 30)))
           ],
         ));
   }

@@ -40,9 +40,13 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 ],
               ),
             ),
-            Divider(height: 40.0, thickness: 1.5,),
+            Divider(
+              height: 40.0,
+              thickness: 1.5,
+            ),
             Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32.0)),
               child: ListTile(
                 onTap: () {},
                 title: Text(
@@ -56,7 +60,8 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               ),
             ),
             Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32.0)),
               child: ListTile(
                 onTap: () {},
                 title: Text(
@@ -72,8 +77,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
             TextButton(
               onPressed: () async {
                 Map<String, dynamic> row = {'USERID': 2, 'USERNAME': 'Henry'};
-                int i = await DbProvider.instance.insert(
-                  'USER', row);
+                int i = await DbProvider.instance.insert('USER', row);
                 print('value of insert: $i');
               },
               child: Text(
@@ -82,7 +86,8 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
             ),
             TextButton(
               onPressed: () async {
-                List<Map<String, dynamic>> queryRows = await DbProvider.instance.query('USER');
+                List<Map<String, dynamic>> queryRows =
+                    await DbProvider.instance.query('USER');
                 print(queryRows);
               },
               child: Text(
@@ -92,13 +97,11 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
             TextButton(
               onPressed: () async {
                 Database db = await DbProvider.instance.database;
-                db.execute(
-                  '''
+                db.execute('''
                   UPDATE USER
                   SET USERNAME = 'Walt'
                   WHERE USERID = 3;
-                  '''
-                );
+                  ''');
               },
               child: Text(
                 'Update',
@@ -107,11 +110,9 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
             TextButton(
               onPressed: () async {
                 Database db = await DbProvider.instance.database;
-                db.execute(
-                  '''
+                db.execute('''
                   DELETE FROM USER;
-                  '''
-                );
+                  ''');
               },
               child: Text(
                 'Delete',

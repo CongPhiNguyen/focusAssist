@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/view_activity.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:pie_chart/pie_chart.dart';
 import 'package:focus_assist/pages/add_screen.dart';
+import 'package:focus_assist/classes/Data.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
+import 'package:intl/intl.dart';
 
 class ToDo {
   bool check;
@@ -28,23 +30,24 @@ class _JournalScreenState extends State<JournalScreen> {
   List<String> allActivity;
 
   Map<String, double> dataMap;
+
+  //Các biến thực hiện việc xử lý dữ liệu
+  final dbHelper = DbProvider.instance;
+  List<Map<String, dynamic>> database;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
     _calendarFormat = CalendarFormat.week;
     _focusedDay = DateTime.now();
     _selectedDay = _focusedDay;
     items1 = ["Chơi cờ vua", "Luyện tập code", "Cày game"];
     toDos = [
-      ToDo(check: false, task: "Chơi cờ vua 30p"),
-      ToDo(check: false, task: "Cày game 15p"),
-      ToDo(check: false, task: "Luyện tập code 1h")
+      ToDo(check: false, task: "Không có gì"),
     ];
     items = [];
     dataMap = {"Skip": 500, "Done": 322, "Fail": 112};
-    allActivity = ["Luyện cờ vua", "Luyện code", "Luyện cờ caro", "Luyện vẽ"];
+    allActivity = ["Không có gì"];
   }
 
   @override
@@ -73,6 +76,7 @@ class _JournalScreenState extends State<JournalScreen> {
         //Hiển thị calendar
         Padding(
           padding: const EdgeInsets.all(3.0),
+          // ignore: missing_required_param
           child: TableCalendar(
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
@@ -300,10 +304,31 @@ class _JournalScreenState extends State<JournalScreen> {
                           children: [
                             Expanded(
                               flex: 1,
-                              child: Icon(
-                                Icons.playlist_add_check,
-                                color: Colors.white,
-                                size: 25,
+                              child: InkWell(
+                                onTap: () async {
+                                  database = await dbHelper.query('MUCTIEU');
+                                  if (database.length == 0) {
+                                    setState(() {
+                                      allActivity = ['Không có gì'];
+                                    });
+                                  }
+                                  if (database.length > 0) {
+                                    setState(() {
+                                      allActivity.clear();
+                                      for (int i = 0;
+                                          i < database.length;
+                                          i++) {
+                                        allActivity
+                                            .add(database[i]['TENMUCTIEU']);
+                                      }
+                                    });
+                                  }
+                                },
+                                child: Icon(
+                                  Icons.playlist_add_check,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
                               ),
                             ),
                             Expanded(
@@ -372,10 +397,46 @@ class _JournalScreenState extends State<JournalScreen> {
                           children: [
                             Expanded(
                               flex: 1,
-                              child: Icon(
-                                Icons.playlist_add_check,
-                                color: Colors.white,
-                                size: 25,
+                              child: InkWell(
+                                onTap: () async {
+                                  database = await dbHelper.query('MUCTIEU');
+                                  if (database.length == 0) {
+                                    setState(() {
+                                      toDos = [
+                                        ToDo(check: false, task: "Không có gì"),
+                                      ];
+                                    });
+                                  }
+                                  if (database.length > 0) {
+                                    toDos = [];
+                                    for (int i = 0; i < database.length; i++) {
+                                      String k = DateFormat('EEEE')
+                                          .format(_selectedDay);
+                                      String h =
+                                          database[i]['CACNGAY'].toString();
+                                      switch (k) {
+                                        case 'Monday':
+                                          {
+                                            if (h[0] == '1')
+                                              toDos.add(ToDo(
+                                                  check: false,
+                                                  task: "Không có gì"));
+                                            break;
+                                          }
+                                      }
+                                    }
+                                  }
+                                  if (toDos.length == 0) {
+                                    toDos = [
+                                      ToDo(check: false, task: "Không có gì"),
+                                    ];
+                                  }
+                                },
+                                child: Icon(
+                                  Icons.playlist_add_check,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
                               ),
                             ),
                             Expanded(
