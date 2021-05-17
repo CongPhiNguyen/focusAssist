@@ -10,7 +10,7 @@ class FocusAssist extends StatefulWidget {
 }
 
 class _FocusAssistState extends State<FocusAssist> {
-  int selectedIndex = 4;
+  int selectedIndex = 3;
   final List<Widget> widgetOptions = <Widget> [
     Center(
       child: Text(

@@ -265,25 +265,25 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               ),
               TextButton(
                 onPressed: () async {
-                  // Map<String, dynamic> row = {
-                  //   'MANGUOIDUNG': 'ND001',
-                  //   'HOTEN': 'Crack of Dawn',
-                  //   'ANH': '',
-                  //   'VANG': 100,
-                  //   'THONGBAO': true,
-                  //   'THONGBAOSANG': true,
-                  //   'THONGBAOTOI': true,
-                  //   'THOIGIANTHONGBAOSANG': '07:00:00',
-                  //   'THOIGIANTHONGBAOTOI': '21:00:00',
-                  //   'DARKMODE': false,
-                  // };
                   Database db = await DbProvider.instance.database;
-                  await db.execute(
-                    '''
-                    INSERT INTO THONGTINNGUOIDUNG VALUES ('ND002', 'Crack of Dawn', '', 100, 1, 1, 1, '07:00:00', '21:00:00', 0);
-                    '''
-                  );
-                  // print(await db.insert('THONGTINNGUOIDUNG', row));
+                  Map<String, dynamic> row = {
+                    'MAMUCTIEU': 'MT00003',
+                    'MANGUOIDUNG': 'ND001',
+                    'MANHOM': '',
+                    'TENMUCTIEU': 'Dọn nhà',
+                    'MOTA': '',
+                    'NGAYBATDAU': '15/5/2021',
+                    'LOAIHINH': 'REPEATING',
+                    'KHOANGTHOIGIAN': 5
+                  };
+                  print(await db.insert('MUCTIEU', row));
+
+                  // Database db = await DbProvider.instance.database;
+                  // await db.execute(
+                  //   '''
+                  //   INSERT INTO THONGTINNGUOIDUNG VALUES ('ND001', 'Crack of Dawn', '', 100, 1, 1, 1, '07:00:00', '21:00:00', 0, 0, '');
+                  //   '''
+                  // );
                   print('Complete insert into table');
                 },
                 child: Text(
@@ -293,7 +293,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               TextButton(
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
-                  List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG');
+                  List<Map<String, dynamic>> queryRows = await db.query('MUCTIEU');
                   print (queryRows);
                 },
                 child: Text(
@@ -303,32 +303,18 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               TextButton(
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
-                  // db.execute(
-                  //   '''
-                  //   UPDATE THONGTINNGUOIDUNG
-                  //   SET THONGBAO = TRUE, THONGBAOSANG = TRUE, THONGBAOTOI = TRUE,
-                  //       THOIGIANTHONGBAOSANG = '07:00:00', THOIGIANTHONGBAOTOI = '21:00:00',
-                  //       DARKMODE = FALSE
-                  //   WHERE MANGUOIDUNG = 'ND001';
-                  //   '''
-                  // );
                   db.execute(
                     '''
-                    CREATE TABLE THONGTINNGUOIDUNG (
-                        MANGUOIDUNG TEXT PRIMARY KEY,
-                        HOTEN TEXT,
-                        ANH BLOB,
-                        VANG INTEGER,
-                        THONGBAO BOOL,
-                        THONGBAOSANG BOOL,
-                        THONGBAOTOI BOOL,
-                        THOIGIANTHONGBAOSANG TIME,
-                        THOIGIANTHONGBAOTOI TIME,
-                        DARKMODE BOOL
-                    );
+                    INSERT INTO NGUOIDUNG VALUES ('ND001', 'ND001', 'ND001');
                     '''
                   );
-                  print('Complete create table');
+                  // db.execute(
+                  //   '''
+                  //   ALTER TABLE THONGTINNGUOIDUNG
+                  //   ADD COLUMN LOCKPASSCODE TEXT;
+                  //   '''
+                  // );
+                  print('Complete update table');
                 },
                 child: Text(
                   'Update',
@@ -384,8 +370,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   // );
                   db.execute(
                     '''
-                    DELETE FROM THONGTINNGUOIDUNG
-                    WHERE MANGUOIDUNG = 'ND002';
+                    DELETE FROM MUCTIEU;
                     '''
                   );
                   print('Complete drop table');
