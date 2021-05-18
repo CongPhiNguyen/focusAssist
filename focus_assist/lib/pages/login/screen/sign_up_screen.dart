@@ -87,7 +87,7 @@ class SignUpScreen extends StatelessWidget {
                           Map<String, dynamic> row = {'MANGUOIDUNG': _maUser, 'TENTAIKHOAN': _taiKhoan,'MATKHAU': _matKhau };
                           int i = await DbProvider.instance.insert('NGUOIDUNG', row);
                           print('value of insert: $i');
-                          runApp(focus());
+                          //runApp(focus());
                           _query();
                         },
                       )),

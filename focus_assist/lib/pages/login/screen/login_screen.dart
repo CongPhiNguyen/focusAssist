@@ -40,9 +40,9 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  FadeAnimation(1.4,Text('Login', style: TextStyle(color: Colors.white, fontSize: 40.0,fontWeight: FontWeight.bold,),)),
+                  FadeAnimation(1.2,Text('Login', style: TextStyle(color: Colors.white, fontSize: 40.0,fontWeight: FontWeight.bold,),)),
                   SizedBox(height: size.height*0.01,),
-                  FadeAnimation(1.8,  Text('Welcome you comeback',style: TextStyle(color: Colors.white,fontSize: 20.0),)),
+                  FadeAnimation(1.4,  Text('Welcome you comeback',style: TextStyle(color: Colors.white,fontSize: 20.0),)),
                   SizedBox(height: size.height*0.01,),
 
                 ],
@@ -61,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: size.height*0.03,),
-                      FadeAnimation(2.0,edit_text_login(
+                      FadeAnimation(1.6,edit_text_login(
                         icon: Icons.person,
                         hintText: "Your Email",
                         onChanged: (value){
@@ -69,13 +69,13 @@ class LoginScreen extends StatelessWidget {
                         },
                       )),
                       SizedBox(height: size.height*0.03,),
-                      FadeAnimation(2.2,edit_text_password_login(
+                      FadeAnimation(1.8,edit_text_password_login(
                         onChanged: (value){
                           _matKhau = value;
                         },
                       )),
                       SizedBox(height: size.height*0.1,),
-                      FadeAnimation(2.4, GestureDetector(
+                      FadeAnimation(2.0, GestureDetector(
                         onTap: (){},
                         child: Text(
                           'Forgot password ? ',
@@ -86,24 +86,32 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                       )),
-                       FadeAnimation(2.6,button_login(
+                       FadeAnimation(2.2,button_login(
                         text: 'LOGIN',
                         press: () async {
                          // final info = await DbProvider.instance.sreach('NGUOIDUNG', _taiKhoan);
                           final infoUSER = await DbProvider.instance.query('NGUOIDUNG');
                           for (int i = 0; i < infoUSER.length; i++)
                             {
-                              if (infoUSER[i]['MATKHAU'] == _matKhau)  runApp(focus());
-                            }
+                              if (infoUSER[i]['MATKHAU'] == _matKhau && infoUSER[i]['TENTAIKHOAN'] == _taiKhoan)
+                                {
+                                  print("Đang nhập thành công vs tài khoản $_taiKhoan");
+
+                                }
+                              else
+                                {
+                                  print("TK không tồn tại hoặc sai mk");
+                                }
+                            };
 
                          // info.forEach(print);
                         },
                       )),
-                       FadeAnimation(2.8, Donthaveanaccount(
+                       FadeAnimation(2.4, Donthaveanaccount(
                         login: true,
                         press: () {Navigator.push(context, MaterialPageRoute(builder: (context){return SignUpScreen();}));},
                       )),
-                       FadeAnimation(3.0, Container(
+                       FadeAnimation(3.6, Container(
                         height: size.height*0.15,
                         width: size.width*3,
                         child: Image.asset(
