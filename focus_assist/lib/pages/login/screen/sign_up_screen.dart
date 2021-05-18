@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
-import 'package:focus_assist/main.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
 import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
@@ -10,6 +9,7 @@ import 'package:focus_assist/pages/login/feature_ui/edit_text_password_login.dar
 import 'package:focus_assist/pages/login/feature_ui/login_with_socialnetwork.dart';
 import 'package:focus_assist/pages/login/feature_ui/or_ui.dart';
 import 'login_screen.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:math';
 
 class SignUpScreen extends StatelessWidget {
@@ -87,7 +87,7 @@ class SignUpScreen extends StatelessWidget {
                         press: () async {
                           _maUser = getRandomString(10);
 
-                          _queryCheckUser(_taiKhoan, _matKhau, _maUser);
+                          _queryCheckUser(_taiKhoan, _matKhau, _maUser,context);
                           /*final allRows = await DbProvider.instance.query('NGUOIDUNG');
                           int isCheck = 0;
 
@@ -152,7 +152,7 @@ String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
 
 
 
-void _queryCheckUser(String tk,String mk, String maUser) async {
+void _queryCheckUser(String tk,String mk, String maUser, context) async {
   final allRows = await DbProvider.instance.query('NGUOIDUNG');
    int isCheck = 0;
 
@@ -165,13 +165,33 @@ void _queryCheckUser(String tk,String mk, String maUser) async {
         Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': mk };
         int i = await DbProvider.instance.insert('NGUOIDUNG', row);
         print('value of insert: $i');
-        runApp(focus());
+
+         runApp(focus());
     } else
       {
-    print("TK tồn tại");
+    _show(context, 'Tài khoản đã tồn tại');
     }
 
 
 }
 
+
+void _show(context, String message){
+  Alert(
+    context: context,
+    title: 'Thông báo',
+    closeIcon: Icon(Icons.error),
+    desc: message,
+    buttons: [
+      DialogButton(
+        child: Text(
+          "ACCEPT",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
 

@@ -8,6 +8,7 @@ import 'package:focus_assist/pages/login/feature_ui/dontyouhaveaccount.dart';
 import 'package:focus_assist/pages/login/feature_ui/edit_text_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/edit_text_password_login.dart';
 import 'package:focus_assist/pages/login/screen/sign_up_screen.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 class LoginScreen extends StatelessWidget {
@@ -89,22 +90,7 @@ class LoginScreen extends StatelessWidget {
                        FadeAnimation(2.2,button_login(
                         text: 'LOGIN',
                         press: () async {
-                         // final info = await DbProvider.instance.sreach('NGUOIDUNG', _taiKhoan);
-                          final infoUSER = await DbProvider.instance.query('NGUOIDUNG');
-                          for (int i = 0; i < infoUSER.length; i++)
-                            {
-                              if (infoUSER[i]['MATKHAU'] == _matKhau && infoUSER[i]['TENTAIKHOAN'] == _taiKhoan)
-                                {
-                                  print("Đang nhập thành công vs tài khoản $_taiKhoan");
-
-                                }
-                              else
-                                {
-                                  print("TK không tồn tại hoặc sai mk");
-                                }
-                            };
-
-                         // info.forEach(print);
+                          _queryCheckUser(_taiKhoan, _matKhau,context);
                         },
                       )),
                        FadeAnimation(2.4, Donthaveanaccount(
@@ -129,6 +115,47 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
+
+//TODO Check tài khoản có tồn tại hay không 
+void _queryCheckUser(String tk, String mk,context) async
+{
+  final infoUSER = await DbProvider.instance.query('NGUOIDUNG');
+  for (int i = 0; i < infoUSER.length; i++)
+  {
+    if (infoUSER[i]['TENTAIKHOAN'] == tk)
+    {
+      if (infoUSER[i]['MATKHAU'] == mk ){
+        runApp(focus());
+      }
+      else {
+        _show(context, "Sai mật khẩu");
+        return;
+      }
+    }
+  };
+  _show(context,"Tài khoản không tồn tại");
+}
+
+
+//TODO Show thông báo
+void _show(context, String message){
+  Alert(
+    context: context,
+    title: 'Thông báo',
+    closeIcon: Icon(Icons.error),
+    desc: message,
+    buttons: [
+      DialogButton(
+        child: Text(
+          "ACCEPT",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
 
 
 
