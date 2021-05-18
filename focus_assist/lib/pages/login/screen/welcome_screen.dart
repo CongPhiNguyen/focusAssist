@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/color.dart';
 import 'package:focus_assist/pages/login/screen/sign_up_screen.dart';
@@ -26,7 +27,7 @@ class WelcomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: size.height*0.1,),
-            Text(
+            FadeAnimation(1.4,Text(
               'WELCOME TO',
               style: TextStyle(
                 color: Colors.white,
@@ -34,9 +35,9 @@ class WelcomeScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.0,
               ),
-            ),
+            )),
             SizedBox(height: size.height*0.01,),
-            Text(
+            FadeAnimation(1.8,Text(
               'Focus Assistance',
               style: TextStyle(
                 color: Colors.white,
@@ -44,22 +45,22 @@ class WelcomeScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.0,
               ),
-            ),
-            Container(
+            )),
+            FadeAnimation(2.2,Container(
               height: size.height*0.5,
               child: Image.asset('assets/login/ui/UI_welcome_screen.png'),
-            ),
-            button_login(
+            )),
+            FadeAnimation(2.6, button_login(
               color: mainColor,
               text: "LOGIN",
               press: () {Navigator.push(context, MaterialPageRoute(builder: (context){return LoginScreen();}));},
-            ),
-            button_login(
+            )),
+            FadeAnimation(3.0, button_login(
               text:"SIGN UP",
               color: Colors.purple[50],
               textColor: Colors.black,
               press: (){Navigator.push(context, MaterialPageRoute(builder: (context){return SignUpScreen();}));},
-            ),
+            )),
           ],
         ),
       ),
