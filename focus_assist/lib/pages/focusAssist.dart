@@ -3,6 +3,8 @@ import 'package:focus_assist/pages/achievenment/screen/achievenment_screen.dart'
 import 'package:focus_assist/pages/progress_screen.dart';
 import 'package:focus_assist/pages/setting_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:focus_assist/classes/LocalNotificationManager.dart';
+import 'package:flutter_config/flutter_config.dart';
 
 /*
 class FocusAssist extends StatefulWidget {
@@ -11,7 +13,7 @@ class FocusAssist extends StatefulWidget {
 }
 
 class _FocusAssistState extends State<FocusAssist> {
-  int selectedIndex = 4;
+  int selectedIndex = 3;
   final List<Widget> widgetOptions = <Widget> [
     Center(
       child: Text(
@@ -39,6 +41,22 @@ Center(
     ProgressScreen(),
     SettingScreen(),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    localNotificationManager.setOnNotificationReceive(onNotificationReceive);
+    localNotificationManager.setOnNotificationClick(onNotificationClick);
+  }
+
+  onNotificationReceive(ReceiveNotification notification) {
+    print('Notification Received: ${notification.id}');
+  }
+
+  onNotificationClick(String payload) {
+    print('Payload: $payload');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +108,6 @@ Center(
 }
 */
 
-
 class focus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -109,12 +126,12 @@ class FocusAssist extends StatefulWidget {
 
 class _FocusAssistState extends State<FocusAssist> {
   int _page = 0;
- // GlobalKey _bottomNavigationKey = GlobalKey();
+  // GlobalKey _bottomNavigationKey = GlobalKey();
 
   Widget _showPage = new SettingScreen();
 
-  Widget _pageChooser(int page){
-    switch(page){
+  Widget _pageChooser(int page) {
+    switch (page) {
       case 0:
         return Center(
           child: Text('Foscus Time'),
@@ -129,7 +146,7 @@ class _FocusAssistState extends State<FocusAssist> {
         return AchievenmentScreen();
         break;
       case 3:
-        return  ProgressScreen();
+        return ProgressScreen();
         break;
       case 4:
         return SettingScreen();
@@ -143,7 +160,7 @@ class _FocusAssistState extends State<FocusAssist> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
-       // key: _bottomNavigationKey,
+        // key: _bottomNavigationKey,
         index: _page,
         items: <Widget>[
           Icon(Icons.timer, size: 30),
@@ -158,16 +175,16 @@ class _FocusAssistState extends State<FocusAssist> {
         animationDuration: Duration(milliseconds: 600),
         onTap: (int tappedIndex) {
           setState(() {
-            _showPage  = _pageChooser(tappedIndex);
+            _showPage = _pageChooser(tappedIndex);
           });
         },
       ),
-        body: Container(
-          color: Colors.white,
-          child: Center(
-            child: _showPage,
-          ),
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: _showPage,
         ),
+      ),
     );
   }
 }
