@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/pages/focusAssist.dart';
+import 'package:focus_assist/pages/login/screen/login_screen.dart';
+import 'package:focus_assist/pages/login/screen/welcome_screen.dart';
 
-void main() {
-  runApp(MyApp());
+void main(){
+  runApp(focusAssist());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class focusAssist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+<<<<<<< HEAD
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -108,6 +111,11 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+=======
+      debugShowCheckedModeBanner: false,
+      title: 'Welcome',
+      home: WelcomeScreen(),
+>>>>>>> login-phuoc
     );
   }
 }
