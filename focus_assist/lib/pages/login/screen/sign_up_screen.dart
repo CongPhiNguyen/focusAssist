@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
+import 'package:focus_assist/main.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
 import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
@@ -13,6 +14,7 @@ import 'dart:math';
 
 class SignUpScreen extends StatelessWidget {
   String _taiKhoan, _matKhau, _maUser, _ten;
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +42,9 @@ class SignUpScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  FadeAnimation(1.4,  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
+                  FadeAnimation(1.2,  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
                   SizedBox(height: size.height*0.01,),
-                  FadeAnimation(1.8,  Text('Welcome you to Focus Assistance',style: TextStyle(color: Colors.white,fontSize: 15.0),)),
+                  FadeAnimation(1.4,  Text('Welcome you to Focus Assistance',style: TextStyle(color: Colors.white,fontSize: 15.0),)),
                   SizedBox(height: size.height*0.01,),
                 ],
               ),
@@ -58,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
                   padding: EdgeInsets.all(20),
                   child:  Column(
                     children: <Widget>[
-                      FadeAnimation(2.0,edit_text_login(
+                      FadeAnimation(1.6,edit_text_login(
                         icon: Icons.drive_file_rename_outline,
                         hintText: "Full name",
                         onChanged: (value){
@@ -66,7 +68,7 @@ class SignUpScreen extends StatelessWidget {
                         },
                       )),
                       SizedBox(height: size.height*0.0015,),
-                      FadeAnimation(2.2,edit_text_login(
+                      FadeAnimation(1.8,edit_text_login(
                         icon: Icons.person,
                         hintText: "Your Email",
                         onChanged: (value){
@@ -74,32 +76,47 @@ class SignUpScreen extends StatelessWidget {
                         },
                       )),
                       SizedBox(height: size.height*0.0015,),
-                      FadeAnimation(2.4,edit_text_password_login(
+                      FadeAnimation(2.0,edit_text_password_login(
                         onChanged: (value){
                           _matKhau = value;
                         },
                       )),
                       SizedBox(height: size.height*0.03,),
-                      FadeAnimation(2.6, button_login(
+                      FadeAnimation(2.2, button_login(
                         text: 'SIGN UP',
                         press: () async {
                           _maUser = getRandomString(10);
-                          Map<String, dynamic> row = {'MANGUOIDUNG': _maUser, 'TENTAIKHOAN': _taiKhoan,'MATKHAU': _matKhau };
-                          int i = await DbProvider.instance.insert('NGUOIDUNG', row);
-                          print('value of insert: $i');
-                          //runApp(focus());
-                          _query();
+
+                          _queryCheckUser(_taiKhoan, _matKhau, _maUser);
+                          /*final allRows = await DbProvider.instance.query('NGUOIDUNG');
+                          int isCheck = 0;
+
+                          for (int i = 0; i <allRows.length; i++)
+                          {
+                            if (allRows[i]['TENTAIKHOAN'] == _taiKhoan) isCheck = 1;
+                          }
+                          if(isCheck == 0)
+                          {
+                            Map<String, dynamic> row = {'MANGUOIDUNG': _maUser, 'TENTAIKHOAN': _taiKhoan,'MATKHAU': _matKhau};
+                            int i = await DbProvider.instance.insert('NGUOIDUNG', row);
+                            print('value of insert: $i');
+                            runApp(focus());
+                          } else
+                          {
+                            print("TK tồn tại");
+                          }*/
+
                         },
                       )),
                       SizedBox(height: size.height*0.02,),
-                      FadeAnimation(2.8, Donthaveanaccount(
+                      FadeAnimation(2.4, Donthaveanaccount(
                         login: false,
                         press: (){Navigator.push(context, MaterialPageRoute(builder: (context){return LoginScreen();}));},
                       )),
                       SizedBox(height: size.height*0.02,),
-                      FadeAnimation(3.0,Or()),
+                      FadeAnimation(2.6,Or()),
                       SizedBox(height: size.height*0.03,),
-                      FadeAnimation(3.2,  Row(
+                      FadeAnimation(2.6,  Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           login_with_socialnetwork(
@@ -135,8 +152,26 @@ String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
 
 
 
-void _query() async {
+void _queryCheckUser(String tk,String mk, String maUser) async {
   final allRows = await DbProvider.instance.query('NGUOIDUNG');
-  print('query all rows:');
-  allRows.forEach(print);
+   int isCheck = 0;
+
+  for (int i = 0; i <allRows.length; i++)
+    {
+      if (allRows[i]['TENTAIKHOAN'] == tk) isCheck = 1;
+    }
+  if(isCheck == 0)
+    {
+        Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': mk };
+        int i = await DbProvider.instance.insert('NGUOIDUNG', row);
+        print('value of insert: $i');
+        runApp(focus());
+    } else
+      {
+    print("TK tồn tại");
+    }
+
+
 }
+
+
