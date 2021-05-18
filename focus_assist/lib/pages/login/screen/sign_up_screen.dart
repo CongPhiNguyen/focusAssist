@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
 import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
@@ -8,8 +9,11 @@ import 'package:focus_assist/pages/login/feature_ui/edit_text_password_login.dar
 import 'package:focus_assist/pages/login/feature_ui/login_with_socialnetwork.dart';
 import 'package:focus_assist/pages/login/feature_ui/or_ui.dart';
 import 'login_screen.dart';
+import 'dart:math';
 
 class SignUpScreen extends StatelessWidget {
+  String _taiKhoan, _matKhau, _maUser, _ten;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -57,23 +61,34 @@ class SignUpScreen extends StatelessWidget {
                       FadeAnimation(2.0,edit_text_login(
                         icon: Icons.drive_file_rename_outline,
                         hintText: "Full name",
-                        onChanged: (value){},
+                        onChanged: (value){
+                          _ten = value;
+                        },
                       )),
                       SizedBox(height: size.height*0.0015,),
                       FadeAnimation(2.2,edit_text_login(
                         icon: Icons.person,
                         hintText: "Your Email",
-                        onChanged: (value){},
+                        onChanged: (value){
+                          _taiKhoan = value;
+                        },
                       )),
                       SizedBox(height: size.height*0.0015,),
                       FadeAnimation(2.4,edit_text_password_login(
-                        onChanged: (value){},
+                        onChanged: (value){
+                          _matKhau = value;
+                        },
                       )),
                       SizedBox(height: size.height*0.03,),
                       FadeAnimation(2.6, button_login(
                         text: 'SIGN UP',
-                        press: (){
+                        press: () async {
+                          _maUser = getRandomString(10);
+                          Map<String, dynamic> row = {'MANGUOIDUNG': _maUser, 'TENTAIKHOAN': _taiKhoan,'MATKHAU': _matKhau };
+                          int i = await DbProvider.instance.insert('NGUOIDUNG', row);
+                          print('value of insert: $i');
                           runApp(focus());
+                          _query();
                         },
                       )),
                       SizedBox(height: size.height*0.02,),
@@ -112,6 +127,16 @@ class SignUpScreen extends StatelessWidget {
   }
 }
 
+//RAndom;
+const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+Random _rnd = Random();
+String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
 
 
+void _query() async {
+  final allRows = await DbProvider.instance.query('NGUOIDUNG');
+  print('query all rows:');
+  allRows.forEach(print);
+}

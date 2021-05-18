@@ -74,6 +74,9 @@ flutter:
     - assets/achievenment/Eggs/eggWater.png
     - assets/achievenment/ui/treasure.png
     - assets/achievenment/ui/UI_shop_volumn.png
+    - assets/Database/create_tables_script.sql
+
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

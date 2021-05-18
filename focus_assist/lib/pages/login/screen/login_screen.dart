@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
 import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
@@ -10,6 +11,9 @@ import 'package:focus_assist/pages/login/screen/sign_up_screen.dart';
 
 
 class LoginScreen extends StatelessWidget {
+
+  String _taiKhoan, _matKhau;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -60,11 +64,15 @@ class LoginScreen extends StatelessWidget {
                       FadeAnimation(2.0,edit_text_login(
                         icon: Icons.person,
                         hintText: "Your Email",
-                        onChanged: (value){},
+                        onChanged: (value){
+                            _taiKhoan = value;
+                        },
                       )),
                       SizedBox(height: size.height*0.03,),
                       FadeAnimation(2.2,edit_text_password_login(
-                        onChanged: (value){},
+                        onChanged: (value){
+                          _matKhau = value;
+                        },
                       )),
                       SizedBox(height: size.height*0.1,),
                       FadeAnimation(2.4, GestureDetector(
@@ -80,9 +88,15 @@ class LoginScreen extends StatelessWidget {
                       )),
                        FadeAnimation(2.6,button_login(
                         text: 'LOGIN',
-                        press: (){
-                          runApp(focus());
+                        press: () async {
+                         // final info = await DbProvider.instance.sreach('NGUOIDUNG', _taiKhoan);
+                          final infoUSER = await DbProvider.instance.query('NGUOIDUNG');
+                          for (int i = 0; i < infoUSER.length; i++)
+                            {
+                              if (infoUSER[i]['MATKHAU'] == _matKhau)  runApp(focus());
+                            }
 
+                         // info.forEach(print);
                         },
                       )),
                        FadeAnimation(2.8, Donthaveanaccount(
