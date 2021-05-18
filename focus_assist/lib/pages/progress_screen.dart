@@ -9,7 +9,6 @@ class ProgressScreen extends StatefulWidget {
 }
 
 class _ProgressScreenState extends State<ProgressScreen> {
-  CalendarController controller = CalendarController();
   int dropdownValue;
   List<Widget> activitiesWidgetList;
 
@@ -31,11 +30,15 @@ class _ProgressScreenState extends State<ProgressScreen> {
           child: ListView(
             children: <Widget>[
               TableCalendar(
-                initialCalendarFormat: CalendarFormat.week,
-                initialSelectedDay: DateTime.now(),
+                calendarFormat: CalendarFormat.week,
+                focusedDay: DateTime.now(),
                 startingDayOfWeek: StartingDayOfWeek.monday,
-                availableCalendarFormats: {CalendarFormat.week: 'Week', CalendarFormat.month: 'Month'},
-                calendarController: controller,
+                availableCalendarFormats: {
+                  CalendarFormat.week: 'Week',
+                  CalendarFormat.month: 'Month'
+                },
+                firstDay: DateTime.utc(2010, 10, 16),
+                lastDay: DateTime.utc(2030, 3, 14),
               ),
               Divider(height: 15.0, thickness: 2.0, indent: 0),
               SizedBox(height: 15.0),
@@ -109,7 +112,9 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 15.0,),
+              SizedBox(
+                height: 15.0,
+              ),
               Divider(height: 15.0, thickness: 2.0, indent: 0),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
@@ -217,8 +222,6 @@ class _ProgressScreenState extends State<ProgressScreen> {
                           ),
                         ],
                       ),
-
-
                     ],
                   ),
                 ],
@@ -271,7 +274,6 @@ class _ProgressScreenState extends State<ProgressScreen> {
                     //     ],
                     //   ),
                     // ),
-
                   ),
                 ],
               ),
@@ -281,8 +283,6 @@ class _ProgressScreenState extends State<ProgressScreen> {
       ),
     );
   }
-
-
 
   // Future<List<Map<String, dynamic>>> GetActivityList() async {
   //   Database db = await DbProvider.instance.database;
@@ -295,7 +295,8 @@ class _ProgressScreenState extends State<ProgressScreen> {
     List<Widget> widgetList;
     Database db = await DbProvider.instance.database;
     List<dynamic> whereArgsList = ['ND001'];
-    List<Map<String, dynamic>> activitiesList = await db.query('MUCTIEU', where: 'MANGUOIDUNG = ?', whereArgs: whereArgsList);
+    List<Map<String, dynamic>> activitiesList = await db.query('MUCTIEU',
+        where: 'MANGUOIDUNG = ?', whereArgs: whereArgsList);
     activitiesList.forEach((element) {
       ListTile listTile = ListTile(
         title: element['TENMUCTIEU'],
@@ -327,8 +328,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
           ),
         ],
       );
-    }
-    else if (dropdownValue == 2) {
+    } else if (dropdownValue == 2) {
       return GridView.count(
         crossAxisCount: 7,
         children: <Widget>[
@@ -369,6 +369,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
           ),
         ],
       );
-    };
+    }
+    ;
   }
 }

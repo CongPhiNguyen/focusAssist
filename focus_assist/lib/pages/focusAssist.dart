@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/achievenment/screen/achievenment_screen.dart';
 import 'package:focus_assist/pages/progress_screen.dart';
+import 'package:focus_assist/pages/journal_screen.dart';
 import 'package:focus_assist/pages/setting_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:focus_assist/classes/LocalNotificationManager.dart';
@@ -13,18 +14,19 @@ class FocusAssist extends StatefulWidget {
 }
 
 class _FocusAssistState extends State<FocusAssist> {
+<<<<<<< HEAD
   int selectedIndex = 3;
   final List<Widget> widgetOptions = <Widget> [
+=======
+  int selectedIndex = 0;
+  final List<Widget> widgetOptions = <Widget>[
+>>>>>>> statistic-phi
     Center(
       child: Text(
         'Focus Timer',
       ),
     ),
-    Center(
-      child: Text(
-        'Journal',
-      ),
-    ),
+    Center(child: JournalScreen()),
     Center(
       child: Text(
         'Reward',
@@ -61,6 +63,7 @@ Center(
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         body: widgetOptions.elementAt(selectedIndex),
@@ -138,9 +141,7 @@ class _FocusAssistState extends State<FocusAssist> {
         );
         break;
       case 1:
-        return Center(
-          child: Text('Journal'),
-        );
+        return JournalScreen();
         break;
       case 2:
         return AchievenmentScreen();

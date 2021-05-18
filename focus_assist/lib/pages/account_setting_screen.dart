@@ -28,14 +28,15 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   Future<void> LoadUsername() async {
     Database db = await DbProvider.instance.database;
     List<dynamic> whereArguments = ['ND001'];
-    List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG', where: 'MANGUOIDUNG = ?', whereArgs: whereArguments);
-    if (queryRows.first['HOTEN'] == null || queryRows.first['HOTEN'] == '') return;
+    List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG',
+        where: 'MANGUOIDUNG = ?', whereArgs: whereArguments);
+    if (queryRows.first['HOTEN'] == null || queryRows.first['HOTEN'] == '')
+      return;
     try {
       setState(() {
         username = queryRows.first['HOTEN'];
       });
-    }
-    catch (e) {
+    } catch (e) {
       print('Error setting username: $e');
     }
   }
@@ -43,14 +44,14 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   Future<void> LoadUserImage() async {
     Database db = await DbProvider.instance.database;
     List<dynamic> whereArguments = ['ND001'];
-    List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG', where: 'MANGUOIDUNG = ?', whereArgs: whereArguments);
+    List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG',
+        where: 'MANGUOIDUNG = ?', whereArgs: whereArguments);
     if (queryRows.first['ANH'] == null || queryRows.first['ANH'] == '') return;
     try {
       setState(() {
         image = imageFromBase64String(queryRows.first['ANH']);
       });
-    }
-    catch (e) {
+    } catch (e) {
       print('Error setting avatar: $e');
     }
   }
@@ -69,7 +70,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget> [
+                    children: <Widget>[
                       Container(
                         alignment: Alignment.topLeft,
                         width: 100.0,
@@ -79,11 +80,13 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                         width: 100.0,
                         child: Center(
                           child: CircleAvatar(
-                            backgroundImage: (image == null)?AssetImage('assets/default.png'):null,
+                            backgroundImage: (image == null)
+                                ? AssetImage('assets/default.png')
+                                : null,
                             backgroundColor: Colors.white,
                             radius: 50.0,
                             child: ClipRRect(
-                              child: (image != null)?image:null,
+                              child: (image != null) ? image : null,
                               borderRadius: BorderRadius.circular(50.0),
                             ),
                           ),
@@ -104,7 +107,8 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                                 break;
                             }
                           },
-                          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry>[
                             PopupMenuItem(
                               child: Container(
                                 child: Row(
@@ -153,7 +157,10 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   ),
                 ],
               ),
-              Divider(height: 40.0, thickness: 1.5,),
+              Divider(
+                height: 40.0,
+                thickness: 1.5,
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
                 child: Column(
@@ -172,7 +179,9 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10.0,),
+                    SizedBox(
+                      height: 10.0,
+                    ),
                     Card(
                       shape: RoundedRectangleBorder(),
                       elevation: 0.0,
@@ -190,7 +199,8 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                       ),
                     ),
                     Card(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0)),
                       elevation: 0.0,
                       child: ListTile(
                         onTap: () {},
@@ -205,7 +215,9 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                         tileColor: Colors.blue[50],
                       ),
                     ),
-                    SizedBox(height: 20.0,),
+                    SizedBox(
+                      height: 20.0,
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                       child: Row(
@@ -226,9 +238,12 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10.0,),
+                    SizedBox(
+                      height: 10.0,
+                    ),
                     Card(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0)),
                       elevation: 0.0,
                       child: ListTile(
                         onTap: () {},
@@ -244,10 +259,12 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                       ),
                     ),
                     Card(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
                       elevation: 0.0,
                       child: ListTile(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
                         onTap: () {},
                         title: Text(
                           'Delete Account',
@@ -293,8 +310,9 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               TextButton(
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
-                  List<Map<String, dynamic>> queryRows = await db.query('MUCTIEU');
-                  print (queryRows);
+                  List<Map<String, dynamic>> queryRows =
+                      await db.query('MUCTIEU');
+                  print(queryRows);
                 },
                 child: Text(
                   'Query',
@@ -303,11 +321,9 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               TextButton(
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
-                  db.execute(
-                    '''
+                  db.execute('''
                     INSERT INTO NGUOIDUNG VALUES ('ND001', 'ND001', 'ND001');
-                    '''
-                  );
+                    ''');
                   // db.execute(
                   //   '''
                   //   ALTER TABLE THONGTINNGUOIDUNG
@@ -368,11 +384,9 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   //   WHERE MANGUOIDUNG = 'ND001';
                   //   '''
                   // );
-                  db.execute(
-                    '''
+                  db.execute('''
                     DELETE FROM MUCTIEU;
-                    '''
-                  );
+                    ''');
                   print('Complete drop table');
                 },
                 child: Text(
@@ -392,11 +406,18 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Center(child: Text('Edit Username', style: TextStyle(color: Colors.blue),)),
-          content: SingleChildScrollView (
+          title: Center(
+              child: Text(
+            'Edit Username',
+            style: TextStyle(color: Colors.blue),
+          )),
+          content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Divider(height: 1,color: Colors.blue,),
+                Divider(
+                  height: 1,
+                  color: Colors.blue,
+                ),
                 TextField(
                   controller: usernameEditingController,
                   decoration: InputDecoration(
@@ -426,7 +447,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 setState(() {
                   username = usernameEditingController.text;
                 });
-                UpdateUsername('ND001');    // user.getID()
+                UpdateUsername('ND001'); // user.getID()
                 Navigator.pop(context);
               },
             ),
@@ -436,37 +457,54 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
     );
   }
 
-  Future _showAvatarChoiceDialog(BuildContext context)
-  {
-    return showDialog(context: context,builder: (BuildContext context){
-      return AlertDialog(
-        title: Text("Choose option",style: TextStyle(color: Colors.blue),),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Divider(height: 1,color: Colors.blue,),
-              ListTile(
-                onTap: (){
-                  _openGallery(context);
-                },
-                title: Text("Gallery"),
-                leading: Icon(Icons.account_box,color: Colors.blue,),
+  Future _showAvatarChoiceDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Choose option",
+              style: TextStyle(color: Colors.blue),
+            ),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Divider(
+                    height: 1,
+                    color: Colors.blue,
+                  ),
+                  ListTile(
+                    onTap: () {
+                      _openGallery(context);
+                    },
+                    title: Text("Gallery"),
+                    leading: Icon(
+                      Icons.account_box,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  Divider(
+                    height: 1,
+                    color: Colors.blue,
+                  ),
+                  ListTile(
+                    onTap: () {
+                      _openCamera(context);
+                    },
+                    title: Text("Camera"),
+                    leading: Icon(
+                      Icons.camera,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ],
               ),
-              Divider(height: 1,color: Colors.blue,),
-              ListTile(
-                onTap: (){
-                  _openCamera(context);
-                },
-                title: Text("Camera"),
-                leading: Icon(Icons.camera,color: Colors.blue,),
-              ),
-            ],
-          ),
-        ),);
-    });
+            ),
+          );
+        });
   }
 
-  void _openCamera(BuildContext context)  async{
+  void _openCamera(BuildContext context) async {
     final pickedFile = await ImagePicker().getImage(
       source: ImageSource.camera,
     );
@@ -481,7 +519,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
     Navigator.pop(context);
   }
 
-  void _openGallery(BuildContext context) async{
+  void _openGallery(BuildContext context) async {
     final pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
     );
@@ -498,24 +536,20 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
 
   Future UpdateUsername(String userID) async {
     Database db = await DbProvider.instance.database;
-    db.execute(
-        '''
+    db.execute('''
         UPDATE THONGTINNGUOIDUNG
         SET HOTEN = '$username'
         WHERE MANGUOIDUNG = '$userID';
-        '''
-    );
+        ''');
   }
 
   Future UpdateUserAvatar(String userID, String imageByteString) async {
     Database db = await DbProvider.instance.database;
-    db.execute(
-        '''
+    db.execute('''
         UPDATE THONGTINNGUOIDUNG
         SET ANH = '$imageByteString'
         WHERE MANGUOIDUNG = '$userID';
-        '''
-    );
+        ''');
   }
 
   static Image imageFromBase64String(String base64String) {

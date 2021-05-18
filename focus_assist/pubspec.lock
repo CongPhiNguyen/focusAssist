@@ -247,6 +247,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.0"
+  pie_chart:
+    dependency: "direct main"
+    description:
+      name: pie_chart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0"
   platform:
     dependency: transitive
     description:
@@ -295,7 +302,7 @@ packages:
       name: simple_gesture_detector
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.6"
+    version: "0.2.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -356,7 +363,7 @@ packages:
       name: table_calendar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.3"
+    version: "3.0.0"
   term_glyph:
     dependency: transitive
     description:

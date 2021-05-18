@@ -26,12 +26,13 @@ dependencies:
   sqflite:
   path:
   path_provider:
-  table_calendar: ^2.2.1
+  table_calendar: ^3.0.0
   flutter_local_notifications:
   rxdart:
   flutter_native_timezone:
   flutter_config: ^1.0.5
   image_picker:
+  pie_chart: ^5.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
