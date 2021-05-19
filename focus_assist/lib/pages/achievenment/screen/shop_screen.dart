@@ -4,27 +4,25 @@ import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/achievenment/feature/CardShop.dart';
 import 'package:focus_assist/pages/achievenment/feature/design_appbar_shop.dart';
 
-
-
 class ShopScreen extends StatefulWidget {
   @override
-  _ShopScreenState createState() => _ShopScreenState(
-  );
+  _ShopScreenState createState() => _ShopScreenState();
 }
 
 final List<InfoEggs> InfoShop = [];
 
 class _ShopScreenState extends State<ShopScreen> {
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    LoadingDatabase();
+  }
 
   @override
   Widget build(BuildContext context) {
-
-
-    _LoadingDatabase();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-
       backgroundColor: Colors.amber[50],
       appBar: AppBar(
         backgroundColor: Colors.amber,
@@ -32,7 +30,10 @@ class _ShopScreenState extends State<ShopScreen> {
         centerTitle: true,
         title: Text(
           'SHOP',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,),
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: Container(
@@ -41,10 +42,10 @@ class _ShopScreenState extends State<ShopScreen> {
           children: <Widget>[
             design_appbar_shop(size: size),
             Container(
-              height: size.height*0.6,
+              height: size.height * 0.6,
               child: ListView.builder(
                   itemCount: InfoShop.length,
-                  itemBuilder: (context,num) {
+                  itemBuilder: (context, num) {
                     return Center(
                       child: card_shop(
                         size: size,
@@ -54,44 +55,73 @@ class _ShopScreenState extends State<ShopScreen> {
                         imageEgg: InfoShop[num].imageEgg,
                       ),
                     );
-                  }
-              ),
+                  }),
             ),
           ],
         ),
       ),
     );
   }
-}
 
+  void LoadingDatabase() async {
+    final infoVATPHAM = await DbProvider.instance.query('VATPHAM');
+    infoVATPHAM.forEach(print);
+    for (int i = 0; i < infoVATPHAM.length; i++) {
+      switch (infoVATPHAM[i]['DOHIEM']) {
+        case 1:
+          InfoEggs index = new InfoEggs(
+              infoVATPHAM[i]['MAVATPHAM'],
+              infoVATPHAM[i]['TENVATPHAM'],
+              infoVATPHAM[i]['MOTA'],
+              infoVATPHAM[i]['GIA'],
+              Colors.green,
+              'assets/achievenment/Eggs/eggCarpentry.png');
+          setState(() {
+            InfoShop.add(index);
+          });
 
-//TODO loading database từ file
-void _LoadingDatabase() async {
-  final infoVATPHAM = await DbProvider.instance.query('VATPHAM');
-  infoVATPHAM.forEach(print);
-  for (int i = 0; i < infoVATPHAM.length; i++)
-  {
-    switch(infoVATPHAM[i]['DOHIEM'])
-    {
-      case 1:
-        InfoEggs index = new InfoEggs(infoVATPHAM[i]['MAVATPHAM'],infoVATPHAM[i]['TENVATPHAM'],infoVATPHAM[i]['MOTA'],infoVATPHAM[i]['GIA'],Colors.green,'assets/achievenment/Eggs/eggCarpentry.png');
-        InfoShop.add(index);
-        break;
-      case 2:
-        InfoEggs index = new InfoEggs(infoVATPHAM[i]['MAVATPHAM'],infoVATPHAM[i]['TENVATPHAM'],infoVATPHAM[i]['MOTA'],infoVATPHAM[i]['GIA'],Colors.blueAccent,'assets/achievenment/Eggs/eggCarpentry.png');
-        InfoShop.add(index);
-        break;
-      case 3:
-        InfoEggs index = new InfoEggs(infoVATPHAM[i]['MAVATPHAM'],infoVATPHAM[i]['TENVATPHAM'],infoVATPHAM[i]['MOTA'],infoVATPHAM[i]['GIA'],Colors.purpleAccent,'assets/achievenment/Eggs/eggCarpentry.png');
-        InfoShop.add(index);
-        break;
-      case 4:
-        InfoEggs index = new InfoEggs(infoVATPHAM[i]['MAVATPHAM'],infoVATPHAM[i]['TENVATPHAM'],infoVATPHAM[i]['MOTA'],infoVATPHAM[i]['GIA'],Colors.red,'assets/achievenment/Eggs/eggCarpentry.png');
-        InfoShop.add(index);
-        break;
-      default :
-        break;
+          break;
+        case 2:
+          InfoEggs index = new InfoEggs(
+              infoVATPHAM[i]['MAVATPHAM'],
+              infoVATPHAM[i]['TENVATPHAM'],
+              infoVATPHAM[i]['MOTA'],
+              infoVATPHAM[i]['GIA'],
+              Colors.blueAccent,
+              'assets/achievenment/Eggs/eggCarpentry.png');
+          setState(() {
+            InfoShop.add(index);
+          });
+          break;
+        case 3:
+          InfoEggs index = new InfoEggs(
+              infoVATPHAM[i]['MAVATPHAM'],
+              infoVATPHAM[i]['TENVATPHAM'],
+              infoVATPHAM[i]['MOTA'],
+              infoVATPHAM[i]['GIA'],
+              Colors.purpleAccent,
+              'assets/achievenment/Eggs/eggCarpentry.png');
+          setState(() {
+            InfoShop.add(index);
+          });
+          break;
+        case 4:
+          InfoEggs index = new InfoEggs(
+              infoVATPHAM[i]['MAVATPHAM'],
+              infoVATPHAM[i]['TENVATPHAM'],
+              infoVATPHAM[i]['MOTA'],
+              infoVATPHAM[i]['GIA'],
+              Colors.red,
+              'assets/achievenment/Eggs/eggCarpentry.png');
+          setState(() {
+            InfoShop.add(index);
+          });
+          break;
+        default:
+          break;
+      }
     }
   }
-
 }
+
+//TODO loading database từ file

@@ -93,7 +93,7 @@ class LoginScreen extends StatelessWidget {
 
                           if (_matKhau.length == 0 || _taiKhoan.length == 0)
                           {
-                            _show(context, "Pls! Điền đầy đủ thông tin!");
+                            _show(context, 'Điền đầy đủ thông tin!');
                           }
                           else
                           {
