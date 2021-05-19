@@ -59,7 +59,7 @@ class DetailCardCollection extends StatelessWidget {
                           value[index].name,
                           value[index].rareColor,
                           value[index].price,
-                           value[index].imageEgg,
+                          value[index].imageEgg,
                       );
                     },
                   ),

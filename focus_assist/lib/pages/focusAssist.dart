@@ -3,97 +3,13 @@ import 'package:focus_assist/pages/achievenment/screen/achievenment_screen.dart'
 import 'package:focus_assist/pages/progress_screen.dart';
 import 'package:focus_assist/pages/setting_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-
-/*
-class FocusAssist extends StatefulWidget {
-  @override
-  _FocusAssistState createState() => _FocusAssistState();
-}
-
-class _FocusAssistState extends State<FocusAssist> {
-  int selectedIndex = 4;
-  final List<Widget> widgetOptions = <Widget> [
-    Center(
-      child: Text(
-        'Focus Timer',
-      ),
-    ),
-    Center(
-      child: Text(
-        'Journal',
-      ),
-    ),
-    Center(
-      child: Text(
-        'Reward',
-      ),
-    ),
-
-Center(
-      child: Text(
-        'Progress',
-      ),
-    ),
-
-    AchievenmentScreen(),
-    ProgressScreen(),
-    SettingScreen(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        body: widgetOptions.elementAt(selectedIndex),
-        bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Colors.blue,
-          unselectedItemColor: Colors.grey[600],
-          iconSize: 28.0,
-          backgroundColor: Colors.grey[300],
-          currentIndex: selectedIndex,
-          onTap: onItemTapped,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.timer,
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.wysiwyg_rounded),
-              label: 'Journal',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.star),
-              label: 'Farm',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.waterfall_chart),
-              label: 'Progress',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-}
-*/
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 class focus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Welcome',
@@ -110,6 +26,7 @@ class FocusAssist extends StatefulWidget {
 class _FocusAssistState extends State<FocusAssist> {
   int _page = 0;
  // GlobalKey _bottomNavigationKey = GlobalKey();
+
 
   Widget _showPage = new SettingScreen();
 
@@ -139,8 +56,10 @@ class _FocusAssistState extends State<FocusAssist> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
        // key: _bottomNavigationKey,
@@ -171,3 +90,25 @@ class _FocusAssistState extends State<FocusAssist> {
     );
   }
 }
+
+
+void _show(context, String message){
+  Alert(
+    context: context,
+    type: AlertType.success,
+    title: 'Thông báo',
+    closeIcon: Icon(Icons.error),
+    desc: message,
+    buttons: [
+      DialogButton(
+        child: Text(
+          "ACCEPT",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+

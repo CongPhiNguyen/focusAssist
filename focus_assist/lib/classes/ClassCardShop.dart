@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class CardShopInfo{
@@ -13,6 +15,8 @@ class CardShopInfo{
       this.rareColor,
       );
 }
+
+
 
 final List<CardShopInfo> value = [
   CardShopInfo('Luong Thien Phuoc', 300, 'assets/achievenment/Eggs/eggCarpentry.png', Colors.red),
@@ -32,4 +36,28 @@ final List<CardShopInfo> value = [
   CardShopInfo('Bui Nhu Phuoc', 700, 'assets/achievenment/Eggs/eggSky.png',Colors.green),
   CardShopInfo('Hoang Dan Quang', 5000, 'assets/achievenment/Eggs/eggWater.png',Colors.indigoAccent),
 ];
+
+
+class InfoEggs{
+  final String MaVP;
+  final String TenVP;
+  final String moTa;
+  final int Gia;
+  final Color rareColor;
+  final String imageEgg;
+
+  InfoEggs(
+  this.MaVP,
+  this.TenVP,
+  this.moTa,
+  this.Gia,
+  this.rareColor,
+  this.imageEgg,
+);
+
+}
+
+
+
+
 

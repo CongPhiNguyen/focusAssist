@@ -15,7 +15,6 @@ import 'dart:math';
 class SignUpScreen extends StatelessWidget {
   String _taiKhoan, _matKhau, _maUser, _ten;
 
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -85,27 +84,15 @@ class SignUpScreen extends StatelessWidget {
                       FadeAnimation(2.2, button_login(
                         text: 'SIGN UP',
                         press: () async {
-                          _maUser = getRandomString(10);
-
-                          _queryCheckUser(_taiKhoan, _matKhau, _maUser,context);
-                          /*final allRows = await DbProvider.instance.query('NGUOIDUNG');
-                          int isCheck = 0;
-
-                          for (int i = 0; i <allRows.length; i++)
-                          {
-                            if (allRows[i]['TENTAIKHOAN'] == _taiKhoan) isCheck = 1;
-                          }
-                          if(isCheck == 0)
-                          {
-                            Map<String, dynamic> row = {'MANGUOIDUNG': _maUser, 'TENTAIKHOAN': _taiKhoan,'MATKHAU': _matKhau};
-                            int i = await DbProvider.instance.insert('NGUOIDUNG', row);
-                            print('value of insert: $i');
-                            runApp(focus());
-                          } else
-                          {
-                            print("TK tồn tại");
-                          }*/
-
+                          if (_matKhau.length ==0 || _taiKhoan.length == 0 || _ten.length == 0)
+                            {
+                              _show(context, "Điền đầy đủ thông tin!");
+                            }
+                          else
+                            {
+                              _maUser = getRandomString(10);
+                              _queryCheckUser(_taiKhoan, _matKhau, _maUser,context);
+                            }
                         },
                       )),
                       SizedBox(height: size.height*0.02,),
@@ -144,7 +131,7 @@ class SignUpScreen extends StatelessWidget {
   }
 }
 
-//RAndom;
+//TODO Random;
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 Random _rnd = Random();
 String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
@@ -166,9 +153,9 @@ void _queryCheckUser(String tk,String mk, String maUser, context) async {
         int i = await DbProvider.instance.insert('NGUOIDUNG', row);
         print('value of insert: $i');
 
-         runApp(focus());
-    } else
-      {
+        _showSuccess(context, "Đăng ký thành công!");
+        return;
+    } else {
     _show(context, 'Tài khoản đã tồn tại');
     }
 
@@ -180,6 +167,7 @@ void _show(context, String message){
   Alert(
     context: context,
     title: 'Thông báo',
+    type: AlertType.warning,
     closeIcon: Icon(Icons.error),
     desc: message,
     buttons: [
@@ -189,6 +177,31 @@ void _show(context, String message){
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
+
+void _showSuccess(context, String message){
+  Alert(
+    context: context,
+    type: AlertType.success,
+    title: "Thông báo",
+    closeIcon: Icon(Icons.error),
+    desc: message,
+    buttons: [
+      DialogButton(
+        child: Text(
+          "ACCEPT",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () {
+
+          Navigator.pop(context);
+          runApp(focus());
+        },
         width: 120,
       )
     ],

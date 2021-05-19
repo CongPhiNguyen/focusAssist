@@ -90,7 +90,15 @@ class LoginScreen extends StatelessWidget {
                        FadeAnimation(2.2,button_login(
                         text: 'LOGIN',
                         press: () async {
-                          _queryCheckUser(_taiKhoan, _matKhau,context);
+
+                          if (_matKhau.length == 0 || _taiKhoan.length == 0)
+                          {
+                            _show(context, "Pls! Điền đầy đủ thông tin!");
+                          }
+                          else
+                          {
+                            _queryCheckUser(_taiKhoan, _matKhau, context);
+                          }
                         },
                       )),
                        FadeAnimation(2.4, Donthaveanaccount(
@@ -116,7 +124,7 @@ class LoginScreen extends StatelessWidget {
 }
 
 
-//TODO Check tài khoản có tồn tại hay không 
+//TODO Check tài khoản có tồn tại hay không
 void _queryCheckUser(String tk, String mk,context) async
 {
   final infoUSER = await DbProvider.instance.query('NGUOIDUNG');
@@ -125,7 +133,9 @@ void _queryCheckUser(String tk, String mk,context) async
     if (infoUSER[i]['TENTAIKHOAN'] == tk)
     {
       if (infoUSER[i]['MATKHAU'] == mk ){
-        runApp(focus());
+        //runApp(focus());
+        _showSuccess(context, "Đăng nhập thành công!");
+        return;
       }
       else {
         _show(context, "Sai mật khẩu");
@@ -142,6 +152,7 @@ void _show(context, String message){
   Alert(
     context: context,
     title: 'Thông báo',
+    type: AlertType.warning,
     closeIcon: Icon(Icons.error),
     desc: message,
     buttons: [
@@ -151,6 +162,31 @@ void _show(context, String message){
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         onPressed: () => Navigator.pop(context),
+        width: 120,
+      )
+    ],
+  ).show();
+}
+
+
+void _showSuccess(context, String message){
+  Alert(
+    context: context,
+    type: AlertType.success,
+    title: "Thông báo",
+    closeIcon: Icon(Icons.error),
+    desc: message,
+    buttons: [
+      DialogButton(
+        child: Text(
+          "ACCEPT",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () {
+
+          Navigator.pop(context);
+          runApp(focus());
+          },
         width: 120,
       )
     ],

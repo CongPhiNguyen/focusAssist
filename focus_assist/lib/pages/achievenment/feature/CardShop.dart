@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class card_shop extends StatelessWidget {
   final String name;
-  final double price;
+  final int price;
   final String imageEgg;
   final Color rareColor;
   const card_shop({

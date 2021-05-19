@@ -41,6 +41,11 @@ class DbProvider {
     });
   }
 
+  Future<int> deleteTable(String tableName) async {
+    Database db = await instance.database;
+    return await db.delete(tableName);
+  }
+
   Future<int> insert(String tableName, Map<String, dynamic> row) async {
     Database db = await instance.database;
     return await db.insert(tableName, row);
@@ -51,15 +56,7 @@ class DbProvider {
     return await db.query(tableName);
   }
 
-  Future<List<Map<String, dynamic>>> search(String tableName, String taiKhoan) async {
-    /*Database db = await instance.database;
-    return await db.query(tableName,where: 'TENTAIKHOAN = '+ taiKhoan);*/
 
-
-    Database db = await DbProvider.instance.database;
-    List<dynamic> whereArgsList = [taiKhoan,];
-    return  await db.query(tableName, where: 'TENTAIKHOAN = (?)', whereArgs: whereArgsList);
-  }
 
 
   Future<int> update(String tableName, Map<String, dynamic> row, String key, String arg) async {
