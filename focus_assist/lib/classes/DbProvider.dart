@@ -41,6 +41,12 @@ class DbProvider {
     });
   }
 
+  Future<List<Map>> rawQuery(String query) async {
+    Database db = await instance.database;
+    List<Map> res = await db.rawQuery(query);
+    return res;
+  }
+
   Future<int> deleteTable(String tableName) async {
     Database db = await instance.database;
     return await db.delete(tableName);

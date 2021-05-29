@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:focus_assist/classes/Data.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
+
 
 class card_shop extends StatelessWidget {
   final String name;
@@ -66,7 +68,13 @@ class card_shop extends StatelessWidget {
                           borderRadius: BorderRadius.circular(25),
                           child: FlatButton(
                             color: Colors.green[400],
-                            onPressed: (){
+                            onPressed: () async {
+                                String id = StaticData.userID;
+                                final k = await DbProvider.instance.rawQuery('''
+                                select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
+                                '''
+                                );
+                                if (k.length ==0) print ("null");
 
                             },
                             child: Text(

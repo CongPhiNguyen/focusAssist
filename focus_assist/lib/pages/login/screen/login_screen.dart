@@ -9,7 +9,7 @@ import 'package:focus_assist/pages/login/feature_ui/edit_text_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/edit_text_password_login.dart';
 import 'package:focus_assist/pages/login/screen/sign_up_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
+import 'package:focus_assist/classes/Data.dart';
 
 class LoginScreen extends StatelessWidget {
 
@@ -136,6 +136,7 @@ void _queryCheckUser(String tk, String mk,context) async
     {
       if (infoUSER[i]['MATKHAU'] == mk ){
         //runApp(focus());
+        StaticData.userID = infoUSER[i]['MANGUOIDUNG'];
         _showSuccess(context, "Đăng nhập thành công!");
         return;
       }
@@ -185,7 +186,6 @@ void _showSuccess(context, String message){
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         onPressed: () {
-
           Navigator.pop(context);
           runApp(focus());
           },

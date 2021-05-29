@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
 import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
@@ -152,14 +153,12 @@ void _queryCheckUser(String tk,String mk, String maUser, context) async {
         Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': mk };
         int i = await DbProvider.instance.insert('NGUOIDUNG', row);
         print('value of insert: $i');
-
+        StaticData.userID = maUser;
         _showSuccess(context, "Đăng ký thành công!");
         return;
     } else {
     _show(context, 'Tài khoản đã tồn tại');
     }
-
-
 }
 
 
