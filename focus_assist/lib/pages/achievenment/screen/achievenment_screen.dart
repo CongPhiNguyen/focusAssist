@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/ClassCardAchievenment.dart';
+import 'package:focus_assist/classes/Data.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/achievenment/feature/CardAchievenment.dart';
 import 'package:focus_assist/pages/achievenment/screen/shop_screen.dart';
 
@@ -21,7 +23,15 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.shopping_cart_rounded,color: Colors.black,),
-            onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context){return ShopScreen();}));},
+            onPressed: () async {
+              String id = StaticData.userID;
+              final k = await DbProvider.instance.rawQuery('''
+                                select * from THONGTINNGUOIDUNG where MANGUOIDUNG = '$id'
+                                '''
+              );
+              StaticData.Vang = k[0]['VANG'];
+              Navigator.push(context, MaterialPageRoute(builder: (context){return ShopScreen();}));
+              },
 
           ),
         ],

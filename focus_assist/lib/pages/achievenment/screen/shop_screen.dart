@@ -53,6 +53,7 @@ class _ShopScreenState extends State<ShopScreen> {
                         price: InfoShop[num].Gia,
                         rareColor: InfoShop[num].rareColor,
                         imageEgg: InfoShop[num].imageEgg,
+                        MAVP: InfoShop[num].MaVP,
                       ),
                     );
                   }),

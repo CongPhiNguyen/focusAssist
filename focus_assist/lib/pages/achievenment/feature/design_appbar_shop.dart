@@ -57,12 +57,7 @@ class design_appbar_shop extends StatelessWidget {
                     icon: Image.asset('assets/achievenment/ui/treasure.png'),
                     iconSize: 30,
                     onPressed: () async {
-                      String id = StaticData.userID;
-                      final k = await DbProvider.instance.rawQuery('''
-                                select * from THONGTINNGUOIDUNG where MANGUOIDUNG = '$id'
-                                '''
-                      );
-                      StaticData.Vang = k[0]['VANG'];
+
                       Navigator.push(context, MaterialPageRoute(builder: (context){return CollectionScreen();}));
                       },
                   ),

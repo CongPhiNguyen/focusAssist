@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 class card_shop extends StatelessWidget {
+  final String MAVP;
   final String name;
   final int price;
   final String imageEgg;
   final Color rareColor;
   const card_shop({
     Key key,
-    @required this.size, this.name, this.price, this.imageEgg, this.rareColor,
+    @required this.size, this.name, this.price, this.imageEgg, this.rareColor, this.MAVP,
   }) : super(key: key);
 
   final Size size;
@@ -70,11 +72,34 @@ class card_shop extends StatelessWidget {
                             color: Colors.green[400],
                             onPressed: () async {
                                 String id = StaticData.userID;
-                                final k = await DbProvider.instance.rawQuery('''
+                                /*final k = await DbProvider.instance.rawQuery('''
                                 select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
                                 '''
                                 );
                                 if (k.length ==0) print ("null");
+                                k.forEach(print);*/
+
+                                //Kiểm tra có đủ tiền mua hay không
+                                if (StaticData.Vang >= price ) {
+                                  final e = await DbProvider.instance.rawQuery('''
+                                  select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id' and MAVATPHAM = '$MAVP'
+                                  '''
+                                  );
+
+                                  //Kiểm tra đã có trứng này chưa
+                                  if (e.length == 0) {
+                                     Map<String, dynamic> row = {'MAVATPHAM':MAVP , 'MANGUOIDUNG':StaticData.userID};
+                                     int i = await DbProvider.instance.insert('VATPHAMNGUOIDUNG', row);
+
+                                     _showBILL(context, "Mua thành công :D", true);
+                                   }
+                                  else {
+                                    _showBILL(context, "Bạn đã sở hữu quả trứng này", false);
+                                  }
+
+                                } else {
+                                  _showBILL(context, "Không làm mà đòi có ăn :) ", false);
+                                }
 
                             },
                             child: Text(
@@ -107,5 +132,55 @@ class card_shop extends StatelessWidget {
     );
   }
 }
+
+
+void _showBILL(context, String message, bool isBuy){
+
+  if (isBuy == true) {
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: "",
+      closeIcon: Icon(Icons.error),
+      desc: message,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "ACCEPT",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          width: 120,
+        )
+      ],
+    ).show();
+  } else {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "",
+      closeIcon: Icon(Icons.error),
+      desc: message,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "ACCEPT",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
+
+}
+
+
 
 
