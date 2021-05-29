@@ -42,7 +42,7 @@ class _ShopScreenState extends State<ShopScreen> {
           children: <Widget>[
             design_appbar_shop(size: size),
             Container(
-              height: size.height * 0.6,
+              height: size.height * 0.65,
               child: ListView.builder(
                   itemCount: InfoShop.length,
                   itemBuilder: (context, num) {
@@ -75,7 +75,7 @@ class _ShopScreenState extends State<ShopScreen> {
               infoVATPHAM[i]['MOTA'],
               infoVATPHAM[i]['GIA'],
               Colors.green,
-              'assets/achievenment/Eggs/eggCarpentry.png');
+              'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
           setState(() {
             InfoShop.add(index);
           });
@@ -88,7 +88,7 @@ class _ShopScreenState extends State<ShopScreen> {
               infoVATPHAM[i]['MOTA'],
               infoVATPHAM[i]['GIA'],
               Colors.blueAccent,
-              'assets/achievenment/Eggs/eggCarpentry.png');
+              'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
           setState(() {
             InfoShop.add(index);
           });
@@ -100,7 +100,7 @@ class _ShopScreenState extends State<ShopScreen> {
               infoVATPHAM[i]['MOTA'],
               infoVATPHAM[i]['GIA'],
               Colors.purpleAccent,
-              'assets/achievenment/Eggs/eggCarpentry.png');
+              'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
           setState(() {
             InfoShop.add(index);
           });
@@ -112,7 +112,7 @@ class _ShopScreenState extends State<ShopScreen> {
               infoVATPHAM[i]['MOTA'],
               infoVATPHAM[i]['GIA'],
               Colors.red,
-              'assets/achievenment/Eggs/eggCarpentry.png');
+              'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
           setState(() {
             InfoShop.add(index);
           });

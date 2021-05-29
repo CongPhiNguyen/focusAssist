@@ -51,12 +51,11 @@ class DbProvider {
     return await db.insert(tableName, row);
   }
 
+
   Future<List<Map<String, dynamic>>> query(String tableName) async {
     Database db = await instance.database;
-    return await db.query(tableName);
+    return await db.query(tableName,);
   }
-
-
 
 
   Future<int> update(String tableName, Map<String, dynamic> row, String key, String arg) async {
@@ -71,3 +70,4 @@ class DbProvider {
 
 
 }
+

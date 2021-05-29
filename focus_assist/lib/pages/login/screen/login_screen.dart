@@ -99,6 +99,8 @@ class LoginScreen extends StatelessWidget {
                           {
                             _queryCheckUser(_taiKhoan, _matKhau, context);
                           }
+
+
                         },
                       )),
                        FadeAnimation(2.4, Donthaveanaccount(
