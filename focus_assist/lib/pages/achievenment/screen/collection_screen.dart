@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/ClassCardAchievenment.dart';
+import 'package:focus_assist/classes/ClassCardShop.dart';
 import 'package:focus_assist/classes/Data.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/achievenment/feature/CardCollection.dart';
 
 class CollectionScreen extends StatefulWidget {
@@ -9,7 +11,16 @@ class CollectionScreen extends StatefulWidget {
   _CollectionScreenState createState() => _CollectionScreenState();
 }
 
+
+
 class _CollectionScreenState extends State<CollectionScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    LoadingVatPhamUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -62,6 +73,31 @@ class _CollectionScreenState extends State<CollectionScreen> {
         ],
       ),
     );
+
+  }
+  void  LoadingVatPhamUser() async {
+    StaticData.EggUser.clear();
+    String id = StaticData.userID;
+    final k = await DbProvider.instance.rawQuery('''
+                                select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
+                                '''
+    );
+    if (k.length ==0) print ("null");
+    k.forEach(print);
+
+    for (int i = 0 ; i < k.length; i++)
+    {
+        for (int j = 0; j < StaticData.EggShop.length; j++ )
+          {
+            if(StaticData.EggShop[j].MaVP == k[i]['MAVATPHAM'])
+              {
+                  setState(() {
+                    StaticData.EggUser.add(StaticData.EggShop[j]);
+                  });
+              }
+          }
+    }
+
   }
 }
 
@@ -75,3 +111,6 @@ int totalMoney(){
   totalMoney += StaticData.Vang;
   return totalMoney;
 }
+
+
+

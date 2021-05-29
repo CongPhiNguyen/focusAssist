@@ -57,7 +57,6 @@ class design_appbar_shop extends StatelessWidget {
                     icon: Image.asset('assets/achievenment/ui/treasure.png'),
                     iconSize: 30,
                     onPressed: () async {
-
                       Navigator.push(context, MaterialPageRoute(builder: (context){return CollectionScreen();}));
                       },
                   ),

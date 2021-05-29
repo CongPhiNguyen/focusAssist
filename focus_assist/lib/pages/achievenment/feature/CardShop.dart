@@ -72,12 +72,6 @@ class card_shop extends StatelessWidget {
                             color: Colors.green[400],
                             onPressed: () async {
                                 String id = StaticData.userID;
-                                /*final k = await DbProvider.instance.rawQuery('''
-                                select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
-                                '''
-                                );
-                                if (k.length ==0) print ("null");
-                                k.forEach(print);*/
 
                                 //Kiểm tra có đủ tiền mua hay không
                                 if (StaticData.Vang >= price ) {

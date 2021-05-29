@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:focus_assist/classes/ClassCardShop.dart';
+import 'package:focus_assist/classes/Data.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DetailCardCollection extends StatelessWidget {
@@ -18,16 +19,12 @@ class DetailCardCollection extends StatelessWidget {
       crossAxisCount: 2,
       mainAxisSpacing: 10,
       padding: EdgeInsets.all(5),
-      children: List.generate(value.length, (index) {
+      children: List.generate(StaticData.EggUser.length, (index) {
         return Center(
           child: Container(
             margin: EdgeInsets.only(top:3,bottom: 3,left: 6,right: 6),
             width: size.width*0.4,
             decoration: BoxDecoration(
-              /*image: new DecorationImage(
-                 image: AssetImage('assets/collection/UI_collection_background.png'),
-                 fit: BoxFit.fill,
-              ),*/
               color: Colors.amber[100],
               borderRadius: BorderRadius.circular(20),
             ),
@@ -36,15 +33,16 @@ class DetailCardCollection extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    child: Image.asset(value[index].imageEgg),
+                   // child: Image.asset(value[index].imageEgg),
+                    child: Image.asset(StaticData.EggUser[index].imageEgg),
                   ),
                 ),
                 Expanded(
                   flex: 1,
                   child: Container(
                     child: Text(
-                      value[index].name,
-                      style: TextStyle(color: value[index].rareColor,fontWeight: FontWeight.bold),
+                      StaticData.EggUser[index].TenVP,
+                      style: TextStyle(color: StaticData.EggUser[index].rareColor,fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -56,10 +54,11 @@ class DetailCardCollection extends StatelessWidget {
                     onPressed:(){
                       _show(
                           context,
-                          value[index].name,
-                          value[index].rareColor,
-                          value[index].price,
-                          value[index].imageEgg,
+                          StaticData.EggUser[index].TenVP,
+                          StaticData.EggUser[index].rareColor,
+                          StaticData.EggUser[index].Gia,
+                          StaticData.EggUser[index].imageEgg,
+                          StaticData.EggUser[index].moTa,
                       );
                     },
                   ),
@@ -74,18 +73,19 @@ class DetailCardCollection extends StatelessWidget {
 }
 
 
-void _show(context, String name, Color rareColor,double price, String imageEgg){
+void _show(context, String name, Color rareColor,int price, String imageEgg, String mota){
   Alert(
     context: context,
     title: 'Information',
     closeIcon: Icon(Icons.info_outlined),
     desc: 'Đã sở hữu',
     content: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Text(name,style: TextStyle(color: rareColor),),
         Image.asset(imageEgg),
+        Text('Mô tả :'+mota),
         Text('Price: ' + price.toString(),),
-
       ],
     ),
     buttons: [
@@ -100,7 +100,5 @@ void _show(context, String name, Color rareColor,double price, String imageEgg){
     ],
   ).show();
 }
-
-
 
 

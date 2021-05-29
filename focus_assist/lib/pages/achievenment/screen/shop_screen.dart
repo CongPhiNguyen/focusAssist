@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/ClassCardShop.dart';
+import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/achievenment/feature/CardShop.dart';
 import 'package:focus_assist/pages/achievenment/feature/design_appbar_shop.dart';
@@ -8,8 +9,6 @@ class ShopScreen extends StatefulWidget {
   @override
   _ShopScreenState createState() => _ShopScreenState();
 }
-
-final List<InfoEggs> InfoShop = [];
 
 class _ShopScreenState extends State<ShopScreen> {
   @override
@@ -39,21 +38,24 @@ class _ShopScreenState extends State<ShopScreen> {
       body: Container(
         height: size.height,
         child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             design_appbar_shop(size: size),
             Container(
-              height: size.height * 0.65,
+              height: size.height * 0.6,
               child: ListView.builder(
-                  itemCount: InfoShop.length,
+                  itemCount: StaticData.EggShop.length,
                   itemBuilder: (context, num) {
                     return Center(
                       child: card_shop(
                         size: size,
-                        name: InfoShop[num].TenVP,
-                        price: InfoShop[num].Gia,
-                        rareColor: InfoShop[num].rareColor,
-                        imageEgg: InfoShop[num].imageEgg,
-                        MAVP: InfoShop[num].MaVP,
+                        name: StaticData.EggShop[num].TenVP,
+                        price: StaticData.EggShop[num].Gia,
+                        rareColor: StaticData.EggShop[num].rareColor,
+                        imageEgg: StaticData.EggShop[num].imageEgg,
+                        MAVP: StaticData.EggShop[num].MaVP,
                       ),
                     );
                   }),
@@ -66,7 +68,7 @@ class _ShopScreenState extends State<ShopScreen> {
 
   void LoadingDatabase() async {
     final infoVATPHAM = await DbProvider.instance.query('VATPHAM');
-    infoVATPHAM.forEach(print);
+    StaticData.EggShop.clear();
     for (int i = 0; i < infoVATPHAM.length; i++) {
       switch (infoVATPHAM[i]['DOHIEM']) {
         case 1:
@@ -78,7 +80,7 @@ class _ShopScreenState extends State<ShopScreen> {
               Colors.green,
               'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
           setState(() {
-            InfoShop.add(index);
+            StaticData.EggShop.add(index);
           });
 
           break;
@@ -91,7 +93,7 @@ class _ShopScreenState extends State<ShopScreen> {
               Colors.blueAccent,
               'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
           setState(() {
-            InfoShop.add(index);
+            StaticData.EggShop.add(index);
           });
           break;
         case 3:
@@ -103,7 +105,7 @@ class _ShopScreenState extends State<ShopScreen> {
               Colors.purpleAccent,
               'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
           setState(() {
-            InfoShop.add(index);
+            StaticData.EggShop.add(index);
           });
           break;
         case 4:
@@ -115,7 +117,7 @@ class _ShopScreenState extends State<ShopScreen> {
               Colors.red,
               'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
           setState(() {
-            InfoShop.add(index);
+            StaticData.EggShop.add(index);
           });
           break;
         default:
@@ -125,4 +127,3 @@ class _ShopScreenState extends State<ShopScreen> {
   }
 }
 
-//TODO loading database từ file
