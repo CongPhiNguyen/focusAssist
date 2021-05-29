@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/Data.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/achievenment/screen/collection_screen.dart';
 
 
@@ -54,7 +56,15 @@ class design_appbar_shop extends StatelessWidget {
                   child: IconButton(
                     icon: Image.asset('assets/achievenment/ui/treasure.png'),
                     iconSize: 30,
-                    onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context){return CollectionScreen();}));},
+                    onPressed: () async {
+                      String id = StaticData.userID;
+                      final k = await DbProvider.instance.rawQuery('''
+                                select * from THONGTINNGUOIDUNG where MANGUOIDUNG = '$id'
+                                '''
+                      );
+                      StaticData.Vang = k[0]['VANG'];
+                      Navigator.push(context, MaterialPageRoute(builder: (context){return CollectionScreen();}));
+                      },
                   ),
                 ),
               ],

@@ -92,7 +92,7 @@ class SignUpScreen extends StatelessWidget {
                           else
                             {
                               _maUser = getRandomString(10);
-                              _queryCheckUser(_taiKhoan, _matKhau, _maUser,context);
+                              _queryCheckUser(_taiKhoan, _matKhau, _maUser, _ten ,context);
                             }
                         },
                       )),
@@ -140,7 +140,7 @@ String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
 
 
 
-void _queryCheckUser(String tk,String mk, String maUser, context) async {
+void _queryCheckUser(String tk,String mk, String maUser, String name ,context) async {
   final allRows = await DbProvider.instance.query('NGUOIDUNG');
    int isCheck = 0;
 
@@ -152,6 +152,21 @@ void _queryCheckUser(String tk,String mk, String maUser, context) async {
     {
         Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': mk };
         int i = await DbProvider.instance.insert('NGUOIDUNG', row);
+
+        row = {'MANGUOIDUNG': maUser ,
+              'HOTEN': name,
+              'ANH':  '0',
+              'VANG': 700,
+              'THONGBAO': null,
+              'THONGBAOSANG': null,
+              'THONGBAOTOI' : null,
+              'THOIGIANTHONGBAOSANG': null,
+              'THOIGIANTHONGBAOTOI': null,
+              'DARKMODE': null,
+              'PRIVACYLOCK': null,
+              'LOCKPASSCODE': null};
+        int j = await DbProvider.instance.insert('THONGTINNGUOIDUNG', row);
+
         print('value of insert: $i');
         StaticData.userID = maUser;
         _showSuccess(context, "Đăng ký thành công!");

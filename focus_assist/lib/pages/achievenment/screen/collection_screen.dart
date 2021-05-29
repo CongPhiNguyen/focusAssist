@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/ClassCardAchievenment.dart';
+import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/pages/achievenment/feature/CardCollection.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
+
 class CollectionScreen extends StatefulWidget {
   @override
   _CollectionScreenState createState() => _CollectionScreenState();
@@ -22,13 +23,13 @@ class _CollectionScreenState extends State<CollectionScreen> {
         centerTitle: true,
       ),
       body: Column(
-       crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             margin: EdgeInsets.all(20),
             height: size.height*0.05,
-            width: size.width*0.3,
+            width: size.width*0.35,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
@@ -71,5 +72,6 @@ int totalMoney(){
     {
       totalMoney += items[i].diemThanhtuu;
     }
+  totalMoney += StaticData.Vang;
   return totalMoney;
 }

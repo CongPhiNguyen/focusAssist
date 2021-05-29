@@ -19,7 +19,7 @@ class CardShopInfo{
 
 
 final List<CardShopInfo> value = [
-  CardShopInfo('Luong Thien Phuoc', 300, 'assets/achievenment/Eggs/eggCarpentry.png', Colors.red),
+/*  CardShopInfo('Luong Thien Phuoc', 300, 'assets/achievenment/Eggs/eggCarpentry.png', Colors.red),
   CardShopInfo('Hoang Dan Quang', 1110, 'assets/achievenment/Eggs/eggElectric.png',Colors.purple),
   CardShopInfo('Bui Nhu Phuoc', 700, 'assets/achievenment/Eggs/eggFire.png',Colors.green),
   CardShopInfo('Hoang Dan Quang', 5000, 'assets/achievenment/Eggs/eggIce.png',Colors.indigoAccent),
@@ -34,7 +34,7 @@ final List<CardShopInfo> value = [
   CardShopInfo('Luong Thien Phuoc', 300, 'assets/achievenment/Eggs/eggMagic.png', Colors.red),
   CardShopInfo('Hoang Dan Quang', 1110, 'assets/achievenment/Eggs/eggRock.png',Colors.purple),
   CardShopInfo('Bui Nhu Phuoc', 700, 'assets/achievenment/Eggs/eggSky.png',Colors.green),
-  CardShopInfo('Hoang Dan Quang', 5000, 'assets/achievenment/Eggs/eggWater.png',Colors.indigoAccent),
+  CardShopInfo('Hoang Dan Quang', 5000, 'assets/achievenment/Eggs/eggWater.png',Colors.indigoAccent),*/
 ];
 
 
