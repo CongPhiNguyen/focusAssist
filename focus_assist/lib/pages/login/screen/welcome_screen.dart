@@ -3,7 +3,6 @@ import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/color.dart';
 import 'package:focus_assist/pages/login/screen/sign_up_screen.dart';
-
 import 'login_screen.dart';
 
 

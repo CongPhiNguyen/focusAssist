@@ -139,44 +139,41 @@ String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
     length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
 
-
+// Check tài khoản có tồn tại hay không
 void _queryCheckUser(String tk,String mk, String maUser, String name ,context) async {
-  final allRows = await DbProvider.instance.query('NGUOIDUNG');
-   int isCheck = 0;
+  final checkTK = await DbProvider.instance.rawQuery('''
+  select * from NGUOIDUNG where TENTAIKHOAN = '$tk'
+  ''');
 
-  for (int i = 0; i <allRows.length; i++)
-    {
-      if (allRows[i]['TENTAIKHOAN'] == tk) isCheck = 1;
-    }
-  if(isCheck == 0)
-    {
-        Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': mk };
-        int i = await DbProvider.instance.insert('NGUOIDUNG', row);
-
-        row = {'MANGUOIDUNG': maUser ,
-              'HOTEN': name,
-              'ANH':  '0',
-              'VANG': 700,
-              'THONGBAO': null,
-              'THONGBAOSANG': null,
-              'THONGBAOTOI' : null,
-              'THOIGIANTHONGBAOSANG': null,
-              'THOIGIANTHONGBAOTOI': null,
-              'DARKMODE': null,
-              'PRIVACYLOCK': null,
-              'LOCKPASSCODE': null};
-        int j = await DbProvider.instance.insert('THONGTINNGUOIDUNG', row);
-
-        print('value of insert: $i');
-        StaticData.userID = maUser;
-        _showSuccess(context, "Đăng ký thành công!");
-        return;
-    } else {
+  if (checkTK.length == 1) {
     _show(context, 'Tài khoản đã tồn tại');
-    }
+    return;
+  } else {
+    Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': mk };
+    int i = await DbProvider.instance.insert('NGUOIDUNG', row);
+
+    row = {'MANGUOIDUNG': maUser ,
+      'HOTEN': name,
+      'ANH':  '0',
+      'VANG': 7000,
+      'THONGBAO': null,
+      'THONGBAOSANG': null,
+      'THONGBAOTOI' : null,
+      'THOIGIANTHONGBAOSANG': null,
+      'THOIGIANTHONGBAOTOI': null,
+      'DARKMODE': null,
+      'PRIVACYLOCK': null,
+      'LOCKPASSCODE': null};
+    int j = await DbProvider.instance.insert('THONGTINNGUOIDUNG', row);
+
+    print('value of insert: $i');
+    StaticData.userID = maUser;
+    _showSuccess(context, "Đăng ký thành công!");
+
+  }
 }
 
-
+// Báo lỗi
 void _show(context, String message){
   Alert(
     context: context,
@@ -187,17 +184,18 @@ void _show(context, String message){
     buttons: [
       DialogButton(
         child: Text(
-          "ACCEPT",
+          "CANCEL",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         onPressed: () => Navigator.pop(context),
         width: 120,
+        color: Colors.red,
       )
     ],
   ).show();
 }
 
-
+// Thông báo thành công
 void _showSuccess(context, String message){
   Alert(
     context: context,
@@ -217,6 +215,7 @@ void _showSuccess(context, String message){
           runApp(focus());
         },
         width: 120,
+        color: Colors.green[400],
       )
     ],
   ).show();

@@ -91,15 +91,7 @@ class LoginScreen extends StatelessWidget {
                         text: 'LOGIN',
                         press: () async {
 
-                          if (_matKhau.length == 0 || _taiKhoan.length == 0)
-                          {
-                            _show(context, 'Điền đầy đủ thông tin!');
-                          }
-                          else
-                          {
                             _queryCheckUser(_taiKhoan, _matKhau, context);
-                          }
-
 
                         },
                       )),
@@ -129,24 +121,33 @@ class LoginScreen extends StatelessWidget {
 //TODO Check tài khoản có tồn tại hay không
 void _queryCheckUser(String tk, String mk,context) async
 {
-  final infoUSER = await DbProvider.instance.query('NGUOIDUNG');
-  for (int i = 0; i < infoUSER.length; i++)
+
+  if (tk.length == 0 || mk.length == 0)
   {
-    if (infoUSER[i]['TENTAIKHOAN'] == tk)
+    _show(context, 'Điền đầy đủ thông tin!');
+    return;
+  }
+
+  //Check tài khoản
+  final checkTK = await DbProvider.instance.rawQuery('''
+  select * from NGUOIDUNG where TENTAIKHOAN = '$tk'
+  ''');
+
+  if (checkTK.length == 0)
     {
-      if (infoUSER[i]['MATKHAU'] == mk ){
-        //runApp(focus());
-        StaticData.userID = infoUSER[i]['MANGUOIDUNG'];
-        _showSuccess(context, "Đăng nhập thành công!");
-        return;
-      }
-      else {
-        _show(context, "Sai mật khẩu");
-        return;
-      }
+      _show(context,"Tài khoản không tồn tại");
+      return;
     }
-  };
-  _show(context,"Tài khoản không tồn tại");
+
+  if (checkTK[0]['MATKHAU'] == mk)
+  {
+    StaticData.userID = checkTK[0]['MANGUOIDUNG'];
+    _showSuccess(context, "Đăng nhập thành công!");
+    return;
+  } else {
+    _show(context, "Sai mật khẩu");
+  }
+  return;
 }
 
 
@@ -161,11 +162,12 @@ void _show(context, String message){
     buttons: [
       DialogButton(
         child: Text(
-          "ACCEPT",
+          "CANCEL",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         onPressed: () => Navigator.pop(context),
         width: 120,
+        color: Colors.red,
       )
     ],
   ).show();
@@ -181,15 +183,22 @@ void _showSuccess(context, String message){
     desc: message,
     buttons: [
       DialogButton(
-        child: Text(
-          "ACCEPT",
-          style: TextStyle(color: Colors.white, fontSize: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+
+            Text(
+              "ACCEPT",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ],
         ),
         onPressed: () {
           Navigator.pop(context);
           runApp(focus());
           },
         width: 120,
+        color: Colors.green[400],
       )
     ],
   ).show();
