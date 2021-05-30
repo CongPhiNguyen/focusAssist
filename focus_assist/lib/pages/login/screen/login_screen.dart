@@ -7,6 +7,7 @@ import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/dontyouhaveaccount.dart';
 import 'package:focus_assist/pages/login/feature_ui/edit_text_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/edit_text_password_login.dart';
+import 'package:focus_assist/pages/login/feature_ui/forget_password.dart';
 import 'package:focus_assist/pages/login/screen/sign_up_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:focus_assist/classes/Data.dart';
@@ -76,18 +77,10 @@ class LoginScreen extends StatelessWidget {
                         },
                       )),
                       SizedBox(height: size.height*0.1,),
-                      FadeAnimation(2.0, GestureDetector(
-                        onTap: (){},
-                        child: Text(
-                          'Forgot password ? ',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                        ),
+                      FadeAnimation(2.0, forgot_password(
+
                       )),
-                       FadeAnimation(2.2,button_login(
+                      FadeAnimation(2.2,button_login(
                         text: 'LOGIN',
                         press: () async {
 

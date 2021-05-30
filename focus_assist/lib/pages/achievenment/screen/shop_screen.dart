@@ -21,6 +21,7 @@ class _ShopScreenState extends State<ShopScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    bool isBuy;
     return Scaffold(
       backgroundColor: Colors.amber[50],
       appBar: AppBar(
@@ -48,6 +49,13 @@ class _ShopScreenState extends State<ShopScreen> {
               child: ListView.builder(
                   itemCount: StaticData.EggShop.length,
                   itemBuilder: (context, num) {
+                    isBuy = false;
+                    for (int i = 0; i < StaticData.EggUser.length; i ++)
+                        {
+                          if (StaticData.EggShop[num].MaVP == StaticData.EggUser[i].MaVP)
+                           { isBuy = true;
+                            break;}
+                        }
                     return Center(
                       child: card_shop(
                         size: size,
@@ -56,6 +64,7 @@ class _ShopScreenState extends State<ShopScreen> {
                         rareColor: StaticData.EggShop[num].rareColor,
                         imageEgg: StaticData.EggShop[num].imageEgg,
                         MAVP: StaticData.EggShop[num].MaVP,
+                        isBuy: isBuy,
                       ),
                     );
                   }),

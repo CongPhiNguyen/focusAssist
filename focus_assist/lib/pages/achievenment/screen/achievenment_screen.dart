@@ -24,15 +24,18 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
           IconButton(
             icon: Icon(Icons.shopping_cart_rounded,color: Colors.black,),
             onPressed: () async {
+              // update vàng người dùng từ database
+
               String id = StaticData.userID;
               final k = await DbProvider.instance.rawQuery('''
                                 select * from THONGTINNGUOIDUNG where MANGUOIDUNG = '$id'
                                 '''
               );
               StaticData.Vang = k[0]['VANG'];
+
+              Loading();
               Navigator.push(context, MaterialPageRoute(builder: (context){return ShopScreen();}));
               },
-
           ),
         ],
         centerTitle: true,
@@ -44,7 +47,6 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
       body: ListView.builder(
           itemCount: items.length,
           itemBuilder: (context,num) {
-
             return  Center(
               child: CardAchievement(
                 name: items[num].name,
@@ -58,6 +60,28 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
           }
       ),
     );
+  }
+}
+
+void Loading() async {
+  StaticData.EggUser.clear();
+  String id = StaticData.userID;
+  final k = await DbProvider.instance.rawQuery('''
+                                select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
+                                '''
+  );
+  if (k.length ==0) print ("null");
+  k.forEach(print);
+
+  for (int i = 0 ; i < k.length; i++)
+  {
+    for (int j = 0; j < StaticData.EggShop.length; j++ )
+    {
+      if(StaticData.EggShop[j].MaVP == k[i]['MAVATPHAM'])
+      {
+          StaticData.EggUser.add(StaticData.EggShop[j]);
+      }
+    }
   }
 }
 

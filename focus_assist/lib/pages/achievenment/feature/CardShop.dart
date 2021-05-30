@@ -10,9 +10,10 @@ class card_shop extends StatelessWidget {
   final int price;
   final String imageEgg;
   final Color rareColor;
+  final bool isBuy;
   const card_shop({
     Key key,
-    @required this.size, this.name, this.price, this.imageEgg, this.rareColor, this.MAVP,
+    @required this.size, this.name, this.price, this.imageEgg, this.rareColor, this.MAVP, this.isBuy,
   }) : super(key: key);
 
   final Size size;
@@ -69,7 +70,7 @@ class card_shop extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(25),
                           child: FlatButton(
-                            color: Colors.green[400],
+                            color: isBuy ? Colors.grey : Colors.green[400],
                             onPressed: () async {
                                 String id = StaticData.userID;
 
@@ -84,6 +85,14 @@ class card_shop extends StatelessWidget {
                                   if (e.length == 0) {
                                      Map<String, dynamic> row = {'MAVATPHAM':MAVP , 'MANGUOIDUNG':StaticData.userID};
                                      int i = await DbProvider.instance.insert('VATPHAMNGUOIDUNG', row);
+                                     StaticData.Vang -= price;
+
+                                     int vang = StaticData.Vang;
+                                     final k = await DbProvider.instance.rawQuery('''
+                                     UPDATE THONGTINNGUOIDUNG
+                                     SET VANG = $vang
+                                     WHERE MANGUOIDUNG = '$id'
+                                     ''');
 
                                      _showBILL(context, "Mua thành công :D", true);
                                    }
@@ -97,7 +106,7 @@ class card_shop extends StatelessWidget {
 
                             },
                             child: Text(
-                              'Buy',
+                              isBuy ? 'Đã mua' : 'Mua',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -128,8 +137,8 @@ class card_shop extends StatelessWidget {
 }
 
 
+// Show thông báo
 void _showBILL(context, String message, bool isBuy){
-
   if (isBuy == true) {
     Alert(
       context: context,
@@ -171,8 +180,6 @@ void _showBILL(context, String message, bool isBuy){
       ],
     ).show();
   }
-
-
 }
 
 

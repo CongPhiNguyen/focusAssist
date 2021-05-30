@@ -82,8 +82,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
                                 select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
                                 '''
     );
-    if (k.length ==0) print ("null");
-    k.forEach(print);
+
 
     for (int i = 0 ; i < k.length; i++)
     {
