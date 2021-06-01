@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'dart:math';
@@ -41,12 +42,14 @@ class _AddNewState extends State<AddNew> {
     getRepeatingDay = TextEditingController();
   }
 
+  //Hàm tạo string random để Tạo khoá
   String getRandomString(int len) {
     var r = Random();
     return String.fromCharCodes(
         List.generate(len, (index) => r.nextInt(33) + 89));
   }
 
+  // List các hàm tạo các widget phù hợp với từng loại hoạt động
   List<Widget> Flexible() {
     return <Widget>[
       Padding(
@@ -63,9 +66,13 @@ class _AddNewState extends State<AddNew> {
             Expanded(
               flex: 4,
               child: TextField(
+                keyboardType: TextInputType.number,
                 controller: getDayPerWeek,
                 decoration: InputDecoration(hintText: 'days'),
                 style: TextStyle(fontSize: 20),
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
               ),
             ),
             Expanded(
@@ -165,9 +172,13 @@ class _AddNewState extends State<AddNew> {
               Expanded(
                   flex: 1,
                   child: TextField(
+                    keyboardType: TextInputType.number,
                     controller: getRepeatingDay,
                     decoration: InputDecoration(hintText: 'num'),
                     style: TextStyle(fontSize: 20),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
                   )),
               Expanded(
                   flex: 4, child: Text("day", style: TextStyle(fontSize: 20))),
@@ -178,6 +189,168 @@ class _AddNewState extends State<AddNew> {
     ];
   }
 
+  Future<bool> checkValidActivity() async {
+    // Trường hợp nhập thiếu activity name
+    if (getActivity.text == null || getActivity.text.length < 1) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text("Message"),
+                content: Text("Activity name can't be left blank !"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, 'OK');
+                    },
+                    child: Text("OK"),
+                  )
+                ],
+              ));
+      return false;
+    }
+    // Nhập desciption(không bắt buộc)
+    if (getDescription.text == null || getDescription.text.length < 1) {
+      return await showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text("Message"),
+                content:
+                    Text("Are you sure not to add description to activity ?"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: Text("Yes"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, false);
+                    },
+                    child: Text("No"),
+                  )
+                ],
+              ));
+    }
+
+    // Trường hợp nhập sai của Flexible
+    if (dropDownValue == 'Flexible') {
+      if (getDayPerWeek.text.length < 1 || getDayPerWeek.text == null) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  title: Text("Message"),
+                  content: Text("Days per week can't left blanked"),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("OK"),
+                    )
+                  ],
+                ));
+        return false;
+      } else {
+        int times = int.parse(getDayPerWeek.text);
+        if (times > 7 || times < 1) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                    title: Text("Message"),
+                    content: Text(
+                        "Days per week can't greater than 7 or less than 1"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      )
+                    ],
+                  ));
+          return false;
+        }
+      }
+    }
+    // Trường hợp nhập sai của repeating
+    else if (dropDownValue == 'Repeating') {
+      if (getRepeatingDay.text == null || getRepeatingDay.text.length < 1) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  title: Text("Message"),
+                  content: Text("Days repeating can't left blanked"),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("OK"),
+                    )
+                  ],
+                ));
+        return false;
+      } else {
+        int days = int.parse(getRepeatingDay.text);
+        if (days < 1) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                    title: Text("Message"),
+                    content: Text("Days repeating can't be 0"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      )
+                    ],
+                  ));
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // Các hàm thực hiện các việc liên quan đến dữ liệu
+  void addActivity() async {
+    bool valid = await checkValidActivity();
+    if (valid == false) return;
+    Map<String, dynamic> row = {
+      'MAMUCTIEU': getRandomString(5),
+      'MANGUOIDUNG':
+          (StaticData.userID == null) ? 'MANGUOIDUNG' : StaticData.userID,
+      'MANHOM': '1',
+      'TENMUCTIEU': getActivity.text,
+      'MOTA': (getDescription.text == null) ? 'MOTA' : getDescription.text,
+      'NGAYBATDAU': startTime.toString().substring(0, 10).replaceAll('-', '/'),
+      'LOAIHINH': dropDownValue,
+    };
+    if (dropDownValue == 'Fixed') {
+      String fixedDay = "";
+      for (int i = 0; i < dayOfWeek.length; i++) {
+        if (checkDay[i] == false) {
+          fixedDay += '0';
+        } else
+          fixedDay += '1';
+      }
+      row['CACNGAY'] = int.parse(fixedDay);
+    } else if (dropDownValue == 'Flexible') {
+      int times = int.parse(getDayPerWeek.text);
+      row['SOLAN'] = times;
+    } else if (dropDownValue == 'Repeating') {
+      row['KHOANGTHOIGIAN'] = getRepeatingDay.text;
+    }
+    setState(() {
+      text = row.toString();
+    });
+    final id = await dbHelper.insert('MUCTIEU', row);
+    print('inserted row id: $id');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -186,46 +359,8 @@ class _AddNewState extends State<AddNew> {
           title: Text("Add new activity", style: TextStyle(fontSize: 25)),
           actions: [
             FlatButton(
-                onPressed: () async {
-                  Map<String, dynamic> row = {
-                    'MAMUCTIEU': getRandomString(5),
-                    'MANGUOIDUNG': (StaticData.userID == null)
-                        ? 'MANGUOIDUNG'
-                        : StaticData.userID,
-                    'MANHOM': '1',
-                    'TENMUCTIEU': (getActivity.text == null)
-                        ? 'TENMUCTIEU'
-                        : getActivity.text,
-                    'MOTA': (getDescription.text == null)
-                        ? 'MOTA'
-                        : getDescription.text,
-                    'NGAYBATDAU': startTime
-                        .toString()
-                        .substring(0, 10)
-                        .replaceAll('-', '/'),
-                    'LOAIHINH': dropDownValue,
-                  };
-                  if (dropDownValue == 'Fixed') {
-                    String fixedDay = "";
-                    for (int i = 0; i < dayOfWeek.length; i++) {
-                      if (checkDay[i] == false) {
-                        fixedDay += '0';
-                      } else
-                        fixedDay += '1';
-                    }
-                    row['CACNGAY'] = int.parse(fixedDay);
-                  } else if (dropDownValue == 'Flexible') {
-                    if (getDayPerWeek.text != null)
-                      row['SOLAN'] = int.parse(getDayPerWeek.text);
-                  } else if (dropDownValue == 'Repeating') {
-                    if (getRepeatingDay.text != null)
-                      row['KHOANGTHOIGIAN'] = getRepeatingDay.text;
-                  }
-                  setState(() {
-                    text = row.toString();
-                  });
-                  final id = await dbHelper.insert('MUCTIEU', row);
-                  print('inserted row id: $id');
+                onPressed: () {
+                  addActivity();
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
@@ -239,15 +374,12 @@ class _AddNewState extends State<AddNew> {
         ),
         body: ListView(
           shrinkWrap: true,
-          //padding: EdgeInsets.all(20.0),
           children: <Widget>[
             // Thêm tên của activity và các description
             Container(
                 decoration: BoxDecoration(
                     color: Color(0xff8A2BE2),
                     borderRadius: BorderRadius.all(Radius.circular(0))),
-                // height: double.infinity,
-                //width: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
@@ -257,7 +389,9 @@ class _AddNewState extends State<AddNew> {
                       ),
                       TextField(
                         controller: getActivity,
+                        textAlign: TextAlign.center,
                         decoration: InputDecoration(
+                          alignLabelWithHint: true,
                           border: OutlineInputBorder(),
                           labelText: 'Activity Name',
                           labelStyle: TextStyle(color: Colors.white),
@@ -341,75 +475,79 @@ class _AddNewState extends State<AddNew> {
                 )),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
-              child: Row(children: [
-                Text(
-                  "Start date: ",
-                  style: TextStyle(fontSize: 20),
-                ),
-                Text(
-                  startTime.toString().substring(0, 10),
-                  style: TextStyle(fontSize: 20),
-                ),
-                FlatButton.icon(
-                  icon: Icon(Icons.date_range),
-                  onPressed: () {
-                    showDatePicker(
-                            context: context,
-                            initialDate: startTime,
-                            firstDate: DateTime.utc(2020, 1, 1),
-                            lastDate: DateTime.utc(2120, 31, 12))
-                        .then((date) {
-                      setState(() {
-                        if (date != null) startTime = date;
+              child: Center(
+                child: Row(children: [
+                  Text(
+                    "Start date: ",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Text(
+                    startTime.toString().substring(0, 10),
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  FlatButton.icon(
+                    icon: Icon(Icons.date_range),
+                    onPressed: () {
+                      showDatePicker(
+                              context: context,
+                              initialDate: startTime,
+                              firstDate: DateTime.utc(2020, 1, 1),
+                              lastDate: DateTime.utc(2120, 31, 12))
+                          .then((date) {
+                        setState(() {
+                          if (date != null) startTime = date;
+                        });
                       });
-                    });
-                  },
-                  label: Text(""),
-                )
-              ]),
+                    },
+                    label: Text(""),
+                  )
+                ]),
+              ),
             ),
             Divider(
               height: 10,
               color: Colors.black54,
             ),
             // Bảng chọn loại của cái activity
-            Row(
-              children: [
-                SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  "Select type",
-                  style: TextStyle(fontSize: 20),
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                DropdownButton<String>(
-                  value: dropDownValue,
-                  icon: const Icon(Icons.arrow_drop_down_outlined),
-                  iconSize: 24,
-                  elevation: 16,
-                  style:
-                      const TextStyle(color: Colors.deepPurple, fontSize: 20),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.deepPurpleAccent,
+            Center(
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 20,
                   ),
-                  onChanged: (String newValue) {
-                    setState(() {
-                      dropDownValue = newValue;
-                    });
-                  },
-                  items: <String>['Fixed', 'Flexible', 'Repeating']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                )
-              ],
+                  Text(
+                    "Select type",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  DropdownButton<String>(
+                    value: dropDownValue,
+                    icon: const Icon(Icons.arrow_drop_down_outlined),
+                    iconSize: 24,
+                    elevation: 16,
+                    style:
+                        const TextStyle(color: Colors.deepPurple, fontSize: 20),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        dropDownValue = newValue;
+                      });
+                    },
+                    items: <String>['Fixed', 'Flexible', 'Repeating']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  )
+                ],
+              ),
             ),
             Column(
                 mainAxisAlignment: MainAxisAlignment.start,

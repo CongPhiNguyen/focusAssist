@@ -50,8 +50,105 @@ class _JournalScreenState extends State<JournalScreen> {
     allActivity = ["Không có gì"];
   }
 
+  // Các hàm cần thiết để load dữ liệu
+  void getAllActivity() async {
+    database = await dbHelper.query('MUCTIEU');
+    if (database.length == 0) {
+      setState(() {
+        allActivity = ['Không có gì'];
+      });
+    }
+    if (database.length > 0) {
+      setState(() {
+        allActivity.clear();
+        for (int i = 0; i < database.length; i++) {
+          allActivity.add(database[i]['TENMUCTIEU']);
+        }
+      });
+    }
+  }
+
+  void getToDoList() async {
+    print("Fuck");
+    database = await dbHelper.query('MUCTIEU');
+    if (database.length == 0) {
+      setState(() {
+        toDos = [
+          ToDo(check: false, task: "Không có gì"),
+        ];
+      });
+    }
+    if (database.length > 0) {
+      toDos = [];
+      String k = DateFormat('EEEE').format(_selectedDay);
+      List<String> daysofWeek = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday'
+      ];
+      int indexOfK = daysofWeek.indexOf(k);
+      for (int i = 0; i < database.length; i++) {
+        DateTime start = DateTime.parse(
+            database[i]['NGAYBATDAU'].toString().replaceAll('/', '-'));
+
+        if (_selectedDay.year < start.year) {
+          continue;
+        } else if (_selectedDay.year == start.year) {
+          if (_selectedDay.month < start.month) {
+            continue;
+          } else if (_selectedDay.month == start.month) {
+            if (_selectedDay.day < start.day) {
+              continue;
+            }
+          }
+        }
+        if (database[i]['LOAIHINH'] == 'Fixed') {
+          String h = database[i]['CACNGAY'].toString();
+          // Xử lý vì chuyển từ int nên có thể không đủ 7 chữ số
+          while (h.length < 7) {
+            h = '0' + h;
+          }
+          if (h[indexOfK] == '1') {
+            setState(() {
+              toDos.add(ToDo(check: false, task: database[i]['TENMUCTIEU']));
+            });
+          }
+        } else if (database[i]['LOAIHINH'] == 'Flexible') {
+          setState(() {
+            toDos.add(ToDo(
+                check: false,
+                task: database[i]['TENMUCTIEU'] +
+                    '  0/' +
+                    database[i]['SOLAN'].toString()));
+          });
+        } else if (database[i]['LOAIHINH'] == 'Repeating') {
+          int val = int.parse(database[i]['KHOANGTHOIGIAN']);
+          Duration diff = start.difference(_selectedDay);
+          if (diff.inDays % val == 0) {
+            print(val);
+            setState(() {
+              toDos.add(ToDo(check: false, task: database[i]['TENMUCTIEU']));
+            });
+          }
+        }
+      }
+    }
+
+    if (toDos.length == 0) {
+      toDos = [
+        ToDo(check: false, task: "Không có gì"),
+      ];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    getAllActivity();
+    getToDoList();
     return Scaffold(
       backgroundColor: Color(0xffffffff),
       body: ListView(children: <Widget>[
@@ -197,87 +294,6 @@ class _JournalScreenState extends State<JournalScreen> {
         SizedBox(
           height: 30,
         ),
-        //Hiển thị các hoạt động trong ngày
-        Padding(
-          padding: const EdgeInsets.all(3.0),
-          child: Container(
-              //padding: const EdgeInsets.all(6.0),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.greenAccent, width: 1),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Column(children: [
-                Container(
-                  decoration: BoxDecoration(
-                      color: Color(0xff865693),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                      )),
-                  child: Row(children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 8, 8, 4),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Icon(Icons.calendar_today,
-                                size: 22, color: Colors.white)),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 9,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 8, 8, 4),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                              "${_selectedDay.day} / ${_selectedDay.month} / ${_selectedDay.year}",
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.white)),
-                        ),
-                      ),
-                    )
-                  ]),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: items.length != 0
-                      ? items.map((task) {
-                          return Column(children: <Widget>[
-                            ListTile(
-                              //tileColor: Colors.greenAccent,
-                              leading: CircleAvatar(
-                                backgroundColor: Colors.cyan,
-                              ),
-                              title: Text(task),
-                              trailing: Icon(Icons.more_vert),
-                              subtitle: Text("Nguyễn Công Phi"),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(color: Colors.black, width: 7),
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                            ),
-                            Divider(
-                              height: 3.0,
-                            )
-                          ]);
-                        }).toList()
-                      : <Widget>[
-                          Center(
-                              child: Text("Nothing to show here",
-                                  style: TextStyle(fontSize: 20))),
-                          SizedBox(
-                            height: 12,
-                          )
-                        ],
-                ),
-              ])),
-        ),
         //Hiển thị tất cả các hoạt động(hoàn thành và chưa hoàn thành)
         SizedBox(
           height: 12,
@@ -305,24 +321,8 @@ class _JournalScreenState extends State<JournalScreen> {
                             Expanded(
                               flex: 1,
                               child: InkWell(
-                                onTap: () async {
-                                  database = await dbHelper.query('MUCTIEU');
-                                  if (database.length == 0) {
-                                    setState(() {
-                                      allActivity = ['Không có gì'];
-                                    });
-                                  }
-                                  if (database.length > 0) {
-                                    setState(() {
-                                      allActivity.clear();
-                                      for (int i = 0;
-                                          i < database.length;
-                                          i++) {
-                                        allActivity
-                                            .add(database[i]['TENMUCTIEU']);
-                                      }
-                                    });
-                                  }
+                                onTap: () {
+                                  getAllActivity();
                                 },
                                 child: Icon(
                                   Icons.playlist_add_check,
@@ -398,39 +398,8 @@ class _JournalScreenState extends State<JournalScreen> {
                             Expanded(
                               flex: 1,
                               child: InkWell(
-                                onTap: () async {
-                                  database = await dbHelper.query('MUCTIEU');
-                                  if (database.length == 0) {
-                                    setState(() {
-                                      toDos = [
-                                        ToDo(check: false, task: "Không có gì"),
-                                      ];
-                                    });
-                                  }
-                                  if (database.length > 0) {
-                                    toDos = [];
-                                    for (int i = 0; i < database.length; i++) {
-                                      String k = DateFormat('EEEE')
-                                          .format(_selectedDay);
-                                      String h =
-                                          database[i]['CACNGAY'].toString();
-                                      switch (k) {
-                                        case 'Monday':
-                                          {
-                                            if (h[0] == '1')
-                                              toDos.add(ToDo(
-                                                  check: false,
-                                                  task: "Không có gì"));
-                                            break;
-                                          }
-                                      }
-                                    }
-                                  }
-                                  if (toDos.length == 0) {
-                                    toDos = [
-                                      ToDo(check: false, task: "Không có gì"),
-                                    ];
-                                  }
+                                onTap: () {
+                                  getToDoList();
                                 },
                                 child: Icon(
                                   Icons.playlist_add_check,
