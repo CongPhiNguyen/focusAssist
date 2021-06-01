@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/pages/Timer_Screen.dart';
 import 'package:focus_assist/pages/achievenment/screen/achievenment_screen.dart';
 import 'package:focus_assist/pages/progress_screen.dart';
 import 'package:focus_assist/pages/journal_screen.dart';
@@ -136,9 +137,7 @@ class _FocusAssistState extends State<FocusAssist> {
   Widget _pageChooser(int page) {
     switch (page) {
       case 0:
-        return Center(
-          child: Text('Foscus Time'),
-        );
+        return TimerScreen();
         break;
       case 1:
         return JournalScreen();
