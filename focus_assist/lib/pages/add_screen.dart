@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:focus_assist/classes/Data.dart';
@@ -15,7 +17,7 @@ class _AddNewState extends State<AddNew> {
   DateTime startTime;
   List<String> dayOfWeek;
   List<bool> checkDay;
-
+  List<Map> allGroup;
   // Những biến để get Text
   TextEditingController getActivity, getDescription;
   //Biến để getText của Flexible
@@ -30,6 +32,7 @@ class _AddNewState extends State<AddNew> {
 
   @override
   void initState() {
+    allGroup = [];
     // TODO: implement initState
     super.initState();
     dropDownValue = 'Fixed';
@@ -474,7 +477,7 @@ class _AddNewState extends State<AddNew> {
                   ),
                 )),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+              padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
               child: Center(
                 child: Row(children: [
                   Text(
@@ -504,9 +507,44 @@ class _AddNewState extends State<AddNew> {
                 ]),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 10, 10),
+              child: Center(
+                child: Row(children: [
+                  Text(
+                    "Group: ",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  DropdownButton<String>(
+                    value: dropDownValue,
+                    icon: const Icon(Icons.arrow_drop_down_outlined),
+                    iconSize: 24,
+                    elevation: 16,
+                    style:
+                        const TextStyle(color: Colors.deepPurple, fontSize: 20),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        dropDownValue = newValue;
+                      });
+                    },
+                    items: <String>['Fixed', 'Flexible', 'Repeating']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  )
+                ]),
+              ),
+            ),
             Divider(
               height: 10,
-              color: Colors.black54,
+              color: Colors.black,
             ),
             // Bảng chọn loại của cái activity
             Center(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/view_activity.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:focus_assist/pages/add_screen.dart';
+import 'package:focus_assist/pages/add_new_group_screen.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:intl/intl.dart';
@@ -48,6 +49,8 @@ class _JournalScreenState extends State<JournalScreen> {
     items = [];
     dataMap = {"Skip": 500, "Done": 322, "Fail": 112};
     allActivity = ["Không có gì"];
+    getAllActivity();
+    getToDoList();
   }
 
   // Các hàm cần thiết để load dữ liệu
@@ -147,8 +150,6 @@ class _JournalScreenState extends State<JournalScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getAllActivity();
-    getToDoList();
     return Scaffold(
       backgroundColor: Color(0xffffffff),
       body: ListView(children: <Widget>[
@@ -196,6 +197,7 @@ class _JournalScreenState extends State<JournalScreen> {
                       this.items = [];
                     });
                 });
+                getToDoList();
               }
             },
             onFormatChanged: (format) {
@@ -445,6 +447,19 @@ class _JournalScreenState extends State<JournalScreen> {
             ),
           ),
         ),
+        Center(
+            child: TextButton(
+          child: Text(
+            "Add new group",
+            style: TextStyle(fontSize: 30),
+          ),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (_) => AddGroup(),
+            );
+          },
+        )),
       ]),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
