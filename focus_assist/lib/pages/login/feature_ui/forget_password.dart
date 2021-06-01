@@ -17,7 +17,7 @@ class forgot_password extends StatelessWidget {
       onTap: (){
         Alert(
             context: context,
-            title: "FORGET PASSWORD",
+            title: "FORGOT PASSWORD" ,
             content: Column(
               children: <Widget>[
                 TextField(
@@ -58,8 +58,13 @@ class forgot_password extends StatelessWidget {
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 onPressed: () {
-                  checkTK(_tk, _mk, _re_mk, context);
-                  Navigator.pop(context);
+                  if(_tk == null || _mk == null || _re_mk == null)
+                    {
+                      _show(context, 'Điền đầy đủ thông tin');
+                    }else {
+                    checkTK(_tk, _mk, _re_mk, context);
+                    Navigator.pop(context);
+                  }
                 },
                 color: Color.fromRGBO(0, 179, 134, 1.0),
               ),
@@ -90,6 +95,9 @@ class forgot_password extends StatelessWidget {
 
 
 void checkTK(String tk, String mk, String re_mk,context) async {
+
+
+
   final k = await DbProvider.instance.rawQuery('''
   SELECT * FROM NGUOIDUNG WHERE TENTAIKHOAN = '$tk'
   ''');

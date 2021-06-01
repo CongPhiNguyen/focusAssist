@@ -44,7 +44,7 @@ class SignUpScreen extends StatelessWidget {
                 children: <Widget>[
                   FadeAnimation(1.2,  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
                   SizedBox(height: size.height*0.01,),
-                  FadeAnimation(1.4,  Text('Welcome you to Focus Assistance',style: TextStyle(color: Colors.white,fontSize: 15.0),)),
+                  FadeAnimation(1.2,  Text('Welcome you to Focus Assistance',style: TextStyle(color: Colors.white,fontSize: 15.0),)),
                   SizedBox(height: size.height*0.01,),
                 ],
               ),
@@ -60,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
                   padding: EdgeInsets.all(20),
                   child:  Column(
                     children: <Widget>[
-                      FadeAnimation(1.6,edit_text_login(
+                      FadeAnimation(1.2,edit_text_login(
                         icon: Icons.drive_file_rename_outline,
                         hintText: "Full name",
                         onChanged: (value){
@@ -68,7 +68,7 @@ class SignUpScreen extends StatelessWidget {
                         },
                       )),
                       SizedBox(height: size.height*0.0015,),
-                      FadeAnimation(1.8,edit_text_login(
+                      FadeAnimation(1.2,edit_text_login(
                         icon: Icons.person,
                         hintText: "Your Email",
                         onChanged: (value){
@@ -76,16 +76,16 @@ class SignUpScreen extends StatelessWidget {
                         },
                       )),
                       SizedBox(height: size.height*0.0015,),
-                      FadeAnimation(2.0,edit_text_password_login(
+                      FadeAnimation(1.4,edit_text_password_login(
                         onChanged: (value){
                           _matKhau = value;
                         },
                       )),
                       SizedBox(height: size.height*0.03,),
-                      FadeAnimation(2.2, button_login(
+                      FadeAnimation(1.4, button_login(
                         text: 'SIGN UP',
                         press: () async {
-                          if (_matKhau.length ==0 || _taiKhoan.length == 0 || _ten.length == 0)
+                          if (_matKhau == null || _taiKhoan== null || _ten == null)
                             {
                               _show(context, "Điền đầy đủ thông tin!");
                             }
@@ -97,14 +97,14 @@ class SignUpScreen extends StatelessWidget {
                         },
                       )),
                       SizedBox(height: size.height*0.02,),
-                      FadeAnimation(2.4, Donthaveanaccount(
+                      FadeAnimation(1.4, Donthaveanaccount(
                         login: false,
                         press: (){Navigator.push(context, MaterialPageRoute(builder: (context){return LoginScreen();}));},
                       )),
                       SizedBox(height: size.height*0.02,),
-                      FadeAnimation(2.6,Or()),
+                      FadeAnimation(1.6,Or()),
                       SizedBox(height: size.height*0.03,),
-                      FadeAnimation(2.6,  Row(
+                      FadeAnimation(1.6,  Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           login_with_socialnetwork(

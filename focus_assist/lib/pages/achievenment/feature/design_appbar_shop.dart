@@ -46,19 +46,20 @@ class design_appbar_shop extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: size.width * 0.2,),
+                SizedBox(width: size.width * 0.1,),
 
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.amber[600],
+                    color: Colors.amber[700],
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  child: IconButton(
-                    icon: Image.asset('assets/achievenment/ui/treasure.png'),
-                    iconSize: 30,
-                    onPressed: () async {
-                      Navigator.push(context, MaterialPageRoute(builder: (context){return CollectionScreen();}));
-                      },
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.wallet_giftcard,color: Colors.green,),
+                      Text(StaticData.Vang.toString() +' dollar',
+                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.green),
+                      ),
+                    ],
                   ),
                 ),
               ],

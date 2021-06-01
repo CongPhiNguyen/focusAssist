@@ -133,6 +133,26 @@ class _ShopScreenState extends State<ShopScreen> {
           break;
       }
     }
+
+
+    StaticData.EggUser.clear();
+    String id = StaticData.userID;
+    final k = await DbProvider.instance.rawQuery('''
+      select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
+      '''
+    );
+    for (int i = 0 ; i < k.length; i++)
+    {
+      for (int j = 0; j < StaticData.EggShop.length; j++ )
+      {
+        if(StaticData.EggShop[j].MaVP == k[i]['MAVATPHAM'])
+        {
+          setState(() {
+            StaticData.EggUser.add(StaticData.EggShop[j]);
+          });
+        }
+      }
+    }
   }
 }
 

@@ -6,23 +6,25 @@ import 'CustomCard.dart';
 
 class CardAchievement extends StatelessWidget {
   final String name;
+  final String mota;
   final int diemThanhtuu;
   final String iconImage;
   final int star;
   final Color endColor;
   final Color startColor;
   const CardAchievement({
-    Key key, this.name, this.iconImage, this.diemThanhtuu, this.star, this.endColor, this.startColor,
+    Key key, this.name, this.iconImage, this.diemThanhtuu, this.star, this.endColor, this.startColor, this.mota,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
         children: <Widget>[
           Container(
-            height: 50,
+            height: size.height*0.1,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
               gradient: LinearGradient(
@@ -54,7 +56,7 @@ class CardAchievement extends StatelessWidget {
                 Expanded(
                   flex: 2,
                   child: Image.asset(
-                    iconImage,
+                    'assets/achievenment/Eggs/egg'+name+'.png',
                     height: 30,
                     width: 30,
                   ),
@@ -69,17 +71,24 @@ class CardAchievement extends StatelessWidget {
                       Text(
                         name,
                         style: TextStyle(
+                          color: Colors.purpleAccent,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,),
+                      ),
+
+                      Text(
+                        mota,
+                        style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,),
                       ),
 
                       Text(
-                        'Bạn được cộng '+ diemThanhtuu.toString() +' điểm',
+                        'Bonus :'+ diemThanhtuu.toString() +' vàng',
                         style: TextStyle(
                           color: Colors.black,
-                          fontWeight: FontWeight.bold,),
+                        ),
                       ),
-
                     ],
                   ),
                 ),
@@ -97,12 +106,9 @@ class CardAchievement extends StatelessWidget {
                         ),
                       ),
                       RatingStar(Sao: star,),
-
                     ],
                   ),
                 ),
-
-
               ],
             ),
           ),

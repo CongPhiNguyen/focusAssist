@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/ClassCardAchievenment.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -73,7 +74,6 @@ class card_shop extends StatelessWidget {
                             color: isBuy ? Colors.grey : Colors.green[400],
                             onPressed: () async {
                                 String id = StaticData.userID;
-
                                 //Kiểm tra có đủ tiền mua hay không
                                 if (StaticData.Vang >= price ) {
                                   final e = await DbProvider.instance.rawQuery('''
@@ -87,6 +87,21 @@ class card_shop extends StatelessWidget {
                                      int i = await DbProvider.instance.insert('VATPHAMNGUOIDUNG', row);
                                      StaticData.Vang -= price;
 
+
+                                     //Nhận thành tựu
+                                     int bonus;
+                                     for (int i = 0; i < StaticData.AchiList.length; i++)
+                                       {
+                                         if(StaticData.AchiList[i].TENTHANHTUU == name)
+                                           {
+                                             bonus = StaticData.AchiList[i].bonus;
+                                             StaticData.Vang += StaticData.AchiList[i].bonus;
+                                             row = {'MATHANHTUU':StaticData.AchiList[i].MATHANHTUU, 'MANGUOIDUNG':StaticData.userID};
+                                             int e = await DbProvider.instance.insert('THANHTUUNGUOIDUNG', row);
+                                           }
+                                       }
+
+
                                      int vang = StaticData.Vang;
                                      final k = await DbProvider.instance.rawQuery('''
                                      UPDATE THONGTINNGUOIDUNG
@@ -94,7 +109,7 @@ class card_shop extends StatelessWidget {
                                      WHERE MANGUOIDUNG = '$id'
                                      ''');
 
-                                     _showBILL(context, "Mua thành công :D", true);
+                                     _showBILL(context, "Bạn nhận được thành tựu và thưởng $bonus", true);
                                    }
                                   else {
                                     _showBILL(context, "Bạn đã sở hữu quả trứng này", false);

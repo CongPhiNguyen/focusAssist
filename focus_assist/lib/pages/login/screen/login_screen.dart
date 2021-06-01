@@ -44,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                 children: <Widget>[
                   FadeAnimation(1.2,Text('Login', style: TextStyle(color: Colors.white, fontSize: 40.0,fontWeight: FontWeight.bold,),)),
                   SizedBox(height: size.height*0.01,),
-                  FadeAnimation(1.4,  Text('Welcome you comeback',style: TextStyle(color: Colors.white,fontSize: 20.0),)),
+                  FadeAnimation(1.2,  Text('Welcome you comeback',style: TextStyle(color: Colors.white,fontSize: 20.0),)),
                   SizedBox(height: size.height*0.01,),
 
                 ],
@@ -63,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: size.height*0.03,),
-                      FadeAnimation(1.6,edit_text_login(
+                      FadeAnimation(1.4,edit_text_login(
                         icon: Icons.person,
                         hintText: "Your Email",
                         onChanged: (value){
@@ -71,16 +71,16 @@ class LoginScreen extends StatelessWidget {
                         },
                       )),
                       SizedBox(height: size.height*0.03,),
-                      FadeAnimation(1.8,edit_text_password_login(
+                      FadeAnimation(1.4,edit_text_password_login(
                         onChanged: (value){
                           _matKhau = value;
                         },
                       )),
                       SizedBox(height: size.height*0.1,),
-                      FadeAnimation(2.0, forgot_password(
+                      FadeAnimation(1.4, forgot_password(
 
                       )),
-                      FadeAnimation(2.2,button_login(
+                      FadeAnimation(1.6,button_login(
                         text: 'LOGIN',
                         press: () async {
 
@@ -88,11 +88,11 @@ class LoginScreen extends StatelessWidget {
 
                         },
                       )),
-                       FadeAnimation(2.4, Donthaveanaccount(
+                       FadeAnimation(1.6, Donthaveanaccount(
                         login: true,
                         press: () {Navigator.push(context, MaterialPageRoute(builder: (context){return SignUpScreen();}));},
                       )),
-                       FadeAnimation(3.6, Container(
+                       FadeAnimation(1.6, Container(
                         height: size.height*0.15,
                         width: size.width*3,
                         child: Image.asset(
@@ -115,8 +115,9 @@ class LoginScreen extends StatelessWidget {
 void _queryCheckUser(String tk, String mk,context) async
 {
 
-  if (tk.length == 0 || mk.length == 0)
+  if (tk == null || mk == null)
   {
+    print('Điền nđầy đủ thông tin');
     _show(context, 'Điền đầy đủ thông tin!');
     return;
   }

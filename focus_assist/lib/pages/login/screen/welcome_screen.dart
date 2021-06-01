@@ -27,7 +27,7 @@ class WelcomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: size.height*0.1,),
-            FadeAnimation(1.4,Text(
+            FadeAnimation(1.2,Text(
               'WELCOME TO',
               style: TextStyle(
                 color: Colors.white,
@@ -37,7 +37,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
             )),
             SizedBox(height: size.height*0.01,),
-            FadeAnimation(1.8,Text(
+            FadeAnimation(1.2,Text(
               'Focus Assistance',
               style: TextStyle(
                 color: Colors.white,
@@ -46,16 +46,16 @@ class WelcomeScreen extends StatelessWidget {
                 letterSpacing: 1.0,
               ),
             )),
-            FadeAnimation(2.2,Container(
+            FadeAnimation(1.2,Container(
               height: size.height*0.5,
               child: Image.asset('assets/login/ui/UI_welcome_screen.png'),
             )),
-            FadeAnimation(2.6, button_login(
+            FadeAnimation(1.4, button_login(
               color: mainColor,
               text: "LOGIN",
               press: () {Navigator.push(context, MaterialPageRoute(builder: (context){return LoginScreen();}));},
             )),
-            FadeAnimation(3.0, button_login(
+            FadeAnimation(1.4, button_login(
               text:"SIGN UP",
               color: Colors.purple[50],
               textColor: Colors.black,

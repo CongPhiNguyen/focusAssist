@@ -54,7 +54,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
             child: Row(
               children: <Widget>[
                 Icon(Icons.wallet_giftcard,color: Colors.green,),
-                Text(totalMoney().toString() +' dollar',
+                Text(StaticData.Vang.toString() +' dollar',
                   style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.green),
                 ),
               ],
@@ -76,11 +76,70 @@ class _CollectionScreenState extends State<CollectionScreen> {
 
   }
   void  LoadingVatPhamUser() async {
+
+    final infoVATPHAM = await DbProvider.instance.query('VATPHAM');
+    StaticData.EggShop.clear();
+    for (int i = 0; i < infoVATPHAM.length; i++) {
+      switch (infoVATPHAM[i]['DOHIEM']) {
+        case 1:
+          InfoEggs index = new InfoEggs(
+              infoVATPHAM[i]['MAVATPHAM'],
+              infoVATPHAM[i]['TENVATPHAM'],
+              infoVATPHAM[i]['MOTA'],
+              infoVATPHAM[i]['GIA'],
+              Colors.green,
+              'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
+          setState(() {
+            StaticData.EggShop.add(index);
+          });
+
+          break;
+        case 2:
+          InfoEggs index = new InfoEggs(
+              infoVATPHAM[i]['MAVATPHAM'],
+              infoVATPHAM[i]['TENVATPHAM'],
+              infoVATPHAM[i]['MOTA'],
+              infoVATPHAM[i]['GIA'],
+              Colors.blueAccent,
+              'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
+          setState(() {
+            StaticData.EggShop.add(index);
+          });
+          break;
+        case 3:
+          InfoEggs index = new InfoEggs(
+              infoVATPHAM[i]['MAVATPHAM'],
+              infoVATPHAM[i]['TENVATPHAM'],
+              infoVATPHAM[i]['MOTA'],
+              infoVATPHAM[i]['GIA'],
+              Colors.purpleAccent,
+              'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
+          setState(() {
+            StaticData.EggShop.add(index);
+          });
+          break;
+        case 4:
+          InfoEggs index = new InfoEggs(
+              infoVATPHAM[i]['MAVATPHAM'],
+              infoVATPHAM[i]['TENVATPHAM'],
+              infoVATPHAM[i]['MOTA'],
+              infoVATPHAM[i]['GIA'],
+              Colors.red,
+              'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
+          setState(() {
+            StaticData.EggShop.add(index);
+          });
+          break;
+        default:
+          break;
+      }
+    }
+
     StaticData.EggUser.clear();
     String id = StaticData.userID;
     final k = await DbProvider.instance.rawQuery('''
-                                select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
-                                '''
+      select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
+      '''
     );
 
 
@@ -97,19 +156,17 @@ class _CollectionScreenState extends State<CollectionScreen> {
           }
     }
 
+
+    final updateBonus = await DbProvider.instance.rawQuery('''
+    SELECT * FROM THONGTINNGUOIDUNG WHERE MANGUOIDUNG = '$id'
+    ''');
+
+    StaticData.Vang = updateBonus[0]['VANG'];
+
   }
 }
 
 
-int totalMoney(){
-  int totalMoney=0;
-  for(int i = 0; i < items.length;i++)
-    {
-      totalMoney += items[i].diemThanhtuu;
-    }
-  totalMoney += StaticData.Vang;
-  return totalMoney;
-}
 
 
 
