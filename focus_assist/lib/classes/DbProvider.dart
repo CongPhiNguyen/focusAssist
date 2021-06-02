@@ -38,6 +38,12 @@ class DbProvider {
     });
   }
 
+  Future<List<Map>> rawQuery(String query) async {
+    Database db = await instance.database;
+    List<Map> res = await db.rawQuery(query);
+    return res;
+  }
+
   Future<int> insert(String tableName, Map<String, dynamic> row) async {
     Database db = await instance.database;
     return await db.insert(tableName, row);

@@ -6,6 +6,8 @@ import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'dart:math';
 
+import 'package:focus_assist/pages/add_new_group_dialog.dart';
+
 class AddNew extends StatefulWidget {
   @override
   _AddNewState createState() => _AddNewState();
@@ -17,7 +19,8 @@ class _AddNewState extends State<AddNew> {
   DateTime startTime;
   List<String> dayOfWeek;
   List<bool> checkDay;
-  List<Map> allGroup;
+  List<String> allGroup;
+  List<String> allGroupKey;
   // Những biến để get Text
   TextEditingController getActivity, getDescription;
   //Biến để getText của Flexible
@@ -28,11 +31,16 @@ class _AddNewState extends State<AddNew> {
   TextEditingController getRepeatingDay;
 
   //Dùng để debug
-  String text = "FUCK";
+  String text = 'Fuck', text2 = "FUCK";
+
+  //Dùng để cho việc chọn nhóm:
+  String dropDownGroup;
 
   @override
   void initState() {
-    allGroup = [];
+    allGroup = ['Choose a group'];
+    dropDownGroup = allGroup[0];
+    allGroupKey = ['None'];
     // TODO: implement initState
     super.initState();
     dropDownValue = 'Fixed';
@@ -43,6 +51,7 @@ class _AddNewState extends State<AddNew> {
     getDescription = TextEditingController();
     getDayPerWeek = TextEditingController();
     getRepeatingDay = TextEditingController();
+    getAllGroup();
   }
 
   //Hàm tạo string random để Tạo khoá
@@ -315,6 +324,24 @@ class _AddNewState extends State<AddNew> {
         }
       }
     }
+    // Trường hợp thiếu nhóm:
+    if (dropDownGroup == 'Choose a group') {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text("Message"),
+                content: Text("You must choose a group"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("OK"),
+                  )
+                ],
+              ));
+      return false;
+    }
     return true;
   }
 
@@ -326,7 +353,7 @@ class _AddNewState extends State<AddNew> {
       'MAMUCTIEU': getRandomString(5),
       'MANGUOIDUNG':
           (StaticData.userID == null) ? 'MANGUOIDUNG' : StaticData.userID,
-      'MANHOM': '1',
+      'MANHOM': allGroupKey[allGroup.indexOf(dropDownGroup)],
       'TENMUCTIEU': getActivity.text,
       'MOTA': (getDescription.text == null) ? 'MOTA' : getDescription.text,
       'NGAYBATDAU': startTime.toString().substring(0, 10).replaceAll('-', '/'),
@@ -352,6 +379,31 @@ class _AddNewState extends State<AddNew> {
     });
     final id = await dbHelper.insert('MUCTIEU', row);
     print('inserted row id: $id');
+  }
+
+  void getAllGroup() async {
+    List<Map<String, dynamic>> database = await dbHelper.query('NHOMMUCTIEU');
+    setState(() {
+      text2 = database.toString();
+    });
+    // setState(() {
+    //   allGroup = [];
+    //   allGroupKey = [];
+    // });
+    while (allGroup.length > 1) {
+      allGroup.removeLast();
+    }
+    for (int i = 0; i < database.length; i++) {
+      allGroupKey.add(database[i]['MANHOM']);
+      allGroup.add(database[i]['TENNHOM']);
+    }
+
+    if (allGroup.length == 0) {
+      setState(() {
+        allGroup = ['None', 'None1', 'None2'];
+        dropDownValue = allGroup[0];
+      });
+    }
   }
 
   @override
@@ -507,16 +559,27 @@ class _AddNewState extends State<AddNew> {
                 ]),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 10, 10),
-              child: Center(
-                child: Row(children: [
+
+            Divider(
+              height: 10,
+              color: Colors.black,
+            ),
+            //Chọn group của các activity
+            Center(
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 20,
+                  ),
                   Text(
-                    "Group: ",
+                    "Group",
                     style: TextStyle(fontSize: 20),
                   ),
+                  SizedBox(
+                    width: 30,
+                  ),
                   DropdownButton<String>(
-                    value: dropDownValue,
+                    value: dropDownGroup,
                     icon: const Icon(Icons.arrow_drop_down_outlined),
                     iconSize: 24,
                     elevation: 16,
@@ -528,23 +591,32 @@ class _AddNewState extends State<AddNew> {
                     ),
                     onChanged: (String newValue) {
                       setState(() {
-                        dropDownValue = newValue;
+                        dropDownGroup = newValue;
                       });
                     },
-                    items: <String>['Fixed', 'Flexible', 'Repeating']
-                        .map<DropdownMenuItem<String>>((String value) {
+                    items:
+                        allGroup.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
                       );
                     }).toList(),
-                  )
-                ]),
+                  ),
+                  SizedBox(width: 20),
+                  ElevatedButton(
+                      onPressed: () async {
+                        await showDialog(
+                          context: context,
+                          builder: (_) => AddGroup(),
+                        );
+                        getAllGroup();
+                      },
+                      child: Text(
+                        "New",
+                        style: TextStyle(fontSize: 22),
+                      ))
+                ],
               ),
-            ),
-            Divider(
-              height: 10,
-              color: Colors.black,
             ),
             // Bảng chọn loại của cái activity
             Center(
@@ -597,14 +669,28 @@ class _AddNewState extends State<AddNew> {
                         : Repeating()),
             Text(StaticData.userID == null ? "NGUOIDUNG" : StaticData.userID),
             Padding(
-              padding: const EdgeInsets.all(18.0),
+              padding: const EdgeInsets.all(8.0),
               child: Text(text, style: TextStyle(fontSize: 30)),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    getAllGroup();
+                  },
+                  child: Text(text2, style: TextStyle(fontSize: 30))),
             ),
             TextButton(
                 onPressed: () {
-                  dbHelper.delete('MUCTIEU', 'MANHOM', '1');
+                  dbHelper.rawQuery('''delete from NHOMMUCTIEU''');
                 },
-                child: Text("DELETE", style: TextStyle(fontSize: 30)))
+                child:
+                    Text("DELETE NHOMMUCTIEU", style: TextStyle(fontSize: 30))),
+            TextButton(
+                onPressed: () {
+                  dbHelper.rawQuery('''delete from MUCTIEU''');
+                },
+                child: Text("DELETE MUCTIEU", style: TextStyle(fontSize: 30)))
           ],
         ));
   }

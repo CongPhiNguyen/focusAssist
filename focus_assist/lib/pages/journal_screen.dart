@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/view_activity.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:focus_assist/pages/add_screen.dart';
-import 'package:focus_assist/pages/add_new_group_screen.dart';
+import 'package:focus_assist/pages/add_new_group_dialog.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:intl/intl.dart';
@@ -35,10 +35,13 @@ class _JournalScreenState extends State<JournalScreen> {
   //Các biến thực hiện việc xử lý dữ liệu
   final dbHelper = DbProvider.instance;
   List<Map<String, dynamic>> database;
+  List<String> allGroup;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    allGroup = ['Fuck'];
     _calendarFormat = CalendarFormat.week;
     _focusedDay = DateTime.now();
     _selectedDay = _focusedDay;
@@ -51,6 +54,7 @@ class _JournalScreenState extends State<JournalScreen> {
     allActivity = ["Không có gì"];
     getAllActivity();
     getToDoList();
+    getAllGroup();
   }
 
   // Các hàm cần thiết để load dữ liệu
@@ -146,6 +150,188 @@ class _JournalScreenState extends State<JournalScreen> {
         ToDo(check: false, task: "Không có gì"),
       ];
     }
+  }
+
+  Widget ToDoList() {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.greenAccent, width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Column(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                    color: Color(0xffe7e732),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    )),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: InkWell(
+                            onTap: () {
+                              getToDoList();
+                            },
+                            child: Icon(
+                              Icons.playlist_add_check,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Text(
+                            "To do",
+                            style: TextStyle(color: Colors.white, fontSize: 22),
+                          ),
+                        ),
+                      ]),
+                )),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: toDos.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    CheckboxListTile(
+                      value: toDos[index].check,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text(toDos[index].task,
+                          style: TextStyle(color: Colors.black)),
+                      tileColor: Colors.white,
+                      onChanged: (bool value) {
+                        setState(() {
+                          toDos[index].check = value;
+                        });
+                      },
+                    ),
+                    Divider(height: 1, color: Colors.black45)
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget AllActivity() {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.greenAccent, width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Column(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                    color: Color(0xffe66771),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    )),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: InkWell(
+                            onTap: () {
+                              getAllActivity();
+                            },
+                            child: Icon(
+                              Icons.playlist_add_check,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Text(
+                            "All activity",
+                            style: TextStyle(color: Colors.white, fontSize: 22),
+                          ),
+                        ),
+                      ]),
+                )),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: allActivity.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ViewAllActivity(name: allActivity[index])),
+                        );
+                      },
+                      child: ListTile(
+                        title: Text(allActivity[index],
+                            style: TextStyle(color: Colors.black)),
+                        tileColor: Colors.white,
+                      ),
+                    ),
+                    Divider(height: 1, color: Colors.black45)
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget GroupTable() {
+    return Container(
+      decoration: BoxDecoration(
+          color: Color(0xffe66771),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          )),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: allGroup.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(allGroup[index]),
+          );
+        },
+      ),
+    );
+  }
+
+  void getAllGroup() async {
+    setState(() {
+      allGroup = [];
+    });
+    database = await dbHelper.query('NHOMMUCTIEU');
+    for (int i = 0; i < database.length; i++) {
+      setState(() {
+        allGroup.add(database[i]['TENNHOM']);
+      });
+    }
+    // if (allGroup.length == 0) {
+    //   allGroup = ["Fuck"];
+    // }
   }
 
   @override
@@ -297,167 +483,29 @@ class _JournalScreenState extends State<JournalScreen> {
           height: 30,
         ),
         //Hiển thị tất cả các hoạt động(hoàn thành và chưa hoàn thành)
+        ToDoList(),
         SizedBox(
           height: 12,
         ),
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.greenAccent, width: 1),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            child: Column(
-              children: [
-                Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffe66771),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        )),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: InkWell(
-                                onTap: () {
-                                  getAllActivity();
-                                },
-                                child: Icon(
-                                  Icons.playlist_add_check,
-                                  color: Colors.white,
-                                  size: 25,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 6,
-                              child: Text(
-                                "All activity",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 22),
-                              ),
-                            ),
-                          ]),
-                    )),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: allActivity.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ViewAllActivity(
-                                      name: allActivity[index])),
-                            );
-                          },
-                          child: ListTile(
-                            title: Text(allActivity[index],
-                                style: TextStyle(color: Colors.black)),
-                            tileColor: Colors.white,
-                          ),
-                        ),
-                        Divider(height: 1, color: Colors.black45)
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
+        AllActivity(),
         SizedBox(
           height: 12,
         ),
         //Hiển thị các cái to do list
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.greenAccent, width: 1),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            child: Column(
-              children: [
-                Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffe7e732),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        )),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: InkWell(
-                                onTap: () {
-                                  getToDoList();
-                                },
-                                child: Icon(
-                                  Icons.playlist_add_check,
-                                  color: Colors.white,
-                                  size: 25,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 6,
-                              child: Text(
-                                "To do",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 22),
-                              ),
-                            ),
-                          ]),
-                    )),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: toDos.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        CheckboxListTile(
-                          value: toDos[index].check,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: Text(toDos[index].task,
-                              style: TextStyle(color: Colors.black)),
-                          tileColor: Colors.white,
-                          onChanged: (bool value) {
-                            setState(() {
-                              toDos[index].check = value;
-                            });
-                          },
-                        ),
-                        Divider(height: 1, color: Colors.black45)
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
+        GroupTable(),
+        SizedBox(height: 12),
         Center(
             child: TextButton(
           child: Text(
             "Add new group",
             style: TextStyle(fontSize: 30),
           ),
-          onPressed: () {
-            showDialog(
+          onPressed: () async {
+            await showDialog(
               context: context,
               builder: (_) => AddGroup(),
             );
+            getAllGroup();
           },
         )),
       ]),

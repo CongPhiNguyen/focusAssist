@@ -42,8 +42,8 @@ class _AddGroupState extends State<AddGroup> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0)), //this right here
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(
             child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -95,6 +95,7 @@ class _AddGroupState extends State<AddGroup> {
                   });
                   print("Fuck");
                 } else {
+                  AddNewGroup();
                   Navigator.pop(context);
                 }
               },
