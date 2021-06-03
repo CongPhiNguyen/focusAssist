@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/pages/farm/feature_ui/object_farm.dart';
 
 class FarmScreen extends StatefulWidget {
@@ -27,6 +28,7 @@ class _FarmScreenState extends State<FarmScreen> {
   void moveObject(){
     Timer.periodic(Duration(milliseconds: 2000),(timer){
       setState(() {
+        print('hello');
         for(int i = 0;i<snailDirection.length;i++) {
           int index = rd.nextInt(4);
           switch (index) {
@@ -136,7 +138,6 @@ class _FarmScreenState extends State<FarmScreen> {
                       snailSpriteCount: snailSpriteCount,
                     ),
                   ),
-
                   Container(
                     alignment: Alignment(snailPosX[4],snailPosY[4]),
                     child: BlueSnail(
