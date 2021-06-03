@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/achievenment/screen/achievenment_screen.dart';
+import 'package:focus_assist/pages/farm/screen/farm_screen.dart';
 import 'package:focus_assist/pages/progress_screen.dart';
 import 'package:focus_assist/pages/setting_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -46,9 +47,12 @@ class _FocusAssistState extends State<FocusAssist> {
         return AchievenmentScreen();
         break;
       case 3:
-        return  ProgressScreen();
+        return  FarmScreen();
         break;
       case 4:
+        return ProgressScreen();
+        break;
+      case 5:
         return SettingScreen();
         break;
       default:
@@ -68,6 +72,7 @@ class _FocusAssistState extends State<FocusAssist> {
           Icon(Icons.timer, size: 30),
           Icon(Icons.wysiwyg_rounded, size: 30),
           Icon(Icons.star, size: 30),
+          Icon(Icons.style,size:30),
           Icon(Icons.waterfall_chart, size: 30),
           Icon(Icons.settings, size: 30),
         ],

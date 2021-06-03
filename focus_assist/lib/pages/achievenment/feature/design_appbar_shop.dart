@@ -50,7 +50,7 @@ class design_appbar_shop extends StatelessWidget {
 
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.amber[700],
+                    color: Colors.amber[600],
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Row(

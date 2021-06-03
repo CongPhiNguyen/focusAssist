@@ -162,7 +162,6 @@ class _CollectionScreenState extends State<CollectionScreen> {
     ''');
 
     StaticData.Vang = updateBonus[0]['VANG'];
-
   }
 }
 
