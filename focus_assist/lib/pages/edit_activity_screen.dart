@@ -5,15 +5,18 @@ import 'package:flutter/services.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'dart:math';
-
 import 'package:focus_assist/pages/add_new_group_dialog.dart';
 
-class AddNew extends StatefulWidget {
+class EditActivity extends StatefulWidget {
+  final String activityKey, activityName;
+
+  EditActivity({Key key, this.activityKey, this.activityName})
+      : super(key: key);
   @override
-  _AddNewState createState() => _AddNewState();
+  _EditActivityState createState() => _EditActivityState();
 }
 
-class _AddNewState extends State<AddNew> {
+class _EditActivityState extends State<EditActivity> {
   final dbHelper = DbProvider.instance;
   String dropDownValue;
   DateTime startTime;
@@ -53,6 +56,59 @@ class _AddNewState extends State<AddNew> {
     getDayPerWeek = TextEditingController();
     getRepeatingDay = TextEditingController();
     getAllGroup();
+    getAllInformation();
+  }
+
+  //Load lại các thông tin của activity vào cái form
+  void getAllInformation() async {
+    String activityKey = widget.activityKey;
+    List<Map<String, dynamic>> database = await dbHelper.rawQuery('''
+        select * from MUCTIEU where MAMUCTIEU='$activityKey'
+    ''');
+    String groupKey;
+    if (database.length > 0) {
+      setState(() {
+        getActivity = TextEditingController(text: database[0]['TENMUCTIEU']);
+        getDescription = TextEditingController(text: database[0]['MOTA']);
+        groupKey = database[0]['MANHOM'];
+        startTime = DateTime.parse(
+            database[0]['NGAYBATDAU'].toString().replaceAll('/', '-'));
+      });
+      String type = database[0]['LOAIHINH'];
+      if (type == 'Fixed') {
+        setState(() {
+          dropDownValue = 'Fixed';
+        });
+        String cacNgay = database[0]['CACNGAY'].toString();
+        while (cacNgay.length < 7) {
+          cacNgay = '0' + cacNgay;
+        }
+        for (int i = 0; i < 7; i++) {
+          setState(() {
+            checkDay[i] = (cacNgay[i] == '1') ? true : false;
+          });
+        }
+      } else if (type == 'Flexible') {
+        setState(() {
+          dropDownValue = 'Flexible';
+          getDayPerWeek =
+              TextEditingController(text: database[0]['SOLAN'].toString());
+        });
+      } else if (type == 'Repeating') {
+        setState(() {
+          dropDownValue = 'Repeating';
+          getRepeatingDay = TextEditingController(
+              text: database[0]['KHOANGTHOIGIAN'].toString());
+        });
+      }
+    }
+    database = await dbHelper.rawQuery('''
+        select * from NHOMMUCTIEU where MANHOM='$groupKey'
+    ''');
+    if (database.length > 0)
+      setState(() {
+        dropDownGroup = database[0]['TENNHOM'];
+      });
   }
 
   //Hàm tạo string random để Tạo khoá
@@ -347,39 +403,12 @@ class _AddNewState extends State<AddNew> {
   }
 
   // Các hàm thực hiện các việc liên quan đến dữ liệu
-  void addActivity() async {
+  void editActivity() async {
     bool valid = await checkValidActivity();
     if (valid == false) return;
-    Map<String, dynamic> row = {
-      'MAMUCTIEU': getRandomString(5),
-      'MANGUOIDUNG':
-          (StaticData.userID == null) ? 'MANGUOIDUNG' : StaticData.userID,
-      'MANHOM': allGroupKey[allGroup.indexOf(dropDownGroup)],
-      'TENMUCTIEU': getActivity.text,
-      'MOTA': (getDescription.text == null) ? 'MOTA' : getDescription.text,
-      'NGAYBATDAU': startTime.toString().substring(0, 10).replaceAll('-', '/'),
-      'LOAIHINH': dropDownValue,
-    };
-    if (dropDownValue == 'Fixed') {
-      String fixedDay = "";
-      for (int i = 0; i < dayOfWeek.length; i++) {
-        if (checkDay[i] == false) {
-          fixedDay += '0';
-        } else
-          fixedDay += '1';
-      }
-      row['CACNGAY'] = int.parse(fixedDay);
-    } else if (dropDownValue == 'Flexible') {
-      int times = int.parse(getDayPerWeek.text);
-      row['SOLAN'] = times;
-    } else if (dropDownValue == 'Repeating') {
-      row['KHOANGTHOIGIAN'] = getRepeatingDay.text;
-    }
-    setState(() {
-      text = row.toString();
-    });
-    final id = await dbHelper.insert('MUCTIEU', row);
-    print('inserted row id: $id');
+    String key = widget.activityKey;
+    dbHelper.rawQuery('''update MUCTIEU 
+    set TENMUCTIEU='' where MAMUCTIEU='key' ''');
   }
 
   void getAllGroup() async {
@@ -416,13 +445,11 @@ class _AddNewState extends State<AddNew> {
           title: Text("Add new activity", style: TextStyle(fontSize: 25)),
           actions: [
             FlatButton(
-                onPressed: () {
-                  addActivity();
-                },
+                onPressed: () {},
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
                   child: Text(
-                    "Create",
+                    "Edit",
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ))

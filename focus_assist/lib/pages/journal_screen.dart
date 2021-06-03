@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/pages/edit_group_dialog.dart';
 import 'package:focus_assist/pages/view_activity.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:focus_assist/pages/add_screen.dart';
@@ -28,20 +29,24 @@ class _JournalScreenState extends State<JournalScreen> {
   List<String> items1;
   List<String> items;
   List<ToDo> toDos;
-  List<String> allActivity;
+  List<String> allActivity, allActivityKey;
 
   Map<String, double> dataMap;
 
   //Các biến thực hiện việc xử lý dữ liệu
   final dbHelper = DbProvider.instance;
   List<Map<String, dynamic>> database;
-  List<String> allGroup;
+  List<String> allGroup, allGroupKey;
+  List<List<String>> allGroupActivity, allGroupActivityKey;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     allGroup = ['Fuck'];
+    allGroupKey = ['NONE'];
+    allGroupActivity = [];
+    allGroupActivityKey = [];
     _calendarFormat = CalendarFormat.week;
     _focusedDay = DateTime.now();
     _selectedDay = _focusedDay;
@@ -52,6 +57,7 @@ class _JournalScreenState extends State<JournalScreen> {
     items = [];
     dataMap = {"Skip": 500, "Done": 322, "Fail": 112};
     allActivity = ["Không có gì"];
+    allActivityKey = ['None'];
     getAllActivity();
     getToDoList();
     getAllGroup();
@@ -63,13 +69,16 @@ class _JournalScreenState extends State<JournalScreen> {
     if (database.length == 0) {
       setState(() {
         allActivity = ['Không có gì'];
+        allActivityKey = ['None'];
       });
     }
     if (database.length > 0) {
       setState(() {
         allActivity.clear();
+        allActivityKey.clear();
         for (int i = 0; i < database.length; i++) {
           allActivity.add(database[i]['TENMUCTIEU']);
+          allActivityKey.add(database[i]['MAMUCTIEU']);
         }
       });
     }
@@ -276,11 +285,12 @@ class _JournalScreenState extends State<JournalScreen> {
                     InkWell(
                       onTap: () {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ViewAllActivity(name: allActivity[index])),
-                        );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ViewActivity(
+                                      activityKey: allActivityKey[index],
+                                      activityName: allActivity[index],
+                                    )));
                       },
                       child: ListTile(
                         title: Text(allActivity[index],
@@ -302,18 +312,13 @@ class _JournalScreenState extends State<JournalScreen> {
   Widget GroupTable() {
     return Container(
       decoration: BoxDecoration(
-          color: Color(0xffe66771),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-          )),
+          color: Color(0xff9e9e9e),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: allGroup.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(allGroup[index]),
-          );
+          return GroupActivity(index);
         },
       ),
     );
@@ -322,16 +327,130 @@ class _JournalScreenState extends State<JournalScreen> {
   void getAllGroup() async {
     setState(() {
       allGroup = [];
+      allGroupKey = [];
     });
     database = await dbHelper.query('NHOMMUCTIEU');
     for (int i = 0; i < database.length; i++) {
       setState(() {
         allGroup.add(database[i]['TENNHOM']);
+        allGroupKey.add(database[i]['MANHOM']);
       });
     }
-    // if (allGroup.length == 0) {
-    //   allGroup = ["Fuck"];
-    // }
+    allGroupActivity = [];
+    allGroupActivityKey = [];
+    for (int i = 0; i < allGroupKey.length; i++) {
+      setState(() {
+        allGroupActivity.add([]);
+        allGroupActivityKey.add([]);
+      });
+
+      print("Fcu");
+      String key = allGroupKey[i];
+      database = await dbHelper
+          .rawQuery('''select * from MUCTIEU where MANHOM='$key' ''');
+      for (int j = 0; j < database.length; j++) {
+        setState(() {
+          allGroupActivity[i].add(database[j]['TENMUCTIEU']);
+          allGroupActivityKey[i].add(database[j]['MAMUCTIEU']);
+        });
+      }
+    }
+  }
+
+  Widget GroupActivity(inDex) {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.greenAccent, width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Column(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                    color: Color(0xffe66771),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    )),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.playlist_add_check,
+                            color: Colors.white,
+                            size: 25,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Text(
+                            allGroup[inDex],
+                            style: TextStyle(color: Colors.white, fontSize: 22),
+                          ),
+                        ),
+                      ]),
+                )),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: allGroupActivity[inDex].length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ViewActivity(
+                                      activityKey: allActivityKey[index],
+                                      activityName: allActivity[index],
+                                    )));
+                      },
+                      child: ListTile(
+                        title: Text(allGroupActivity[inDex][index],
+                            style: TextStyle(color: Colors.black)),
+                        tileColor: Colors.white,
+                      ),
+                    ),
+                    Divider(height: 1, color: Colors.black45)
+                  ],
+                );
+              },
+            ),
+            Container(
+                height: 40,
+                decoration: BoxDecoration(
+                    color: Color(0xffe66771),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (_) => EditGroup(
+                              groupKey: allGroupKey[inDex],
+                              groupName: allGroup[inDex],
+                            ),
+                          );
+                          getAllGroup();
+                        },
+                        child: Text("Edit group")),
+                  ],
+                ))
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -505,16 +624,21 @@ class _JournalScreenState extends State<JournalScreen> {
               context: context,
               builder: (_) => AddGroup(),
             );
+            getAllActivity();
+            getToDoList();
             getAllGroup();
           },
         )),
       ]),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
+          onPressed: () async {
+            await Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddNew()),
             );
+            getAllActivity();
+            getToDoList();
+            getAllGroup();
           },
           child: Text(
             "+",

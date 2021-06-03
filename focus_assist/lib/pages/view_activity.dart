@@ -1,21 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/pages/edit_activity_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
 
-class ViewAllActivity extends StatelessWidget {
-  String name;
-  ViewAllActivity({this.name});
+class ViewActivity extends StatefulWidget {
+  final String activityKey, activityName;
 
+  ViewActivity({Key key, this.activityKey, this.activityName})
+      : super(key: key);
+  @override
+  _ViewActivityState createState() => _ViewActivityState();
+}
+
+class _ViewActivityState extends State<ViewActivity> {
+  String keyname, name;
+  final dbHelper = DbProvider.instance;
   // Các biến dùng trong cái lịch
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
-
+  List<Map<String, dynamic>> database;
   Map<String, double> dataMap = {
     "Done": 5,
     "Skip": 3,
     "Miss": 20,
   };
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    database = [];
+    name = 'Fuck';
+    keyname = 'FuckKey';
+  }
+
+  void getData() async {
+    database = await dbHelper
+        .rawQuery('''select * from MUCTIEU where MAMUCTIEU='$keyname''' '');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +54,25 @@ class ViewAllActivity extends StatelessWidget {
                   ),
                   label: Text(""))
             ],
-            title: Text(name),
+            title: Text(widget.activityName),
             centerTitle: true,
             backgroundColor: Color(0xffe66771),
           ),
           body: ListView(children: [
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditActivity(
+                              activityKey: widget.activityKey,
+                              activityName: widget.activityName)),
+                    );
+                  },
+                  child: Text("Edit")),
+            ),
             Container(
                 height: 50,
                 child: Row(children: [
@@ -74,7 +111,10 @@ class ViewAllActivity extends StatelessWidget {
                         width: 300,
                         decoration: new BoxDecoration(color: Colors.red),
                         child: ListTile(
-                          leading: Icon(Icons.fireplace),
+                          leading: Icon(
+                            Icons.fireplace,
+                            size: 60,
+                          ),
                           title: Text("Streak"),
                           subtitle: Text('Consecutive days'),
                         ),
