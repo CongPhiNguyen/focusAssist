@@ -283,14 +283,17 @@ class _JournalScreenState extends State<JournalScreen> {
                 return Column(
                   children: [
                     InkWell(
-                      onTap: () {
-                        Navigator.push(
+                      onTap: () async {
+                        await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ViewActivity(
                                       activityKey: allActivityKey[index],
                                       activityName: allActivity[index],
                                     )));
+                        getAllActivity();
+                        getToDoList();
+                        getAllGroup();
                       },
                       child: ListTile(
                         title: Text(allActivity[index],
@@ -402,14 +405,19 @@ class _JournalScreenState extends State<JournalScreen> {
                 return Column(
                   children: [
                     InkWell(
-                      onTap: () {
-                        Navigator.push(
+                      onTap: () async {
+                        await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ViewActivity(
-                                      activityKey: allActivityKey[index],
-                                      activityName: allActivity[index],
+                                      activityKey: allGroupActivityKey[inDex]
+                                          [index],
+                                      activityName: allGroupActivity[inDex]
+                                          [index],
                                     )));
+                        getAllActivity();
+                        getToDoList();
+                        getAllGroup();
                       },
                       child: ListTile(
                         title: Text(allGroupActivity[inDex][index],
@@ -445,12 +453,53 @@ class _JournalScreenState extends State<JournalScreen> {
                           getAllGroup();
                         },
                         child: Text("Edit group")),
+                    SizedBox(width: 30),
+                    ElevatedButton(
+                        onPressed: () async {
+                          await showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                    title: Text("Message"),
+                                    content: Text(
+                                        "Are you sure to delete this group and all activity belong to it ?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          deleteGroup(inDex);
+                                        },
+                                        child: Text("Yes"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("No"),
+                                      )
+                                    ],
+                                  ));
+                          getAllActivity();
+                          getToDoList();
+                          getAllGroup();
+                        },
+                        child: Text("Delete group")),
                   ],
                 ))
           ],
         ),
       ),
     );
+  }
+
+  void deleteGroup(inDex) {
+    //Delete activitys of group
+    for (int i = 0; i < allGroupActivityKey[inDex].length; i++) {
+      String key = allGroupActivityKey[inDex][i];
+      dbHelper.rawQuery(''' delete from MUCTIEU where MAMUCTIEU='$key' ''');
+    }
+    String key = allGroupKey[inDex];
+    //Delete group
+    dbHelper.rawQuery(''' delete from NHOMMUCTIEU where MANHOM='$key' ''');
   }
 
   @override

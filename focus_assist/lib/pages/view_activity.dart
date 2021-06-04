@@ -31,13 +31,26 @@ class _ViewActivityState extends State<ViewActivity> {
     // TODO: implement initState
     super.initState();
     database = [];
-    name = 'Fuck';
-    keyname = 'FuckKey';
+    name = widget.activityName;
+    keyname = widget.activityKey;
   }
 
   void getData() async {
+    String key = widget.activityKey;
+    // Cập nhật lại sau khi chỉnh sửa
     database = await dbHelper
-        .rawQuery('''select * from MUCTIEU where MAMUCTIEU='$keyname''' '');
+        .rawQuery('''select * from MUCTIEU where MAMUCTIEU='$key' ''');
+    if (database.length > 0) {
+      setState(() {
+        name = database[0]['TENMUCTIEU'];
+      });
+    }
+  }
+
+  void deleteActivity() {
+    String key = widget.activityKey;
+    dbHelper.rawQuery('''delete from MUCTIEU where MAMUCTIEU='$key' ''');
+    Navigator.pop(context);
   }
 
   @override
@@ -54,7 +67,7 @@ class _ViewActivityState extends State<ViewActivity> {
                   ),
                   label: Text(""))
             ],
-            title: Text(widget.activityName),
+            title: Text(name),
             centerTitle: true,
             backgroundColor: Color(0xffe66771),
           ),
@@ -70,8 +83,38 @@ class _ViewActivityState extends State<ViewActivity> {
                               activityKey: widget.activityKey,
                               activityName: widget.activityName)),
                     );
+                    getData();
                   },
                   child: Text("Edit")),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    await showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: Text("Message"),
+                              content: Text(
+                                  "Are you sure to delete this activity ?"),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    deleteActivity();
+                                  },
+                                  child: Text("Yes"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("No"),
+                                )
+                              ],
+                            ));
+                  },
+                  child: Text("Delete")),
             ),
             Container(
                 height: 50,
