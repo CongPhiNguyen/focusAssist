@@ -407,8 +407,38 @@ class _EditActivityState extends State<EditActivity> {
     bool valid = await checkValidActivity();
     if (valid == false) return;
     String key = widget.activityKey;
-    dbHelper.rawQuery('''update MUCTIEU 
-    set TENMUCTIEU='' where MAMUCTIEU='key' ''');
+    String val = '';
+    String activityName = getActivity.text;
+    String description = getDescription.text;
+    String beginDay =
+        startTime.toString().substring(0, 10).replaceAll('-', '/');
+    String groupKey = allGroupKey[allGroup.indexOf(dropDownGroup)];
+    val = '''TENMUCTIEU= '$activityName''';
+    val += '''', MOTA='$description''';
+    val += '''', NGAYBATDAU='$beginDay' ''';
+    val += ''', LOAIHINH='$dropDownValue' ''';
+    val += ''', MANHOM='$groupKey' ''';
+    if (dropDownValue == 'Fixed') {
+      String fixedDay = "";
+      for (int i = 0; i < dayOfWeek.length; i++) {
+        if (checkDay[i] == false) {
+          fixedDay += '0';
+        } else
+          fixedDay += '1';
+      }
+      val += ''', CACNGAY=$fixedDay ''';
+    } else if (dropDownValue == 'Flexible') {
+      String soLan = getDayPerWeek.text;
+      val += ''', SOLAN=$soLan ''';
+    } else if (dropDownValue == 'Repeating') {
+      String days = getRepeatingDay.text;
+      val += ''', KHOANGTHOIGIAN='$days' ''';
+    }
+    setState(() {
+      text = val;
+    });
+    dbHelper.rawQuery('''update MUCTIEU
+     set $val where MAMUCTIEU='$key' ''');
   }
 
   void getAllGroup() async {
@@ -445,7 +475,9 @@ class _EditActivityState extends State<EditActivity> {
           title: Text("Add new activity", style: TextStyle(fontSize: 25)),
           actions: [
             FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  editActivity();
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
                   child: Text(
