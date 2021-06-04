@@ -73,6 +73,9 @@ flutter:
     - assets/achievenment/Eggs/eggSky.png
     - assets/achievenment/Eggs/eggWater.png
     - assets/achievenment/ui/treasure.png
+    - assets/achievenment/ui/cuahang.png
+    - assets/achievenment/ui/thanhtuu.png
+    - assets/achievenment/ui/tui.png
     - assets/achievenment/ui/nongtrai.png
     - assets/achievenment/ui/UI_shop_volumn.png
     - assets/Database/create_tables_script.sql

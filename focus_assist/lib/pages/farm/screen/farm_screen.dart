@@ -1,8 +1,14 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/Data.dart';
+import 'package:focus_assist/classes/Data.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
+import 'package:focus_assist/pages/achievenment/screen/achievenment_screen.dart';
+import 'package:focus_assist/pages/achievenment/screen/collection_screen.dart';
+import 'package:focus_assist/pages/achievenment/screen/shop_screen.dart';
 import 'package:focus_assist/pages/farm/feature_ui/object_farm.dart';
 
 class FarmScreen extends StatefulWidget {
@@ -17,7 +23,6 @@ class _FarmScreenState extends State<FarmScreen> {
   var snailPosY = [0.0,0.5,-0.5,-0.75,0.75];
   List snailDirection = ['up','left','up','down','left'];
   Random rd = new Random();
-
   @override
   void initState() {
     // TODO: implement initState
@@ -26,9 +31,8 @@ class _FarmScreenState extends State<FarmScreen> {
   }
 
   void moveObject(){
-    Timer.periodic(Duration(milliseconds: 2000),(timer){
+    StaticData.timer = Timer.periodic(Duration(milliseconds: 2000),(test){
       setState(() {
-        print('hello');
         for(int i = 0;i<snailDirection.length;i++) {
           int index = rd.nextInt(4);
           switch (index) {
@@ -50,7 +54,7 @@ class _FarmScreenState extends State<FarmScreen> {
         }
       });
     });
-    Timer.periodic(Duration(milliseconds:200), (timer) {
+    StaticData.timer2 = Timer.periodic(Duration(milliseconds:200), (timer) {
       setState(() {
         snailSpriteCount++;
         for(int i = 0;i< snailDirection.length;i++) {
@@ -75,8 +79,6 @@ class _FarmScreenState extends State<FarmScreen> {
           }
         }
 
-
-
         if(snailSpriteCount ==3) {
           snailSpriteCount =1;
         }
@@ -93,12 +95,95 @@ class _FarmScreenState extends State<FarmScreen> {
         child: Column(
           children: [
             Container(
-              color: Colors.brown,
-              width: size.width,
-              height: size.height*0.2,
-              alignment: Alignment.center,
-              child: Image.asset('assets/achievenment/ui/nongtrai.png'),
+              height: size.height*0.2 ,
+              child: Row(
+                children: [
+                  Container(
+                    width: size.width*0.25,
+                    height: 50,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: IconButton(
+                        icon: Icon(Icons.star),
+                        iconSize: 30,
+                        onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context){
+                                return AchievenmentScreen();
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: size.width*0.5,
+                    height: size.height*0.2,
+                    alignment: Alignment.center,
+                    child: Image.asset('assets/achievenment/ui/nongtrai.png'),
+                  ),
+                  Container(
+                    width: size.width*0.25,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: IconButton(
+                            icon: Icon(Icons.shopping_cart_rounded),
+                            iconSize: 30,
+                            onPressed: ()async {
+                              // update vàng người dùng từ database
+
+                              String id = StaticData.userID;
+                              final k = await DbProvider.instance.rawQuery('''
+                                select * from THONGTINNGUOIDUNG where MANGUOIDUNG = '$id'
+                                '''
+                              );
+                              StaticData.Vang = k[0]['VANG'];
+
+                              Loading();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context){return ShopScreen();})
+                              );
+                            },
+                          ),
+                        ),
+
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: IconButton(
+                            icon: Icon(Icons.collections),
+                            iconSize: 30,
+                            onPressed: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context){
+                                    return CollectionScreen();
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
+
             Container(
               height: size.height*0.69,
               color: Colors.blue,

@@ -91,11 +91,22 @@ void _show(context, String name, Color rareColor,int price, String imageEgg, Str
     buttons: [
       DialogButton(
         child: Text(
-          "ACCEPT",
+          "USE",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         onPressed: () => Navigator.pop(context),
         width: 120,
+      ),
+      DialogButton(
+        child: Text(
+          "CANCEL",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        gradient: LinearGradient(colors: [
+          Color.fromRGBO(116, 116, 191, 1.0),
+          Color.fromRGBO(52, 138, 199, 1.0)
+        ]),
       )
     ],
   ).show();

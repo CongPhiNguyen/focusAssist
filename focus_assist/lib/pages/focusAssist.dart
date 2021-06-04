@@ -45,34 +45,29 @@ class _FocusAssistState extends State<FocusAssist> {
         );
         break;
       case 2:
-        return AchievenmentScreen();
-        break;
-      case 3:
         return  FarmScreen();
         break;
-      case 4:
+      case 3:
         return ProgressScreen();
         break;
-      case 5:
+      case 4:
         return SettingScreen();
         break;
       default:
         break;
     }
   }
-
-
   @override
   Widget build(BuildContext context) {
-
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
+        height: 55,
        // key: _bottomNavigationKey,
         index: _page,
         items: <Widget>[
           Icon(Icons.timer, size: 30),
           Icon(Icons.wysiwyg_rounded, size: 30),
-          Icon(Icons.star, size: 30),
           Icon(Icons.style,size:30),
           Icon(Icons.waterfall_chart, size: 30),
           Icon(Icons.settings, size: 30),
@@ -82,6 +77,19 @@ class _FocusAssistState extends State<FocusAssist> {
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 600),
         onTap: (int tappedIndex) {
+          if(StaticData.timer != null) {
+            if(StaticData.timer.isActive)
+            {
+              StaticData.timer.cancel();
+            }
+          }
+          if(StaticData.timer2 != null) {
+            if(StaticData.timer2.isActive)
+            {
+              StaticData.timer2.cancel();
+            }
+          }
+
           setState(() {
             _showPage  = _pageChooser(tappedIndex);
           });
