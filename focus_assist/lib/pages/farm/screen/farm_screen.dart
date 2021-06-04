@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -19,15 +20,47 @@ class FarmScreen extends StatefulWidget {
 class _FarmScreenState extends State<FarmScreen> {
 
   int snailSpriteCount = 1;
-  var snailPosX = [0.0,0.5,-0.5,-0.75,0.75];
-  var snailPosY = [0.0,0.5,-0.5,-0.75,0.75];
+  var snailPosX = [0.0,0.5,-0.5,-0.75,0.75,0.0,0.5,-0.5,-0.75,0.75,0.0,0.5,-0.5,-0.75,0.75];
+  var snailPosY = [0.0,0.5,-0.5,-0.75,0.75,0.0,0.5,-0.5,-0.75,0.75,0.0,0.5,-0.5,-0.75,0.75];
   List snailDirection = ['up','left','up','down','left'];
   Random rd = new Random();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    load();
     moveObject();
+  }
+
+  void load() {
+    for (int i = 0; i < StaticData.PokemonUser.length;i++)
+      {
+        Random rdPos = new Random();
+        var x = ((rdPos.nextInt(7) - 7) / 10);
+        var y = ((rdPos.nextInt(7) - 7) / 10);
+        snailPosX.add(x);
+        snailPosY.add(y);
+
+        Random direc = new Random();
+        int index = direc.nextInt(4);
+        switch (index) {
+          case 0 :
+            snailDirection[i] = 'left';
+            break;
+          case 1:
+            snailDirection[i] = 'right';
+            break;
+          case 2:
+            snailDirection[i] = 'up';
+            break;
+          case 3:
+            snailDirection[i] = 'down';
+            break;
+          default:
+            break;
+        }
+      }
   }
 
   void moveObject(){
@@ -129,56 +162,6 @@ class _FarmScreenState extends State<FarmScreen> {
                   ),
                   Container(
                     width: size.width*0.25,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: IconButton(
-                            icon: Icon(Icons.shopping_cart_rounded),
-                            iconSize: 30,
-                            onPressed: ()async {
-                              // update vàng người dùng từ database
-
-                              String id = StaticData.userID;
-                              final k = await DbProvider.instance.rawQuery('''
-                                select * from THONGTINNGUOIDUNG where MANGUOIDUNG = '$id'
-                                '''
-                              );
-                              StaticData.Vang = k[0]['VANG'];
-
-                              Loading();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context){return ShopScreen();})
-                              );
-                            },
-                          ),
-                        ),
-
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: IconButton(
-                            icon: Icon(Icons.collections),
-                            iconSize: 30,
-                            onPressed: (){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context){
-                                    return CollectionScreen();
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
                 ],
               ),
@@ -189,46 +172,71 @@ class _FarmScreenState extends State<FarmScreen> {
               color: Colors.blue,
               child: Stack(
                 children: [
+                  ListView.builder(
+                    itemCount: StaticData.PokemonUser.length,
+                    itemBuilder: (context,num){
+                      return Container(
+                            alignment: Alignment(0.4,-0.4),
+                            child: Pokemon(
+                              name: 'chimbang',
+                              snailDirection: snailDirection[1],
+                              snailSpriteCount: snailSpriteCount,
+                              rareColor: StaticData.PokemonUser[num].rareColor,
+                              level: StaticData.PokemonUser[num].Level,
+                            ),
+                      );
+                    }
+                  ),
                   Container(
                     alignment: Alignment(snailPosX[0],snailPosY[0]),
-                    child: BlueSnail(
+                    child: Pokemon(
                       name: 'chimbang',
                       snailDirection: snailDirection[0],
                       snailSpriteCount: snailSpriteCount,
+                      rareColor: Colors.red,
+                      level: 100,
                     ),
                   ),
                   Container(
                     alignment: Alignment(snailPosX[1],snailPosY[1]),
-                    child: BlueSnail(
+                    child: Pokemon(
                       name: 'snail',
                       snailDirection: snailDirection[1],
                       snailSpriteCount: snailSpriteCount,
+                      rareColor: Colors.red,
+                      level: 100,
                     ),
                   ),
 
                   Container(
                     alignment: Alignment(snailPosX[2],snailPosY[2]),
-                    child: BlueSnail(
+                    child: Pokemon(
                       name: 'chimdien',
                       snailDirection: snailDirection[2],
                       snailSpriteCount: snailSpriteCount,
+                      rareColor: Colors.red,
+                      level: 100,
                     ),
                   ),
 
                   Container(
                     alignment: Alignment(snailPosX[3],snailPosY[3]),
-                    child: BlueSnail(
+                    child: Pokemon(
                       name: 'chimlua',
                       snailDirection: snailDirection[3],
                       snailSpriteCount: snailSpriteCount,
+                      rareColor: Colors.red,
+                      level: 100,
                     ),
                   ),
                   Container(
                     alignment: Alignment(snailPosX[4],snailPosY[4]),
-                    child: BlueSnail(
+                    child: Pokemon(
                       name: 'fire',
                       snailDirection: snailDirection[4],
                       snailSpriteCount: snailSpriteCount,
+                      rareColor: Colors.red,
+                      level: 100,
                     ),
                   ),
                 ],

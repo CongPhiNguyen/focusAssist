@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/achievenment/feature/star.dart';
 import 'CustomCard.dart';
 
-//import 'PaintRight.dart';
-
-class CardAchievement extends StatelessWidget {
+class CardAchievement extends StatefulWidget {
   final String name;
   final String mota;
   final int diemThanhtuu;
@@ -12,10 +10,22 @@ class CardAchievement extends StatelessWidget {
   final int star;
   final Color endColor;
   final Color startColor;
-  const CardAchievement({
-    Key key, this.name, this.iconImage, this.diemThanhtuu, this.star, this.endColor, this.startColor, this.mota,
-  }) : super(key: key);
 
+  const CardAchievement({Key key, this.name, this.mota, this.diemThanhtuu, this.iconImage, this.star, this.endColor, this.startColor}) : super(key: key);
+  @override
+  _CardAchievementState createState() => _CardAchievementState(name,mota,diemThanhtuu,iconImage,star,endColor,startColor);
+}
+
+class _CardAchievementState extends State<CardAchievement> {
+  final String name;
+  final String mota;
+  final int diemThanhtuu;
+  final String iconImage;
+  final int star;
+  final Color endColor;
+  final Color startColor;
+
+  _CardAchievementState(this.name, this.mota, this.diemThanhtuu, this.iconImage, this.star, this.endColor, this.startColor);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -117,6 +127,3 @@ class CardAchievement extends StatelessWidget {
     );
   }
 }
-
-
-

@@ -52,6 +52,17 @@ class _testState extends State<card_shop> {
 
 
         //Nhận thành tựu
+        bool isCheck = false;
+        for(int i = 0; i <StaticData.AchiUser.length;i++)
+          {
+            if (StaticData.AchiUser[i].TENTHANHTUU == name)
+              {
+                isCheck = true;
+              }
+          }
+
+
+        if(isCheck == false) {
         int bonus;
         for (int i = 0; i < StaticData.AchiList.length; i++)
         {
@@ -77,7 +88,12 @@ class _testState extends State<card_shop> {
                                      WHERE MANGUOIDUNG = '$id'
                                      ''');
 
-        _showBILL(context, "Bạn nhận được thành tựu và thưởng $bonus", true);
+        _showBILL(context, "Bạn nhận được thành tựu và thưởng $bonus", true);} else {
+          setState(() {
+            isBuy = true;
+          });
+          _showBILL(context, "Mua thành công", true);
+        }
       }
       else {
         _showBILL(context, "Bạn đã sở hữu quả trứng này", false);
@@ -170,6 +186,50 @@ class _testState extends State<card_shop> {
         ],
       ),
     );
+  }
+
+  void _showBILL(context, String message, bool isBuy){
+    if (isBuy == true) {
+      Alert(
+        context: context,
+        type: AlertType.success,
+        title: "",
+        closeIcon: Icon(Icons.error),
+        desc: message,
+        buttons: [
+          DialogButton(
+            child: Text(
+              "ACCEPT",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            width: 120,
+          )
+        ],
+      ).show();
+    } else {
+      Alert(
+        context: context,
+        type: AlertType.warning,
+        title: "",
+        closeIcon: Icon(Icons.error),
+        desc: message,
+        buttons: [
+          DialogButton(
+            child: Text(
+              "ACCEPT",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            width: 120,
+          )
+        ],
+      ).show();
+    }
   }
 }
 
@@ -330,49 +390,7 @@ class card_shop extends StatelessWidget {
 
 
 // Show thông báo
-void _showBILL(context, String message, bool isBuy){
-  if (isBuy == true) {
-    Alert(
-      context: context,
-      type: AlertType.success,
-      title: "",
-      closeIcon: Icon(Icons.error),
-      desc: message,
-      buttons: [
-        DialogButton(
-          child: Text(
-            "ACCEPT",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          width: 120,
-        )
-      ],
-    ).show();
-  } else {
-    Alert(
-      context: context,
-      type: AlertType.warning,
-      title: "",
-      closeIcon: Icon(Icons.error),
-      desc: message,
-      buttons: [
-        DialogButton(
-          child: Text(
-            "ACCEPT",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          width: 120,
-        )
-      ],
-    ).show();
-  }
-}
+
 
 
 

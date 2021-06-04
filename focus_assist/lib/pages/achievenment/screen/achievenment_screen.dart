@@ -167,27 +167,33 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
           }
       }
   }
-}
 
-void Loading() async {
-  StaticData.EggUser.clear();
-  String id = StaticData.userID;
-  final k = await DbProvider.instance.rawQuery('''
+  void Loading() async {
+    StaticData.EggUser.clear();
+    String id = StaticData.userID;
+    final k = await DbProvider.instance.rawQuery('''
                                 select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
                                 '''
-  );
-  if (k.length ==0) print ("null");
-  k.forEach(print);
+    );
+    if (k.length ==0) print ("null");
+    k.forEach(print);
 
-  for (int i = 0 ; i < k.length; i++)
-  {
-    for (int j = 0; j < StaticData.EggShop.length; j++ )
+    for (int i = 0 ; i < k.length; i++)
     {
-      if(StaticData.EggShop[j].MaVP == k[i]['MAVATPHAM'])
+      for (int j = 0; j < StaticData.EggShop.length; j++ )
       {
+        if(StaticData.EggShop[j].MaVP == k[i]['MAVATPHAM'])
+        {
           StaticData.EggUser.add(StaticData.EggShop[j]);
+        }
       }
     }
+
+    final updateBonus = await DbProvider.instance.rawQuery('''
+    SELECT * FROM THONGTINNGUOIDUNG WHERE MANGUOIDUNG = '$id'
+    ''');
+
+    StaticData.Vang = updateBonus[0]['VANG'];
   }
 }
 

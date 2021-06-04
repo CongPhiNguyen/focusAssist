@@ -2,17 +2,25 @@
 import 'package:flutter/material.dart';
 
 import 'package:focus_assist/classes/ClassCardShop.dart';
+import 'package:focus_assist/classes/ClassPokemon.dart';
 import 'package:focus_assist/classes/Data.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class DetailCardCollection extends StatelessWidget {
-  const DetailCardCollection({
-    Key key,
-    @required this.size,
-  }) : super(key: key);
 
+class DetailCardCollection extends StatefulWidget {
   final Size size;
 
+  const DetailCardCollection({Key key, this.size}) : super(key: key);
+
+  @override
+  _DetailCardCollectionState createState() => _DetailCardCollectionState(size);
+}
+
+class _DetailCardCollectionState extends State<DetailCardCollection> {
+  final Size size;
+
+  _DetailCardCollectionState(this.size);
   @override
   Widget build(BuildContext context) {
     return GridView.count(
@@ -33,7 +41,7 @@ class DetailCardCollection extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Container(
-                   // child: Image.asset(value[index].imageEgg),
+                    // child: Image.asset(value[index].imageEgg),
                     child: Image.asset(StaticData.EggUser[index].imageEgg),
                   ),
                 ),
@@ -53,12 +61,13 @@ class DetailCardCollection extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: 20),
                     onPressed:(){
                       _show(
-                          context,
-                          StaticData.EggUser[index].TenVP,
-                          StaticData.EggUser[index].rareColor,
-                          StaticData.EggUser[index].Gia,
-                          StaticData.EggUser[index].imageEgg,
-                          StaticData.EggUser[index].moTa,
+                        context,
+                        StaticData.EggUser[index].MaVP,
+                        StaticData.EggUser[index].TenVP,
+                        StaticData.EggUser[index].rareColor,
+                        StaticData.EggUser[index].Gia,
+                        StaticData.EggUser[index].imageEgg,
+                        StaticData.EggUser[index].moTa,
                       );
                     },
                   ),
@@ -70,46 +79,83 @@ class DetailCardCollection extends StatelessWidget {
       }),
     );
   }
-}
-
-
-void _show(context, String name, Color rareColor,int price, String imageEgg, String mota){
-  Alert(
-    context: context,
-    title: 'Information',
-    closeIcon: Icon(Icons.info_outlined),
-    desc: 'Đã sở hữu',
-    content: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Text(name,style: TextStyle(color: rareColor),),
-        Image.asset(imageEgg),
-        Text('Mô tả :'+mota),
-        Text('Price: ' + price.toString(),),
-      ],
-    ),
-    buttons: [
-      DialogButton(
-        child: Text(
-          "USE",
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        onPressed: () => Navigator.pop(context),
-        width: 120,
+  void _show(context, String mavp,String name, Color rareColor,int price, String imageEgg, String mota){
+    Alert(
+      context: context,
+      title: 'Information',
+      closeIcon: Icon(Icons.info_outlined),
+      desc: 'Đã sở hữu',
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(name,style: TextStyle(color: rareColor),),
+          Image.asset(imageEgg),
+          Text('Mô tả :'+mota),
+          Text('Price: ' + price.toString(),),
+        ],
       ),
-      DialogButton(
-        child: Text(
-          "CANCEL",
-          style: TextStyle(color: Colors.white, fontSize: 20),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "USE",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            String id = StaticData.userID;
+            Map<String, dynamic> row;
+
+            InfoPokemon index = new InfoPokemon(name, 1, rareColor);
+            StaticData.PokemonUser.add(index);
+
+            /*if (rareColor == Colors.green){
+              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 1};
+            }
+            if (rareColor == Colors.blueAccent){
+              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 2};
+            }
+            if (rareColor == Colors.purpleAccent){
+              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 3};
+            }
+            if (rareColor == Colors.red){
+              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 4};
+            }
+            int i = await DbProvider.instance.insert('POKEMON', row);
+            print(i);*/
+
+            final k = await DbProvider.instance.rawQuery('''
+          DELETE FROM VATPHAMNGUOIDUNG WHERE MANGUOIDUNG = '$id' AND MAVATPHAM = '$mavp'
+          ''');
+            for(int i = 0; i < StaticData.EggUser.length; i++)
+            {
+              if(StaticData.EggUser[i].MaVP == mavp)
+              {
+                setState(() {
+                  StaticData.EggUser.removeAt(i);
+                });
+              }
+            }
+            print(StaticData.PokemonUser);
+            Navigator.pop(context);
+          },
+          width: 120,
         ),
-        onPressed: () => Navigator.pop(context),
-        gradient: LinearGradient(colors: [
-          Color.fromRGBO(116, 116, 191, 1.0),
-          Color.fromRGBO(52, 138, 199, 1.0)
-        ]),
-      )
-    ],
-  ).show();
+        DialogButton(
+          child: Text(
+            "CANCEL",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          gradient: LinearGradient(colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0)
+          ]),
+        )
+      ],
+    ).show();
+  }
 }
+
+
+
 
 
