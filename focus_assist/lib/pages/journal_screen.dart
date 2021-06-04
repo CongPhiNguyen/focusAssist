@@ -63,6 +63,17 @@ class _JournalScreenState extends State<JournalScreen> {
     getAllGroup();
   }
 
+  int dateTimeToInt(DateTime dateTime) {
+    return dateTime.year * 10000 + dateTime.month * 100 + dateTime.day;
+  }
+
+  DateTime intToDateTime(int dateTimeInt) {
+    int year = (dateTimeInt / 10000).floor();
+    int month = (dateTimeInt / 100).floor() % 100;
+    int day = dateTimeInt % 100;
+    return DateTime(year, month, day);
+  }
+
   // Các hàm cần thiết để load dữ liệu
   void getAllActivity() async {
     database = await dbHelper.query('MUCTIEU');
@@ -108,9 +119,8 @@ class _JournalScreenState extends State<JournalScreen> {
       ];
       int indexOfK = daysofWeek.indexOf(k);
       for (int i = 0; i < database.length; i++) {
-        DateTime start = DateTime.parse(
-            database[i]['NGAYBATDAU'].toString().replaceAll('/', '-'));
-
+        DateTime start =
+            intToDateTime(int.parse(database[i]['NGAYBATDAU'].toString()));
         if (_selectedDay.year < start.year) {
           continue;
         } else if (_selectedDay.year == start.year) {

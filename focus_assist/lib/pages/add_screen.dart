@@ -357,7 +357,7 @@ class _AddNewState extends State<AddNew> {
       'MANHOM': allGroupKey[allGroup.indexOf(dropDownGroup)],
       'TENMUCTIEU': getActivity.text,
       'MOTA': (getDescription.text == null) ? 'MOTA' : getDescription.text,
-      'NGAYBATDAU': startTime.toString().substring(0, 10).replaceAll('-', '/'),
+      'NGAYBATDAU': dateTimeToInt(startTime),
       'LOAIHINH': dropDownValue,
     };
     if (dropDownValue == 'Fixed') {
@@ -406,6 +406,17 @@ class _AddNewState extends State<AddNew> {
         dropDownValue = allGroup[0];
       });
     }
+  }
+
+  int dateTimeToInt(DateTime dateTime) {
+    return dateTime.year * 10000 + dateTime.month * 100 + dateTime.day;
+  }
+
+  DateTime intToDateTime(int dateTimeInt) {
+    int year = (dateTimeInt / 10000).floor();
+    int month = (dateTimeInt / 100).floor() % 100;
+    int day = dateTimeInt % 100;
+    return DateTime(year, month, day);
   }
 
   @override

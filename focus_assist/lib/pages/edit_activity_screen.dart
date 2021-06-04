@@ -59,6 +59,17 @@ class _EditActivityState extends State<EditActivity> {
     getAllInformation();
   }
 
+  int dateTimeToInt(DateTime dateTime) {
+    return dateTime.year * 10000 + dateTime.month * 100 + dateTime.day;
+  }
+
+  DateTime intToDateTime(int dateTimeInt) {
+    int year = (dateTimeInt / 10000).floor();
+    int month = (dateTimeInt / 100).floor() % 100;
+    int day = dateTimeInt % 100;
+    return DateTime(year, month, day);
+  }
+
   //Load lại các thông tin của activity vào cái form
   void getAllInformation() async {
     String activityKey = widget.activityKey;
@@ -71,8 +82,8 @@ class _EditActivityState extends State<EditActivity> {
         getActivity = TextEditingController(text: database[0]['TENMUCTIEU']);
         getDescription = TextEditingController(text: database[0]['MOTA']);
         groupKey = database[0]['MANHOM'];
-        startTime = DateTime.parse(
-            database[0]['NGAYBATDAU'].toString().replaceAll('/', '-'));
+        startTime =
+            intToDateTime(int.parse(database[0]['NGAYBATDAU'].toString()));
       });
       String type = database[0]['LOAIHINH'];
       if (type == 'Fixed') {
@@ -410,12 +421,11 @@ class _EditActivityState extends State<EditActivity> {
     String val = '';
     String activityName = getActivity.text;
     String description = getDescription.text;
-    String beginDay =
-        startTime.toString().substring(0, 10).replaceAll('-', '/');
+    int beginDay = dateTimeToInt(startTime);
     String groupKey = allGroupKey[allGroup.indexOf(dropDownGroup)];
     val = '''TENMUCTIEU= '$activityName''';
     val += '''', MOTA='$description''';
-    val += '''', NGAYBATDAU='$beginDay' ''';
+    val += '''', NGAYBATDAU=$beginDay ''';
     val += ''', LOAIHINH='$dropDownValue' ''';
     val += ''', MANHOM='$groupKey' ''';
     if (dropDownValue == 'Fixed') {
