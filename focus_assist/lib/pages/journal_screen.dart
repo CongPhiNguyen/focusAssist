@@ -41,6 +41,8 @@ class _JournalScreenState extends State<JournalScreen> {
   List<String> allGroup, allGroupKey;
   List<List<String>> allGroupActivity, allGroupActivityKey;
   List<String> doneList, doneListKey;
+
+  String rate;
   @override
   void initState() {
     // TODO: implement initState
@@ -67,6 +69,8 @@ class _JournalScreenState extends State<JournalScreen> {
     getAllActivity();
     getToDoList();
     getAllGroup();
+    getDoneTask();
+    rate = '0';
   }
 
   int dateTimeToInt(DateTime dateTime) {
@@ -99,7 +103,7 @@ class _JournalScreenState extends State<JournalScreen> {
         ''' select * from MUCTIEU where MAMUCTIEU in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) ''');
     if (database.length == 0) {
       setState(() {
-        doneList = doneList = ['Không có gì'];
+        doneList = ['Không có gì'];
         doneListKey = ['None'];
       });
     }
@@ -165,12 +169,24 @@ class _JournalScreenState extends State<JournalScreen> {
         }
       }
     }
-
-    if (toDos.length == 0) {
-      toDos = [
-        ToDo(check: false, task: "Không có gì", taskKey: 'None'),
-      ];
-    }
+    double rateInt = 0;
+    if (doneList.length == 0 ||
+        (doneList.length == 1 && doneListKey[0] == 'None'))
+      rateInt = 0;
+    else if (toDos.length == 0 ||
+        (toDos.length == 1 && toDos[0].taskKey == 'None')) {
+      rateInt = 100;
+    } else
+      rateInt = ((doneList.length.toDouble() *
+          100.0 /
+          (toDos.length.toDouble() + doneList.length.toDouble())));
+    if (rateInt > 100) rateInt = 100;
+    setState(() {
+      rate = rateInt.toString();
+      if (rate.length > 8) {
+        rate = rate.substring(0, 8);
+      }
+    });
   }
 
   Widget DoneTask() {
@@ -184,7 +200,7 @@ class _JournalScreenState extends State<JournalScreen> {
           children: [
             Container(
                 decoration: BoxDecoration(
-                    color: Color(0xffe66771),
+                    color: Color(0xff73a656),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
@@ -874,9 +890,10 @@ class _JournalScreenState extends State<JournalScreen> {
           children: <Widget>[
             Expanded(
                 flex: 5,
-                child: SizedBox(
-                  width: 30,
-                )),
+                child: Row(children: [
+                  SizedBox(width: 10),
+                  Text('Conversion rate: ' + rate + ' %'),
+                ])),
             Expanded(
                 flex: 5,
                 child: Row(
