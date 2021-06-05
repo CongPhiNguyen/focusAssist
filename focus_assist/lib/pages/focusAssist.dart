@@ -128,7 +128,7 @@ class FocusAssist extends StatefulWidget {
 }
 
 class _FocusAssistState extends State<FocusAssist> {
-  int _page = 0;
+  int _page = 3;
   // GlobalKey _bottomNavigationKey = GlobalKey();
 
   Widget _showPage = new SettingScreen();
@@ -161,6 +161,7 @@ class _FocusAssistState extends State<FocusAssist> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
+        height: 55.0,
         // key: _bottomNavigationKey,
         index: _page,
         items: <Widget>[
@@ -176,16 +177,20 @@ class _FocusAssistState extends State<FocusAssist> {
         animationDuration: Duration(milliseconds: 600),
         onTap: (int tappedIndex) {
           setState(() {
-            _showPage = _pageChooser(tappedIndex);
+            //_showPage = _pageChooser(tappedIndex);
+            _page = tappedIndex;
           });
         },
       ),
       body: Container(
         color: Colors.white,
         child: Center(
-          child: _showPage,
+          //child: _showPage,
+          child: _pageChooser(_page),
         ),
       ),
     );
   }
+
+
 }

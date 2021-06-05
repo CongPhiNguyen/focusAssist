@@ -5,150 +5,84 @@
         <entry key="async">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.5.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.5.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.5.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="boolean_selector">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="characters">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="charcode">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.2.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.2.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.2.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="clock">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="collection">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="cupertino_icons">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.2/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.2/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.2/lib" />
->>>>>>> statistic-phi
+            </list>
+          </value>
+        </entry>
+        <entry key="curved_navigation_bar">
+          <value>
+            <list>
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/curved_navigation_bar-0.3.7/lib" />
             </list>
           </value>
         </entry>
         <entry key="fake_async">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0/lib" />
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="ffi">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/ffi-1.0.0/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/ffi-1.0.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="file">
           <value>
             <list>
-<<<<<<< HEAD
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="flutter">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/packages/flutter/lib" />
-=======
               <option value="C:/src/flutter/packages/flutter/lib" />
->>>>>>> login-phuoc
             </list>
           </value>
         </entry>
@@ -184,30 +118,13 @@
           <value>
             <list>
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.1/lib" />
-=======
-              <option value="D:/src/flutter/packages/flutter/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="flutter_test">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/packages/flutter_test/lib" />
-=======
               <option value="C:/src/flutter/packages/flutter_test/lib" />
-=======
-              <option value="D:/src/flutter/packages/flutter_test/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="intl">
-          <value>
-            <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
@@ -215,6 +132,13 @@
           <value>
             <list>
               <option value="C:/src/flutter/packages/flutter_web_plugins/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="fluttertoast">
+          <value>
+            <list>
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.0.6/lib" />
             </list>
           </value>
         </entry>
@@ -257,7 +181,6 @@
           <value>
             <list>
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0/lib" />
->>>>>>> login-phuoc
             </list>
           </value>
         </entry>
@@ -271,86 +194,56 @@
         <entry key="matcher">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.10/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.10/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.10/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="meta">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.3.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.3.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.3.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="path">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0/lib" />
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="path_provider">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.1/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.1/lib" />
             </list>
           </value>
         </entry>
         <entry key="path_provider_linux">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.0.0/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.0.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="path_provider_macos">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.0/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="path_provider_platform_interface">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_platform_interface-2.0.1/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_platform_interface-2.0.1/lib" />
             </list>
           </value>
         </entry>
         <entry key="path_provider_windows">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.1/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="pie_chart">
-          <value>
-            <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/pie_chart-5.0.0/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.1/lib" />
             </list>
           </value>
         </entry>
@@ -361,31 +254,38 @@
             </list>
           </value>
         </entry>
+        <entry key="pie_chart">
+          <value>
+            <list>
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/pie_chart-5.0.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="platform">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/platform-3.0.0/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/platform-3.0.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="plugin_platform_interface">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-2.0.0/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-2.0.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="process">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/process-4.2.1/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/process-4.2.1/lib" />
             </list>
           </value>
         </entry>
-        <entry key="simple_gesture_detector">
+        <entry key="rflutter_alert">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/simple_gesture_detector-0.2.0/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/rflutter_alert-2.0.2/lib" />
             </list>
           </value>
         </entry>
@@ -396,152 +296,94 @@
             </list>
           </value>
         </entry>
+        <entry key="simple_animations">
+          <value>
+            <list>
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/simple_animations-1.3.12/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="simple_gesture_detector">
           <value>
             <list>
-              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/simple_gesture_detector-0.1.6/lib" />
->>>>>>> login-phuoc
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/simple_gesture_detector-0.2.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="sky_engine">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/bin/cache/pkg/sky_engine/lib" />
-=======
               <option value="C:/src/flutter/bin/cache/pkg/sky_engine/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/bin/cache/pkg/sky_engine/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="source_span">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.0/lib" />
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="sqflite">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.0+3/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.0+3/lib" />
             </list>
           </value>
         </entry>
         <entry key="sqflite_common">
           <value>
             <list>
-<<<<<<< HEAD
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite_common-2.0.0+2/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite_common-2.0.0+2/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="stack_trace">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="stream_channel">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.1.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.1.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.1.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="string_scanner">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0/lib" />
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="synchronized">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/synchronized-3.0.0/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/synchronized-3.0.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="table_calendar">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/table_calendar-3.0.0/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="table_calendar">
-          <value>
-            <list>
-              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/table_calendar-2.3.3/lib" />
->>>>>>> login-phuoc
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/table_calendar-3.0.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="term_glyph">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="test_api">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.19/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.19/lib" />
->>>>>>> login-phuoc
             </list>
           </value>
         </entry>
@@ -549,88 +391,40 @@
           <value>
             <list>
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/timezone-0.7.0/lib" />
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.19/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="typed_data">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.3.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.3.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.3.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="vector_math">
           <value>
             <list>
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <option value="$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0/lib" />
-=======
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0/lib" />
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
         <entry key="win32">
           <value>
             <list>
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.0.5/lib" />
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.0.5/lib" />
             </list>
           </value>
         </entry>
         <entry key="xdg_directories">
           <value>
             <list>
-<<<<<<< HEAD
               <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/xdg_directories-0.2.0/lib" />
->>>>>>> login-phuoc
-=======
-              <option value="D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/xdg_directories-0.2.0/lib" />
->>>>>>> statistic-phi
             </list>
           </value>
         </entry>
       </option>
     </properties>
     <CLASSES>
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.5.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.2.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.2/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.10/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.3.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.19/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.3.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/bin/cache/pkg/sky_engine/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/packages/flutter/lib" />
-      <root url="file://$PROJECT_DIR$/../../../Applications/flutter/flutter/packages/flutter_test/lib" />
-=======
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.5.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0/lib" />
@@ -638,6 +432,7 @@
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.2/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/curved_navigation_bar-0.3.7/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/ffi-1.0.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.0/lib" />
@@ -646,6 +441,7 @@
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications_platform_interface-3.0.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_native_timezone-1.0.10/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.1/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.0.6/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/http-0.13.3/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.7.5/lib" />
@@ -662,11 +458,14 @@
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_platform_interface-2.0.1/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.1/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.11.0/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/pie_chart-5.0.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/platform-3.0.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-2.0.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/process-4.2.1/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/rflutter_alert-2.0.2/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/rxdart-0.27.0/lib" />
-      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/simple_gesture_detector-0.1.6/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/simple_animations-1.3.12/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/simple_gesture_detector-0.2.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.0+3/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite_common-2.0.0+2/lib" />
@@ -674,7 +473,7 @@
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.1.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/synchronized-3.0.0/lib" />
-      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/table_calendar-2.3.3/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/table_calendar-3.0.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.19/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/timezone-0.7.0/lib" />
@@ -685,54 +484,7 @@
       <root url="file://C:/src/flutter/bin/cache/pkg/sky_engine/lib" />
       <root url="file://C:/src/flutter/packages/flutter/lib" />
       <root url="file://C:/src/flutter/packages/flutter_test/lib" />
-<<<<<<< HEAD
->>>>>>> login-phuoc
-=======
       <root url="file://C:/src/flutter/packages/flutter_web_plugins/lib" />
->>>>>>> origin/database
-=======
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.5.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.2.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.2/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/ffi-1.0.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.10/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.3.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.1/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.0.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_platform_interface-2.0.1/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.1/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/pie_chart-5.0.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/platform-3.0.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-2.0.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/process-4.2.1/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/simple_gesture_detector-0.2.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.0+3/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite_common-2.0.0+2/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.1.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/synchronized-3.0.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/table_calendar-3.0.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.19/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.3.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.0.5/lib" />
-      <root url="file://D:/src/flutter/.pub-cache/hosted/pub.dartlang.org/xdg_directories-0.2.0/lib" />
-      <root url="file://D:/src/flutter/bin/cache/pkg/sky_engine/lib" />
-      <root url="file://D:/src/flutter/packages/flutter/lib" />
-      <root url="file://D:/src/flutter/packages/flutter_test/lib" />
->>>>>>> statistic-phi
     </CLASSES>
     <JAVADOC />
     <SOURCES />

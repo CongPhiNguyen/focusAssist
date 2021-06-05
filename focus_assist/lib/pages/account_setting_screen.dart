@@ -283,17 +283,45 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               TextButton(
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
+                  // Map<String, dynamic> row = {
+                  //   'MAMUCTIEU': 'MT00001',
+                  //   'NGAYHOANTHANH': 20210529
+                  // };
+                  // Map<String, dynamic> row = {
+                  //   'MAMUCTIEU': 'MT00001',
+                  //   'MANGUOIDUNG': 'ND001',
+                  //   'MANHOM': '',
+                  //   'TENMUCTIEU': 'Đọc sách',
+                  //   'MOTA': '',
+                  //   'NGAYBATDAU': 20210524,
+                  //   'LOAIHINH': 'FIXED',
+                  //   'CACNGAY': 1101011
+                  // };
+                  // Map<String, dynamic> row = {
+                  //   'MAMUCTIEU': 'MT00002',
+                  //   'MANGUOIDUNG': 'ND001',
+                  //   'MANHOM': '',
+                  //   'TENMUCTIEU': 'Chạy bộ',
+                  //   'MOTA': '',
+                  //   'NGAYBATDAU': 20210524,
+                  //   'LOAIHINH': 'FLEXIBLE',
+                  //   'SOLAN': 3
+                  // };
+                  // Map<String, dynamic> row = {
+                  //   'MAMUCTIEU': 'MT00003',
+                  //   'MANGUOIDUNG': 'ND001',
+                  //   'MANHOM': '',
+                  //   'TENMUCTIEU': 'Dọn nhà',
+                  //   'MOTA': '',
+                  //   'NGAYBATDAU': 20210524,
+                  //   'LOAIHINH': 'REPEATING',
+                  //   'KHOANGTHOIGIAN': 5
+                  // };
                   Map<String, dynamic> row = {
-                    'MAMUCTIEU': 'MT00003',
-                    'MANGUOIDUNG': 'ND001',
-                    'MANHOM': '',
-                    'TENMUCTIEU': 'Dọn nhà',
-                    'MOTA': '',
-                    'NGAYBATDAU': '15/5/2021',
-                    'LOAIHINH': 'REPEATING',
-                    'KHOANGTHOIGIAN': 5
+                    'MAMUCTIEU': 'MT00001',
+                    'NGAYHOANTHANH': 20210713
                   };
-                  print(await db.insert('MUCTIEU', row));
+                  print(await db.insert('THONGKE', row));
 
                   // Database db = await DbProvider.instance.database;
                   // await db.execute(
@@ -322,7 +350,18 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
                   db.execute('''
-                    INSERT INTO NGUOIDUNG VALUES ('ND001', 'ND001', 'ND001');
+                  CREATE TABLE MUCTIEU (
+                      MAMUCTIEU TEXT PRIMARY KEY,
+                      MANGUOIDUNG TEXT,
+                      MANHOM TEXT,
+                      TENMUCTIEU TEXT,
+                      MOTA TEXT,
+                      NGAYBATDAU INTEGER,
+                      LOAIHINH TEXT,
+                      CACNGAY INTEGER,
+                      SOLAN INTEGER,
+                      KHOANGTHOIGIAN INTEGER
+                  );
                     ''');
                   // db.execute(
                   //   '''
@@ -339,55 +378,11 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               TextButton(
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN THONGBAO BOOL;
-                  //   '''
-                  // );
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN THONGBAOSANG BOOL;
-                  //   '''
-                  // );
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN THONGBAOTOI BOOL;
-                  //   '''
-                  // );
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN THOIGIANTHONGBAOSANG TIME;
-                  //   '''
-                  // );
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN THOIGIANTHONGBAOTOI TIME;
-                  //   '''
-                  // );
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN DARKMODE BOOL;
-                  //   '''
-                  // );
-                  // db.execute(
-                  //   '''
-                  //   UPDATE THONGTINNGUOIDUNG
-                  //   SET THONGBAO = TRUE, THONGBAOSANG = TRUE, THONGBAOTOI = TRUE,
-                  //       THOIGIANTHONGBAOSANG = '07:00:00', THOIGIANTHONGBAOTOI = '21:00:00',
-                  //       DARKMODE = FALSE
-                  //   WHERE MANGUOIDUNG = 'ND001';
-                  //   '''
-                  // );
                   db.execute('''
-                    DELETE FROM MUCTIEU;
+                    DELETE FROM THONGKE
+                    WHERE MAMUCTIEU = 'MT00001' AND NGAYHOANTHANH = 20210613;
                     ''');
-                  print('Complete drop table');
+                  print('Complete delete');
                 },
                 child: Text(
                   'Delete',
