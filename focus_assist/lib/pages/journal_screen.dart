@@ -404,6 +404,7 @@ class _JournalScreenState extends State<JournalScreen> {
                           child: InkWell(
                             onTap: () {
                               getToDoList();
+                              getDoneTask();
                             },
                             child: Icon(
                               Icons.playlist_add_check,
@@ -449,6 +450,13 @@ class _JournalScreenState extends State<JournalScreen> {
                                         setState(() {
                                           toDos[index].check = value;
                                         });
+                                        // Thêm 50 vàng
+                                        int golds = StaticData.Vang += 50;
+                                        //Add vào database
+                                        String userKey = StaticData.userID;
+                                        dbHelper.rawQuery(
+                                            ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
+                                        loadGold();
                                         // Xoá sổ todos bằng cách thêm vào bảng thống kê
                                         Map<String, dynamic> row = {
                                           'MAMUCTIEU': toDos[index].taskKey,
@@ -459,6 +467,7 @@ class _JournalScreenState extends State<JournalScreen> {
                                             'THONGKE', row);
                                         print('inserted row id: $id');
                                         getToDoList();
+                                        getDoneTask();
                                       },
                                       child: Text("Yes"),
                                     ),

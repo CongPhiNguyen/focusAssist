@@ -31,7 +31,7 @@ class _AddNewState extends State<AddNew> {
   TextEditingController getRepeatingDay;
 
   //Dùng để debug
-  String text = 'Fuck', text2 = "FUCK";
+  String text = 'Fuck', text2 = "FUCK", text3 = "SHIT", text4 = 'text4';
 
   //Dùng để cho việc chọn nhóm:
   String dropDownGroup;
@@ -692,6 +692,32 @@ class _AddNewState extends State<AddNew> {
                     getAllGroup();
                   },
                   child: Text(text2, style: TextStyle(fontSize: 30))),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    List<Map<String, dynamic>> data = await dbHelper
+                        .rawQuery('''select * from THONGTINNGUOIDUNG''');
+                    setState(() {
+                      text3 = data.toString();
+                    });
+                  },
+                  child: Text(text3, style: TextStyle(fontSize: 30))),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    // Thêm người dùng và bảng thông tin người dùng vào database
+                    Map<String, dynamic> row = {'MANGUOIDUNG': 'NGUOIDUNG'};
+                    final id = await dbHelper.insert('NGUOIDUNG', row);
+                    print('inserted row NGUOIDUNG id: $id');
+                    row = {'MANGUOIDUNG': 'NGUOIDUNG', 'VANG': 0};
+                    final id2 = await dbHelper.insert('THONGTINNGUOIDUNG', row);
+                    print('inserted THONGTINNGUOIDUNGrow id: $id2');
+                  },
+                  child: Text(text4, style: TextStyle(fontSize: 30))),
             ),
             TextButton(
                 onPressed: () {
