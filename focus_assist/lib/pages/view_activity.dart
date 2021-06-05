@@ -50,6 +50,7 @@ class _ViewActivityState extends State<ViewActivity> {
   void deleteActivity() {
     String key = widget.activityKey;
     dbHelper.rawQuery('''delete from MUCTIEU where MAMUCTIEU='$key' ''');
+    dbHelper.rawQuery('''delete from THONGKE where MAMUCTIEU='$key' ''');
     Navigator.pop(context);
   }
 

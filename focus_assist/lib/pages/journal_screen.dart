@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/edit_group_dialog.dart';
+import 'package:focus_assist/pages/list_of_achivement.dart';
 import 'package:focus_assist/pages/view_activity.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:focus_assist/pages/add_screen.dart';
@@ -11,7 +12,8 @@ import 'package:intl/intl.dart';
 class ToDo {
   bool check;
   String task;
-  ToDo({this.check, this.task});
+  String taskKey;
+  ToDo({this.check, this.task, this.taskKey});
 }
 
 class JournalScreen extends StatefulWidget {
@@ -52,12 +54,13 @@ class _JournalScreenState extends State<JournalScreen> {
     _selectedDay = _focusedDay;
     items1 = ["Chơi cờ vua", "Luyện tập code", "Cày game"];
     toDos = [
-      ToDo(check: false, task: "Không có gì"),
+      ToDo(check: false, task: "Không có gì", taskKey: 'None'),
     ];
     items = [];
     dataMap = {"Skip": 500, "Done": 322, "Fail": 112};
     allActivity = ["Không có gì"];
     allActivityKey = ['None'];
+    loadGold();
     getAllActivity();
     getToDoList();
     getAllGroup();
@@ -72,6 +75,17 @@ class _JournalScreenState extends State<JournalScreen> {
     int month = (dateTimeInt / 100).floor() % 100;
     int day = dateTimeInt % 100;
     return DateTime(year, month, day);
+  }
+
+  void loadGold() async {
+    String userID = StaticData.userID;
+    List<Map<String, dynamic>> database = await dbHelper.rawQuery(
+        ''' select * from THONGTINNGUOIDUNG where MANGUOIDUNG='$userID' ''');
+    if (database.length > 0) {
+      setState(() {
+        StaticData.Vang = database[0]['VANG'];
+      });
+    }
   }
 
   // Các hàm cần thiết để load dữ liệu
@@ -97,11 +111,13 @@ class _JournalScreenState extends State<JournalScreen> {
 
   void getToDoList() async {
     print("Fuck");
-    database = await dbHelper.query('MUCTIEU');
+    int selectedDay = dateTimeToInt(_selectedDay);
+    database = await dbHelper.rawQuery(
+        ''' select * from MUCTIEU where MAMUCTIEU not in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) ''');
     if (database.length == 0) {
       setState(() {
         toDos = [
-          ToDo(check: false, task: "Không có gì"),
+          ToDo(check: false, task: "Không có gì", taskKey: 'None'),
         ];
       });
     }
@@ -140,16 +156,22 @@ class _JournalScreenState extends State<JournalScreen> {
           }
           if (h[indexOfK] == '1') {
             setState(() {
-              toDos.add(ToDo(check: false, task: database[i]['TENMUCTIEU']));
+              toDos.add(ToDo(
+                  check: false,
+                  task: database[i]['TENMUCTIEU'],
+                  taskKey: database[i]['MAMUCTIEU']));
             });
           }
         } else if (database[i]['LOAIHINH'] == 'Flexible') {
           setState(() {
-            toDos.add(ToDo(
-                check: false,
-                task: database[i]['TENMUCTIEU'] +
-                    '  0/' +
-                    database[i]['SOLAN'].toString()));
+            toDos.add(
+              ToDo(
+                  check: false,
+                  task: database[i]['TENMUCTIEU'] +
+                      '  0/' +
+                      database[i]['SOLAN'].toString(),
+                  taskKey: database[i]['MAMUCTIEU']),
+            );
           });
         } else if (database[i]['LOAIHINH'] == 'Repeating') {
           int val = int.parse(database[i]['KHOANGTHOIGIAN']);
@@ -157,7 +179,12 @@ class _JournalScreenState extends State<JournalScreen> {
           if (diff.inDays % val == 0) {
             print(val);
             setState(() {
-              toDos.add(ToDo(check: false, task: database[i]['TENMUCTIEU']));
+              toDos.add(
+                ToDo(
+                    check: false,
+                    task: database[i]['TENMUCTIEU'],
+                    taskKey: database[i]['MAMUCTIEU']),
+              );
             });
           }
         }
@@ -166,7 +193,7 @@ class _JournalScreenState extends State<JournalScreen> {
 
     if (toDos.length == 0) {
       toDos = [
-        ToDo(check: false, task: "Không có gì"),
+        ToDo(check: false, task: "Không có gì", taskKey: 'None'),
       ];
     }
   }
@@ -226,10 +253,42 @@ class _JournalScreenState extends State<JournalScreen> {
                       title: Text(toDos[index].task,
                           style: TextStyle(color: Colors.black)),
                       tileColor: Colors.white,
-                      onChanged: (bool value) {
-                        setState(() {
-                          toDos[index].check = value;
-                        });
+                      onChanged: (bool value) async {
+                        await showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                  title: Text("Message"),
+                                  content: Text("Done it: " +
+                                      toDos[index].task.toString() +
+                                      "?"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () async {
+                                        Navigator.pop(context);
+                                        setState(() {
+                                          toDos[index].check = value;
+                                        });
+                                        // Xoá sổ todos bằng cách thêm vào bảng thống kê
+                                        Map<String, dynamic> row = {
+                                          'MAMUCTIEU': toDos[index].taskKey,
+                                          'NGAYHOANTHANH':
+                                              dateTimeToInt(_selectedDay)
+                                        };
+                                        final id = await dbHelper.insert(
+                                            'THONGKE', row);
+                                        print('inserted row id: $id');
+                                        getToDoList();
+                                      },
+                                      child: Text("Yes"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("No"),
+                                    )
+                                  ],
+                                ));
                       },
                     ),
                     Divider(height: 1, color: Colors.black45)
@@ -506,6 +565,8 @@ class _JournalScreenState extends State<JournalScreen> {
     for (int i = 0; i < allGroupActivityKey[inDex].length; i++) {
       String key = allGroupActivityKey[inDex][i];
       dbHelper.rawQuery(''' delete from MUCTIEU where MAMUCTIEU='$key' ''');
+      // Delete trong bảng thống kê
+      dbHelper.rawQuery(''' delete from THONGKE where MAMUCTIEU='$key' ''');
     }
     String key = allGroupKey[inDex];
     //Delete group
@@ -519,6 +580,33 @@ class _JournalScreenState extends State<JournalScreen> {
       body: ListView(children: <Widget>[
         SizedBox(
           height: 30,
+        ),
+        InkWell(
+          onTap: () async {
+            await showDialog(
+              context: context,
+              builder: (_) => ListAchivement(),
+            );
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.yellow,
+                radius: 10,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                StaticData.Vang.toString(),
+                style: TextStyle(fontSize: 30),
+              ),
+              SizedBox(
+                width: 30,
+              ),
+            ],
+          ),
         ),
         //Đây để hiện cái dòng qoutes
         Row(
