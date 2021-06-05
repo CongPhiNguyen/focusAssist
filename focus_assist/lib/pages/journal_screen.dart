@@ -40,12 +40,14 @@ class _JournalScreenState extends State<JournalScreen> {
   List<Map<String, dynamic>> database;
   List<String> allGroup, allGroupKey;
   List<List<String>> allGroupActivity, allGroupActivityKey;
-
+  List<String> doneList, doneListKey;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     allGroup = ['Fuck'];
+    doneList = ['Không có gì'];
+    doneListKey = ['None'];
     allGroupKey = ['NONE'];
     allGroupActivity = [];
     allGroupActivityKey = [];
@@ -56,6 +58,7 @@ class _JournalScreenState extends State<JournalScreen> {
     toDos = [
       ToDo(check: false, task: "Không có gì", taskKey: 'None'),
     ];
+
     items = [];
     dataMap = {"Skip": 500, "Done": 322, "Fail": 112};
     allActivity = ["Không có gì"];
@@ -89,6 +92,167 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   // Các hàm cần thiết để load dữ liệu
+  void getDoneTask() async {
+    print("Fuck Done");
+    int selectedDay = dateTimeToInt(_selectedDay);
+    database = await dbHelper.rawQuery(
+        ''' select * from MUCTIEU where MAMUCTIEU in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) ''');
+    if (database.length == 0) {
+      setState(() {
+        doneList = doneList = ['Không có gì'];
+        doneListKey = ['None'];
+      });
+    }
+    if (database.length > 0) {
+      doneList = [];
+      doneListKey = [''];
+      String k = DateFormat('EEEE').format(_selectedDay);
+      List<String> daysofWeek = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday'
+      ];
+      int indexOfK = daysofWeek.indexOf(k);
+      for (int i = 0; i < database.length; i++) {
+        DateTime start =
+            intToDateTime(int.parse(database[i]['NGAYBATDAU'].toString()));
+        if (_selectedDay.year < start.year) {
+          continue;
+        } else if (_selectedDay.year == start.year) {
+          if (_selectedDay.month < start.month) {
+            continue;
+          } else if (_selectedDay.month == start.month) {
+            if (_selectedDay.day < start.day) {
+              continue;
+            }
+          }
+        }
+        if (database[i]['LOAIHINH'] == 'Fixed') {
+          String h = database[i]['CACNGAY'].toString();
+          // Xử lý vì chuyển từ int nên có thể không đủ 7 chữ số
+          while (h.length < 7) {
+            h = '0' + h;
+          }
+          if (h[indexOfK] == '1') {
+            setState(() {
+              doneList.add(database[i]['TENMUCTIEU']);
+              doneListKey.add(database[i]['MAMUCTIEU']);
+            });
+          }
+        } else if (database[i]['LOAIHINH'] == 'Flexible') {
+          setState(() {
+            doneList.add(
+              database[i]['TENMUCTIEU'] +
+                  '  0/' +
+                  database[i]['SOLAN'].toString(),
+            );
+            doneListKey.add(database[i]['MAMUCTIEU']);
+          });
+        } else if (database[i]['LOAIHINH'] == 'Repeating') {
+          int val = int.parse(database[i]['KHOANGTHOIGIAN']);
+          Duration diff = start.difference(_selectedDay);
+          if (diff.inDays % val == 0) {
+            print(val);
+            setState(() {
+              doneList.add(database[i]['TENMUCTIEU']);
+              doneListKey.add(database[i]['MAMUCTIEU']);
+            });
+          }
+        }
+      }
+    }
+
+    if (toDos.length == 0) {
+      toDos = [
+        ToDo(check: false, task: "Không có gì", taskKey: 'None'),
+      ];
+    }
+  }
+
+  Widget DoneTask() {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.greenAccent, width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Column(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                    color: Color(0xffe66771),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    )),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: InkWell(
+                            onTap: () {
+                              getDoneTask();
+                            },
+                            child: Icon(
+                              Icons.playlist_add_check,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Text(
+                            "Done activities",
+                            style: TextStyle(color: Colors.white, fontSize: 22),
+                          ),
+                        ),
+                      ]),
+                )),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: doneList.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        if (doneListKey[index] == 'None') return;
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ViewActivity(
+                                      activityKey: doneListKey[index],
+                                      activityName: doneList[index],
+                                    )));
+                        getAllActivity();
+                        getToDoList();
+                        getAllGroup();
+                      },
+                      child: ListTile(
+                        title: Text(doneList[index],
+                            style: TextStyle(color: Colors.black)),
+                        tileColor: Colors.white,
+                      ),
+                    ),
+                    Divider(height: 1, color: Colors.black45)
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void getAllActivity() async {
     database = await dbHelper.query('MUCTIEU');
     if (database.length == 0) {
@@ -110,7 +274,7 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   void getToDoList() async {
-    print("Fuck");
+    print("Fuck Done");
     int selectedDay = dateTimeToInt(_selectedDay);
     database = await dbHelper.rawQuery(
         ''' select * from MUCTIEU where MAMUCTIEU not in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) ''');
@@ -254,6 +418,7 @@ class _JournalScreenState extends State<JournalScreen> {
                           style: TextStyle(color: Colors.black)),
                       tileColor: Colors.white,
                       onChanged: (bool value) async {
+                        if (toDos[index].taskKey == 'None') return;
                         await showDialog(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
@@ -289,6 +454,7 @@ class _JournalScreenState extends State<JournalScreen> {
                                     )
                                   ],
                                 ));
+                        getDoneTask();
                       },
                     ),
                     Divider(height: 1, color: Colors.black45)
@@ -353,6 +519,7 @@ class _JournalScreenState extends State<JournalScreen> {
                   children: [
                     InkWell(
                       onTap: () async {
+                        if (allActivityKey[index] == 'None') return;
                         await Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -650,6 +817,7 @@ class _JournalScreenState extends State<JournalScreen> {
                     });
                 });
                 getToDoList();
+                getDoneTask();
               }
             },
             onFormatChanged: (format) {
@@ -748,8 +916,8 @@ class _JournalScreenState extends State<JournalScreen> {
         SizedBox(
           height: 30,
         ),
-        //Hiển thị tất cả các hoạt động(hoàn thành và chưa hoàn thành)
         ToDoList(),
+        DoneTask(),
         SizedBox(
           height: 12,
         ),
