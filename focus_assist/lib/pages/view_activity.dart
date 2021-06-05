@@ -23,9 +23,12 @@ class _ViewActivityState extends State<ViewActivity> {
   List<Map<String, dynamic>> database;
   Map<String, double> dataMap = {
     "Done": 5,
-    "Skip": 3,
     "Miss": 20,
   };
+  String consecutiveDays;
+  String activityStartDay;
+  // Các biến dùng để debug
+  DateTime startTime;
   @override
   void initState() {
     // TODO: implement initState
@@ -33,6 +36,21 @@ class _ViewActivityState extends State<ViewActivity> {
     database = [];
     name = widget.activityName;
     keyname = widget.activityKey;
+
+    startTime = DateTime.now();
+    consecutiveDays = '0';
+    activityStartDay = '';
+  }
+
+  int dateTimeToInt(DateTime dateTime) {
+    return dateTime.year * 10000 + dateTime.month * 100 + dateTime.day;
+  }
+
+  DateTime intToDateTime(int dateTimeInt) {
+    int year = (dateTimeInt / 10000).floor();
+    int month = (dateTimeInt / 100).floor() % 100;
+    int day = dateTimeInt % 100;
+    return DateTime(year, month, day);
   }
 
   void getData() async {
@@ -43,7 +61,32 @@ class _ViewActivityState extends State<ViewActivity> {
     if (database.length > 0) {
       setState(() {
         name = database[0]['TENMUCTIEU'];
+        activityStartDay = intToDateTime(database[0]['NGAYBATDAU']).toString();
+        if (activityStartDay.length > 10) {
+          activityStartDay = activityStartDay.substring(0, 10);
+        }
       });
+    }
+
+    // Lấy streak các ngày từ ngày bây giờ trở về trc
+    int date = dateTimeToInt(startTime);
+    List<Map<String, dynamic>> data = await dbHelper.rawQuery(
+        '''select * from THONGKE where MAMUCTIEU='$key' and NGAYHOANTHANH<=$date ''');
+    List<int> doneDay = [];
+    for (int i = 0; i < data.length; i++) {
+      doneDay.add(data[i]['NGAYHOANTHANH']);
+    }
+    int conseDays = 0;
+    while (true) {
+      if (doneDay.contains(date)) {
+        date--;
+        conseDays++;
+      } else {
+        setState(() {
+          consecutiveDays = conseDays.toString();
+        });
+        break;
+      }
     }
   }
 
@@ -74,77 +117,91 @@ class _ViewActivityState extends State<ViewActivity> {
           ),
           body: ListView(children: [
             Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: ElevatedButton(
-                  onPressed: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EditActivity(
-                              activityKey: widget.activityKey,
-                              activityName: widget.activityName)),
-                    );
-                    getData();
-                  },
-                  child: Text("Edit")),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: ElevatedButton(
-                  onPressed: () async {
-                    await showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                              title: Text("Message"),
-                              content: Text(
-                                  "Are you sure to delete this activity ?"),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    deleteActivity();
-                                  },
-                                  child: Text("Yes"),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("No"),
-                                )
-                              ],
-                            ));
-                  },
-                  child: Text("Delete")),
-            ),
-            Container(
-                height: 50,
+              padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
+              child: Center(
                 child: Row(children: [
-                  Expanded(
-                      flex: 1,
-                      child: Center(
-                          child: FlatButton(
-                        color: Colors.cyan,
-                        onPressed: () {},
-                        child: Text(
-                          "Thống kê",
-                          style: TextStyle(fontSize: 27, color: Colors.white),
-                        ),
-                      ))
-                      //FlatButton(onPress:(){},child: Text("Thống kê", style: TextStyle(fontSize: 30))),
-                      ),
-                  Expanded(
-                      flex: 1,
-                      child: Center(
-                          child: FlatButton(
-                        color: Colors.cyan,
-                        onPressed: () {},
-                        child: Text(
-                          "Ghi chú",
-                          style: TextStyle(fontSize: 27, color: Colors.white),
-                        ),
-                      )))
-                ])),
+                  Text(
+                    "To date: ",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Text(
+                    startTime.toString().substring(0, 10),
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  FlatButton.icon(
+                    icon: Icon(Icons.date_range),
+                    onPressed: () async {
+                      await showDatePicker(
+                              context: context,
+                              initialDate: startTime,
+                              firstDate: DateTime.utc(2020, 1, 1),
+                              lastDate: DateTime.utc(2120, 31, 12))
+                          .then((date) {
+                        setState(() {
+                          if (date != null) startTime = date;
+                        });
+                      });
+                      getData();
+                    },
+                    label: Text(""),
+                  )
+                ]),
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditActivity(
+                                    activityKey: widget.activityKey,
+                                    activityName: widget.activityName)),
+                          );
+                          getData();
+                        },
+                        child: Text("Edit")),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          await showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                    title: Text("Message"),
+                                    content: Text(
+                                        "Are you sure to delete this activity ?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          deleteActivity();
+                                        },
+                                        child: Text("Yes"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("No"),
+                                      )
+                                    ],
+                                  ));
+                        },
+                        child: Text("Delete")),
+                  ),
+                ),
+              ],
+            ),
             Container(
                 height: 100,
                 child: ListView(
@@ -153,26 +210,18 @@ class _ViewActivityState extends State<ViewActivity> {
                     children: [
                       Container(
                         width: 300,
-                        decoration: new BoxDecoration(color: Colors.red),
+                        decoration: new BoxDecoration(color: Color(0xffebe8e1)),
                         child: ListTile(
                           leading: Icon(
                             Icons.fireplace,
                             size: 60,
+                            color: Color(0xffd40f23),
                           ),
-                          title: Text("Streak"),
-                          subtitle: Text('Consecutive days'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        width: 300,
-                        decoration: new BoxDecoration(color: Colors.red),
-                        child: ListTile(
-                          leading: Icon(Icons.lightbulb),
-                          title: Text("0 times"),
-                          subtitle: Text('Average a day'),
+                          title: Text(
+                            "Streak",
+                            style: TextStyle(fontSize: 23),
+                          ),
+                          subtitle: Text('$consecutiveDays Consecutive days'),
                         ),
                       ),
                       SizedBox(
@@ -184,7 +233,7 @@ class _ViewActivityState extends State<ViewActivity> {
                         child: ListTile(
                           leading: Icon(Icons.calendar_today),
                           title: Text("Ngày bắt đầu"),
-                          subtitle: Text('01/01/2021'),
+                          subtitle: Text(activityStartDay),
                         ),
                       ),
                       SizedBox(
