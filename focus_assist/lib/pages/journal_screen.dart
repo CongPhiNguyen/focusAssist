@@ -149,11 +149,7 @@ class _JournalScreenState extends State<JournalScreen> {
           }
         } else if (database[i]['LOAIHINH'] == 'Flexible') {
           setState(() {
-            doneList.add(
-              database[i]['TENMUCTIEU'] +
-                  '  0/' +
-                  database[i]['SOLAN'].toString(),
-            );
+            doneList.add(database[i]['TENMUCTIEU']);
             doneListKey.add(database[i]['MAMUCTIEU']);
           });
         } else if (database[i]['LOAIHINH'] == 'Repeating') {
@@ -292,8 +288,9 @@ class _JournalScreenState extends State<JournalScreen> {
   void getToDoList() async {
     print("Fuck Done");
     int selectedDay = dateTimeToInt(_selectedDay);
-    database = await dbHelper.rawQuery(
+    List<Map<String, dynamic>> database = await dbHelper.rawQuery(
         ''' select * from MUCTIEU where MAMUCTIEU not in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) ''');
+    List<Map<String, dynamic>> flexibleData = [];
     if (database.length == 0) {
       setState(() {
         toDos = [
@@ -343,16 +340,8 @@ class _JournalScreenState extends State<JournalScreen> {
             });
           }
         } else if (database[i]['LOAIHINH'] == 'Flexible') {
-          setState(() {
-            toDos.add(
-              ToDo(
-                  check: false,
-                  task: database[i]['TENMUCTIEU'] +
-                      '  0/' +
-                      database[i]['SOLAN'].toString(),
-                  taskKey: database[i]['MAMUCTIEU']),
-            );
-          });
+          // Quăng ra ngoài rồi hẵn xử lý
+          flexibleData.add(database[i]);
         } else if (database[i]['LOAIHINH'] == 'Repeating') {
           int val = int.parse(database[i]['KHOANGTHOIGIAN']);
           Duration diff = start.difference(_selectedDay);
@@ -370,7 +359,51 @@ class _JournalScreenState extends State<JournalScreen> {
         }
       }
     }
+    List<String> daysofWeek = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ];
+    // Flexible Handler
+    for (int i = 0; i < flexibleData.length; i++) {
+      // Rắc rối nhất là ở đây
+      // Lấy số lần đã làm trong tuần
 
+      // Lấy thứ của ngày hiện tại
+      String day = DateFormat('EEEE').format(_selectedDay);
+      int indexOfDay = daysofWeek.indexOf(day);
+      int selectedDay = dateTimeToInt(_selectedDay);
+      // Số của ngày đầu tuần
+      int startOfWeek = selectedDay - indexOfDay;
+      int endOfWeek = selectedDay + 6 - indexOfDay;
+      String key = flexibleData[i]['MAMUCTIEU'];
+      // Lấy từ đầu tuần tới cuối tuần của cái bảng thống kê để coi thử làm đc bao nhiêu lần rồi
+      List<Map<String, dynamic>> data = await dbHelper.rawQuery(
+          '''select count(*) as SOLAN from THONGKE where NGAYHOANTHANH>=$startOfWeek and NGAYHOANTHANH<=$endOfWeek and MAMUCTIEU='$key' ''');
+      print(data.toString());
+      int count = 0;
+      if (data.length == 0) {
+        count = 0;
+      } else
+        count = data[0]['SOLAN'];
+      if (flexibleData[i]['SOLAN'] <= count) {
+        continue;
+      }
+      setState(() {
+        toDos.add(
+          ToDo(
+              check: false,
+              task: flexibleData[i]['TENMUCTIEU'] +
+                  '  $count/' +
+                  flexibleData[i]['SOLAN'].toString(),
+              taskKey: flexibleData[i]['MAMUCTIEU']),
+        );
+      });
+    }
     if (toDos.length == 0) {
       toDos = [
         ToDo(check: false, task: "Không có gì", taskKey: 'None'),
@@ -554,6 +587,7 @@ class _JournalScreenState extends State<JournalScreen> {
                                     )));
                         getAllActivity();
                         getToDoList();
+                        getDoneTask();
                         getAllGroup();
                       },
                       child: ListTile(

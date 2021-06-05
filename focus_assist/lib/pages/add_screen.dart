@@ -715,7 +715,7 @@ class _AddNewState extends State<AddNew> {
                     print('inserted row NGUOIDUNG id: $id');
                     row = {'MANGUOIDUNG': 'NGUOIDUNG', 'VANG': 0};
                     final id2 = await dbHelper.insert('THONGTINNGUOIDUNG', row);
-                    print('inserted THONGTINNGUOIDUNGrow id: $id2');
+                    print('inserted THONGTINNGUOIDUNG row id: $id2');
                   },
                   child: Text(text4, style: TextStyle(fontSize: 30))),
             ),
