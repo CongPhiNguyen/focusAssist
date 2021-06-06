@@ -97,7 +97,7 @@ class _PlayButtonState extends State<PlayButton> with TickerProviderStateMixin {
             ),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.blueAccent,
+              color: Color(0xffF27B35),
             ),
           ),
         ],
