@@ -3,6 +3,7 @@ import 'package:focus_assist/pages/edit_activity_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
+import 'package:intl/intl.dart';
 
 class ViewActivity extends StatefulWidget {
   final String activityKey, activityName;
@@ -29,6 +30,7 @@ class _ViewActivityState extends State<ViewActivity> {
   String activityStartDay;
   // Các biến dùng để debug
   DateTime startTime;
+  String doDays, failDays;
   @override
   void initState() {
     // TODO: implement initState
@@ -40,6 +42,9 @@ class _ViewActivityState extends State<ViewActivity> {
     startTime = DateTime.now();
     consecutiveDays = '0';
     activityStartDay = '';
+    getData();
+    doDays = '0';
+    failDays = '0';
   }
 
   int dateTimeToInt(DateTime dateTime) {
@@ -86,6 +91,53 @@ class _ViewActivityState extends State<ViewActivity> {
           consecutiveDays = conseDays.toString();
         });
         break;
+      }
+    }
+    // Lấy ngày thực hiện ngày không thực hiện
+    if (database.length > 0) {
+      // Xử lý trường hợp fixed
+      if (database[0]['LOAIHINH'] == 'Fixed') {
+        //Tất cả những ngày đã làm nhỏ hơn ngày hoàn thành: doneDay
+        //List tất cả những ngày cần làm
+        List<int> toDoDays = [];
+        // Lấy thứ của ngày bắt đầu
+        String thu =
+            DateFormat('EEEE').format(intToDateTime(database[0]['NGAYBATDAU']));
+        List<String> daysofWeek = [
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday'
+        ];
+        int indexThu = daysofWeek.indexOf(thu);
+        String h = database[0]['CACNGAY'].toString();
+        // Xử lý vì chuyển từ int nên có thể không đủ 7 chữ số
+        while (h.length < 7) {
+          h = '0' + h;
+        }
+        for (int day = database[0]['NGAYBATDAU'];
+            day <= dateTimeToInt(startTime);
+            day++) {
+          if (h[indexThu] == '1') {
+            toDoDays.add(day);
+          }
+          indexThu++;
+          indexThu %= 7;
+        }
+        int doDay = 0, failDay = 0;
+        for (int i = 0; i < toDoDays.length; i++) {
+          if (doneDay.contains(toDoDays[i])) {
+            doDay++;
+          } else
+            failDay++;
+        }
+        setState(() {
+          doDays = doDay.toString();
+          failDays = failDay.toString();
+        });
       }
     }
   }
@@ -229,10 +281,12 @@ class _ViewActivityState extends State<ViewActivity> {
                       ),
                       Container(
                         width: 300,
-                        decoration: new BoxDecoration(color: Colors.red),
+                        decoration: new BoxDecoration(color: Color(0xffebe8e1)),
                         child: ListTile(
-                          leading: Icon(Icons.calendar_today),
-                          title: Text("Ngày bắt đầu"),
+                          leading: Icon(Icons.calendar_today,
+                              color: Colors.cyan, size: 50),
+                          title:
+                              Text("Start day", style: TextStyle(fontSize: 23)),
                           subtitle: Text(activityStartDay),
                         ),
                       ),
@@ -241,11 +295,12 @@ class _ViewActivityState extends State<ViewActivity> {
                       ),
                       Container(
                         width: 300,
-                        decoration: new BoxDecoration(color: Colors.red),
+                        decoration: new BoxDecoration(color: Color(0xffebe8e1)),
                         child: ListTile(
-                          leading: Icon(Icons.calendar_today),
-                          title: Text("0"),
-                          subtitle: Text('Lần hoàn thành'),
+                          leading: Icon(Icons.done_outlined,
+                              color: Colors.green, size: 50),
+                          title: Text(doDays),
+                          subtitle: Text('Done times'),
                         ),
                       ),
                       SizedBox(
@@ -253,11 +308,12 @@ class _ViewActivityState extends State<ViewActivity> {
                       ),
                       Container(
                         width: 300,
-                        decoration: new BoxDecoration(color: Colors.red),
+                        decoration: new BoxDecoration(color: Color(0xffebe8e1)),
                         child: ListTile(
-                          leading: Icon(Icons.calendar_today),
-                          title: Text("0"),
-                          subtitle: Text('Lần bỏ qua'),
+                          leading:
+                              Icon(Icons.block, color: Colors.red, size: 50),
+                          title: Text(failDays),
+                          subtitle: Text('Missed Times'),
                         ),
                       ),
                     ])),

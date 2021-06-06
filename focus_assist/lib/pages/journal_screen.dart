@@ -237,16 +237,6 @@ class _JournalScreenState extends State<JournalScreen> {
                     InkWell(
                       onTap: () async {
                         if (doneListKey[index] == 'None') return;
-                        await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ViewActivity(
-                                      activityKey: doneListKey[index],
-                                      activityName: doneList[index],
-                                    )));
-                        getAllActivity();
-                        getToDoList();
-                        getAllGroup();
                       },
                       child: ListTile(
                         title: Text(doneList[index],
