@@ -164,6 +164,81 @@ class _ViewActivityState extends State<ViewActivity> {
           failDays = failDay.toString();
           dataMap['Miss'] = failDay * 1.0;
         });
+      } else if (database[0]['LOAIHINH'] == 'Flexible') {
+        // Đếm từng tuần của flexible
+        // Lấy thứ của ngày bắt đầu
+        String thu =
+            DateFormat('EEEE').format(intToDateTime(database[0]['NGAYBATDAU']));
+        List<String> daysofWeek = [
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday'
+        ];
+        List<int> timesByWeek = [];
+        int indexThu = daysofWeek.indexOf(thu);
+        int times = database[0]['SOLAN'];
+        int startDay = database[0]['NGAYBATDAU'];
+        if (startDay + 6 - indexThu < dateTimeToInt(startTime)) {
+          int plus = 0, count = 0;
+          for (int i = indexThu; i < 7; i++) {
+            if (doneDay.contains(startDay + plus)) {
+              count++;
+            }
+            plus++;
+          }
+          if (count >= times) {
+            timesByWeek.add(1);
+          } else
+            timesByWeek.add(0);
+          print(timesByWeek);
+          int changeWeek = 0;
+          count = 0;
+          for (int date = startDay + 7 - indexThu;
+              date < dateTimeToInt(startTime);
+              date++) {
+            print('nextWeek');
+            if (doneDay.contains(date)) count++;
+            changeWeek++;
+            if (changeWeek == 7) {
+              changeWeek = 0;
+              if (count >= times)
+                timesByWeek.add(1);
+              else
+                timesByWeek.add(0);
+              print('count: $count, time: $times');
+            }
+          }
+          int streak = 0;
+          // đếm Streak
+          for (int i = timesByWeek.length - 1; i >= 0; i--) {
+            if (timesByWeek[i] == 1) {
+              streak++;
+            } else {
+              break;
+            }
+          }
+          setState(() {
+            consecutiveDays = streak.toString();
+          });
+          //Đếm số lần fail lần done
+          int doDay = 0, failDay = 0;
+          for (int i = 0; i < timesByWeek.length; i++) {
+            if (timesByWeek[i] == 1) {
+              doDay++;
+            } else
+              failDay++;
+          }
+          setState(() {
+            doDays = doDay.toString();
+            dataMap['Done'] = doDay * 1.0;
+            failDays = failDay.toString();
+            dataMap['Miss'] = failDay * 1.0;
+          });
+        }
       }
     }
   }
