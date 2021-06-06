@@ -98,9 +98,10 @@ class _JournalScreenState extends State<JournalScreen> {
   // Các hàm cần thiết để load dữ liệu
   void getDoneTask() async {
     print("Fuck Done");
+    String userID = StaticData.userID;
     int selectedDay = dateTimeToInt(_selectedDay);
     database = await dbHelper.rawQuery(
-        ''' select * from MUCTIEU where MAMUCTIEU in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) ''');
+        ''' select * from MUCTIEU where MAMUCTIEU in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) and MANGUOIDUNG='$userID' ''');
     if (database.length == 0) {
       setState(() {
         doneList = ['Không có gì'];
@@ -256,7 +257,9 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   void getAllActivity() async {
-    database = await dbHelper.query('MUCTIEU');
+    String userID = StaticData.userID;
+    database = await dbHelper
+        .rawQuery('''select * from MUCTIEU where MANGUOIDUNG='$userID' ''');
     if (database.length == 0) {
       setState(() {
         allActivity = ['Không có gì'];
@@ -278,8 +281,9 @@ class _JournalScreenState extends State<JournalScreen> {
   void getToDoList() async {
     print("Fuck Done");
     int selectedDay = dateTimeToInt(_selectedDay);
+    String userID = StaticData.userID;
     List<Map<String, dynamic>> database = await dbHelper.rawQuery(
-        ''' select * from MUCTIEU where MAMUCTIEU not in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) ''');
+        ''' select * from MUCTIEU where MAMUCTIEU not in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) and MANGUOIDUNG='$userID' ''');
     List<Map<String, dynamic>> flexibleData = [];
     if (database.length == 0) {
       setState(() {
@@ -617,7 +621,9 @@ class _JournalScreenState extends State<JournalScreen> {
       allGroup = [];
       allGroupKey = [];
     });
-    database = await dbHelper.query('NHOMMUCTIEU');
+    String userID = StaticData.userID;
+    database = await dbHelper
+        .rawQuery('''select * from NHOMMUCTIEU where MANGUOIDUNG='$userID' ''');
     for (int i = 0; i < database.length; i++) {
       setState(() {
         allGroup.add(database[i]['TENNHOM']);
@@ -634,8 +640,9 @@ class _JournalScreenState extends State<JournalScreen> {
 
       print("Fcu");
       String key = allGroupKey[i];
-      database = await dbHelper
-          .rawQuery('''select * from MUCTIEU where MANHOM='$key' ''');
+      String userID = StaticData.userID;
+      database = await dbHelper.rawQuery(
+          '''select * from MUCTIEU where MANHOM='$key' and MANGUOIDUNG='$userID' ''');
       for (int j = 0; j < database.length; j++) {
         setState(() {
           allGroupActivity[i].add(database[j]['TENMUCTIEU']);
