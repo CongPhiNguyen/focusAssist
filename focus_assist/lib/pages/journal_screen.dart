@@ -810,6 +810,7 @@ class _JournalScreenState extends State<JournalScreen> {
               context: context,
               builder: (_) => ListAchivement(),
             );
+            loadGold();
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,

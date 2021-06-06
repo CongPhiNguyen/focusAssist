@@ -730,6 +730,12 @@ class _AddNewState extends State<AddNew> {
                   dbHelper.rawQuery('''delete from MUCTIEU''');
                 },
                 child: Text("DELETE MUCTIEU", style: TextStyle(fontSize: 30))),
+            TextButton(
+                onPressed: () {
+                  dbHelper.rawQuery('''delete from THANHTUU''');
+                  dbHelper.rawQuery('''delete from THANHTUUNGUOIDUNG''');
+                },
+                child: Text("DELETE THANHTUU", style: TextStyle(fontSize: 30))),
             Text(
               allGroup.toString(),
               style: TextStyle(fontSize: 20),
