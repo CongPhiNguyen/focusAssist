@@ -73,7 +73,7 @@ class _ViewActivityState extends State<ViewActivity> {
       });
     }
 
-    // Lấy streak các ngày từ ngày bây giờ trở về trc
+    // Lấy các ngày đã làm
     int date = dateTimeToInt(startTime);
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
         '''select * from THONGKE where MAMUCTIEU='$key' and NGAYHOANTHANH<=$date ''');
@@ -81,18 +81,7 @@ class _ViewActivityState extends State<ViewActivity> {
     for (int i = 0; i < data.length; i++) {
       doneDay.add(data[i]['NGAYHOANTHANH']);
     }
-    int conseDays = 0;
-    while (true) {
-      if (doneDay.contains(date)) {
-        date--;
-        conseDays++;
-      } else {
-        setState(() {
-          consecutiveDays = conseDays.toString();
-        });
-        break;
-      }
-    }
+
     // Lấy ngày thực hiện ngày không thực hiện
     if (database.length > 0) {
       // Xử lý trường hợp fixed
@@ -136,7 +125,44 @@ class _ViewActivityState extends State<ViewActivity> {
         }
         setState(() {
           doDays = doDay.toString();
+          dataMap['Done'] = doDay * 1.0;
           failDays = failDay.toString();
+          dataMap['Miss'] = failDay * 1.0;
+        });
+        // Tính streak của fixed
+        int conseDays = 0;
+        for (int i = toDoDays.length - 1; i >= 0; i--) {
+          if (doneDay.contains(toDoDays[i])) {
+            conseDays++;
+            print(toDoDays[i]);
+          } else {
+            break;
+          }
+        }
+        setState(() {
+          consecutiveDays = conseDays.toString();
+        });
+      } else if (database[0]['LOAIHINH'] == 'Repeating') {
+        int cachNgay = int.parse(database[0]['KHOANGTHOIGIAN']);
+        // List tất cả các ngày cần làm:
+        List<int> toDoDays = [];
+        for (int day = database[0]['NGAYBATDAU'];
+            day <= dateTimeToInt(startTime);
+            day += cachNgay) {
+          toDoDays.add(day);
+        }
+        int doDay = 0, failDay = 0;
+        for (int i = 0; i < toDoDays.length; i++) {
+          if (doneDay.contains(toDoDays[i])) {
+            doDay++;
+          } else
+            failDay++;
+        }
+        setState(() {
+          doDays = doDay.toString();
+          dataMap['Done'] = doDay * 1.0;
+          failDays = failDay.toString();
+          dataMap['Miss'] = failDay * 1.0;
         });
       }
     }
