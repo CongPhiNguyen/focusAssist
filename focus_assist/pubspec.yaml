@@ -72,12 +72,12 @@ flutter:
     - assets/achievenment/Eggs/eggRock.png
     - assets/achievenment/Eggs/eggSky.png
     - assets/achievenment/Eggs/eggWater.png
-    - assets/achievenment/ui/treasure.png
-    - assets/achievenment/ui/cuahang.png
-    - assets/achievenment/ui/thanhtuu.png
-    - assets/achievenment/ui/tui.png
-    - assets/achievenment/ui/nongtrai.png
-    - assets/achievenment/ui/UI_shop_volumn.png
+#    - assets/achievenment/ui/
+#    - assets/achievenment/ui/cuahang.png
+#    - assets/achievenment/ui/thanhtuu.png
+#    - assets/achievenment/ui/tui.png
+
+#    - assets/achievenment/ui/UI_shop_volumn.png
     - assets/Database/create_tables_script.sql
     - assets/achievenment/Eggs/eggBlue.png
     - assets/achievenment/Eggs/eggCheese.png
@@ -91,36 +91,10 @@ flutter:
     - assets/achievenment/Eggs/eggSilver.png
     - assets/achievenment/Eggs/eggStrawberry.png
     - assets/achievenment/Eggs/eggSweety.png
-    - assets/achievenment/move/snail1.png
-    - assets/achievenment/move/snail2.png
-    - assets/achievenment/move/snailDown1.png
-    - assets/achievenment/move/snailDown2.png
-    - assets/achievenment/move/snailUp1.png
-    - assets/achievenment/move/snailUp2.png
-    - assets/achievenment/move/chimbang1.png
-    - assets/achievenment/move/chimbang2.png
-    - assets/achievenment/move/chimbangDown1.png
-    - assets/achievenment/move/chimbangDown2.png
-    - assets/achievenment/move/chimbangUp1.png
-    - assets/achievenment/move/chimbangUp2.png
-    - assets/achievenment/move/chimdien1.png
-    - assets/achievenment/move/chimdien2.png
-    - assets/achievenment/move/chimdienDown1.png
-    - assets/achievenment/move/chimdienDown2.png
-    - assets/achievenment/move/chimdienUp1.png
-    - assets/achievenment/move/chimdienUp2.png
-    - assets/achievenment/move/chimlua1.png
-    - assets/achievenment/move/chimlua2.png
-    - assets/achievenment/move/chimluaDown1.png
-    - assets/achievenment/move/chimluaDown2.png
-    - assets/achievenment/move/chimluaUp1.png
-    - assets/achievenment/move/chimluaUp2.png
-    - assets/achievenment/move/fire1.png
-    - assets/achievenment/move/fire2.png
-    - assets/achievenment/move/fireDown1.png
-    - assets/achievenment/move/fireDown2.png
-    - assets/achievenment/move/fireUp1.png
-    - assets/achievenment/move/fireUp2.png
+    - assets/achievenment/move/
+    - assets/achievenment/ui/
+
+
 
 
 

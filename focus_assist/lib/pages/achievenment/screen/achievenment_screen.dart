@@ -18,11 +18,14 @@ class AchievenmentScreen extends StatefulWidget {
 
 class _AchievenmentScreenState extends State<AchievenmentScreen> {
 
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     LoadingAchievenment();
+    Loading();
   }
 
   @override
@@ -31,45 +34,10 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
       backgroundColor: Colors.amber[50],
       appBar: AppBar(
         backgroundColor: Colors.amber,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.collections_sharp,
-              color: Colors.black,
-            ),
-
-            onPressed: ()async{
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context){
-                      return CollectionScreen();
-                    }
-                )
-              );
-            },
-          ),
-
-          IconButton(
-            icon: Icon(Icons.shopping_cart_rounded,color: Colors.black,),
-            onPressed: () async {
-              // update vàng người dùng từ database
-
-              String id = StaticData.userID;
-              final k = await DbProvider.instance.rawQuery('''
-                                select * from THONGTINNGUOIDUNG where MANGUOIDUNG = '$id'
-                                '''
-              );
-              StaticData.Vang = k[0]['VANG'];
-
-              Loading();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context){return ShopScreen();})
-               );
-              },
-          ),
-        ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,color: Colors.black,),
+          onPressed: (){Navigator.pop(context);},
+        ),
         centerTitle: true,
         title: Text(
           'Achievement',
@@ -188,12 +156,6 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
         }
       }
     }
-
-    final updateBonus = await DbProvider.instance.rawQuery('''
-    SELECT * FROM THONGTINNGUOIDUNG WHERE MANGUOIDUNG = '$id'
-    ''');
-
-    StaticData.Vang = updateBonus[0]['VANG'];
   }
 }
 

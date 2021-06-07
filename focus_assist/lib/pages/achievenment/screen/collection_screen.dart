@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:focus_assist/classes/ClassCardAchievenment.dart';
 import 'package:focus_assist/classes/ClassCardShop.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
@@ -10,8 +9,6 @@ class CollectionScreen extends StatefulWidget {
   @override
   _CollectionScreenState createState() => _CollectionScreenState();
 }
-
-
 
 class _CollectionScreenState extends State<CollectionScreen> {
   @override
@@ -164,8 +161,3 @@ class _CollectionScreenState extends State<CollectionScreen> {
     StaticData.Vang = updateBonus[0]['VANG'];
   }
 }
-
-
-
-
-

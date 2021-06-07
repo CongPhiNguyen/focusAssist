@@ -5,6 +5,7 @@ import 'package:focus_assist/classes/ClassCardShop.dart';
 import 'package:focus_assist/classes/ClassPokemon.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
+import 'package:focus_assist/pages/farm/feature_ui/object_farm.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 
@@ -86,11 +87,12 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
       closeIcon: Icon(Icons.info_outlined),
       desc: 'Đã sở hữu',
       content: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(name,style: TextStyle(color: rareColor),),
-          Image.asset(imageEgg),
-          Text('Mô tả :'+mota),
+          Center(child: Image.asset(imageEgg)),
+          Center(child: Text(name,style: TextStyle(color: rareColor),)),
+          Text('Mô tả : '+mota),
           Text('Price: ' + price.toString(),),
         ],
       ),
@@ -105,26 +107,27 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
             Map<String, dynamic> row;
 
             InfoPokemon index = new InfoPokemon(name, 1, rareColor);
-            StaticData.PokemonUser.add(index);
+            index.randomDirecAndPos();
+            StaticData.PokemonUsers.add(index);
 
-            /*if (rareColor == Colors.green){
-              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 1};
-            }
-            if (rareColor == Colors.blueAccent){
-              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 2};
-            }
-            if (rareColor == Colors.purpleAccent){
-              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 3};
-            }
-            if (rareColor == Colors.red){
-              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 4};
-            }
-            int i = await DbProvider.instance.insert('POKEMON', row);
-            print(i);*/
+            // if (rareColor == Colors.green){
+            //   row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 1};
+            // } else
+            // if (rareColor == Colors.blueAccent){
+            //   row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 2};
+            // } else
+            // if (rareColor == Colors.purpleAccent){
+            //   row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 3};
+            // }else
+            // if (rareColor == Colors.red){
+            //   row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 4};
+            // }
+            // int i = await DbProvider.instance.insert('POKEMON', row);
+            // print(i);
 
             final k = await DbProvider.instance.rawQuery('''
-          DELETE FROM VATPHAMNGUOIDUNG WHERE MANGUOIDUNG = '$id' AND MAVATPHAM = '$mavp'
-          ''');
+            DELETE FROM VATPHAMNGUOIDUNG WHERE MANGUOIDUNG = '$id' AND MAVATPHAM = '$mavp'
+            ''');
             for(int i = 0; i < StaticData.EggUser.length; i++)
             {
               if(StaticData.EggUser[i].MaVP == mavp)
@@ -134,7 +137,7 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
                 });
               }
             }
-            print(StaticData.PokemonUser);
+            print(StaticData.PokemonUsers);
             Navigator.pop(context);
           },
           width: 120,

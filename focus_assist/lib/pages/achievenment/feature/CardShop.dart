@@ -68,6 +68,7 @@ class _testState extends State<card_shop> {
         {
           if(StaticData.AchiList[i].TENTHANHTUU == name)
           {
+            StaticData.AchiUser.add(StaticData.AchiList[i]);
             bonus = StaticData.AchiList[i].bonus;
             setState(() {
               StaticData.Vang += StaticData.AchiList[i].bonus;
@@ -88,15 +89,22 @@ class _testState extends State<card_shop> {
                                      WHERE MANGUOIDUNG = '$id'
                                      ''');
 
-        _showBILL(context, "Bạn nhận được thành tựu và thưởng $bonus", true);} else {
+        _showBILL(context, "Bạn nhận được thành tựu trứng $name và thưởng $bonus vàng", true);} else {
           setState(() {
+            StaticData.Vang -= price;
             isBuy = true;
           });
-          _showBILL(context, "Mua thành công", true);
+          int vang = StaticData.Vang;
+          final k = await DbProvider.instance.rawQuery('''
+                                     UPDATE THONGTINNGUOIDUNG
+                                     SET VANG = $vang
+                                     WHERE MANGUOIDUNG = '$id'
+                                     ''');
+          _showBILL(context, "Mua thành công!", true);
         }
       }
       else {
-        _showBILL(context, "Bạn đã sở hữu quả trứng này", false);
+        _showBILL(context, "Bạn đã sở hữu quả trứng này!", false);
       }
 
     } else {
@@ -387,11 +395,6 @@ class card_shop extends StatelessWidget {
 }
 
 */
-
-
-// Show thông báo
-
-
 
 
 

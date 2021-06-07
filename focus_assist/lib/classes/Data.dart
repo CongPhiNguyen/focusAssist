@@ -16,4 +16,5 @@ class StaticData {
   static Timer timer;
   static Timer timer2;
   static List<InfoPokemon> PokemonUser = [];
+  static List<InfoPokemon> PokemonUsers = [];
 }
