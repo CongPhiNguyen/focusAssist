@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_volume_slider/flutter_volume_slider.dart';
-
+import 'audio/song1.dart';
+import 'audio/song2.dart';
 
 class musicDialog extends StatefulWidget {
   const musicDialog({Key key}) : super(key: key);
@@ -27,7 +28,7 @@ class _musicDialogState extends State<musicDialog> {
               Container(
                 constraints: BoxConstraints.expand(height: 35.0),
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.amber,
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight:Radius.circular(12) ),
                 ),
                 child: Center(
@@ -44,7 +45,7 @@ class _musicDialogState extends State<musicDialog> {
               Container(
                 constraints: BoxConstraints.expand(height: 45.0),
                 decoration: BoxDecoration(
-                  color: Colors.lightBlue,
+                  color: Colors.amber[400],
                 ),
                 child: Center(
                   child: Text(
@@ -59,20 +60,25 @@ class _musicDialogState extends State<musicDialog> {
                 ),
               ),
               // this is music list
+              // this is music list
               Container(
-                //put listview here
-  
-                // constraints: BoxConstraints.expand(height: 300.0),
-                // decoration: BoxDecoration(
-                //   color: Colors.grey,
-                
+                padding: EdgeInsets.only(bottom: 190),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // song1(),
+                    // song2(),
+                    Text("song 1", style: TextStyle(fontSize: 30),),
+                    Text("song 2" , style: TextStyle(fontSize: 30),),
+                    ],
+                ),
               
               ),
               SizedBox(height: 5,),
               Container(
                 child: Material(
                   child: Container(
-                    constraints: BoxConstraints.expand(height: 50.0, width: 250),
+                    constraints: BoxConstraints.expand(height: 50.0, width: 290),
                     decoration: BoxDecoration(
                       color: Colors.white,
                     ),
@@ -87,18 +93,52 @@ class _musicDialogState extends State<musicDialog> {
               Container(
                 constraints: BoxConstraints.expand(height: 80.0),
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12), bottomRight:Radius.circular(12) ),
                 ),
-                child: Text(
-                  "2 button ",
-                  style: TextStyle(
-                    fontSize: 18,
-                    letterSpacing: 1.5,
-                    color: Colors.white,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [                 
+                  RaisedButton(
+                  onPressed: (){
+                    print("button 1");
+                  },
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 30.0,
+                    vertical: 10.0,
+                  ),
+                  color: Colors.green,
+                  child: Text(
+                    "Start",
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.white,
+                    ),),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
-              )
+                RaisedButton(
+                  onPressed: (){
+                    print("button 2");
+                  },
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 40.0,
+                    vertical: 10.0,
+                  ),
+                  color: Colors.red,
+                  child: Text(
+                    "Stop",
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.white,
+                    ),),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                ),
+                ],)
+                ),
             ],
           ),
         ),

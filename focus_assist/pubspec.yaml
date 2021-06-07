@@ -34,7 +34,7 @@ dependencies:
   image_picker:
   pie_chart: ^5.0.0
   numberpicker: ^1.0.0
-  audioplayers: ^0.19.0
+  audioplayers: ^0.16.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -85,7 +85,10 @@ flutter:
     - assets/achievenment/ui/treasure.png
     - assets/achievenment/ui/UI_shop_volumn.png
     - assets/Database/create_tables_script.sql
-
+    - assets/images/focusTime_background.png
+    - assets/audio/Song1.mp3
+    - assets/audio/Song2.mp3
+    - assets/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_volume_slider/flutter_volume_slider.dart';
 import 'package:focus_assist/pages/dialogHelperToSetTime.dart';
+import 'package:focus_assist/pages/timerHistory.dart';
 import 'package:path/path.dart';
 import 'package:simple_timer/simple_timer.dart';
 import 'package:flutter/cupertino.dart';
@@ -100,21 +101,10 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                 builder: (BuildContext context) {
                   return Scaffold(
                     appBar: AppBar(
+                      backgroundColor: Colors.amber,
                       title: const Text('Timer history'),
                     ),
-                    body:  Center(
-                      child: Container(
-                        constraints: BoxConstraints.expand(height: 50.0, width: 250),
-                        decoration: BoxDecoration(
-                          color: Colors.blueGrey,
-                        ),
-                        child: FlutterVolumeSlider(
-                          display: Display.HORIZONTAL,
-                          sliderActiveColor: Colors.blue,
-                          sliderInActiveColor: Colors.grey,
-                        ),
-                      ),
-                    ),
+                    body: timerHistory(),
                   );
                 },
               ));
@@ -204,14 +194,15 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                 alignment: Alignment.topCenter,
                 height: MediaQuery.of(context).size.height* 0.3,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white30,
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 2,
-                  ),
-                ),
+                // decoration: BoxDecoration(
+                //   shape: BoxShape.circle,
+                //   color: Colors.white30,
+                //   border: Border.all(
+                //     color: Colors.grey,
+                //     width: 2,
+                //   ),
+                // ),
+                /////////////////////////////////
                 // child: SimpleTimer(
                 //   duration: Duration(hours: hour, minutes: min),
                 //   backgroundColor: Colors.white,
@@ -222,11 +213,19 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                 //   ),
                 //   strokeWidth: 10,
                 // ),
-                child: Text("This is the image",
-                    style: TextStyle(fontSize: 30),
-              
+                child: Container(
+                  margin: EdgeInsets.only(top: 30,),
+                  height: 400.0,
+                  width: 400.0,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                          'assets/images/focusTime_background.png'),
+                      fit: BoxFit.fill,
+                    ),
+                    shape: BoxShape.circle,
+                  ),
                 ),
-                
               ),
             ),
             SizedBox(height: 10,),
