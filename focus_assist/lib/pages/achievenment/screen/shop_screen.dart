@@ -25,6 +25,10 @@ class _ShopScreenState extends State<ShopScreen> {
     return Scaffold(
       backgroundColor: Colors.amber[50],
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,color: Colors.black,),
+          onPressed: (){Navigator.pop(context);},
+        ),
         backgroundColor: Colors.amber,
         elevation: 0,
         centerTitle: true,

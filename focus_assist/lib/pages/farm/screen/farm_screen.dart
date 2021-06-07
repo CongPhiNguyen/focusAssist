@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/ClassCardAchievenment.dart';
+import 'package:focus_assist/classes/ClassPokemon.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/achievenment/screen/achievenment_screen.dart';
@@ -196,6 +198,69 @@ class _FarmScreenState extends State<FarmScreen> {
   void Loading() async {
     String id = StaticData.userID;
 
+    final ListPokemon = await DbProvider.instance.rawQuery('''
+    SELECT * FROM POKEMON WHERE MANGUOIDUNG = '$id'
+    ''');
+    StaticData.PokemonUsers.clear();
+
+    for (int i =0;i<ListPokemon.length;i++)
+      {
+        switch(ListPokemon[i]['DOHIEM'])
+        {
+          case 1:
+            InfoPokemon index = new InfoPokemon(
+              ListPokemon[i]['NAMEPOKEMON'],
+              ListPokemon[i]['LEVELPOKEMON'],
+              Colors.greenAccent,
+            );
+            index.randomDirecAndPos();
+            setState(() {
+              StaticData.PokemonUsers.add(index);
+            });
+            break;
+
+          case 2:
+            InfoPokemon index = new InfoPokemon(
+              ListPokemon[i]['NAMEPOKEMON'],
+              ListPokemon[i]['LEVELPOKEMON'],
+              Colors.blueAccent,
+            );
+            index.randomDirecAndPos();
+            setState(() {
+              StaticData.PokemonUsers.add(index);
+            });
+            break;
+
+          case 3:
+            InfoPokemon index = new InfoPokemon(
+              ListPokemon[i]['NAMEPOKEMON'],
+              ListPokemon[i]['LEVELPOKEMON'],
+              Colors.purpleAccent,
+            );
+            index.randomDirecAndPos();
+            setState(() {
+              StaticData.PokemonUsers.add(index);
+            });
+            break;
+
+          case 4:
+            InfoPokemon index = new InfoPokemon(
+              ListPokemon[i]['NAMEPOKEMON'],
+              ListPokemon[i]['LEVELPOKEMON'],
+              Colors.redAccent,
+            );
+            index.randomDirecAndPos();
+            setState(() {
+              StaticData.PokemonUsers.add(index);
+            });
+            break;
+
+          default:
+            break;
+        }
+      }
+
+
     final D = await DbProvider.instance.rawQuery('''
     UPDATE THONGTINNGUOIDUNG 
      SET VANG = 70000;
@@ -209,6 +274,77 @@ class _FarmScreenState extends State<FarmScreen> {
     StaticData.Vang = updateBonus[0]['VANG'];
 
     print(StaticData.Vang);
+
+    final ListAchie = await DbProvider.instance.query('THANHTUU');
+    StaticData.AchiList.clear();
+    StaticData.AchiUser.clear();
+    for (int i = 0; i < ListAchie.length; i++)
+    {
+      switch(ListAchie[i]['CAPDO'])
+      {
+        case 1:
+          Achievenment index = new Achievenment(
+            ListAchie[i]['MATHANHTUU'],
+            ListAchie[i]['TENTHANHTUU'],
+            ListAchie[i]['MOTA'],
+            ListAchie[i]['CAPDO'],
+            ListAchie[i]['VANG'],
+            Colors.brown[300],
+            Colors.brown[400],
+          );
+          setState(() {
+            StaticData.AchiList.add(index);
+          });
+          break;
+
+        case 2:
+          Achievenment index = new Achievenment(
+            ListAchie[i]['MATHANHTUU'],
+            ListAchie[i]['TENTHANHTUU'],
+            ListAchie[i]['MOTA'],
+            ListAchie[i]['CAPDO'],
+            ListAchie[i]['VANG'],
+            Colors.grey[200],
+            Colors.grey[200],
+          );
+          setState(() {
+            StaticData.AchiList.add(index);
+          });
+          break;
+
+        case 3:
+          Achievenment index = new Achievenment(
+            ListAchie[i]['MATHANHTUU'],
+            ListAchie[i]['TENTHANHTUU'],
+            ListAchie[i]['MOTA'],
+            ListAchie[i]['CAPDO'],
+            ListAchie[i]['VANG'],
+            Colors.yellow,
+            Colors.yellow[600],
+          );
+          setState(() {
+            StaticData.AchiList.add(index);
+          });
+          break;
+        default:
+          break;
+      }
+    }
+
+    final user = await DbProvider.instance.rawQuery('''
+      SELECT * FROM THANHTUUNGUOIDUNG WHERE MANGUOIDUNG = '$id'
+      ''');
+
+    for(int i = 0; i < StaticData.AchiList.length; i++){
+      for(int j = 0; j < user.length;j++) {
+        if(StaticData.AchiList[i].MATHANHTUU == user[j]['MATHANHTUU'])
+        {
+          setState(() {
+            StaticData.AchiUser.add(StaticData.AchiList[i]);
+          });
+        }
+      }
+    }
   }
 }
 

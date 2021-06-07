@@ -15,6 +15,5 @@ class StaticData {
   static List<Achievenment> AchiList = [];
   static Timer timer;
   static Timer timer2;
-  static List<InfoPokemon> PokemonUser = [];
   static List<InfoPokemon> PokemonUsers = [];
 }

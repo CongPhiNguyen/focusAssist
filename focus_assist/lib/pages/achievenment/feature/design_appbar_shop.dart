@@ -57,7 +57,7 @@ class _design_appbar_shopState extends State<design_appbar_shop> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: size.width * 0.1,),
+                SizedBox(width: size.width * 0.05,),
 
                 Container(
                   decoration: BoxDecoration(

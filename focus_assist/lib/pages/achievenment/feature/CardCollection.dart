@@ -110,20 +110,20 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
             index.randomDirecAndPos();
             StaticData.PokemonUsers.add(index);
 
-            // if (rareColor == Colors.green){
-            //   row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 1};
-            // } else
-            // if (rareColor == Colors.blueAccent){
-            //   row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 2};
-            // } else
-            // if (rareColor == Colors.purpleAccent){
-            //   row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 3};
-            // }else
-            // if (rareColor == Colors.red){
-            //   row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 4};
-            // }
-            // int i = await DbProvider.instance.insert('POKEMON', row);
-            // print(i);
+            if (rareColor == Colors.green){
+              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 1};
+            } else
+            if (rareColor == Colors.blueAccent){
+              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 2};
+            } else
+            if (rareColor == Colors.purpleAccent){
+              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 3};
+            }else
+            if (rareColor == Colors.red){
+              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 4};
+            }
+            int p = await DbProvider.instance.insert('POKEMON', row);
+            print(p);
 
             final k = await DbProvider.instance.rawQuery('''
             DELETE FROM VATPHAMNGUOIDUNG WHERE MANGUOIDUNG = '$id' AND MAVATPHAM = '$mavp'

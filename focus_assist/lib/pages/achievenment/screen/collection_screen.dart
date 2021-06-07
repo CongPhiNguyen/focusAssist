@@ -24,6 +24,10 @@ class _CollectionScreenState extends State<CollectionScreen> {
     return Scaffold(
       backgroundColor: Colors.amber,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,color: Colors.black,),
+          onPressed: (){Navigator.pop(context);},
+        ),
         backgroundColor: Colors.amber,
         title: Text('Collection',
         style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black)),
