@@ -36,7 +36,7 @@ class forgot_password extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     icon: Icon(Icons.lock),
-                    labelText: 'Password',
+                    labelText: 'NewPassword',
                   ),
                 ),
                 TextField(
@@ -46,7 +46,7 @@ class forgot_password extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     icon: Icon(Icons.lock),
-                    labelText: 'Re-Password',
+                    labelText: 'Re-NewPassword',
                   ),
                 ),
               ],
@@ -54,7 +54,7 @@ class forgot_password extends StatelessWidget {
             buttons: [
               DialogButton(
                 child: Text(
-                  "FIND",
+                  "FIND PASS",
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 onPressed: () {

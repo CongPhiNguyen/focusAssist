@@ -31,7 +31,7 @@ class WelcomeScreen extends StatelessWidget {
               'WELCOME TO',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 30.0,
+                fontSize: size.height*0.045,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.0,
               ),
@@ -41,7 +41,7 @@ class WelcomeScreen extends StatelessWidget {
               'Focus Assistance',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20.0,
+                fontSize: size.height*0.025,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.0,
               ),

@@ -56,7 +56,7 @@ class _CardAchievementState extends State<CardAchievement> {
             bottom: 0,
             top: 0,
             child: CustomPaint(
-              size: Size(100,150),
+              size: Size(size.height*0.15,size.width*0.15),
               painter: CustomCard(24,endColor,startColor),
             ),
           ),
@@ -67,8 +67,7 @@ class _CardAchievementState extends State<CardAchievement> {
                   flex: 2,
                   child: Image.asset(
                     'assets/achievenment/Eggs/egg'+name+'.png',
-                    height: 30,
-                    width: 30,
+                    height: size.height*0.06,
                   ),
                 ),
                 Expanded(
@@ -82,7 +81,7 @@ class _CardAchievementState extends State<CardAchievement> {
                         name,
                         style: TextStyle(
                           color: Colors.purpleAccent,
-                          fontSize: 20,
+                          fontSize: size.height*0.025,
                           fontWeight: FontWeight.bold,),
                       ),
 
@@ -90,6 +89,7 @@ class _CardAchievementState extends State<CardAchievement> {
                         mota,
                         style: TextStyle(
                           color: Colors.black,
+                          fontSize: size.height*0.02,
                           fontWeight: FontWeight.w500,),
                       ),
 
@@ -97,6 +97,7 @@ class _CardAchievementState extends State<CardAchievement> {
                         'Bonus :'+ diemThanhtuu.toString() +' vàng',
                         style: TextStyle(
                           color: Colors.black,
+                          fontSize: size.height*0.015,
                         ),
                       ),
                     ],
@@ -111,6 +112,7 @@ class _CardAchievementState extends State<CardAchievement> {
                         star.toString(),
                         style: TextStyle(
                           color: Colors.white,
+                          fontSize: size.height*0.02,
                           fontFamily: 'Avenir',
                           fontWeight: FontWeight.w500,
                         ),

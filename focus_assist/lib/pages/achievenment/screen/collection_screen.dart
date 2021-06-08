@@ -34,26 +34,28 @@ class _CollectionScreenState extends State<CollectionScreen> {
         elevation: 0,
         centerTitle: true,
       ),
-      body: Column(
-        //crossAxisAlignment: CrossAxisAlignment.center,
-       // mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: size.height*0.2,
-              child: Image.asset('assets/achievenment/ui/ui_collection.png'),
-          ),
-
-          Container(
-            margin: EdgeInsets.only(left: 20,right: 20),
-            padding: EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: Colors.amber[200],
+      body: ListView(
+        children: [Column(
+          //crossAxisAlignment: CrossAxisAlignment.center,
+         // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: size.height*0.2,
+                child: Image.asset('assets/achievenment/ui/ui_collection.png'),
             ),
-            height: size.height*0.7,
-            child: DetailCardCollection(size: size),
-          ),
-        ],
+
+            Container(
+              margin: EdgeInsets.only(left: 20,right: 20),
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Colors.amber[200],
+              ),
+              height: size.height*0.7,
+              child: DetailCardCollection(size: size),
+            ),
+          ],
+        )],
       ),
     );
 

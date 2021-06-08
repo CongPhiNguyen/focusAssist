@@ -36,25 +36,39 @@ class LoginScreen extends StatelessWidget {
         child: ListView(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: size.height*0.03,),
-            Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  FadeAnimation(1.2,Text('Login', style: TextStyle(color: Colors.white, fontSize: 40.0,fontWeight: FontWeight.bold,),)),
-                  SizedBox(height: size.height*0.01,),
-                  FadeAnimation(1.2,  Text('Welcome you comeback',style: TextStyle(color: Colors.white,fontSize: 20.0),)),
-                  SizedBox(height: size.height*0.01,),
-
-                ],
+            Container(
+              height: size.height*0.2,
+              child: Padding(
+                padding: EdgeInsets.all(15.0),
+                child: Row(
+                  children: [
+                    Container(
+                      height: size.height*0.2,
+                      width: size.width*0.6,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          FadeAnimation(1.2,Text('Login', style: TextStyle(color: Colors.white, fontSize: size.height*0.05,fontWeight: FontWeight.bold,),)),
+                          SizedBox(height: size.height*0.01,),
+                          FadeAnimation(1.2,  Text('Welcome you comeback',style: TextStyle(color: Colors.white,fontSize: size.height*0.025),)),
+                          SizedBox(height: size.height*0.01,),
+                        ],
+                      ),
+                    ),
+                    FadeAnimation(2,Container(
+                      height: size.height*0.2,
+                      width: size.width*0.3,
+                      child: Image.asset('assets/achievenment/ui/ui_light.PNG'),
+                    )),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: size.height*0.01,),
-
             Container(
-              height: size.height,
-                decoration: BoxDecoration(
+              height: size.height*0.9,
+              decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40))
                 ),
@@ -76,27 +90,25 @@ class LoginScreen extends StatelessWidget {
                           _matKhau = value;
                         },
                       )),
-                      SizedBox(height: size.height*0.1,),
+                      SizedBox(height: size.height*0.07,),
                       FadeAnimation(1.4, forgot_password(
 
                       )),
                       FadeAnimation(1.6,button_login(
                         text: 'LOGIN',
                         press: () async {
-
                             _queryCheckUser(_taiKhoan, _matKhau, context);
-
                         },
                       )),
                        FadeAnimation(1.6, Donthaveanaccount(
                         login: true,
                         press: () {Navigator.push(context, MaterialPageRoute(builder: (context){return SignUpScreen();}));},
                       )),
-                       FadeAnimation(1.6, Container(
-                        height: size.height*0.15,
-                        width: size.width*3,
-                        child: Image.asset(
-                          'assets/login/ui/UI_login_screen.png',
+                       SizedBox(height: size.height*0.04,),
+                       FadeAnimation(2, Container(
+                            height: size.height*0.2,
+                            child: Image.asset(
+                              'assets/achievenment/ui/ui_signup.PNG',
                         )),
                       ),
                     ],

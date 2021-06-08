@@ -36,17 +36,32 @@ class SignUpScreen extends StatelessWidget {
         child: ListView(
           //crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: size.height*0.03,),
-            Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  FadeAnimation(1.2,  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
-                  SizedBox(height: size.height*0.01,),
-                  FadeAnimation(1.2,  Text('Welcome you to Focus Assistance',style: TextStyle(color: Colors.white,fontSize: 15.0),)),
-                  SizedBox(height: size.height*0.01,),
-                ],
+            Container(
+              height: size.height*0.2,
+              child: Padding(
+                padding: EdgeInsets.all(15.0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: size.width*0.6,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            FadeAnimation(1.2,  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
+                            SizedBox(height: size.height*0.01,),
+                            FadeAnimation(1.2,  Text('Welcome you to Focus Assistance',style: TextStyle(color: Colors.white,fontSize: size.height*0.015),)),
+                            SizedBox(height: size.height*0.01,),
+                          ],
+                        ),
+                    ),
+                    FadeAnimation(2,Container(
+                      width: size.width*0.3,
+                      height: size.height*0.15,
+                      child: Image.asset('assets/achievenment/ui/ui_light.PNG'),
+                    )),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: size.height*0.01,),
@@ -109,17 +124,22 @@ class SignUpScreen extends StatelessWidget {
                         children: <Widget>[
                           login_with_socialnetwork(
                             iconImage: "assets/login/icon/facebook.png",
-                            press: (){runApp(focus());},
+                            press: (){},
                           ),
                           login_with_socialnetwork(
                             iconImage: "assets/login/icon/google.png",
-                            press: (){runApp(focus());},
+                            press: (){},
                           ),
                           login_with_socialnetwork(
                             iconImage: "assets/login/icon/twitter.png",
-                            press: (){runApp(focus());},
+                            press: (){},
                           ),
                         ],
+                      )),
+                      FadeAnimation(2.5,Container(
+                        height: size.height*0.15,
+                        width: size.width*0.6,
+                        child: Image.asset('assets/achievenment/ui/ui_signin.PNG'),
                       )),
                     ],
                   ),

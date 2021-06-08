@@ -91,7 +91,7 @@ class _FarmScreenState extends State<FarmScreen> {
                   children: [
                     Container(
                         width: size.width*0.25,
-                        height: 75,
+                        height: size.height*0.1,
                         child: GestureDetector(
                           onTap: (){
                             Navigator.push(
@@ -120,7 +120,7 @@ class _FarmScreenState extends State<FarmScreen> {
                         children: [
                           Container(
                             width: size.width*0.25,
-                            height: 75,
+                            height: size.height*0.1,
                             child: GestureDetector(
                               onTap: (){
                                 Navigator.push(
@@ -137,7 +137,7 @@ class _FarmScreenState extends State<FarmScreen> {
                           ),
                           Container(
                             width: size.width*0.25,
-                            height: 75,
+                            height: size.height*0.1,
                             child: GestureDetector(
                               onTap: (){
                                 Navigator.push(

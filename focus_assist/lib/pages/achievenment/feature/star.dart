@@ -14,7 +14,7 @@ class RatingStar extends StatelessWidget {
         return Icon(
           Icons.star,
           color: Colors.white,
-          size: 16,
+          size: 20,
         );
       }),
     );

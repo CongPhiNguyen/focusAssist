@@ -51,14 +51,14 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
                   child: Container(
                     child: Text(
                       StaticData.EggUser[index].TenVP,
-                      style: TextStyle(color: StaticData.EggUser[index].rareColor,fontWeight: FontWeight.bold),
+                      style: TextStyle(color: StaticData.EggUser[index].rareColor,fontWeight: FontWeight.bold,fontSize: size.height*0.022),
                     ),
                   ),
                 ),
                 Expanded(
                   flex: 1,
                   child: IconButton(
-                    icon: Icon(Icons.search,size: 20 ,),
+                    icon: Icon(Icons.check_box,size: size.width*0.07,color: StaticData.EggUser[index].rareColor,),
                     padding: EdgeInsets.only(bottom: 20),
                     onPressed:(){
                       _show(

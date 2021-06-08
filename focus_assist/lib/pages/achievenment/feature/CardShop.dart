@@ -144,6 +144,7 @@ class _testState extends State<card_shop> {
                         name,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
+                          fontSize: size.height*0.02,
                           letterSpacing: 2,
                           color: rareColor,
                         ),
@@ -153,6 +154,7 @@ class _testState extends State<card_shop> {
                         price.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
+                          fontSize: size.height*0.015,
                           fontStyle: FontStyle.italic,
                           decoration: TextDecoration.overline,
                         ),
@@ -171,7 +173,7 @@ class _testState extends State<card_shop> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 10,
+                                fontSize: size.height*0.015,
                               ),
                             ),
                           ),
@@ -184,7 +186,7 @@ class _testState extends State<card_shop> {
                   flex: 2,
                   child: Image.asset(
                     imageEgg,
-                    height: size.width*0.2,
+                    height: size.width*0.25,
                     width: size.width*0.2,
                   ),
                 ),
