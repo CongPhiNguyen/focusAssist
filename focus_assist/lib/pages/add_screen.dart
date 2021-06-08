@@ -680,67 +680,73 @@ class _AddNewState extends State<AddNew> {
                     : (dropDownValue == 'Flexible')
                         ? Flexible()
                         : Repeating()),
-            Text(StaticData.userID == null ? "NGUOIDUNG" : StaticData.userID),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(text, style: TextStyle(fontSize: 30)),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    getAllGroup();
-                  },
-                  child: Text(text2, style: TextStyle(fontSize: 30))),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                  onPressed: () async {
-                    List<Map<String, dynamic>> data = await dbHelper
-                        .rawQuery('''select * from THONGTINNGUOIDUNG''');
-                    setState(() {
-                      text3 = data.toString();
-                    });
-                  },
-                  child: Text(text3, style: TextStyle(fontSize: 30))),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                  onPressed: () async {
-                    // Thêm người dùng và bảng thông tin người dùng vào database
-                    Map<String, dynamic> row = {'MANGUOIDUNG': 'NGUOIDUNG'};
-                    final id = await dbHelper.insert('NGUOIDUNG', row);
-                    print('inserted row NGUOIDUNG id: $id');
-                    row = {'MANGUOIDUNG': 'NGUOIDUNG', 'VANG': 0};
-                    final id2 = await dbHelper.insert('THONGTINNGUOIDUNG', row);
-                    print('inserted THONGTINNGUOIDUNG row id: $id2');
-                  },
-                  child: Text(text4, style: TextStyle(fontSize: 30))),
-            ),
-            TextButton(
-                onPressed: () {
-                  dbHelper.rawQuery('''delete from NHOMMUCTIEU''');
-                },
-                child:
-                    Text("DELETE NHOMMUCTIEU", style: TextStyle(fontSize: 30))),
-            TextButton(
-                onPressed: () {
-                  dbHelper.rawQuery('''delete from MUCTIEU''');
-                },
-                child: Text("DELETE MUCTIEU", style: TextStyle(fontSize: 30))),
-            TextButton(
-                onPressed: () {
-                  dbHelper.rawQuery('''delete from THANHTUU''');
-                  dbHelper.rawQuery('''delete from THANHTUUNGUOIDUNG''');
-                },
-                child: Text("DELETE THANHTUU", style: TextStyle(fontSize: 30))),
-            Text(
-              allGroup.toString(),
-              style: TextStyle(fontSize: 20),
-            )
           ],
         ));
+  }
+
+  Widget debugWidget() {
+    return Column(
+      children: [
+        Text(StaticData.userID == null ? "NGUOIDUNG" : StaticData.userID),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(text, style: TextStyle(fontSize: 30)),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+              onPressed: () {
+                getAllGroup();
+              },
+              child: Text(text2, style: TextStyle(fontSize: 30))),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+              onPressed: () async {
+                List<Map<String, dynamic>> data = await dbHelper
+                    .rawQuery('''select * from THONGTINNGUOIDUNG''');
+                setState(() {
+                  text3 = data.toString();
+                });
+              },
+              child: Text(text3, style: TextStyle(fontSize: 30))),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+              onPressed: () async {
+                // Thêm người dùng và bảng thông tin người dùng vào database
+                Map<String, dynamic> row = {'MANGUOIDUNG': 'NGUOIDUNG'};
+                final id = await dbHelper.insert('NGUOIDUNG', row);
+                print('inserted row NGUOIDUNG id: $id');
+                row = {'MANGUOIDUNG': 'NGUOIDUNG', 'VANG': 0};
+                final id2 = await dbHelper.insert('THONGTINNGUOIDUNG', row);
+                print('inserted THONGTINNGUOIDUNG row id: $id2');
+              },
+              child: Text(text4, style: TextStyle(fontSize: 30))),
+        ),
+        TextButton(
+            onPressed: () {
+              dbHelper.rawQuery('''delete from NHOMMUCTIEU''');
+            },
+            child: Text("DELETE NHOMMUCTIEU", style: TextStyle(fontSize: 30))),
+        TextButton(
+            onPressed: () {
+              dbHelper.rawQuery('''delete from MUCTIEU''');
+            },
+            child: Text("DELETE MUCTIEU", style: TextStyle(fontSize: 30))),
+        TextButton(
+            onPressed: () {
+              dbHelper.rawQuery('''delete from THANHTUU''');
+              dbHelper.rawQuery('''delete from THANHTUUNGUOIDUNG''');
+            },
+            child: Text("DELETE THANHTUU", style: TextStyle(fontSize: 30))),
+        Text(
+          allGroup.toString(),
+          style: TextStyle(fontSize: 20),
+        )
+      ],
+    );
   }
 }

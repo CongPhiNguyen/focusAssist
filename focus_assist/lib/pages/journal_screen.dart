@@ -1014,8 +1014,26 @@ class _JournalScreenState extends State<JournalScreen> {
                   'Group Activity',
                   style: TextStyle(fontSize: 22, color: Colors.black54),
                 ),
-                ElevatedButton(
-                    onPressed: () async {
+                Container(
+                  padding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+                  decoration: BoxDecoration(
+                      color: Color(0xffe0e6ee),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                          bottomRight: Radius.circular(10))),
+                  // child: TextButton(
+                  //     onPressed: () async {
+                  //       await showDialog(
+                  //         context: context,
+                  //         builder: (_) => AddGroup(),
+                  //       );
+                  //       getAllActivity();
+                  //       getToDoList();
+                  //       getAllGroup();
+                  //     },
+                  child: InkWell(
+                    onTap: () async {
                       await showDialog(
                         context: context,
                         builder: (_) => AddGroup(),
@@ -1024,7 +1042,10 @@ class _JournalScreenState extends State<JournalScreen> {
                       getToDoList();
                       getAllGroup();
                     },
-                    child: Text('Add new'))
+                    child: Text('Add new',
+                        style: TextStyle(fontSize: 20, color: Colors.black54)),
+                  ),
+                )
               ],
             )),
 

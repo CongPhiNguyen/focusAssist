@@ -738,34 +738,6 @@ class _EditActivityState extends State<EditActivity> {
                     : (dropDownValue == 'Flexible')
                         ? Flexible()
                         : Repeating()),
-            Text(StaticData.userID == null ? "NGUOIDUNG" : StaticData.userID),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(text, style: TextStyle(fontSize: 30)),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    getAllGroup();
-                  },
-                  child: Text(text2, style: TextStyle(fontSize: 30))),
-            ),
-            TextButton(
-                onPressed: () {
-                  dbHelper.rawQuery('''delete from NHOMMUCTIEU''');
-                },
-                child:
-                    Text("DELETE NHOMMUCTIEU", style: TextStyle(fontSize: 30))),
-            TextButton(
-                onPressed: () {
-                  dbHelper.rawQuery('''delete from MUCTIEU''');
-                },
-                child: Text("DELETE MUCTIEU", style: TextStyle(fontSize: 30))),
-            Text(
-              allGroup.toString(),
-              style: TextStyle(fontSize: 20),
-            )
           ],
         ));
   }

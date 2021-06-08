@@ -41,6 +41,10 @@ class _AddGroupState extends State<AddGroup> {
 
   @override
   Widget build(BuildContext context) {
+    OutlineInputBorder k = OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(4)),
+      borderSide: BorderSide(width: 1, color: Colors.black54),
+    );
     return Dialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -48,36 +52,27 @@ class _AddGroupState extends State<AddGroup> {
             child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 30),
+            SizedBox(height: 10),
+            Text(
+              'Add new group',
+              style: TextStyle(fontSize: 25, color: Colors.black54),
+            ),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: TextField(
                 controller: getGroupName,
                 decoration: InputDecoration(
                     isDense: true,
-                    contentPadding: EdgeInsets.all(28),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                      borderSide: BorderSide(width: 1, color: Colors.blue),
-                    ),
-                    disabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                      borderSide: BorderSide(width: 1, color: Colors.blue),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                      borderSide: BorderSide(width: 1, color: Colors.blue),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                        borderSide: BorderSide(width: 1, color: Colors.blue)),
-                    focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                        borderSide: BorderSide(width: 1, color: Colors.blue)),
+                    contentPadding: EdgeInsets.all(18),
+                    focusedBorder: k,
+                    disabledBorder: k,
+                    enabledBorder: k,
+                    errorBorder: k,
+                    focusedErrorBorder: k,
                     border: OutlineInputBorder(),
                     labelText: 'Group Name',
-                    labelStyle: TextStyle(color: Colors.blue, fontSize: 23)),
-                style: TextStyle(fontSize: 20, color: Colors.blue),
+                    labelStyle: TextStyle(color: Colors.black54, fontSize: 23)),
+                style: TextStyle(fontSize: 20, color: Colors.black54),
               ),
             ),
             (isOK)
@@ -87,22 +82,33 @@ class _AddGroupState extends State<AddGroup> {
                     error,
                     style: TextStyle(color: Colors.red, fontSize: 20),
                   )),
-            ElevatedButton(
-              onPressed: () {
-                if (getGroupName.text == null || getGroupName.text.length < 1) {
-                  setState(() {
-                    isOK = false;
-                  });
-                  print("Fuck");
-                } else {
-                  AddNewGroup();
-                  Navigator.pop(context);
-                }
-              },
-              child: Text(
-                "Create",
-                style: TextStyle(fontSize: 20),
+            Container(
+              padding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+              decoration: BoxDecoration(
+                  color: Color(0xffe0e6ee),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10))),
+              child: InkWell(
+                onTap: () {
+                  if (getGroupName.text == null ||
+                      getGroupName.text.length < 1) {
+                    setState(() {
+                      isOK = false;
+                    });
+                    print("Fuck");
+                  } else {
+                    AddNewGroup();
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text('Create',
+                    style: TextStyle(fontSize: 20, color: Colors.black54)),
               ),
+            ),
+            SizedBox(
+              height: 10,
             )
           ],
         )));

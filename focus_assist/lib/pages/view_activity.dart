@@ -4,6 +4,10 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
+    show CalendarCarousel;
+import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:flutter_calendar_carousel/classes/event_list.dart';
 
 class ViewActivity extends StatefulWidget {
   final String activityKey, activityName;
@@ -31,6 +35,16 @@ class _ViewActivityState extends State<ViewActivity> {
   // Các biến dùng để debug
   DateTime startTime;
   String doDays, failDays;
+
+  // Các biến dùng để lưu ngày và mark ngày
+  List<DateTime> listDoneDay = [];
+  List<DateTime> listMissDay = [];
+
+  DateTime _selectedDateTime, _targetedDateTime;
+  double cHeight;
+  EventList<Event> _markedDateMap = new EventList<Event>(
+    events: {},
+  );
   @override
   void initState() {
     // TODO: implement initState
@@ -45,6 +59,9 @@ class _ViewActivityState extends State<ViewActivity> {
     getData();
     doDays = '0';
     failDays = '0';
+    _selectedDateTime = DateTime.now();
+    _targetedDateTime = DateTime.now();
+    markDays();
   }
 
   int dateTimeToInt(DateTime dateTime) {
@@ -82,6 +99,12 @@ class _ViewActivityState extends State<ViewActivity> {
       doneDay.add(data[i]['NGAYHOANTHANH']);
     }
 
+    for (int i = 0; i < doneDay.length; i++) {
+      setState(() {
+        listDoneDay.add(intToDateTime(doneDay[i]));
+      });
+    }
+    print('list DoneDay: $listDoneDay');
     // Lấy ngày thực hiện ngày không thực hiện
     if (database.length > 0) {
       // Xử lý trường hợp fixed
@@ -129,12 +152,20 @@ class _ViewActivityState extends State<ViewActivity> {
           failDays = failDay.toString();
           dataMap['Miss'] = failDay * 1.0;
         });
+
+        for (int i = 0; i < toDoDays.length; i++) {
+          if (!doneDay.contains(toDoDays[i]))
+            setState(() {
+              listMissDay.add(intToDateTime(toDoDays[i]));
+            });
+        }
+        print('list Miss: $listMissDay');
         // Tính streak của fixed
         int conseDays = 0;
         for (int i = toDoDays.length - 1; i >= 0; i--) {
           if (doneDay.contains(toDoDays[i])) {
             conseDays++;
-            print(toDoDays[i]);
+            //print(toDoDays[i]);
           } else {
             break;
           }
@@ -209,7 +240,7 @@ class _ViewActivityState extends State<ViewActivity> {
                 timesByWeek.add(1);
               else
                 timesByWeek.add(0);
-              print('count: $count, time: $times');
+              //print('count: $count, time: $times');
             }
           }
           int streak = 0;
@@ -241,6 +272,39 @@ class _ViewActivityState extends State<ViewActivity> {
         }
       }
     }
+    setState(() {
+      _markedDateMap.clear();
+    });
+    for (int i = 0; i < listDoneDay.length; i++) {
+      setState(() {
+        _markedDateMap.add(
+          listDoneDay[i],
+          new Event(
+            date: listDoneDay[i],
+            title: 'Event 5',
+            icon: _presentIcon(
+              listDoneDay[i].day.toString(),
+            ),
+          ),
+        );
+      });
+    }
+    for (int i = 0; i < listMissDay.length; i++) {
+      setState(() {
+        _markedDateMap.add(
+          listMissDay[i],
+          new Event(
+            date: listMissDay[i],
+            title: 'Event 5',
+            icon: _absentIcon(
+              listMissDay[i].day.toString(),
+            ),
+          ),
+        );
+      });
+    }
+    print('listDoneDay2: $listDoneDay');
+    print(listMissDay);
   }
 
   void deleteActivity() {
@@ -250,8 +314,61 @@ class _ViewActivityState extends State<ViewActivity> {
     Navigator.pop(context);
   }
 
+  static Widget _absentIcon(String day) => CircleAvatar(
+        radius: 10,
+        backgroundColor: Colors.red,
+        child: Text(
+          day,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+      );
+  static Widget _presentIcon(String day) => CircleAvatar(
+        radius: 10,
+        backgroundColor: Colors.green,
+        child: Text(
+          day,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+      );
+  CalendarCarousel _calendarCarouselNoHeader;
+  void markDays() {}
+
   @override
   Widget build(BuildContext context) {
+    cHeight = MediaQuery.of(context).size.height;
+    _calendarCarouselNoHeader = CalendarCarousel<Event>(
+      selectedDayButtonColor: Colors.purple,
+      selectedDateTime: _selectedDateTime,
+      targetDateTime: _targetedDateTime,
+      height: cHeight * 0.54,
+      weekendTextStyle: TextStyle(
+        color: Colors.red,
+      ),
+      selectedDayBorderColor: Colors.black38,
+      showOnlyCurrentMonthDate: false,
+      todayButtonColor: Colors.cyan,
+      markedDatesMap: _markedDateMap,
+      markedDateShowIcon: true,
+      markedDateIconMaxShown: 1,
+      markedDateMoreShowTotal:
+          null, // null for not showing hidden events indicator
+      onDayPressed: (date, event) {
+        setState(() {
+          _selectedDateTime = date;
+          _targetedDateTime = date;
+          if (date.year == 2021) {
+            print('Fuck');
+          }
+        });
+      },
+      markedDateIconBuilder: (event) {
+        return event.icon;
+      },
+    );
     return Container(
       child: Scaffold(
           appBar: AppBar(
@@ -418,20 +535,13 @@ class _ViewActivityState extends State<ViewActivity> {
                         ),
                       ),
                     ])),
-            TableCalendar(
-              firstDay: DateTime.utc(2010, 10, 16),
-              lastDay: DateTime.utc(2030, 3, 14),
-              focusedDay: _focusedDay,
-              calendarFormat: _calendarFormat,
-              selectedDayPredicate: (day) {
-                return isSameDay(_selectedDay, day);
-              },
-              onPageChanged: (focusedDay) {
-                _focusedDay = focusedDay;
-              },
-            ),
+            _calendarCarouselNoHeader,
             SizedBox(height: 30),
-            PieChart(dataMap: dataMap)
+            PieChart(
+              chartRadius: 200,
+              dataMap: dataMap,
+              chartType: ChartType.disc,
+            )
           ])),
     );
   }
