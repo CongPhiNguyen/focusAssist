@@ -578,31 +578,42 @@ class _JournalScreenState extends State<JournalScreen> {
     );
   }
 
-  List<Widget> getGroupTable() {
-    return new List<Widget>.generate(allGroup.length, (int index) {
-      return Row(children: [
-        GroupActivity(index),
-        SizedBox(
-          width: 30,
-        )
-      ]);
-    });
-  }
-
   Widget GroupTable() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children:
-              getGroupTable().length != 0 ? getGroupTable() : [Container()],
-        ),
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: List<Widget>.generate(allGroup.length, (int index) {
+              return Row(children: [
+                GroupActivity(index),
+                SizedBox(
+                  width: 30,
+                )
+              ]);
+            })),
       ),
     );
+  }
+
+  void getGroupActivity(int index) async {
+    String key = allGroupKey[index];
+    String userID = StaticData.userID;
+    database = await dbHelper.rawQuery(
+        '''select * from MUCTIEU where MANHOM='$key' and MANGUOIDUNG='$userID' ''');
+    List<String> tempActivity = [];
+    List<String> tempActivityKey = [];
+    for (int j = 0; j < database.length; j++) {
+      tempActivity.add(database[j]['TENMUCTIEU']);
+      tempActivityKey.add(database[j]['MAMUCTIEU']);
+    }
+    setState(() {
+      allGroupActivity[index] = tempActivity;
+      allGroupActivityKey[index] = tempActivityKey;
+    });
   }
 
   void getAllGroup() async {
@@ -619,25 +630,14 @@ class _JournalScreenState extends State<JournalScreen> {
         allGroupKey.add(database[i]['MANHOM']);
       });
     }
-    allGroupActivity = [];
-    allGroupActivityKey = [];
     for (int i = 0; i < allGroupKey.length; i++) {
       setState(() {
         allGroupActivity.add([]);
         allGroupActivityKey.add([]);
       });
-
-      print("Fcu");
-      String key = allGroupKey[i];
-      String userID = StaticData.userID;
-      database = await dbHelper.rawQuery(
-          '''select * from MUCTIEU where MANHOM='$key' and MANGUOIDUNG='$userID' ''');
-      for (int j = 0; j < database.length; j++) {
-        setState(() {
-          allGroupActivity[i].add(database[j]['TENMUCTIEU']);
-          allGroupActivityKey[i].add(database[j]['MAMUCTIEU']);
-        });
-      }
+    }
+    for (int i = 0; i < allGroup.length; i++) {
+      getGroupActivity(i);
     }
   }
 
