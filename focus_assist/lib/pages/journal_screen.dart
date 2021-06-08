@@ -187,72 +187,60 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   Widget DoneTask() {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.greenAccent, width: 1),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: Column(
-          children: [
-            Container(
-                decoration: BoxDecoration(
-                    color: Color(0xff73a656),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    )),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: InkWell(
-                            onTap: () {
-                              getDoneTask();
-                            },
-                            child: Icon(
-                              Icons.playlist_add_check,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Text(
-                            "Done activities",
-                            style: TextStyle(color: Colors.white, fontSize: 22),
-                          ),
-                        ),
-                      ]),
+    return Column(
+      children: [
+        Container(
+            decoration: BoxDecoration(
+                color: Color(0xff73a656),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
                 )),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: doneList.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    InkWell(
-                      onTap: () async {
-                        if (doneListKey[index] == 'None') return;
-                      },
-                      child: ListTile(
-                        title: Text(doneList[index],
-                            style: TextStyle(color: Colors.black)),
-                        tileColor: Colors.white,
-                      ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Expanded(
+                  flex: 1,
+                  child: InkWell(
+                    onTap: () {
+                      getDoneTask();
+                    },
+                    child: Icon(
+                      Icons.playlist_add_check,
+                      color: Colors.white,
+                      size: 25,
                     ),
-                    Divider(height: 1, color: Colors.black45)
-                  ],
-                );
-              },
-            ),
-          ],
+                  ),
+                ),
+                Expanded(
+                  flex: 6,
+                  child: Text(
+                    "Done activities",
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
+                ),
+              ]),
+            )),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: doneList.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                ListTile(
+                  title: Center(
+                    child: Text(doneList[index],
+                        style: TextStyle(color: Colors.black)),
+                  ),
+                  tileColor: Colors.white,
+                ),
+                Divider(height: 1, color: Colors.black45)
+              ],
+            );
+          },
         ),
-      ),
+      ],
     );
   }
 
@@ -406,212 +394,213 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   Widget ToDoList() {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.greenAccent, width: 1),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: Column(
-          children: [
-            Container(
-                decoration: BoxDecoration(
-                    color: Color(0xffe7e732),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    )),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: InkWell(
-                            onTap: () {
-                              getToDoList();
-                              getDoneTask();
-                            },
-                            child: Icon(
-                              Icons.playlist_add_check,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Text(
-                            "To do",
-                            style: TextStyle(color: Colors.white, fontSize: 22),
-                          ),
-                        ),
-                      ]),
+    return Column(
+      children: [
+        Container(
+            decoration: BoxDecoration(
+                color: Color(0xffe7e732),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
                 )),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: toDos.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    CheckboxListTile(
-                      value: toDos[index].check,
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: Text(toDos[index].task,
-                          style: TextStyle(color: Colors.black)),
-                      tileColor: Colors.white,
-                      onChanged: (bool value) async {
-                        if (toDos[index].taskKey == 'None') return;
-                        await showDialog(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                  title: Text("Message"),
-                                  content: Text("Done it: " +
-                                      toDos[index].task.toString() +
-                                      "?"),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () async {
-                                        Navigator.pop(context);
-                                        setState(() {
-                                          toDos[index].check = value;
-                                        });
-                                        // Thêm 50 vàng
-                                        int golds = StaticData.Vang += 50;
-                                        //Add vào database
-                                        String userKey = StaticData.userID;
-                                        dbHelper.rawQuery(
-                                            ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
-                                        loadGold();
-                                        // Xoá sổ todos bằng cách thêm vào bảng thống kê
-                                        Map<String, dynamic> row = {
-                                          'MAMUCTIEU': toDos[index].taskKey,
-                                          'NGAYHOANTHANH':
-                                              dateTimeToInt(_selectedDay)
-                                        };
-                                        final id = await dbHelper.insert(
-                                            'THONGKE', row);
-                                        print('inserted row id: $id');
-                                        getToDoList();
-                                        getDoneTask();
-                                      },
-                                      child: Text("Yes"),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("No"),
-                                    )
-                                  ],
-                                ));
-                        getDoneTask();
-                      },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Expanded(
+                  flex: 1,
+                  child: InkWell(
+                    onTap: () {
+                      getToDoList();
+                      getDoneTask();
+                    },
+                    child: Icon(
+                      Icons.playlist_add_check,
+                      color: Colors.white,
+                      size: 25,
                     ),
-                    Divider(height: 1, color: Colors.black45)
-                  ],
-                );
-              },
-            ),
-          ],
+                  ),
+                ),
+                Expanded(
+                  flex: 6,
+                  child: Text(
+                    "To do",
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
+                ),
+              ]),
+            )),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: toDos.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                CheckboxListTile(
+                  value: toDos[index].check,
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  title: Center(
+                    child: Text(toDos[index].task,
+                        style: TextStyle(color: Colors.black)),
+                  ),
+                  tileColor: Colors.white,
+                  onChanged: (bool value) async {
+                    if (toDos[index].taskKey == 'None') return;
+                    await showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: Text("Message"),
+                              content: Text("Done it: " +
+                                  toDos[index].task.toString() +
+                                  "?"),
+                              actions: [
+                                TextButton(
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                    setState(() {
+                                      toDos[index].check = value;
+                                    });
+                                    // Thêm 50 vàng
+                                    int golds = StaticData.Vang += 50;
+                                    //Add vào database
+                                    String userKey = StaticData.userID;
+                                    dbHelper.rawQuery(
+                                        ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
+                                    loadGold();
+                                    // Xoá sổ todos bằng cách thêm vào bảng thống kê
+                                    Map<String, dynamic> row = {
+                                      'MAMUCTIEU': toDos[index].taskKey,
+                                      'NGAYHOANTHANH':
+                                          dateTimeToInt(_selectedDay)
+                                    };
+                                    final id =
+                                        await dbHelper.insert('THONGKE', row);
+                                    print('inserted row id: $id');
+                                    getToDoList();
+                                    getDoneTask();
+                                  },
+                                  child: Text("Yes"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("No"),
+                                )
+                              ],
+                            ));
+                    getDoneTask();
+                  },
+                ),
+                Divider(height: 1, color: Colors.black45)
+              ],
+            );
+          },
         ),
-      ),
+      ],
     );
   }
 
   Widget AllActivity() {
     return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.greenAccent, width: 1),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: Column(
-          children: [
-            Container(
-                decoration: BoxDecoration(
-                    color: Color(0xffe66771),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    )),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: InkWell(
-                            onTap: () {
-                              getAllActivity();
-                            },
-                            child: Icon(
-                              Icons.playlist_add_check,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Text(
-                            "All activity",
-                            style: TextStyle(color: Colors.white, fontSize: 22),
-                          ),
-                        ),
-                      ]),
-                )),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: allActivity.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    InkWell(
-                      onTap: () async {
-                        if (allActivityKey[index] == 'None') return;
-                        await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ViewActivity(
-                                      activityKey: allActivityKey[index],
-                                      activityName: allActivity[index],
-                                    )));
+      padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+      child: Column(
+        children: [
+          Container(
+              decoration: BoxDecoration(
+                  color: Color(0xffe66771),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  )),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: () {
                         getAllActivity();
-                        getToDoList();
-                        getDoneTask();
-                        getAllGroup();
                       },
-                      child: ListTile(
-                        title: Text(allActivity[index],
-                            style: TextStyle(color: Colors.black)),
-                        tileColor: Colors.white,
+                      child: Icon(
+                        Icons.playlist_add_check,
+                        color: Colors.white,
+                        size: 25,
                       ),
                     ),
-                    Divider(height: 1, color: Colors.black45)
-                  ],
-                );
-              },
-            ),
-          ],
-        ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      "All activity",
+                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    ),
+                  ),
+                ]),
+              )),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: allActivity.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  InkWell(
+                    onTap: () async {
+                      if (allActivityKey[index] == 'None') return;
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ViewActivity(
+                                    activityKey: allActivityKey[index],
+                                    activityName: allActivity[index],
+                                  )));
+                      getAllActivity();
+                      getToDoList();
+                      getDoneTask();
+                      getAllGroup();
+                    },
+                    child: ListTile(
+                      title: Center(
+                        child: Text(allActivity[index],
+                            style: TextStyle(color: Colors.black)),
+                      ),
+                      tileColor: Colors.white,
+                    ),
+                  ),
+                  Divider(height: 1, color: Colors.black45)
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }
 
+  List<Widget> getGroupTable() {
+    return new List<Widget>.generate(allGroup.length, (int index) {
+      return Row(children: [
+        GroupActivity(index),
+        SizedBox(
+          width: 30,
+        )
+      ]);
+    });
+  }
+
   Widget GroupTable() {
-    return Container(
-      decoration: BoxDecoration(
-          color: Color(0xff9e9e9e),
-          borderRadius: BorderRadius.all(Radius.circular(20))),
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: allGroup.length,
-        itemBuilder: (context, index) {
-          return GroupActivity(index);
-        },
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children:
+              getGroupTable().length != 0 ? getGroupTable() : [Container()],
+        ),
       ),
     );
   }
@@ -653,12 +642,10 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   Widget GroupActivity(inDex) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
+    return Align(
+      alignment: Alignment.topLeft,
       child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.greenAccent, width: 1),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+        width: 350,
         child: Column(
           children: [
             Container(
@@ -712,8 +699,10 @@ class _JournalScreenState extends State<JournalScreen> {
                         getAllGroup();
                       },
                       child: ListTile(
-                        title: Text(allGroupActivity[inDex][index],
-                            style: TextStyle(color: Colors.black)),
+                        title: Center(
+                          child: Text(allGroupActivity[inDex][index],
+                              style: TextStyle(color: Colors.black)),
+                        ),
                         tileColor: Colors.white,
                       ),
                     ),
@@ -796,62 +785,12 @@ class _JournalScreenState extends State<JournalScreen> {
     dbHelper.rawQuery(''' delete from NHOMMUCTIEU where MANHOM='$key' ''');
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffffffff),
-      body: ListView(children: <Widget>[
-        SizedBox(
-          height: 30,
-        ),
-        InkWell(
-          onTap: () async {
-            await showDialog(
-              context: context,
-              builder: (_) => ListAchivement(),
-            );
-            loadGold();
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.yellow,
-                radius: 10,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                StaticData.Vang.toString(),
-                style: TextStyle(fontSize: 30),
-              ),
-              SizedBox(
-                width: 30,
-              ),
-            ],
-          ),
-        ),
-        //Đây để hiện cái dòng qoutes
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: Text(
-                "\' No pain, no gain \'",
-                style: TextStyle(fontSize: 30),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        //Hiển thị calendar
-        Padding(
-          padding: const EdgeInsets.all(3.0),
-          // ignore: missing_required_param
-          child: TableCalendar(
+  Widget Calendar() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+      child: Column(
+        children: [
+          TableCalendar(
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
             focusedDay: _focusedDay,
@@ -926,82 +865,184 @@ class _JournalScreenState extends State<JournalScreen> {
                   color: Colors.black,
                 )),
           ),
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-                flex: 5,
-                child: Row(children: [
-                  SizedBox(width: 10),
-                  Text('Conversion rate: ' + rate + ' %'),
-                ])),
-            Expanded(
-                flex: 5,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                        flex: 1,
-                        child: Text("Less", style: TextStyle(fontSize: 17))),
-                    Expanded(
-                        flex: 2,
-                        child: Row(
-                          children: <Widget>[
-                            CircleAvatar(
-                              backgroundColor: Colors.green[300],
-                              radius: 10,
-                            ),
-                            CircleAvatar(
-                              backgroundColor: Colors.green[500],
-                              radius: 10,
-                            ),
-                            CircleAvatar(
-                              backgroundColor: Colors.green[700],
-                              radius: 10,
-                            ),
-                            CircleAvatar(
-                              backgroundColor: Colors.green[900],
-                              radius: 10,
-                            ),
-                          ],
-                        )),
-                    Expanded(
-                        flex: 1,
-                        child: Text("More", style: TextStyle(fontSize: 17)))
-                  ],
-                ))
-          ],
-        ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                  flex: 5,
+                  child: Row(children: [
+                    SizedBox(width: 10),
+                    Text('Conversion rate: ' + rate + ' %'),
+                  ])),
+              Expanded(
+                  flex: 5,
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                          flex: 1,
+                          child: Text("Less", style: TextStyle(fontSize: 17))),
+                      Expanded(
+                          flex: 2,
+                          child: Row(
+                            children: <Widget>[
+                              CircleAvatar(
+                                backgroundColor: Colors.green[300],
+                                radius: 10,
+                              ),
+                              CircleAvatar(
+                                backgroundColor: Colors.green[500],
+                                radius: 10,
+                              ),
+                              CircleAvatar(
+                                backgroundColor: Colors.green[700],
+                                radius: 10,
+                              ),
+                              CircleAvatar(
+                                backgroundColor: Colors.green[900],
+                                radius: 10,
+                              ),
+                            ],
+                          )),
+                      Expanded(
+                          flex: 1,
+                          child: Text("More", style: TextStyle(fontSize: 17)))
+                    ],
+                  ))
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xffffffff),
+      body: ListView(children: <Widget>[
         SizedBox(
           height: 30,
         ),
-        ToDoList(),
-        DoneTask(),
-        SizedBox(
-          height: 12,
-        ),
-        AllActivity(),
-        SizedBox(
-          height: 12,
-        ),
-        //Hiển thị các cái to do list
-        GroupTable(),
-        SizedBox(height: 12),
-        Center(
-            child: TextButton(
-          child: Text(
-            "Add new group",
-            style: TextStyle(fontSize: 30),
-          ),
-          onPressed: () async {
+        InkWell(
+          onTap: () async {
             await showDialog(
               context: context,
-              builder: (_) => AddGroup(),
+              builder: (_) => ListAchivement(),
             );
-            getAllActivity();
-            getToDoList();
-            getAllGroup();
+            loadGold();
           },
-        )),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.yellow,
+                radius: 10,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                StaticData.Vang.toString(),
+                style: TextStyle(fontSize: 30),
+              ),
+              SizedBox(
+                width: 30,
+              ),
+            ],
+          ),
+        ),
+        //Đây để hiện cái dòng qoutes
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Center(
+              child: Text(
+                "\' No pain, no gain \'",
+                style: TextStyle(fontSize: 30),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        //Hiển thị calendar
+        Calendar(),
+        SizedBox(
+          height: 30,
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(15, 10, 10, 0),
+          child: Text(
+            'Todo and Done',
+            style: TextStyle(fontSize: 22, color: Colors.black54),
+          ),
+        ),
+        Padding(
+            padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      width: 350,
+                      child: ToDoList(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      width: 350,
+                      child: DoneTask(),
+                    ),
+                  ),
+                ],
+              ),
+            )),
+        Padding(
+            padding: const EdgeInsets.fromLTRB(15, 10, 10, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Group Activity',
+                  style: TextStyle(fontSize: 22, color: Colors.black54),
+                ),
+                ElevatedButton(
+                    onPressed: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (_) => AddGroup(),
+                      );
+                      getAllActivity();
+                      getToDoList();
+                      getAllGroup();
+                    },
+                    child: Text('Add new'))
+              ],
+            )),
+
+        SizedBox(
+          height: 12,
+        ),
+        GroupTable(),
+        SizedBox(
+          height: 12,
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(15, 10, 10, 0),
+          child: Text(
+            'All Activity',
+            style: TextStyle(fontSize: 22, color: Colors.black54),
+          ),
+        ),
+        AllActivity(),
       ]),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {

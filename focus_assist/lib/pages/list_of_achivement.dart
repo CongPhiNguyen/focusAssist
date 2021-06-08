@@ -39,11 +39,13 @@ class _ListAchivementState extends State<ListAchivement> {
     await getCurrentLevel();
     setState(() {
       currentDoneTarget = currentDoneLevel * 10;
+      if (currentDoneTarget > 30) currentDoneTarget = 30;
       percentDone = doneNum * 1.0 / currentDoneTarget;
     });
 
     setState(() {
       currentActivityTarget = currentActivityLevel * 3;
+      if (currentActivityTarget > 30) currentActivityTarget = 30;
       percentActivity = activityNum * 1.0 / currentActivityTarget;
     });
   }
