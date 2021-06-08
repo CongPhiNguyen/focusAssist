@@ -75,121 +75,97 @@ class _FarmScreenState extends State<FarmScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.green,
-      body: Center(
-        child: Column(
-          children: [
-            Container(
-              height: size.height*0.2 ,
-              child: Row(
-                children: [
-                  /*Container(
-                    width: size.width*0.25,
-                    height: 50,
-                    child: Stack(
-                      children: [
-                        Image.asset('assets/achievenment/ui/thanhtuu.PNG'),
-                      ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/achievenment/ui/background.png'),
+            fit: BoxFit.fill,
+          )
+        ),
+        child: Center(
+          child: Column(
+            children: [
+              Container(
+                height: size.height*0.2 ,
+                child: Row(
+                  children: [
+                    Container(
+                        width: size.width*0.25,
+                        height: 75,
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context){
+                                 return AchievenmentScreen();
+                                },
+                              ),
+                            );
+                          },
+                          child: Image.asset('assets/achievenment/ui/thanhtuu.PNG'),
+                        ),
                     ),
-                  ),*/
-                 /* Container(
+                    Container(
+                      width: size.width*0.5,
+                      height: size.height*0.2,
+                      alignment: Alignment.center,
+                      child: Image.asset('assets/achievenment/ui/nongtrai.png'),
+                    ),
+                    Container(
                       width: size.width*0.25,
-                      height: 200,
-                      child: IconButton(
-                        icon: Image.asset('assets/achievenment/ui/thanhtuu.png'),
-                        iconSize: 100,
-                        onPressed: () {},
-                      )
-                  ),*/
-                  Container(
-                    width: size.width*0.25,
-                    height: 50,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: IconButton(
-                        icon: Icon(Icons.star),
-                        iconSize: 30,
-                        onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context){
-                                return AchievenmentScreen();
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: size.width*0.25,
+                            height: 75,
+                            child: GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context){
+                                      return CollectionScreen();
+                                    },
+                                  ),
+                                );
                               },
+                              child: Image.asset('assets/achievenment/ui/tui.PNG'),
                             ),
-                          );
-                        },
+                          ),
+                          Container(
+                            width: size.width*0.25,
+                            height: 75,
+                            child: GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context){
+                                      return ShopScreen();
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Image.asset('assets/achievenment/ui/cuahang.PNG'),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  Container(
-                    width: size.width*0.5,
-                    height: size.height*0.2,
-                    alignment: Alignment.center,
-                    child: Image.asset('assets/achievenment/ui/nongtrai.png'),
-                  ),
-                  Container(
-                    width: size.width*0.25,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: IconButton(
-                            icon: Icon(Icons.collections_bookmark),
-                            iconSize: 30,
-                            onPressed: (){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context){
-                                    return CollectionScreen();
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: IconButton(
-                            icon: Icon(Icons.shopping_cart),
-                            iconSize: 30,
-                            onPressed: (){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context){
-                                    return ShopScreen();
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-
-            Container(
-              height: size.height*0.69,
-              color: Colors.white,
-              child: Stack(
-                children: pokemonWidgetList,
+              Container(
+                height: size.height*0.7,
+                child: Stack(
+                  children: pokemonWidgetList,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -62,20 +62,20 @@ class InfoPokemon {
     if (direction == 'left') {
         positionX -= 0.05;
     } else if (direction == 'down') {
-        positionY += 0.05;
+        positionY += 0.025;
     } else if (direction == 'up') {
-        positionY -= 0.05;
+        positionY -= 0.025;
     } else {
         positionX += 0.05;
     }
 
-    if(positionX < -0.7) {
+    if(positionX < -0.9) {
         direction = 'right';
-    } else if(positionX > 0.7){
+    } else if(positionX > 0.9){
         direction  = 'left';
-    } else if(positionY > 0.7) {
+    } else if(positionY > 0.9) {
         direction = 'up';
-    } else if(positionY < -0.7){
+    } else if(positionY < -0.9){
         direction = 'down';
     }
 

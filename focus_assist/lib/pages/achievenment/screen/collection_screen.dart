@@ -35,32 +35,14 @@ class _CollectionScreenState extends State<CollectionScreen> {
         centerTitle: true,
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        //crossAxisAlignment: CrossAxisAlignment.center,
+       // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.all(20),
-            height: size.height*0.05,
-            width: size.width*0.35,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.white,
-                  blurRadius: 1,
-                  offset: Offset(0,5),
-                ),
-              ],
-            ),
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.wallet_giftcard,color: Colors.green,),
-                Text(StaticData.Vang.toString() +' dollar',
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.green),
-                ),
-              ],
-            ),
+            height: size.height*0.2,
+              child: Image.asset('assets/achievenment/ui/ui_collection.png'),
           ),
+
           Container(
             margin: EdgeInsets.only(left: 20,right: 20),
             padding: EdgeInsets.all(5),
@@ -156,12 +138,5 @@ class _CollectionScreenState extends State<CollectionScreen> {
               }
           }
     }
-
-
-    final updateBonus = await DbProvider.instance.rawQuery('''
-    SELECT * FROM THONGTINNGUOIDUNG WHERE MANGUOIDUNG = '$id'
-    ''');
-
-    StaticData.Vang = updateBonus[0]['VANG'];
   }
 }

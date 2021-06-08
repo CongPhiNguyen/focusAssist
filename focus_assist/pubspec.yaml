@@ -93,6 +93,9 @@ flutter:
     - assets/achievenment/Eggs/eggSweety.png
     - assets/achievenment/move/
     - assets/achievenment/ui/
+    - assets/achievenment/ui/background.png
+    - assets/achievenment/ui/background_farm1.jpg
+    - assets/achievenment/ui/ui_collection.png
 
 
 

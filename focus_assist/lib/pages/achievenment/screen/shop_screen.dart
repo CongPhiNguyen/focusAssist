@@ -44,10 +44,27 @@ class _ShopScreenState extends State<ShopScreen> {
         height: size.height,
         child: Column(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+         // mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             design_appbar_shop(size: size),
+            SizedBox(height: size.height*0.02,),
+            Container(
+              width: size.width*0.4,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+                  ),
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.wallet_giftcard,color: Colors.green,),
+                  Text(StaticData.Vang.toString() +' dollar',
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.green),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: size.height*0.02,),
             Container(
               height: size.height * 0.6,
               child: ListView.builder(
