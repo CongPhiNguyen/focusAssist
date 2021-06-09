@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -214,7 +215,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
 
   // Future<List<Map<String, dynamic>>> GetActivityList() async {
   //   Database db = await DbProvider.instance.database;
-  //   List<dynamic> whereArgsList = ['ND001'];
+  //   List<dynamic> whereArgsList = ['${StaticData.userID}'];
   //   List<Map<String, dynamic>> queryRows = await db.query('MUCTIEU', where: 'MANGUOIDUNG = ?', whereArgs: whereArgsList);
   //   return queryRows;
   // }
@@ -244,7 +245,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
     print('previousFirstDay: $previousFirstDay');
     print('previousLastDay: $previousLastDay');
     Database db = await DbProvider.instance.database;
-    List<dynamic> whereArgsList = ['ND001'];
+    List<dynamic> whereArgsList = ['${StaticData.userID}'];
     List<Map<String, dynamic>> activitiesList = await db.query('MUCTIEU',
         where: 'MANGUOIDUNG = ?', whereArgs: whereArgsList);
     for (int i = 0; i < activitiesList.length; i++) {

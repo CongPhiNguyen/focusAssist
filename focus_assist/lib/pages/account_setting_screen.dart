@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
+import 'package:focus_assist/classes/Data.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,7 +28,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
 
   Future<void> LoadUsername() async {
     Database db = await DbProvider.instance.database;
-    List<dynamic> whereArguments = ['ND001'];
+    List<dynamic> whereArguments = ['${StaticData.userID}'];
     List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG',
         where: 'MANGUOIDUNG = ?', whereArgs: whereArguments);
     if (queryRows.first['HOTEN'] == null || queryRows.first['HOTEN'] == '')
@@ -44,7 +44,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
 
   Future<void> LoadUserImage() async {
     Database db = await DbProvider.instance.database;
-    List<dynamic> whereArguments = ['ND001'];
+    List<dynamic> whereArguments = ['${StaticData.userID}'];
     List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG',
         where: 'MANGUOIDUNG = ?', whereArgs: whereArguments);
     if (queryRows.first['ANH'] == null || queryRows.first['ANH'] == '') return;
@@ -292,7 +292,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   // };
                   // Map<String, dynamic> row = {
                   //   'MAMUCTIEU': 'MT00001',
-                  //   'MANGUOIDUNG': 'ND001',
+                  //   'MANGUOIDUNG': '${StaticData.userID}',
                   //   'MANHOM': '',
                   //   'TENMUCTIEU': 'Đọc sách',
                   //   'MOTA': '',
@@ -302,7 +302,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   // };
                   // Map<String, dynamic> row = {
                   //   'MAMUCTIEU': 'MT00002',
-                  //   'MANGUOIDUNG': 'ND001',
+                  //   'MANGUOIDUNG': '${StaticData.userID}',
                   //   'MANHOM': '',
                   //   'TENMUCTIEU': 'Chạy bộ',
                   //   'MOTA': '',
@@ -312,7 +312,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   // };
                   // Map<String, dynamic> row = {
                   //   'MAMUCTIEU': 'MT00003',
-                  //   'MANGUOIDUNG': 'ND001',
+                  //   'MANGUOIDUNG': '${StaticData.userID}',
                   //   'MANHOM': '',
                   //   'TENMUCTIEU': 'Dọn nhà',
                   //   'MOTA': '',
@@ -329,7 +329,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   // Database db = await DbProvider.instance.database;
                   // await db.execute(
                   //   '''
-                  //   INSERT INTO THONGTINNGUOIDUNG VALUES ('ND001', 'Crack of Dawn', '', 100, 1, 1, 1, '07:00:00', '21:00:00', 0, 0, '');
+                  //   INSERT INTO THONGTINNGUOIDUNG VALUES ('${StaticData.userID}', 'Crack of Dawn', '', 100, 1, 1, 1, '07:00:00', '21:00:00', 0, 0, '');
                   //   '''
                   // );
                   print('Complete insert into table');
@@ -445,7 +445,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 setState(() {
                   username = usernameEditingController.text;
                 });
-                UpdateUsername('ND001'); // user.getID()
+                UpdateUsername('${StaticData.userID}'); // user.getID()
                 Navigator.pop(context);
               },
             ),
@@ -511,7 +511,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
     //   image = Image.file(File(pickedFile.path));
     // });
     String imgString = base64String(await pickedFile.readAsBytes());
-    UpdateUserAvatar('ND001', imgString);
+    UpdateUserAvatar('${StaticData.userID}', imgString);
     setState(() {
       image = imageFromBase64String(imgString);
     });
@@ -526,7 +526,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
     //   image = Image.file(File(pickedFile.path));
     // });
     String imgString = base64String(await pickedFile.readAsBytes());
-    UpdateUserAvatar('ND001', imgString);
+    UpdateUserAvatar('${StaticData.userID}', imgString);
     setState(() {
       image = imageFromBase64String(imgString);
     });

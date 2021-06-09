@@ -16,7 +16,8 @@ class FocusAssist extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Welcome',
-      home: focus(),
+      home: WelcomeScreen(),
     );
   }
 }
+
