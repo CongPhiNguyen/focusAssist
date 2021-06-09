@@ -126,6 +126,7 @@ class _AddNewState extends State<AddNew> {
               padding: const EdgeInsets.all(4.0),
               child: Container(
                   height: 50,
+                  width: 370,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: dayOfWeek.length,
@@ -183,31 +184,30 @@ class _AddNewState extends State<AddNew> {
 
   List<Widget> Repeating() {
     return <Widget>[
-      Padding(
-        padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-        child: Text("Repeating every: ", style: TextStyle(fontSize: 20)),
+      SizedBox(
+        height: 10,
       ),
       Center(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                  flex: 1,
-                  child: Text("Every", style: TextStyle(fontSize: 20))),
-              Expanded(
-                  flex: 1,
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    controller: getRepeatingDay,
-                    decoration: InputDecoration(hintText: 'num'),
-                    style: TextStyle(fontSize: 20),
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                  )),
-              Expanded(
-                  flex: 4, child: Text("day", style: TextStyle(fontSize: 20))),
+              Text("Repeating every", style: TextStyle(fontSize: 20)),
+              SizedBox(width: 20),
+              Container(
+                width: 70,
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: getRepeatingDay,
+                  decoration: InputDecoration(hintText: 'num'),
+                  style: TextStyle(fontSize: 20),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                ),
+              ),
+              Text("day", style: TextStyle(fontSize: 20)),
             ],
           ),
         ),
@@ -556,6 +556,7 @@ class _AddNewState extends State<AddNew> {
             //Chọn group của các activity
             Center(
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
                     width: 20,
@@ -611,6 +612,7 @@ class _AddNewState extends State<AddNew> {
             // Bảng chọn loại của cái activity
             Center(
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
                     width: 20,

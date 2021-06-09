@@ -132,38 +132,39 @@ class _EditActivityState extends State<EditActivity> {
   // List các hàm tạo các widget phù hợp với từng loại hoạt động
   List<Widget> Flexible() {
     return <Widget>[
-      Padding(
-        padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
-        child: Text(
-          "How often do you want to perform the activity: ",
-          style: TextStyle(fontSize: 18),
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+          child: Text(
+            "How often do you want to perform the activity: ",
+            style: TextStyle(fontSize: 18),
+          ),
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 4,
-              child: TextField(
-                keyboardType: TextInputType.number,
-                controller: getDayPerWeek,
-                decoration: InputDecoration(hintText: 'days'),
-                style: TextStyle(fontSize: 20),
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 70,
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: getDayPerWeek,
+                  decoration: InputDecoration(hintText: 'days'),
+                  style: TextStyle(fontSize: 20),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-                flex: 1,
-                child: SizedBox(
-                  width: 10,
-                )),
-            Expanded(
-                flex: 9,
-                child: Text("per week", style: TextStyle(fontSize: 20)))
-          ],
+              SizedBox(
+                width: 10,
+              ),
+              Text("per week", style: TextStyle(fontSize: 20))
+            ],
+          ),
         ),
       ),
     ];
@@ -171,97 +172,100 @@ class _EditActivityState extends State<EditActivity> {
 
   List<Widget> Fixed() {
     return <Widget>[
-      Padding(
-        padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-        child: Text("Select the day you want to do the activity:",
-            style: TextStyle(fontSize: 17)),
-      ),
-      SizedBox(
-        height: 20,
-      ),
-      Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Container(
-            height: 50,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: dayOfWeek.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      checkDay[index] = !checkDay[index];
-                    });
+      Column(children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
+          child: Text("Select the day you want to do the activity:",
+              style: TextStyle(fontSize: 17)),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Container(
+                height: 50,
+                width: 370,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: dayOfWeek.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          checkDay[index] = !checkDay[index];
+                        });
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(
+                            color: checkDay[index]
+                                ? Color(0xff8A2BE2)
+                                : Color(0xffF0FFF0),
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: !checkDay[index]
+                                        ? Color(0xff8A2BE2)
+                                        : Color(0xffF0FFF0),
+                                    width: 1),
+                                top: BorderSide(
+                                    color: !checkDay[index]
+                                        ? Color(0xff8A2BE2)
+                                        : Color(0xffF0FFF0),
+                                    width: 1),
+                                right: BorderSide(
+                                    color: !checkDay[index]
+                                        ? Color(0xff8A2BE2)
+                                        : Color(0xffF0FFF0),
+                                    width: 1),
+                                left: BorderSide(
+                                    color: !checkDay[index]
+                                        ? Color(0xff8A2BE2)
+                                        : Color(0xffF0FFF0),
+                                    width: (index == 0) ? 1 : 0)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text(dayOfWeek[index],
+                                style: TextStyle(
+                                    color: !checkDay[index]
+                                        ? Color(0xff8A2BE2)
+                                        : Color(0xffF0FFF0))),
+                          )),
+                    );
                   },
-                  child: Container(
-                      decoration: BoxDecoration(
-                        color: checkDay[index]
-                            ? Color(0xff8A2BE2)
-                            : Color(0xffF0FFF0),
-                        border: Border(
-                            bottom: BorderSide(
-                                color: !checkDay[index]
-                                    ? Color(0xff8A2BE2)
-                                    : Color(0xffF0FFF0),
-                                width: 1),
-                            top: BorderSide(
-                                color: !checkDay[index]
-                                    ? Color(0xff8A2BE2)
-                                    : Color(0xffF0FFF0),
-                                width: 1),
-                            right: BorderSide(
-                                color: !checkDay[index]
-                                    ? Color(0xff8A2BE2)
-                                    : Color(0xffF0FFF0),
-                                width: 1),
-                            left: BorderSide(
-                                color: !checkDay[index]
-                                    ? Color(0xff8A2BE2)
-                                    : Color(0xffF0FFF0),
-                                width: (index == 0) ? 1 : 0)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text(dayOfWeek[index],
-                            style: TextStyle(
-                                color: !checkDay[index]
-                                    ? Color(0xff8A2BE2)
-                                    : Color(0xffF0FFF0))),
-                      )),
-                );
-              },
-            )),
-      ),
+                )),
+          ),
+        ),
+      ])
     ];
   }
 
   List<Widget> Repeating() {
     return <Widget>[
-      Padding(
-        padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-        child: Text("Repeating every: ", style: TextStyle(fontSize: 20)),
-      ),
       Center(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                  flex: 1,
-                  child: Text("Every", style: TextStyle(fontSize: 20))),
-              Expanded(
-                  flex: 1,
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    controller: getRepeatingDay,
-                    decoration: InputDecoration(hintText: 'num'),
-                    style: TextStyle(fontSize: 20),
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                  )),
-              Expanded(
-                  flex: 4, child: Text("day", style: TextStyle(fontSize: 20))),
+              Text("Repeating every", style: TextStyle(fontSize: 20)),
+              SizedBox(
+                width: 10,
+              ),
+              Container(
+                width: 70,
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: getRepeatingDay,
+                  decoration: InputDecoration(hintText: 'num'),
+                  style: TextStyle(fontSize: 20),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                ),
+              ),
+              Text("day", style: TextStyle(fontSize: 20)),
             ],
           ),
         ),
@@ -602,7 +606,7 @@ class _EditActivityState extends State<EditActivity> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
               child: Center(
-                child: Row(children: [
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
                   Text(
                     "Start date: ",
                     style: TextStyle(fontSize: 20),
@@ -638,6 +642,7 @@ class _EditActivityState extends State<EditActivity> {
             //Chọn group của các activity
             Center(
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
                     width: 20,
@@ -674,24 +679,26 @@ class _EditActivityState extends State<EditActivity> {
                     }).toList(),
                   ),
                   SizedBox(width: 20),
-                  ElevatedButton(
-                      onPressed: () async {
-                        await showDialog(
-                          context: context,
-                          builder: (_) => AddGroup(),
-                        );
-                        getAllGroup();
-                      },
-                      child: Text(
-                        "New",
-                        style: TextStyle(fontSize: 22),
-                      ))
+                  InkWell(
+                    onTap: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (_) => AddGroup(),
+                      );
+                      getAllGroup();
+                    },
+                    child: Text(
+                      "New",
+                      style: TextStyle(fontSize: 22),
+                    ),
+                  )
                 ],
               ),
             ),
             // Bảng chọn loại của cái activity
             Center(
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
                     width: 20,

@@ -329,7 +329,7 @@ class _ListAchivementState extends State<ListAchivement> {
                       child: ElevatedButton(
                         onPressed: FinishClick,
                         style: ElevatedButton.styleFrom(
-                          primary: !isFullDone ? Colors.blue : Colors.purple,
+                          primary: !isFullDone ? Colors.blue : Colors.grey,
                         ),
                         child: Text('Claim'),
                       ))
@@ -362,7 +362,7 @@ class _ListAchivementState extends State<ListAchivement> {
                       child: ElevatedButton(
                         onPressed: HaveClick,
                         style: ElevatedButton.styleFrom(
-                          primary: !isFullActive ? Colors.blue : Colors.purple,
+                          primary: !isFullActive ? Colors.blue : Colors.grey,
                         ),
                         child: Text('Claim'),
                       ))
