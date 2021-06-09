@@ -29,8 +29,7 @@ class _FarmScreenState extends State<FarmScreen> {
     InitPokemonUser();
     startAnimation();
   }
-
-
+  
   void InitPokemonUser () {
     List<Widget> finalList = [];
     for (int i = 0; i < StaticData.PokemonUsers.length; i++) {
@@ -53,7 +52,6 @@ class _FarmScreenState extends State<FarmScreen> {
       ),
     );
   }
-
 
   void startAnimation() {
     StaticData.timer = Timer.periodic(Duration(milliseconds: 2000),(test){
