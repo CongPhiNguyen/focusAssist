@@ -1,5 +1,8 @@
+import 'dart:async';
+import 'dart:core';
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite/sqlite_api.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -44,6 +47,11 @@ class DbProvider {
     return res;
   }
 
+  Future<int> deleteTable(String tableName) async {
+    Database db = await instance.database;
+    return await db.delete(tableName);
+  }
+
   Future<int> insert(String tableName, Map<String, dynamic> row) async {
     Database db = await instance.database;
     return await db.insert(tableName, row);
@@ -51,7 +59,9 @@ class DbProvider {
 
   Future<List<Map<String, dynamic>>> query(String tableName) async {
     Database db = await instance.database;
-    return await db.query(tableName);
+    return await db.query(
+      tableName,
+    );
   }
 
   Future<int> update(String tableName, Map<String, dynamic> row, String key,

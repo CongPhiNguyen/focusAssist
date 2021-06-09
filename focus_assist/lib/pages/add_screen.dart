@@ -36,6 +36,8 @@ class _AddNewState extends State<AddNew> {
   //Dùng để cho việc chọn nhóm:
   String dropDownGroup;
   bool newGroup;
+
+  bool isFailed = false;
   @override
   void initState() {
     newGroup = false;
@@ -360,8 +362,9 @@ class _AddNewState extends State<AddNew> {
   }
 
   // Các hàm thực hiện các việc liên quan đến dữ liệu
-  void addActivity() async {
+  Future<void> addActivity() async {
     bool valid = await checkValidActivity();
+    isFailed = !valid;
     if (valid == false) return;
     Map<String, dynamic> row = {
       'MAMUCTIEU': getRandomString(5),
@@ -444,8 +447,11 @@ class _AddNewState extends State<AddNew> {
           title: Text("Add new activity", style: TextStyle(fontSize: 25)),
           actions: [
             FlatButton(
-                onPressed: () {
-                  addActivity();
+                onPressed: () async {
+                  await addActivity();
+                  if (isFailed) {
+                  } else
+                    Navigator.pop(context);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),

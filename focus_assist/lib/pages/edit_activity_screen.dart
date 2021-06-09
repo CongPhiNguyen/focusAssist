@@ -491,6 +491,7 @@ class _EditActivityState extends State<EditActivity> {
             FlatButton(
                 onPressed: () {
                   editActivity();
+                  Navigator.pop(context);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),

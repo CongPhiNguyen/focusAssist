@@ -876,42 +876,8 @@ class _JournalScreenState extends State<JournalScreen> {
                   flex: 5,
                   child: Row(children: [
                     SizedBox(width: 10),
-                    Text('Conversion rate: ' + rate + ' %'),
+                    Text('Completion : ' + rate + ' %'),
                   ])),
-              Expanded(
-                  flex: 5,
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                          flex: 1,
-                          child: Text("Less", style: TextStyle(fontSize: 17))),
-                      Expanded(
-                          flex: 2,
-                          child: Row(
-                            children: <Widget>[
-                              CircleAvatar(
-                                backgroundColor: Colors.green[300],
-                                radius: 10,
-                              ),
-                              CircleAvatar(
-                                backgroundColor: Colors.green[500],
-                                radius: 10,
-                              ),
-                              CircleAvatar(
-                                backgroundColor: Colors.green[700],
-                                radius: 10,
-                              ),
-                              CircleAvatar(
-                                backgroundColor: Colors.green[900],
-                                radius: 10,
-                              ),
-                            ],
-                          )),
-                      Expanded(
-                          flex: 1,
-                          child: Text("More", style: TextStyle(fontSize: 17)))
-                    ],
-                  ))
             ],
           )
         ],
@@ -973,9 +939,6 @@ class _JournalScreenState extends State<JournalScreen> {
         ),
         //Hiển thị calendar
         Calendar(),
-        SizedBox(
-          height: 30,
-        ),
         Padding(
           padding: const EdgeInsets.fromLTRB(15, 10, 10, 0),
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [

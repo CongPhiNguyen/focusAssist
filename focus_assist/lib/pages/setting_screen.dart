@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/account_setting_screen.dart';
+import 'package:focus_assist/pages/notification_setting_screen.dart';
+import 'package:focus_assist/pages/privacy_lock_setting_screen.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
+  @override
+  _SettingScreenState createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
+  bool isDarkMode = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +36,6 @@ class SettingScreen extends StatelessWidget {
               SizedBox(height: 5.0,),
               ListTile (
                 onTap: () {
-                  //Navigator.pushNamed(context, '/SettingScreen/Account');
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AccountSettingScreen()),
@@ -61,7 +69,12 @@ class SettingScreen extends StatelessWidget {
               ),
               SizedBox(height: 5.0,),
               ListTile (
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NotificationSettingScreen()),
+                  );
+                },
                 title: Text(
                   'Notifications',
                 ),
@@ -74,7 +87,12 @@ class SettingScreen extends StatelessWidget {
               ),
               Divider(height: 10.0, thickness: 2.0, indent: 65.0,),
               ListTile (
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PrivacyLockSettingScreen()),
+                  );
+                },
                 title: Text(
                   'Privacy Lock',
                 ),
@@ -84,6 +102,30 @@ class SettingScreen extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 trailing: Icon(Icons.navigate_next),
+              ),
+              Divider(height: 10.0, thickness: 2.0, indent: 65.0,),
+              ListTile (
+                onTap: () {
+                  setState(() {
+                    isDarkMode = !isDarkMode;
+                  });
+                },
+                title: Text(
+                  'Dark Mode',
+                ),
+                leading: Icon(
+                  Icons.nights_stay_rounded,
+                  size: 36.0,
+                  color: Colors.blue,
+                ),
+                trailing: Switch(
+                  value: isDarkMode,
+                  onChanged: (value) {
+                    setState(() {
+                      isDarkMode = value;
+                    });
+                  }
+                ),
               ),
               Divider(height: 10.0, thickness: 2.0, indent: 65.0,),
               SizedBox(height: 15.0,),
@@ -125,58 +167,6 @@ class SettingScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 5.0,),
-              ListTile (
-                onTap: () {},
-                title: Text(
-                  'About',
-                ),
-                leading: Icon(
-                  Icons.info_rounded,
-                  size: 36.0,
-                  color: Colors.blue,
-                ),
-                trailing: Icon(Icons.navigate_next),
-              ),
-              Divider(height: 10.0, thickness: 2.0, indent: 65.0,),
-              ListTile (
-                onTap: () {},
-                title: Text(
-                  'About',
-                ),
-                leading: Icon(
-                  Icons.info_rounded,
-                  size: 36.0,
-                  color: Colors.blue,
-                ),
-                trailing: Icon(Icons.navigate_next),
-              ),
-              Divider(height: 10.0, thickness: 2.0, indent: 65.0,),
-              ListTile (
-                onTap: () {},
-                title: Text(
-                  'About',
-                ),
-                leading: Icon(
-                  Icons.info_rounded,
-                  size: 36.0,
-                  color: Colors.blue,
-                ),
-                trailing: Icon(Icons.navigate_next),
-              ),
-              Divider(height: 10.0, thickness: 2.0, indent: 65.0,),
-              ListTile (
-                onTap: () {},
-                title: Text(
-                  'About',
-                ),
-                leading: Icon(
-                  Icons.info_rounded,
-                  size: 36.0,
-                  color: Colors.blue,
-                ),
-                trailing: Icon(Icons.navigate_next),
-              ),
-              Divider(height: 10.0, thickness: 2.0, indent: 65.0,),
               ListTile (
                 onTap: () {},
                 title: Text(
