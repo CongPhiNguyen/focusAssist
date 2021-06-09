@@ -336,6 +336,40 @@ class _ViewActivityState extends State<ViewActivity> {
       );
   CalendarCarousel _calendarCarouselNoHeader;
   void markDays() {}
+  Widget debugWidget() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
+      child: Center(
+        child: Row(children: [
+          Text(
+            "To date: ",
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(
+            startTime.toString().substring(0, 10),
+            style: TextStyle(fontSize: 20),
+          ),
+          FlatButton.icon(
+            icon: Icon(Icons.date_range),
+            onPressed: () async {
+              await showDatePicker(
+                      context: context,
+                      initialDate: startTime,
+                      firstDate: DateTime.utc(2020, 1, 1),
+                      lastDate: DateTime.utc(2120, 31, 12))
+                  .then((date) {
+                setState(() {
+                  if (date != null) startTime = date;
+                });
+              });
+              getData();
+            },
+            label: Text(""),
+          )
+        ]),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -371,116 +405,80 @@ class _ViewActivityState extends State<ViewActivity> {
     );
     return Container(
       child: Scaffold(
-          appBar: AppBar(
-            actions: [
-              FlatButton.icon(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.more_vert,
-                    color: Colors.white,
-                  ),
-                  label: Text(""))
-            ],
-            title: Text(name),
-            centerTitle: true,
-            backgroundColor: Color(0xffe66771),
-          ),
           body: ListView(children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
-              child: Center(
-                child: Row(children: [
-                  Text(
-                    "To date: ",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Text(
-                    startTime.toString().substring(0, 10),
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  FlatButton.icon(
-                    icon: Icon(Icons.date_range),
-                    onPressed: () async {
-                      await showDatePicker(
-                              context: context,
-                              initialDate: startTime,
-                              firstDate: DateTime.utc(2020, 1, 1),
-                              lastDate: DateTime.utc(2120, 31, 12))
-                          .then((date) {
-                        setState(() {
-                          if (date != null) startTime = date;
-                        });
-                      });
-                      getData();
-                    },
-                    label: Text(""),
-                  )
-                ]),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 15, 15, 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 20,
               ),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: ElevatedButton(
-                        onPressed: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditActivity(
-                                    activityKey: widget.activityKey,
-                                    activityName: widget.activityName)),
-                          );
-                          getData();
-                        },
-                        child: Text("Edit")),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: ElevatedButton(
-                        onPressed: () async {
-                          await showDialog(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                    title: Text("Message"),
-                                    content: Text(
-                                        "Are you sure to delete this activity ?"),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          deleteActivity();
-                                        },
-                                        child: Text("Yes"),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text("No"),
-                                      )
-                                    ],
-                                  ));
-                        },
-                        child: Text("Delete")),
-                  ),
-                ),
-              ],
-            ),
-            Container(
-                height: 100,
-                child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    children: [
-                      Container(
-                        width: 300,
-                        decoration: new BoxDecoration(color: Color(0xffebe8e1)),
+              Text(name, style: TextStyle(fontSize: 30)),
+              SizedBox(
+                width: 20,
+              ),
+              InkWell(
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditActivity(
+                              activityKey: widget.activityKey,
+                              activityName: widget.activityName)),
+                    );
+                    getData();
+                  },
+                  child: Icon(Icons.edit)),
+              SizedBox(
+                width: 20,
+              ),
+              InkWell(
+                  onTap: () async {
+                    await showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: Text("Message"),
+                              content: Text(
+                                  "Are you sure to delete this activity ?"),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    deleteActivity();
+                                  },
+                                  child: Text("Yes"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("No"),
+                                )
+                              ],
+                            ));
+                  },
+                  child: Icon(Icons.delete)),
+              SizedBox(
+                width: 10,
+              )
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+              height: 100,
+              child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  children: [
+                    Container(
+                      width: 300,
+                      decoration: new BoxDecoration(
+                          color: Color(0xffebe8e1),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Center(
                         child: ListTile(
                           leading: Icon(
                             Icons.fireplace,
@@ -494,12 +492,16 @@ class _ViewActivityState extends State<ViewActivity> {
                           subtitle: Text('$consecutiveDays Consecutive days'),
                         ),
                       ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        width: 300,
-                        decoration: new BoxDecoration(color: Color(0xffebe8e1)),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      width: 300,
+                      decoration: new BoxDecoration(
+                          color: Color(0xffebe8e1),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Center(
                         child: ListTile(
                           leading: Icon(Icons.calendar_today,
                               color: Colors.cyan, size: 50),
@@ -508,12 +510,16 @@ class _ViewActivityState extends State<ViewActivity> {
                           subtitle: Text(activityStartDay),
                         ),
                       ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        width: 300,
-                        decoration: new BoxDecoration(color: Color(0xffebe8e1)),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      width: 300,
+                      decoration: new BoxDecoration(
+                          color: Color(0xffebe8e1),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Center(
                         child: ListTile(
                           leading: Icon(Icons.done_outlined,
                               color: Colors.green, size: 50),
@@ -521,12 +527,16 @@ class _ViewActivityState extends State<ViewActivity> {
                           subtitle: Text('Done times'),
                         ),
                       ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        width: 300,
-                        decoration: new BoxDecoration(color: Color(0xffebe8e1)),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      width: 300,
+                      decoration: new BoxDecoration(
+                          color: Color(0xffebe8e1),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Center(
                         child: ListTile(
                           leading:
                               Icon(Icons.block, color: Colors.red, size: 50),
@@ -534,15 +544,35 @@ class _ViewActivityState extends State<ViewActivity> {
                           subtitle: Text('Missed Times'),
                         ),
                       ),
-                    ])),
-            _calendarCarouselNoHeader,
-            SizedBox(height: 30),
-            PieChart(
-              chartRadius: 200,
-              dataMap: dataMap,
-              chartType: ChartType.disc,
-            )
-          ])),
+                    ),
+                  ])),
+        ),
+        _calendarCarouselNoHeader,
+        SizedBox(height: 30),
+        Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/chart.png',
+                  width: 50,
+                  height: 50,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'Chart',
+                  style: TextStyle(fontSize: 25),
+                ),
+              ],
+            )),
+        PieChart(
+          chartRadius: 200,
+          dataMap: dataMap,
+          chartType: ChartType.disc,
+        )
+      ])),
     );
   }
 }

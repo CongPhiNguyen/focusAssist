@@ -43,7 +43,7 @@ class _AddGroupState extends State<AddGroup> {
   Widget build(BuildContext context) {
     OutlineInputBorder k = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(4)),
-      borderSide: BorderSide(width: 1, color: Colors.black54),
+      borderSide: BorderSide(width: 1, color: Colors.black87),
     );
     return Dialog(
         shape:
@@ -55,7 +55,7 @@ class _AddGroupState extends State<AddGroup> {
             SizedBox(height: 10),
             Text(
               'Add new group',
-              style: TextStyle(fontSize: 25, color: Colors.black54),
+              style: TextStyle(fontSize: 25, color: Colors.black87),
             ),
             Padding(
               padding: const EdgeInsets.all(12.0),
@@ -71,8 +71,8 @@ class _AddGroupState extends State<AddGroup> {
                     focusedErrorBorder: k,
                     border: OutlineInputBorder(),
                     labelText: 'Group Name',
-                    labelStyle: TextStyle(color: Colors.black54, fontSize: 23)),
-                style: TextStyle(fontSize: 20, color: Colors.black54),
+                    labelStyle: TextStyle(color: Colors.black87, fontSize: 23)),
+                style: TextStyle(fontSize: 20, color: Colors.black87),
               ),
             ),
             (isOK)
@@ -104,7 +104,7 @@ class _AddGroupState extends State<AddGroup> {
                   }
                 },
                 child: Text('Create',
-                    style: TextStyle(fontSize: 20, color: Colors.black54)),
+                    style: TextStyle(fontSize: 20, color: Colors.black87)),
               ),
             ),
             SizedBox(

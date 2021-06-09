@@ -65,106 +65,119 @@ class _AddNewState extends State<AddNew> {
   // List các hàm tạo các widget phù hợp với từng loại hoạt động
   List<Widget> Flexible() {
     return <Widget>[
-      Padding(
-        padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
-        child: Text(
-          "How often do you want to perform the activity: ",
-          style: TextStyle(fontSize: 18),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
-        child: Row(
+      Center(
+        child: Column(
           children: [
-            Expanded(
-              flex: 4,
-              child: TextField(
-                keyboardType: TextInputType.number,
-                controller: getDayPerWeek,
-                decoration: InputDecoration(hintText: 'days'),
-                style: TextStyle(fontSize: 20),
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+              child: Text(
+                "How often do you want to perform the activity: ",
+                style: TextStyle(fontSize: 18),
               ),
             ),
-            Expanded(
-                flex: 1,
-                child: SizedBox(
-                  width: 10,
-                )),
-            Expanded(
-                flex: 9,
-                child: Text("per week", style: TextStyle(fontSize: 20)))
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+                child: Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 70,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: getDayPerWeek,
+                          decoration: InputDecoration(hintText: 'days'),
+                          style: TextStyle(fontSize: 20),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("per week", style: TextStyle(fontSize: 20))
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
-      ),
+      )
     ];
   }
 
   List<Widget> Fixed() {
     return <Widget>[
-      Padding(
-        padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-        child: Text("Select the day you want to do the activity:",
-            style: TextStyle(fontSize: 17)),
-      ),
-      SizedBox(
-        height: 20,
-      ),
-      Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Container(
-            height: 50,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: dayOfWeek.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      checkDay[index] = !checkDay[index];
-                    });
-                  },
-                  child: Container(
-                      decoration: BoxDecoration(
-                        color: checkDay[index]
-                            ? Color(0xff8A2BE2)
-                            : Color(0xffF0FFF0),
-                        border: Border(
-                            bottom: BorderSide(
-                                color: !checkDay[index]
-                                    ? Color(0xff8A2BE2)
-                                    : Color(0xffF0FFF0),
-                                width: 1),
-                            top: BorderSide(
-                                color: !checkDay[index]
-                                    ? Color(0xff8A2BE2)
-                                    : Color(0xffF0FFF0),
-                                width: 1),
-                            right: BorderSide(
-                                color: !checkDay[index]
-                                    ? Color(0xff8A2BE2)
-                                    : Color(0xffF0FFF0),
-                                width: 1),
-                            left: BorderSide(
-                                color: !checkDay[index]
-                                    ? Color(0xff8A2BE2)
-                                    : Color(0xffF0FFF0),
-                                width: (index == 0) ? 1 : 0)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text(dayOfWeek[index],
-                            style: TextStyle(
-                                color: !checkDay[index]
-                                    ? Color(0xff8A2BE2)
-                                    : Color(0xffF0FFF0))),
-                      )),
-                );
-              },
-            )),
-      ),
+      Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
+            child: Text("Select the day you want to do the activity:",
+                style: TextStyle(fontSize: 17)),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Container(
+                  height: 50,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: dayOfWeek.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          setState(() {
+                            checkDay[index] = !checkDay[index];
+                          });
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: checkDay[index]
+                                  ? Color(0xff8A2BE2)
+                                  : Color(0xffF0FFF0),
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: !checkDay[index]
+                                          ? Color(0xff8A2BE2)
+                                          : Color(0xffF0FFF0),
+                                      width: 1),
+                                  top: BorderSide(
+                                      color: !checkDay[index]
+                                          ? Color(0xff8A2BE2)
+                                          : Color(0xffF0FFF0),
+                                      width: 1),
+                                  right: BorderSide(
+                                      color: !checkDay[index]
+                                          ? Color(0xff8A2BE2)
+                                          : Color(0xffF0FFF0),
+                                      width: 1),
+                                  left: BorderSide(
+                                      color: !checkDay[index]
+                                          ? Color(0xff8A2BE2)
+                                          : Color(0xffF0FFF0),
+                                      width: (index == 0) ? 1 : 0)),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Text(dayOfWeek[index],
+                                  style: TextStyle(
+                                      color: !checkDay[index]
+                                          ? Color(0xff8A2BE2)
+                                          : Color(0xffF0FFF0))),
+                            )),
+                      );
+                    },
+                  )),
+            ),
+          ),
+        ],
+      )
     ];
   }
 
@@ -421,6 +434,10 @@ class _AddNewState extends State<AddNew> {
 
   @override
   Widget build(BuildContext context) {
+    OutlineInputBorder k = OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(4)),
+      borderSide: BorderSide(width: 1, color: Colors.white),
+    );
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff8A2BE2),
@@ -442,7 +459,7 @@ class _AddNewState extends State<AddNew> {
         ),
         body: ListView(
           shrinkWrap: true,
-          children: <Widget>[
+          children: [
             // Thêm tên của activity và các description
             Container(
                 decoration: BoxDecoration(
@@ -463,31 +480,11 @@ class _AddNewState extends State<AddNew> {
                           border: OutlineInputBorder(),
                           labelText: 'Activity Name',
                           labelStyle: TextStyle(color: Colors.white),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.white),
-                          ),
-                          disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.white),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.white),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.white)),
-                          focusedErrorBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.white)),
+                          focusedBorder: k,
+                          disabledBorder: k,
+                          enabledBorder: k,
+                          errorBorder: k,
+                          focusedErrorBorder: k,
                         ),
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
@@ -499,35 +496,12 @@ class _AddNewState extends State<AddNew> {
                         controller: getDescription,
                         decoration: InputDecoration(
                             isDense: true,
-                            contentPadding: EdgeInsets.all(28),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.white),
-                            ),
-                            disabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.white),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.white),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                                borderSide:
-                                    BorderSide(width: 1, color: Colors.white)),
-                            focusedErrorBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                                borderSide:
-                                    BorderSide(width: 1, color: Colors.white)),
+                            contentPadding: EdgeInsets.all(18),
+                            focusedBorder: k,
+                            disabledBorder: k,
+                            enabledBorder: k,
+                            errorBorder: k,
+                            focusedErrorBorder: k,
                             border: OutlineInputBorder(),
                             labelText: 'Description',
                             labelStyle:
@@ -541,35 +515,37 @@ class _AddNewState extends State<AddNew> {
                     ],
                   ),
                 )),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
-              child: Center(
-                child: Row(children: [
-                  Text(
-                    "Start date: ",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Text(
-                    startTime.toString().substring(0, 10),
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  FlatButton.icon(
-                    icon: Icon(Icons.date_range),
-                    onPressed: () {
-                      showDatePicker(
-                              context: context,
-                              initialDate: startTime,
-                              firstDate: DateTime.utc(2020, 1, 1),
-                              lastDate: DateTime.utc(2120, 31, 12))
-                          .then((date) {
-                        setState(() {
-                          if (date != null) startTime = date;
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
+                child: Center(
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                    Text(
+                      "Start date: ",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      startTime.toString().substring(0, 10),
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    FlatButton.icon(
+                      icon: Icon(Icons.date_range),
+                      onPressed: () {
+                        showDatePicker(
+                                context: context,
+                                initialDate: startTime,
+                                firstDate: DateTime.utc(2020, 1, 1),
+                                lastDate: DateTime.utc(2120, 31, 12))
+                            .then((date) {
+                          setState(() {
+                            if (date != null) startTime = date;
+                          });
                         });
-                      });
-                    },
-                    label: Text(""),
-                  )
-                ]),
+                      },
+                      label: Text(""),
+                    )
+                  ]),
+                ),
               ),
             ),
 
@@ -616,18 +592,19 @@ class _AddNewState extends State<AddNew> {
                     }).toList(),
                   ),
                   SizedBox(width: 20),
-                  ElevatedButton(
-                      onPressed: () async {
-                        await showDialog(
-                          context: context,
-                          builder: (_) => AddGroup(),
-                        );
-                        getAllGroup();
-                      },
-                      child: Text(
-                        "New",
-                        style: TextStyle(fontSize: 22),
-                      ))
+                  InkWell(
+                    onTap: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (_) => AddGroup(),
+                      );
+                      getAllGroup();
+                    },
+                    child: Text(
+                      "New",
+                      style: TextStyle(fontSize: 22),
+                    ),
+                  ),
                 ],
               ),
             ),

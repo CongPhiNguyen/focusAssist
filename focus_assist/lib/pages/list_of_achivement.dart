@@ -290,11 +290,17 @@ class _ListAchivementState extends State<ListAchivement> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Center(
-                  child: Text(
-                "All achivements",
-                style: TextStyle(fontSize: 30),
-              )),
+              Row(children: [
+                Image.asset('assets/achievement.png', width: 60, height: 60),
+                SizedBox(
+                  width: 20,
+                ),
+                Center(
+                    child: Text(
+                  "All achivements",
+                  style: TextStyle(fontSize: 30),
+                )),
+              ]),
               Divider(),
               SizedBox(
                 height: 15,

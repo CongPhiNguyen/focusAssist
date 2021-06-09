@@ -978,10 +978,18 @@ class _JournalScreenState extends State<JournalScreen> {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(15, 10, 10, 0),
-          child: Text(
-            'Todo and Done',
-            style: TextStyle(fontSize: 22, color: Colors.black54),
-          ),
+          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Image.asset(
+              'assets/dodone.png',
+              width: 40,
+              height: 40,
+            ),
+            SizedBox(width: 20),
+            Text(
+              'Todo and Done',
+              style: TextStyle(fontSize: 22, color: Colors.black54),
+            ),
+          ]),
         ),
         Padding(
             padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),

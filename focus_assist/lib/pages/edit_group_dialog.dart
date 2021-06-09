@@ -53,7 +53,7 @@ class _EditGroupState extends State<EditGroup> {
   Widget build(BuildContext context) {
     OutlineInputBorder k = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(4)),
-      borderSide: BorderSide(width: 1, color: Colors.black54),
+      borderSide: BorderSide(width: 1, color: Colors.black87),
     );
     return Dialog(
         shape:
@@ -82,8 +82,8 @@ class _EditGroupState extends State<EditGroup> {
                     focusedErrorBorder: k,
                     border: OutlineInputBorder(),
                     labelText: 'Group Name',
-                    labelStyle: TextStyle(color: Colors.black54, fontSize: 23)),
-                style: TextStyle(fontSize: 20, color: Colors.black54),
+                    labelStyle: TextStyle(color: Colors.black87, fontSize: 23)),
+                style: TextStyle(fontSize: 20, color: Colors.black87),
               ),
             ),
             (isOK)
@@ -115,7 +115,7 @@ class _EditGroupState extends State<EditGroup> {
                   }
                 },
                 child: Text('Finish',
-                    style: TextStyle(fontSize: 20, color: Colors.black54)),
+                    style: TextStyle(fontSize: 20, color: Colors.black87)),
               ),
             ),
             SizedBox(
