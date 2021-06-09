@@ -5,15 +5,18 @@ import 'package:flutter/services.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'dart:math';
-
 import 'package:focus_assist/pages/add_new_group_dialog.dart';
 
-class AddNew extends StatefulWidget {
+class EditActivity extends StatefulWidget {
+  final String activityKey, activityName;
+
+  EditActivity({Key key, this.activityKey, this.activityName})
+      : super(key: key);
   @override
-  _AddNewState createState() => _AddNewState();
+  _EditActivityState createState() => _EditActivityState();
 }
 
-class _AddNewState extends State<AddNew> {
+class _EditActivityState extends State<EditActivity> {
   final dbHelper = DbProvider.instance;
   String dropDownValue;
   DateTime startTime;
@@ -31,13 +34,11 @@ class _AddNewState extends State<AddNew> {
   TextEditingController getRepeatingDay;
 
   //Dùng để debug
-  String text = 'Fuck', text2 = "FUCK", text3 = "SHIT", text4 = 'text4';
+  String text = 'Fuck', text2 = "FUCK";
 
   //Dùng để cho việc chọn nhóm:
   String dropDownGroup;
   bool newGroup;
-
-  bool isFailed = false;
   @override
   void initState() {
     newGroup = false;
@@ -55,6 +56,70 @@ class _AddNewState extends State<AddNew> {
     getDayPerWeek = TextEditingController();
     getRepeatingDay = TextEditingController();
     getAllGroup();
+    getAllInformation();
+  }
+
+  int dateTimeToInt(DateTime dateTime) {
+    return dateTime.year * 10000 + dateTime.month * 100 + dateTime.day;
+  }
+
+  DateTime intToDateTime(int dateTimeInt) {
+    int year = (dateTimeInt / 10000).floor();
+    int month = (dateTimeInt / 100).floor() % 100;
+    int day = dateTimeInt % 100;
+    return DateTime(year, month, day);
+  }
+
+  //Load lại các thông tin của activity vào cái form
+  void getAllInformation() async {
+    String activityKey = widget.activityKey;
+    List<Map<String, dynamic>> database = await dbHelper.rawQuery('''
+        select * from MUCTIEU where MAMUCTIEU='$activityKey'
+    ''');
+    String groupKey;
+    if (database.length > 0) {
+      setState(() {
+        getActivity = TextEditingController(text: database[0]['TENMUCTIEU']);
+        getDescription = TextEditingController(text: database[0]['MOTA']);
+        groupKey = database[0]['MANHOM'];
+        startTime =
+            intToDateTime(int.parse(database[0]['NGAYBATDAU'].toString()));
+      });
+      String type = database[0]['LOAIHINH'];
+      if (type == 'Fixed') {
+        setState(() {
+          dropDownValue = 'Fixed';
+        });
+        String cacNgay = database[0]['CACNGAY'].toString();
+        while (cacNgay.length < 7) {
+          cacNgay = '0' + cacNgay;
+        }
+        for (int i = 0; i < 7; i++) {
+          setState(() {
+            checkDay[i] = (cacNgay[i] == '1') ? true : false;
+          });
+        }
+      } else if (type == 'Flexible') {
+        setState(() {
+          dropDownValue = 'Flexible';
+          getDayPerWeek =
+              TextEditingController(text: database[0]['SOLAN'].toString());
+        });
+      } else if (type == 'Repeating') {
+        setState(() {
+          dropDownValue = 'Repeating';
+          getRepeatingDay = TextEditingController(
+              text: database[0]['KHOANGTHOIGIAN'].toString());
+        });
+      }
+    }
+    database = await dbHelper.rawQuery('''
+        select * from NHOMMUCTIEU where MANHOM='$groupKey'
+    ''');
+    if (database.length > 0)
+      setState(() {
+        dropDownGroup = database[0]['TENNHOM'];
+      });
   }
 
   //Hàm tạo string random để Tạo khoá
@@ -68,127 +133,116 @@ class _AddNewState extends State<AddNew> {
   List<Widget> Flexible() {
     return <Widget>[
       Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
-              child: Text(
-                "How often do you want to perform the activity: ",
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
-                child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        width: 70,
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: getDayPerWeek,
-                          decoration: InputDecoration(hintText: 'days'),
-                          style: TextStyle(fontSize: 20),
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text("per week", style: TextStyle(fontSize: 20))
-                    ],
-                  ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+          child: Text(
+            "How often do you want to perform the activity: ",
+            style: TextStyle(fontSize: 18),
+          ),
+        ),
+      ),
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 70,
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: getDayPerWeek,
+                  decoration: InputDecoration(hintText: 'days'),
+                  style: TextStyle(fontSize: 20),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: 10,
+              ),
+              Text("per week", style: TextStyle(fontSize: 20))
+            ],
+          ),
         ),
-      )
+      ),
     ];
   }
 
   List<Widget> Fixed() {
     return <Widget>[
-      Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-            child: Text("Select the day you want to do the activity:",
-                style: TextStyle(fontSize: 17)),
+      Column(children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
+          child: Text("Select the day you want to do the activity:",
+              style: TextStyle(fontSize: 17)),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Container(
+                height: 50,
+                width: 370,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: dayOfWeek.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          checkDay[index] = !checkDay[index];
+                        });
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(
+                            color: checkDay[index]
+                                ? Color(0xff8A2BE2)
+                                : Color(0xffF0FFF0),
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: !checkDay[index]
+                                        ? Color(0xff8A2BE2)
+                                        : Color(0xffF0FFF0),
+                                    width: 1),
+                                top: BorderSide(
+                                    color: !checkDay[index]
+                                        ? Color(0xff8A2BE2)
+                                        : Color(0xffF0FFF0),
+                                    width: 1),
+                                right: BorderSide(
+                                    color: !checkDay[index]
+                                        ? Color(0xff8A2BE2)
+                                        : Color(0xffF0FFF0),
+                                    width: 1),
+                                left: BorderSide(
+                                    color: !checkDay[index]
+                                        ? Color(0xff8A2BE2)
+                                        : Color(0xffF0FFF0),
+                                    width: (index == 0) ? 1 : 0)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text(dayOfWeek[index],
+                                style: TextStyle(
+                                    color: !checkDay[index]
+                                        ? Color(0xff8A2BE2)
+                                        : Color(0xffF0FFF0))),
+                          )),
+                    );
+                  },
+                )),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Container(
-                  height: 50,
-                  width: 370,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: dayOfWeek.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          setState(() {
-                            checkDay[index] = !checkDay[index];
-                          });
-                        },
-                        child: Container(
-                            decoration: BoxDecoration(
-                              color: checkDay[index]
-                                  ? Color(0xff8A2BE2)
-                                  : Color(0xffF0FFF0),
-                              border: Border(
-                                  bottom: BorderSide(
-                                      color: !checkDay[index]
-                                          ? Color(0xff8A2BE2)
-                                          : Color(0xffF0FFF0),
-                                      width: 1),
-                                  top: BorderSide(
-                                      color: !checkDay[index]
-                                          ? Color(0xff8A2BE2)
-                                          : Color(0xffF0FFF0),
-                                      width: 1),
-                                  right: BorderSide(
-                                      color: !checkDay[index]
-                                          ? Color(0xff8A2BE2)
-                                          : Color(0xffF0FFF0),
-                                      width: 1),
-                                  left: BorderSide(
-                                      color: !checkDay[index]
-                                          ? Color(0xff8A2BE2)
-                                          : Color(0xffF0FFF0),
-                                      width: (index == 0) ? 1 : 0)),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Text(dayOfWeek[index],
-                                  style: TextStyle(
-                                      color: !checkDay[index]
-                                          ? Color(0xff8A2BE2)
-                                          : Color(0xffF0FFF0))),
-                            )),
-                      );
-                    },
-                  )),
-            ),
-          ),
-        ],
-      )
+        ),
+      ])
     ];
   }
 
   List<Widget> Repeating() {
     return <Widget>[
-      SizedBox(
-        height: 10,
-      ),
       Center(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
@@ -196,7 +250,9 @@ class _AddNewState extends State<AddNew> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text("Repeating every", style: TextStyle(fontSize: 20)),
-              SizedBox(width: 20),
+              SizedBox(
+                width: 10,
+              ),
               Container(
                 width: 70,
                 child: TextField(
@@ -362,20 +418,20 @@ class _AddNewState extends State<AddNew> {
   }
 
   // Các hàm thực hiện các việc liên quan đến dữ liệu
-  Future<void> addActivity() async {
+  void editActivity() async {
     bool valid = await checkValidActivity();
-    isFailed = !valid;
     if (valid == false) return;
-    Map<String, dynamic> row = {
-      'MAMUCTIEU': getRandomString(5),
-      'MANGUOIDUNG':
-          (StaticData.userID == null) ? 'MANGUOIDUNG' : StaticData.userID,
-      'MANHOM': allGroupKey[allGroup.indexOf(dropDownGroup)],
-      'TENMUCTIEU': getActivity.text,
-      'MOTA': (getDescription.text == null) ? 'MOTA' : getDescription.text,
-      'NGAYBATDAU': dateTimeToInt(startTime),
-      'LOAIHINH': dropDownValue,
-    };
+    String key = widget.activityKey;
+    String val = '';
+    String activityName = getActivity.text;
+    String description = getDescription.text;
+    int beginDay = dateTimeToInt(startTime);
+    String groupKey = allGroupKey[allGroup.indexOf(dropDownGroup)];
+    val = '''TENMUCTIEU= '$activityName''';
+    val += '''', MOTA='$description''';
+    val += '''', NGAYBATDAU=$beginDay ''';
+    val += ''', LOAIHINH='$dropDownValue' ''';
+    val += ''', MANHOM='$groupKey' ''';
     if (dropDownValue == 'Fixed') {
       String fixedDay = "";
       for (int i = 0; i < dayOfWeek.length; i++) {
@@ -384,18 +440,19 @@ class _AddNewState extends State<AddNew> {
         } else
           fixedDay += '1';
       }
-      row['CACNGAY'] = int.parse(fixedDay);
+      val += ''', CACNGAY=$fixedDay ''';
     } else if (dropDownValue == 'Flexible') {
-      int times = int.parse(getDayPerWeek.text);
-      row['SOLAN'] = times;
+      String soLan = getDayPerWeek.text;
+      val += ''', SOLAN=$soLan ''';
     } else if (dropDownValue == 'Repeating') {
-      row['KHOANGTHOIGIAN'] = getRepeatingDay.text;
+      String days = getRepeatingDay.text;
+      val += ''', KHOANGTHOIGIAN='$days' ''';
     }
     setState(() {
-      text = row.toString();
+      text = val;
     });
-    final id = await dbHelper.insert('MUCTIEU', row);
-    print('inserted row id: $id');
+    dbHelper.rawQuery('''update MUCTIEU
+     set $val where MAMUCTIEU='$key' ''');
   }
 
   void getAllGroup() async {
@@ -424,39 +481,22 @@ class _AddNewState extends State<AddNew> {
     }
   }
 
-  int dateTimeToInt(DateTime dateTime) {
-    return dateTime.year * 10000 + dateTime.month * 100 + dateTime.day;
-  }
-
-  DateTime intToDateTime(int dateTimeInt) {
-    int year = (dateTimeInt / 10000).floor();
-    int month = (dateTimeInt / 100).floor() % 100;
-    int day = dateTimeInt % 100;
-    return DateTime(year, month, day);
-  }
-
   @override
   Widget build(BuildContext context) {
-    OutlineInputBorder k = OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(4)),
-      borderSide: BorderSide(width: 1, color: Colors.white),
-    );
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff8A2BE2),
           title: Text("Add new activity", style: TextStyle(fontSize: 25)),
           actions: [
             FlatButton(
-                onPressed: () async {
-                  await addActivity();
-                  if (isFailed) {
-                  } else
-                    Navigator.pop(context);
+                onPressed: () {
+                  editActivity();
+                  Navigator.pop(context);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
                   child: Text(
-                    "Create",
+                    "Edit",
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ))
@@ -465,7 +505,7 @@ class _AddNewState extends State<AddNew> {
         ),
         body: ListView(
           shrinkWrap: true,
-          children: [
+          children: <Widget>[
             // Thêm tên của activity và các description
             Container(
                 decoration: BoxDecoration(
@@ -486,11 +526,31 @@ class _AddNewState extends State<AddNew> {
                           border: OutlineInputBorder(),
                           labelText: 'Activity Name',
                           labelStyle: TextStyle(color: Colors.white),
-                          focusedBorder: k,
-                          disabledBorder: k,
-                          enabledBorder: k,
-                          errorBorder: k,
-                          focusedErrorBorder: k,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            borderSide:
+                                BorderSide(width: 1, color: Colors.white),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            borderSide:
+                                BorderSide(width: 1, color: Colors.white),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            borderSide:
+                                BorderSide(width: 1, color: Colors.white),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.white)),
+                          focusedErrorBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.white)),
                         ),
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
@@ -502,12 +562,35 @@ class _AddNewState extends State<AddNew> {
                         controller: getDescription,
                         decoration: InputDecoration(
                             isDense: true,
-                            contentPadding: EdgeInsets.all(18),
-                            focusedBorder: k,
-                            disabledBorder: k,
-                            enabledBorder: k,
-                            errorBorder: k,
-                            focusedErrorBorder: k,
+                            contentPadding: EdgeInsets.all(28),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.white),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.white),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.white),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)),
+                                borderSide:
+                                    BorderSide(width: 1, color: Colors.white)),
+                            focusedErrorBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)),
+                                borderSide:
+                                    BorderSide(width: 1, color: Colors.white)),
                             border: OutlineInputBorder(),
                             labelText: 'Description',
                             labelStyle:
@@ -521,37 +604,35 @@ class _AddNewState extends State<AddNew> {
                     ],
                   ),
                 )),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
-                child: Center(
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Text(
-                      "Start date: ",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      startTime.toString().substring(0, 10),
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    FlatButton.icon(
-                      icon: Icon(Icons.date_range),
-                      onPressed: () {
-                        showDatePicker(
-                                context: context,
-                                initialDate: startTime,
-                                firstDate: DateTime.utc(2020, 1, 1),
-                                lastDate: DateTime.utc(2120, 31, 12))
-                            .then((date) {
-                          setState(() {
-                            if (date != null) startTime = date;
-                          });
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
+              child: Center(
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Text(
+                    "Start date: ",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Text(
+                    startTime.toString().substring(0, 10),
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  FlatButton.icon(
+                    icon: Icon(Icons.date_range),
+                    onPressed: () {
+                      showDatePicker(
+                              context: context,
+                              initialDate: startTime,
+                              firstDate: DateTime.utc(2020, 1, 1),
+                              lastDate: DateTime.utc(2120, 31, 12))
+                          .then((date) {
+                        setState(() {
+                          if (date != null) startTime = date;
                         });
-                      },
-                      label: Text(""),
-                    )
-                  ]),
-                ),
+                      });
+                    },
+                    label: Text(""),
+                  )
+                ]),
               ),
             ),
 
@@ -611,7 +692,7 @@ class _AddNewState extends State<AddNew> {
                       "New",
                       style: TextStyle(fontSize: 22),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -667,71 +748,5 @@ class _AddNewState extends State<AddNew> {
                         : Repeating()),
           ],
         ));
-  }
-
-  Widget debugWidget() {
-    return Column(
-      children: [
-        Text(StaticData.userID == null ? "NGUOIDUNG" : StaticData.userID),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(text, style: TextStyle(fontSize: 30)),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-              onPressed: () {
-                getAllGroup();
-              },
-              child: Text(text2, style: TextStyle(fontSize: 30))),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-              onPressed: () async {
-                List<Map<String, dynamic>> data = await dbHelper
-                    .rawQuery('''select * from THONGTINNGUOIDUNG''');
-                setState(() {
-                  text3 = data.toString();
-                });
-              },
-              child: Text(text3, style: TextStyle(fontSize: 30))),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-              onPressed: () async {
-                // Thêm người dùng và bảng thông tin người dùng vào database
-                Map<String, dynamic> row = {'MANGUOIDUNG': 'NGUOIDUNG'};
-                final id = await dbHelper.insert('NGUOIDUNG', row);
-                print('inserted row NGUOIDUNG id: $id');
-                row = {'MANGUOIDUNG': 'NGUOIDUNG', 'VANG': 0};
-                final id2 = await dbHelper.insert('THONGTINNGUOIDUNG', row);
-                print('inserted THONGTINNGUOIDUNG row id: $id2');
-              },
-              child: Text(text4, style: TextStyle(fontSize: 30))),
-        ),
-        TextButton(
-            onPressed: () {
-              dbHelper.rawQuery('''delete from NHOMMUCTIEU''');
-            },
-            child: Text("DELETE NHOMMUCTIEU", style: TextStyle(fontSize: 30))),
-        TextButton(
-            onPressed: () {
-              dbHelper.rawQuery('''delete from MUCTIEU''');
-            },
-            child: Text("DELETE MUCTIEU", style: TextStyle(fontSize: 30))),
-        TextButton(
-            onPressed: () {
-              dbHelper.rawQuery('''delete from THANHTUU''');
-              dbHelper.rawQuery('''delete from THANHTUUNGUOIDUNG''');
-            },
-            child: Text("DELETE THANHTUU", style: TextStyle(fontSize: 30))),
-        Text(
-          allGroup.toString(),
-          style: TextStyle(fontSize: 20),
-        )
-      ],
-    );
   }
 }

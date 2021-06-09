@@ -11,9 +11,19 @@ class CardAchievement extends StatefulWidget {
   final Color endColor;
   final Color startColor;
 
-  const CardAchievement({Key key, this.name, this.mota, this.diemThanhtuu, this.iconImage, this.star, this.endColor, this.startColor}) : super(key: key);
+  const CardAchievement(
+      {Key key,
+      this.name,
+      this.mota,
+      this.diemThanhtuu,
+      this.iconImage,
+      this.star,
+      this.endColor,
+      this.startColor})
+      : super(key: key);
   @override
-  _CardAchievementState createState() => _CardAchievementState(name,mota,diemThanhtuu,iconImage,star,endColor,startColor);
+  _CardAchievementState createState() => _CardAchievementState(
+      name, mota, diemThanhtuu, iconImage, star, endColor, startColor);
 }
 
 class _CardAchievementState extends State<CardAchievement> {
@@ -25,7 +35,8 @@ class _CardAchievementState extends State<CardAchievement> {
   final Color endColor;
   final Color startColor;
 
-  _CardAchievementState(this.name, this.mota, this.diemThanhtuu, this.iconImage, this.star, this.endColor, this.startColor);
+  _CardAchievementState(this.name, this.mota, this.diemThanhtuu, this.iconImage,
+      this.star, this.endColor, this.startColor);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -34,11 +45,11 @@ class _CardAchievementState extends State<CardAchievement> {
       child: Stack(
         children: <Widget>[
           Container(
-            height: size.height*0.1,
+            height: size.height * 0.1,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
               gradient: LinearGradient(
-                colors: [startColor,startColor],
+                colors: [startColor, startColor],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -46,7 +57,7 @@ class _CardAchievementState extends State<CardAchievement> {
                 BoxShadow(
                   color: startColor,
                   blurRadius: 5,
-                  offset: Offset(0,2),
+                  offset: Offset(0, 2),
                 ),
               ],
             ),
@@ -56,8 +67,8 @@ class _CardAchievementState extends State<CardAchievement> {
             bottom: 0,
             top: 0,
             child: CustomPaint(
-              size: Size(size.height*0.15,size.width*0.15),
-              painter: CustomCard(24,endColor,startColor),
+              size: Size(size.height * 0.15, size.width * 0.15),
+              painter: CustomCard(24, endColor, startColor),
             ),
           ),
           Positioned.fill(
@@ -66,8 +77,8 @@ class _CardAchievementState extends State<CardAchievement> {
                 Expanded(
                   flex: 2,
                   child: Image.asset(
-                    'assets/achievenment/Eggs/egg'+name+'.png',
-                    height: size.height*0.06,
+                    'assets/achievenment/Eggs/eggChocolate.png',
+                    height: size.height * 0.06,
                   ),
                 ),
                 Expanded(
@@ -81,23 +92,23 @@ class _CardAchievementState extends State<CardAchievement> {
                         name,
                         style: TextStyle(
                           color: Colors.purpleAccent,
-                          fontSize: size.height*0.025,
-                          fontWeight: FontWeight.bold,),
+                          fontSize: size.height * 0.025,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-
                       Text(
                         mota,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: size.height*0.02,
-                          fontWeight: FontWeight.w500,),
+                          fontSize: size.height * 0.02,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-
                       Text(
-                        'Bonus :'+ diemThanhtuu.toString() +' vàng',
+                        'Bonus :' + diemThanhtuu.toString() + ' vàng',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: size.height*0.015,
+                          fontSize: size.height * 0.015,
                         ),
                       ),
                     ],
@@ -112,12 +123,14 @@ class _CardAchievementState extends State<CardAchievement> {
                         star.toString(),
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: size.height*0.02,
+                          fontSize: size.height * 0.02,
                           fontFamily: 'Avenir',
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      RatingStar(Sao: star,),
+                      RatingStar(
+                        Sao: star,
+                      ),
                     ],
                   ),
                 ),
