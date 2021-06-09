@@ -2,27 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/achievenment/feature/star.dart';
 import 'CustomCard.dart';
 
-//import 'PaintRight.dart';
-
-class CardAchievement extends StatelessWidget {
+class CardAchievement extends StatefulWidget {
   final String name;
+  final String mota;
   final int diemThanhtuu;
   final String iconImage;
   final int star;
   final Color endColor;
   final Color startColor;
-  const CardAchievement({
-    Key key, this.name, this.iconImage, this.diemThanhtuu, this.star, this.endColor, this.startColor,
-  }) : super(key: key);
 
+  const CardAchievement({Key key, this.name, this.mota, this.diemThanhtuu, this.iconImage, this.star, this.endColor, this.startColor}) : super(key: key);
+  @override
+  _CardAchievementState createState() => _CardAchievementState(name,mota,diemThanhtuu,iconImage,star,endColor,startColor);
+}
+
+class _CardAchievementState extends State<CardAchievement> {
+  final String name;
+  final String mota;
+  final int diemThanhtuu;
+  final String iconImage;
+  final int star;
+  final Color endColor;
+  final Color startColor;
+
+  _CardAchievementState(this.name, this.mota, this.diemThanhtuu, this.iconImage, this.star, this.endColor, this.startColor);
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
         children: <Widget>[
           Container(
-            height: 50,
+            height: size.height*0.1,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
               gradient: LinearGradient(
@@ -44,7 +56,7 @@ class CardAchievement extends StatelessWidget {
             bottom: 0,
             top: 0,
             child: CustomPaint(
-              size: Size(100,150),
+              size: Size(size.height*0.15,size.width*0.15),
               painter: CustomCard(24,endColor,startColor),
             ),
           ),
@@ -54,9 +66,8 @@ class CardAchievement extends StatelessWidget {
                 Expanded(
                   flex: 2,
                   child: Image.asset(
-                    iconImage,
-                    height: 30,
-                    width: 30,
+                    'assets/achievenment/Eggs/egg'+name+'.png',
+                    height: size.height*0.06,
                   ),
                 ),
                 Expanded(
@@ -69,17 +80,26 @@ class CardAchievement extends StatelessWidget {
                       Text(
                         name,
                         style: TextStyle(
+                          color: Colors.purpleAccent,
+                          fontSize: size.height*0.025,
+                          fontWeight: FontWeight.bold,),
+                      ),
+
+                      Text(
+                        mota,
+                        style: TextStyle(
                           color: Colors.black,
+                          fontSize: size.height*0.02,
                           fontWeight: FontWeight.w500,),
                       ),
 
                       Text(
-                        'Bạn được cộng '+ diemThanhtuu.toString() +' điểm',
+                        'Bonus :'+ diemThanhtuu.toString() +' vàng',
                         style: TextStyle(
                           color: Colors.black,
-                          fontWeight: FontWeight.bold,),
+                          fontSize: size.height*0.015,
+                        ),
                       ),
-
                     ],
                   ),
                 ),
@@ -92,17 +112,15 @@ class CardAchievement extends StatelessWidget {
                         star.toString(),
                         style: TextStyle(
                           color: Colors.white,
+                          fontSize: size.height*0.02,
                           fontFamily: 'Avenir',
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       RatingStar(Sao: star,),
-
                     ],
                   ),
                 ),
-
-
               ],
             ),
           ),
@@ -111,6 +129,3 @@ class CardAchievement extends StatelessWidget {
     );
   }
 }
-
-
-

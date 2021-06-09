@@ -82,7 +82,33 @@ flutter:
     - assets/achievenment/Eggs/eggRock.png
     - assets/achievenment/Eggs/eggSky.png
     - assets/achievenment/Eggs/eggWater.png
-    - assets/achievenment/ui/treasure.png
+
+#    - assets/achievenment/ui/
+#    - assets/achievenment/ui/cuahang.png
+#    - assets/achievenment/ui/thanhtuu.png
+#    - assets/achievenment/ui/tui.png
+
+#    - assets/achievenment/ui/UI_shop_volumn.png
+    - assets/Database/create_tables_script.sql
+    - assets/achievenment/Eggs/eggBlue.png
+    - assets/achievenment/Eggs/eggCheese.png
+    - assets/achievenment/Eggs/eggChocolate.png
+    - assets/achievenment/Eggs/eggCream.png
+    - assets/achievenment/Eggs/eggDeepBlue.png
+    - assets/achievenment/Eggs/eggDemon.png
+    - assets/achievenment/Eggs/eggDiamod.png
+    - assets/achievenment/Eggs/eggForest.png
+    - assets/achievenment/Eggs/eggLoli.png
+    - assets/achievenment/Eggs/eggSilver.png
+    - assets/achievenment/Eggs/eggStrawberry.png
+    - assets/achievenment/Eggs/eggSweety.png
+    - assets/achievenment/move/
+    - assets/achievenment/ui/
+    - assets/achievenment/ui/background.png
+    - assets/achievenment/ui/background_farm1.jpg
+    - assets/achievenment/ui/ui_collection.png
+
+
     - assets/achievenment/ui/UI_shop_volumn.png
     - assets/Database/create_tables_script.sql
     - assets/images/focusTime_background.png

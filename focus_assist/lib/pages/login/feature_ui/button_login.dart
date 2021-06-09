@@ -27,10 +27,10 @@ class button_login extends StatelessWidget {
       width: size.width * 0.8,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25),
-        child: FlatButton(
+        child: MaterialButton(
           padding: EdgeInsets.symmetric(vertical: 20,horizontal: 40),
-          color: color,
           onPressed: press,
+          color: color,
           child: Text(
             text,
             style: TextStyle(color: textColor,fontWeight: FontWeight.bold,letterSpacing: 2.0),
