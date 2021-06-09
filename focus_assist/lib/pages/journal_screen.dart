@@ -522,7 +522,7 @@ class _JournalScreenState extends State<JournalScreen> {
         children: [
           Container(
               decoration: BoxDecoration(
-                  color: Color(0xffe66771),
+                  color: Color(0xffF4A460),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
@@ -531,25 +531,9 @@ class _JournalScreenState extends State<JournalScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Expanded(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: () {
-                        getAllActivity();
-                      },
-                      child: Icon(
-                        Icons.playlist_add_check,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 6,
-                    child: Text(
-                      "All activity",
-                      style: TextStyle(color: Colors.white, fontSize: 22),
-                    ),
+                  Text(
+                    "All activity",
+                    style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
                 ]),
               )),
@@ -588,9 +572,9 @@ class _JournalScreenState extends State<JournalScreen> {
             },
           ),
           Container(
-            height: 10,
+            height: 20,
             decoration: BoxDecoration(
-                color: Color(0xffe66771),
+                color: Color(0xffF4A460),
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
@@ -692,11 +676,51 @@ class _JournalScreenState extends State<JournalScreen> {
                         ),
                         Row(
                           children: [
-                            Icon(Icons.edit, color: Colors.white),
+                            InkWell(
+                                onTap: () async {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (_) => EditGroup(
+                                      groupKey: allGroupKey[inDex],
+                                      groupName: allGroup[inDex],
+                                    ),
+                                  );
+                                  getAllGroup();
+                                },
+                                child: Icon(Icons.edit, color: Colors.white)),
                             SizedBox(
-                              width: 10,
+                              width: 20,
                             ),
-                            Icon(Icons.delete, color: Colors.white),
+                            InkWell(
+                                onTap: () async {
+                                  await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                            title: Text("Message"),
+                                            content: Text(
+                                                "Are you sure to delete this group and all activity belong to it ?"),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  deleteGroup(inDex);
+                                                },
+                                                child: Text("Yes"),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("No"),
+                                              )
+                                            ],
+                                          ));
+                                  getAllActivity();
+                                  getToDoList();
+                                  getAllGroup();
+                                },
+                                child: Icon(Icons.delete, color: Colors.white)),
                             SizedBox(
                               width: 10,
                             )
@@ -739,60 +763,14 @@ class _JournalScreenState extends State<JournalScreen> {
               },
             ),
             Container(
-                height: 40,
-                decoration: BoxDecoration(
-                    color: Color(0xffe66771),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                    )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                        onPressed: () async {
-                          await showDialog(
-                            context: context,
-                            builder: (_) => EditGroup(
-                              groupKey: allGroupKey[inDex],
-                              groupName: allGroup[inDex],
-                            ),
-                          );
-                          getAllGroup();
-                        },
-                        child: Text("Edit group")),
-                    SizedBox(width: 30),
-                    ElevatedButton(
-                        onPressed: () async {
-                          await showDialog(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                    title: Text("Message"),
-                                    content: Text(
-                                        "Are you sure to delete this group and all activity belong to it ?"),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          deleteGroup(inDex);
-                                        },
-                                        child: Text("Yes"),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text("No"),
-                                      )
-                                    ],
-                                  ));
-                          getAllActivity();
-                          getToDoList();
-                          getAllGroup();
-                        },
-                        child: Text("Delete group")),
-                  ],
-                ))
+              height: 15,
+              decoration: BoxDecoration(
+                  color: Color(0xffe66771),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  )),
+            )
           ],
         ),
       ),
