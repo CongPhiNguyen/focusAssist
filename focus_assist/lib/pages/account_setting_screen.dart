@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:focus_assist/pages/login/screen/welcome_screen.dart';
 
 class AccountSettingScreen extends StatefulWidget {
   @override
@@ -186,7 +187,9 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                       shape: RoundedRectangleBorder(),
                       elevation: 0.0,
                       child: ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          _showSignOutDialog(context);
+                        },
                         title: Text(
                           'Sign Out',
                           style: TextStyle(
@@ -454,49 +457,50 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
 
   Future _showAvatarChoiceDialog(BuildContext context) {
     return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              "Choose option",
-              style: TextStyle(color: Colors.blue),
-            ),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Divider(
-                    height: 1,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Choose option",
+            style: TextStyle(color: Colors.blue),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Divider(
+                  height: 1,
+                  color: Colors.blue,
+                ),
+                ListTile(
+                  onTap: () {
+                    _openGallery(context);
+                  },
+                  title: Text("Gallery"),
+                  leading: Icon(
+                    Icons.account_box,
                     color: Colors.blue,
                   ),
-                  ListTile(
-                    onTap: () {
-                      _openGallery(context);
-                    },
-                    title: Text("Gallery"),
-                    leading: Icon(
-                      Icons.account_box,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
+                ),
+                Divider(
+                  height: 1,
+                  color: Colors.blue,
+                ),
+                ListTile(
+                  onTap: () {
+                    _openCamera(context);
+                  },
+                  title: Text("Camera"),
+                  leading: Icon(
+                    Icons.camera,
                     color: Colors.blue,
                   ),
-                  ListTile(
-                    onTap: () {
-                      _openCamera(context);
-                    },
-                    title: Text("Camera"),
-                    leading: Icon(
-                      Icons.camera,
-                      color: Colors.blue,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      }
+    );
   }
 
   void _openCamera(BuildContext context) async {
@@ -561,4 +565,62 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   static String base64String(Uint8List data) {
     return base64Encode(data);
   }
+
+  _showSignOutDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+              child: Text(
+                'Sign Out',
+                style: TextStyle(color: Colors.blue),
+              )),
+          // content: SingleChildScrollView(
+          //   child: ListBody(
+          //     children: <Widget>[
+          //       // Divider(
+          //       //   height: 1,
+          //       //   color: Colors.blue,
+          //       // ),
+          //       SizedBox(
+          //         height: 20,
+          //         child: Text(
+          //           'Do you want to sign out?'
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          content: SingleChildScrollView(
+            child: Center(
+              child: Text(
+                  'Do you want to sign out?'
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
