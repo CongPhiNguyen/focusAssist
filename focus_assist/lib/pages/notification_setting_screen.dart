@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/LocalNotificationManager.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -16,7 +17,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
   TimeOfDay selectedMorningTime = TimeOfDay(hour: 7, minute: 0);
   TimeOfDay selectedEveningTime = TimeOfDay(hour: 21, minute: 0);
 
-  String maNguoiDung = 'ND001';
+  //String maNguoiDung = 'ND001';
 
   @override
   void initState() {
@@ -27,7 +28,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
 
   Future<void> LoadNotificationSetting() async {
     Database db = await DbProvider.instance.database;
-    List<dynamic> whereArguments = ['$maNguoiDung'];
+    List<dynamic> whereArguments = ['${StaticData.userID}'];
     List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG', where: 'MANGUOIDUNG = ?', whereArgs: whereArguments);
     if (queryRows.first == null) {
       print('Null query');
@@ -376,7 +377,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
             THONGBAOTOI = ${isEveningNotification?1:0},
             THOIGIANTHONGBAOSANG = '${(selectedMorningTime.hour < 10)?'0${selectedMorningTime.hour}':selectedMorningTime.hour}:${(selectedMorningTime.minute < 10)?'0${selectedMorningTime.minute}':selectedMorningTime.minute}:00',
             THOIGIANTHONGBAOTOI = '${(selectedEveningTime.hour < 10)?'0${selectedEveningTime.hour}':selectedEveningTime.hour}:${(selectedEveningTime.minute < 10)?'0${selectedEveningTime.minute}':selectedEveningTime.minute}:00'
-        WHERE MANGUOIDUNG = '$maNguoiDung';
+        WHERE MANGUOIDUNG = '${StaticData.userID}';
         '''
     );
     print('Update Notification setting completed');

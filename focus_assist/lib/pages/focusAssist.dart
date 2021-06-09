@@ -31,7 +31,7 @@ class FocusAssist extends StatefulWidget {
 }
 
 class _FocusAssistState extends State<FocusAssist> {
-  int _page = 0;
+  int _page = 3;
   // GlobalKey _bottomNavigationKey = GlobalKey();
 
 
@@ -63,7 +63,8 @@ class _FocusAssistState extends State<FocusAssist> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
-        height: 55,
+        height: 55.0,
+        // key: _bottomNavigationKey,
         index: _page,
         items: <Widget>[
           Icon(Icons.timer, size: 30),
@@ -91,18 +92,22 @@ class _FocusAssistState extends State<FocusAssist> {
           }
 
           setState(() {
-            _showPage = _pageChooser(tappedIndex);
+            //_showPage = _pageChooser(tappedIndex);
+            _page = tappedIndex;
           });
         },
       ),
       body: Container(
         color: Colors.white,
         child: Center(
-          child: _showPage,
+          //child: _showPage,
+          child: _pageChooser(_page),
         ),
       ),
     );
   }
+
+
 }
 
 

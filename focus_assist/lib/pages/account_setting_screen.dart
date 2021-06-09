@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
+import 'package:focus_assist/classes/Data.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:focus_assist/pages/login/screen/welcome_screen.dart';
 
 class AccountSettingScreen extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
 
   Future<void> LoadUsername() async {
     Database db = await DbProvider.instance.database;
-    List<dynamic> whereArguments = ['ND001'];
+    List<dynamic> whereArguments = ['${StaticData.userID}'];
     List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG',
         where: 'MANGUOIDUNG = ?', whereArgs: whereArguments);
     if (queryRows.first['HOTEN'] == null || queryRows.first['HOTEN'] == '')
@@ -43,7 +44,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
 
   Future<void> LoadUserImage() async {
     Database db = await DbProvider.instance.database;
-    List<dynamic> whereArguments = ['ND001'];
+    List<dynamic> whereArguments = ['${StaticData.userID}'];
     List<Map<String, dynamic>> queryRows = await db.query('THONGTINNGUOIDUNG',
         where: 'MANGUOIDUNG = ?', whereArgs: whereArguments);
     if (queryRows.first['ANH'] == null || queryRows.first['ANH'] == '') return;
@@ -186,7 +187,9 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                       shape: RoundedRectangleBorder(),
                       elevation: 0.0,
                       child: ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          _showSignOutDialog(context);
+                        },
                         title: Text(
                           'Sign Out',
                           style: TextStyle(
@@ -283,22 +286,50 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               TextButton(
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
+                  // Map<String, dynamic> row = {
+                  //   'MAMUCTIEU': 'MT00001',
+                  //   'NGAYHOANTHANH': 20210529
+                  // };
+                  // Map<String, dynamic> row = {
+                  //   'MAMUCTIEU': 'MT00001',
+                  //   'MANGUOIDUNG': '${StaticData.userID}',
+                  //   'MANHOM': '',
+                  //   'TENMUCTIEU': 'Đọc sách',
+                  //   'MOTA': '',
+                  //   'NGAYBATDAU': 20210524,
+                  //   'LOAIHINH': 'FIXED',
+                  //   'CACNGAY': 1101011
+                  // };
+                  // Map<String, dynamic> row = {
+                  //   'MAMUCTIEU': 'MT00002',
+                  //   'MANGUOIDUNG': '${StaticData.userID}',
+                  //   'MANHOM': '',
+                  //   'TENMUCTIEU': 'Chạy bộ',
+                  //   'MOTA': '',
+                  //   'NGAYBATDAU': 20210524,
+                  //   'LOAIHINH': 'FLEXIBLE',
+                  //   'SOLAN': 3
+                  // };
+                  // Map<String, dynamic> row = {
+                  //   'MAMUCTIEU': 'MT00003',
+                  //   'MANGUOIDUNG': '${StaticData.userID}',
+                  //   'MANHOM': '',
+                  //   'TENMUCTIEU': 'Dọn nhà',
+                  //   'MOTA': '',
+                  //   'NGAYBATDAU': 20210524,
+                  //   'LOAIHINH': 'REPEATING',
+                  //   'KHOANGTHOIGIAN': 5
+                  // };
                   Map<String, dynamic> row = {
-                    'MAMUCTIEU': 'MT00003',
-                    'MANGUOIDUNG': 'ND001',
-                    'MANHOM': '',
-                    'TENMUCTIEU': 'Dọn nhà',
-                    'MOTA': '',
-                    'NGAYBATDAU': '15/5/2021',
-                    'LOAIHINH': 'REPEATING',
-                    'KHOANGTHOIGIAN': 5
+                    'MAMUCTIEU': 'MT00001',
+                    'NGAYHOANTHANH': 20210713
                   };
-                  print(await db.insert('MUCTIEU', row));
+                  print(await db.insert('THONGKE', row));
 
                   // Database db = await DbProvider.instance.database;
                   // await db.execute(
                   //   '''
-                  //   INSERT INTO THONGTINNGUOIDUNG VALUES ('ND001', 'Crack of Dawn', '', 100, 1, 1, 1, '07:00:00', '21:00:00', 0, 0, '');
+                  //   INSERT INTO THONGTINNGUOIDUNG VALUES ('${StaticData.userID}', 'Crack of Dawn', '', 100, 1, 1, 1, '07:00:00', '21:00:00', 0, 0, '');
                   //   '''
                   // );
                   print('Complete insert into table');
@@ -322,7 +353,18 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
                   db.execute('''
-                    INSERT INTO NGUOIDUNG VALUES ('ND001', 'ND001', 'ND001');
+                  CREATE TABLE MUCTIEU (
+                      MAMUCTIEU TEXT PRIMARY KEY,
+                      MANGUOIDUNG TEXT,
+                      MANHOM TEXT,
+                      TENMUCTIEU TEXT,
+                      MOTA TEXT,
+                      NGAYBATDAU INTEGER,
+                      LOAIHINH TEXT,
+                      CACNGAY INTEGER,
+                      SOLAN INTEGER,
+                      KHOANGTHOIGIAN INTEGER
+                  );
                     ''');
                   // db.execute(
                   //   '''
@@ -339,55 +381,11 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               TextButton(
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN THONGBAO BOOL;
-                  //   '''
-                  // );
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN THONGBAOSANG BOOL;
-                  //   '''
-                  // );
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN THONGBAOTOI BOOL;
-                  //   '''
-                  // );
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN THOIGIANTHONGBAOSANG TIME;
-                  //   '''
-                  // );
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN THOIGIANTHONGBAOTOI TIME;
-                  //   '''
-                  // );
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN DARKMODE BOOL;
-                  //   '''
-                  // );
-                  // db.execute(
-                  //   '''
-                  //   UPDATE THONGTINNGUOIDUNG
-                  //   SET THONGBAO = TRUE, THONGBAOSANG = TRUE, THONGBAOTOI = TRUE,
-                  //       THOIGIANTHONGBAOSANG = '07:00:00', THOIGIANTHONGBAOTOI = '21:00:00',
-                  //       DARKMODE = FALSE
-                  //   WHERE MANGUOIDUNG = 'ND001';
-                  //   '''
-                  // );
                   db.execute('''
-                    DELETE FROM MUCTIEU;
+                    DELETE FROM THONGKE
+                    WHERE MAMUCTIEU = 'MT00001' AND NGAYHOANTHANH = 20210613;
                     ''');
-                  print('Complete drop table');
+                  print('Complete delete');
                 },
                 child: Text(
                   'Delete',
@@ -447,7 +445,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 setState(() {
                   username = usernameEditingController.text;
                 });
-                UpdateUsername('ND001'); // user.getID()
+                UpdateUsername('${StaticData.userID}'); // user.getID()
                 Navigator.pop(context);
               },
             ),
@@ -459,49 +457,50 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
 
   Future _showAvatarChoiceDialog(BuildContext context) {
     return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              "Choose option",
-              style: TextStyle(color: Colors.blue),
-            ),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Divider(
-                    height: 1,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Choose option",
+            style: TextStyle(color: Colors.blue),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Divider(
+                  height: 1,
+                  color: Colors.blue,
+                ),
+                ListTile(
+                  onTap: () {
+                    _openGallery(context);
+                  },
+                  title: Text("Gallery"),
+                  leading: Icon(
+                    Icons.account_box,
                     color: Colors.blue,
                   ),
-                  ListTile(
-                    onTap: () {
-                      _openGallery(context);
-                    },
-                    title: Text("Gallery"),
-                    leading: Icon(
-                      Icons.account_box,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
+                ),
+                Divider(
+                  height: 1,
+                  color: Colors.blue,
+                ),
+                ListTile(
+                  onTap: () {
+                    _openCamera(context);
+                  },
+                  title: Text("Camera"),
+                  leading: Icon(
+                    Icons.camera,
                     color: Colors.blue,
                   ),
-                  ListTile(
-                    onTap: () {
-                      _openCamera(context);
-                    },
-                    title: Text("Camera"),
-                    leading: Icon(
-                      Icons.camera,
-                      color: Colors.blue,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      }
+    );
   }
 
   void _openCamera(BuildContext context) async {
@@ -512,7 +511,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
     //   image = Image.file(File(pickedFile.path));
     // });
     String imgString = base64String(await pickedFile.readAsBytes());
-    UpdateUserAvatar('ND001', imgString);
+    UpdateUserAvatar('${StaticData.userID}', imgString);
     setState(() {
       image = imageFromBase64String(imgString);
     });
@@ -527,7 +526,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
     //   image = Image.file(File(pickedFile.path));
     // });
     String imgString = base64String(await pickedFile.readAsBytes());
-    UpdateUserAvatar('ND001', imgString);
+    UpdateUserAvatar('${StaticData.userID}', imgString);
     setState(() {
       image = imageFromBase64String(imgString);
     });
@@ -566,4 +565,62 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   static String base64String(Uint8List data) {
     return base64Encode(data);
   }
+
+  _showSignOutDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+              child: Text(
+                'Sign Out',
+                style: TextStyle(color: Colors.blue),
+              )),
+          // content: SingleChildScrollView(
+          //   child: ListBody(
+          //     children: <Widget>[
+          //       // Divider(
+          //       //   height: 1,
+          //       //   color: Colors.blue,
+          //       // ),
+          //       SizedBox(
+          //         height: 20,
+          //         child: Text(
+          //           'Do you want to sign out?'
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          content: SingleChildScrollView(
+            child: Center(
+              child: Text(
+                  'Do you want to sign out?'
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
