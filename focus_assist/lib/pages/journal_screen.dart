@@ -203,15 +203,11 @@ class _JournalScreenState extends State<JournalScreen> {
                 Expanded(
                   flex: 1,
                   child: InkWell(
-                    onTap: () {
-                      getDoneTask();
-                    },
-                    child: Icon(
-                      Icons.playlist_add_check,
-                      color: Colors.white,
-                      size: 25,
-                    ),
-                  ),
+                      onTap: () {
+                        getDoneTask();
+                      },
+                      child: Image.asset('assets/done.png',
+                          width: 30, height: 30)),
                 ),
                 Expanded(
                   flex: 6,
@@ -240,6 +236,15 @@ class _JournalScreenState extends State<JournalScreen> {
             );
           },
         ),
+        Container(
+          height: 20,
+          decoration: BoxDecoration(
+              color: Color(0xff73a656),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              )),
+        )
       ],
     );
   }
@@ -414,10 +419,10 @@ class _JournalScreenState extends State<JournalScreen> {
                       getToDoList();
                       getDoneTask();
                     },
-                    child: Icon(
-                      Icons.playlist_add_check,
-                      color: Colors.white,
-                      size: 25,
+                    child: Image.asset(
+                      'assets/todo.png',
+                      width: 35,
+                      height: 35,
                     ),
                   ),
                 ),
@@ -497,6 +502,15 @@ class _JournalScreenState extends State<JournalScreen> {
             );
           },
         ),
+        Container(
+          height: 20,
+          decoration: BoxDecoration(
+              color: Color(0xffe7e732),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              )),
+        )
       ],
     );
   }
@@ -573,6 +587,15 @@ class _JournalScreenState extends State<JournalScreen> {
               );
             },
           ),
+          Container(
+            height: 10,
+            decoration: BoxDecoration(
+                color: Color(0xffe66771),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                )),
+          )
         ],
       ),
     );
@@ -658,23 +681,27 @@ class _JournalScreenState extends State<JournalScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.playlist_add_check,
-                            color: Colors.white,
-                            size: 25,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20, 2, 2, 2),
                           child: Text(
                             allGroup[inDex],
                             style: TextStyle(color: Colors.white, fontSize: 22),
                           ),
                         ),
+                        Row(
+                          children: [
+                            Icon(Icons.edit, color: Colors.white),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(Icons.delete, color: Colors.white),
+                            SizedBox(
+                              width: 10,
+                            )
+                          ],
+                        )
                       ]),
                 )),
             ListView.builder(
@@ -934,8 +961,9 @@ class _JournalScreenState extends State<JournalScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               CircleAvatar(
-                backgroundColor: Colors.yellow,
-                radius: 10,
+                backgroundColor: Color(0xffffffff),
+                radius: 15,
+                child: Image.asset('assets/gold.png', width: 30, height: 30),
               ),
               SizedBox(
                 width: 10,
@@ -1010,9 +1038,28 @@ class _JournalScreenState extends State<JournalScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Group Activity',
-                  style: TextStyle(fontSize: 22, color: Colors.black54),
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0), //or 15.0
+                      child: Container(
+                        height: 40.0,
+                        width: 40.0,
+                        child: Image.asset(
+                          'assets/group_activity.png',
+                          width: 30,
+                          height: 30,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      'Group Activity',
+                      style: TextStyle(fontSize: 22, color: Colors.black54),
+                    ),
+                  ],
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(15, 10, 10, 10),
@@ -1022,16 +1069,6 @@ class _JournalScreenState extends State<JournalScreen> {
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10),
                           bottomRight: Radius.circular(10))),
-                  // child: TextButton(
-                  //     onPressed: () async {
-                  //       await showDialog(
-                  //         context: context,
-                  //         builder: (_) => AddGroup(),
-                  //       );
-                  //       getAllActivity();
-                  //       getToDoList();
-                  //       getAllGroup();
-                  //     },
                   child: InkWell(
                     onTap: () async {
                       await showDialog(
@@ -1058,9 +1095,14 @@ class _JournalScreenState extends State<JournalScreen> {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(15, 10, 10, 0),
-          child: Text(
-            'All Activity',
-            style: TextStyle(fontSize: 22, color: Colors.black54),
+          child: Row(
+            children: [
+              Image.asset('assets/allactivity.png', width: 50, height: 50),
+              Text(
+                'All Activity',
+                style: TextStyle(fontSize: 22, color: Colors.black54),
+              ),
+            ],
           ),
         ),
         AllActivity(),
