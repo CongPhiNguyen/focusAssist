@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/Data.dart';
+import 'package:focus_assist/pages/Timer_Screen.dart';
 import 'package:focus_assist/pages/achievenment/screen/achievenment_screen.dart';
 import 'package:focus_assist/pages/farm/screen/farm_screen.dart';
 import 'package:focus_assist/pages/progress_screen.dart';
+import 'package:focus_assist/pages/journal_screen.dart';
 import 'package:focus_assist/pages/setting_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+
+
 
 
 class focus extends StatelessWidget {
@@ -27,22 +32,18 @@ class FocusAssist extends StatefulWidget {
 
 class _FocusAssistState extends State<FocusAssist> {
   int _page = 0;
- // GlobalKey _bottomNavigationKey = GlobalKey();
+  // GlobalKey _bottomNavigationKey = GlobalKey();
 
 
   Widget _showPage = new SettingScreen();
 
-  Widget _pageChooser(int page){
-    switch(page){
+  Widget _pageChooser(int page) {
+    switch (page) {
       case 0:
-        return Center(
-          child: Text('Foscus Time'),
-        );
+        return TimerScreen();
         break;
       case 1:
-        return Center(
-          child: Text('Journal'),
-        );
+        return JournalScreen();
         break;
       case 2:
         return  FarmScreen();
@@ -63,7 +64,6 @@ class _FocusAssistState extends State<FocusAssist> {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
         height: 55,
-       // key: _bottomNavigationKey,
         index: _page,
         items: <Widget>[
           Icon(Icons.timer, size: 30),
@@ -91,16 +91,16 @@ class _FocusAssistState extends State<FocusAssist> {
           }
 
           setState(() {
-            _showPage  = _pageChooser(tappedIndex);
+            _showPage = _pageChooser(tappedIndex);
           });
         },
       ),
-        body: Container(
-          color: Colors.white,
-          child: Center(
-            child: _showPage,
-          ),
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: _showPage,
         ),
+      ),
     );
   }
 }

@@ -1,11 +1,11 @@
+import 'dart:async';
+import 'dart:core';
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
-
-
 
 class DbProvider {
   static final dbName = 'myDatabase.db';
@@ -27,7 +27,7 @@ class DbProvider {
     return await openDatabase(path, version: dbVersion, onCreate: _onCreate);
   }
 
-  Future _onCreate(Database db, int version) async {
+    Future _onCreate(Database db, int version) async {
     print('onCreate');
     String script = await rootBundle.loadString(
         'assets/Database/create_tables_script.sql');
@@ -52,6 +52,7 @@ class DbProvider {
     return await db.delete(tableName);
   }
 
+
   Future<int> insert(String tableName, Map<String, dynamic> row) async {
     Database db = await instance.database;
     return await db.insert(tableName, row);
@@ -73,7 +74,6 @@ class DbProvider {
     Database db = await instance.database;
     return await db.delete(tableName, where:'$key = ?', whereArgs: [arg]);
   }
-
 
 }
 
