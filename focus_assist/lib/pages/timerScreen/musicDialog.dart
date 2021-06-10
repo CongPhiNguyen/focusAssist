@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_volume_slider/flutter_volume_slider.dart';
-import 'audio/song1.dart';
-import 'audio/song2.dart';
+import 'package:focus_assist/pages/audio/song1.dart';
+import 'package:focus_assist/pages/audio/song2.dart';
 
 class musicDialog extends StatefulWidget {
   const musicDialog({Key key}) : super(key: key);
@@ -11,9 +11,11 @@ class musicDialog extends StatefulWidget {
   _musicDialogState createState() => _musicDialogState();
 }
 
-class _musicDialogState extends State<musicDialog> {
+class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClientMixin {
   final fontFamily = "Roboto";
   @override
+  @override
+  bool get wantKeepAlive => true;
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only( left: 60, top: 150, right: 60, bottom: 160),
@@ -66,10 +68,10 @@ class _musicDialogState extends State<musicDialog> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    // song1(),
-                    // song2(),
-                    Text("song 1", style: TextStyle(fontSize: 30),),
-                    Text("song 2" , style: TextStyle(fontSize: 30),),
+                    song1(),
+                    song2(),
+                    // Text("song 1", style: TextStyle(fontSize: 30),),
+                    // Text("song 2" , style: TextStyle(fontSize: 30),),
                     ],
                 ),
               

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:focus_assist/pages/Timer_Screen.dart';
+import 'package:focus_assist/pages/timerScreen/Timer_Screen.dart';
 import 'package:focus_assist/pages/achievenment/screen/achievenment_screen.dart';
 import 'package:focus_assist/pages/progress_screen.dart';
 import 'package:focus_assist/pages/journal_screen.dart';

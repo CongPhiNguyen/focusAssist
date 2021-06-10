@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_volume_slider/flutter_volume_slider.dart';
 import 'package:focus_assist/pages/dialogHelperToSetTime.dart';
-import 'package:focus_assist/pages/timerHistory.dart';
+import 'package:focus_assist/pages/timerScreen/timerHistory.dart';
 import 'package:path/path.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:simple_timer/simple_timer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'PlayPauseButton.dart';
+import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'setTimer.dart' as st;
 //
 const kPrimaryColor = Color(0xFF0C9869);
@@ -67,12 +70,16 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
   bool isVisible = true;
   bool isNotVisible = false;
   TimerController _timerController;
+  GifController gifcontroller;
+  IconData _controlIcon;
   bool timerRunning = false;
   void initState() {
     // TODO: implement initState
     tb = TabController(length: 1, vsync: this);
     super.initState();
     _timerController = TimerController(this);
+    gifcontroller= GifController(vsync: this);
+    _controlIcon = Icons.play_arrow;
   }
   @override
   Widget build(BuildContext context) {
@@ -182,6 +189,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                   iconSize: 50,
                   onPressed: () {
                     increase();
+                    //_showSuccess(context, "Đăng ký thành công!");
                   }
                 ),
               ],
@@ -193,15 +201,15 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                 margin: EdgeInsets.only(bottom: 10),
                 alignment: Alignment.topCenter,
                 height: MediaQuery.of(context).size.height* 0.3,
-                width: MediaQuery.of(context).size.width,
-                // decoration: BoxDecoration(
-                //   shape: BoxShape.circle,
-                //   color: Colors.white30,
-                //   border: Border.all(
-                //     color: Colors.grey,
-                //     width: 2,
-                //   ),
-                // ),
+                width: MediaQuery.of(context).size.width*0.8,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                ),
                 /////////////////////////////////
                 // child: SimpleTimer(
                 //   duration: Duration(hours: hour, minutes: min),
@@ -214,17 +222,21 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                 //   strokeWidth: 10,
                 // ),
                 child: Container(
-                  margin: EdgeInsets.only(top: 30,),
-                  height: 400.0,
-                  width: 400.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                          'assets/images/focusTime_background.png'),
-                      fit: BoxFit.fill,
+                  margin: EdgeInsets.only(top: 60,),
+                  height: 300.0,
+                  width: 300.0,
+                  // decoration: BoxDecoration(
+                  //   image: DecorationImage(
+                  //     image: AssetImage(
+                  //         'assets/images/focusTime_background.png'),
+                  //     fit: BoxFit.fill,
+                  //   ),
+                  //   shape: BoxShape.circle,
+                  // ),
+                  child: GifImage(
+                      controller: gifcontroller,
+                      image: AssetImage("assets/images/clock.gif"),
                     ),
-                    shape: BoxShape.circle,
-                  ),
                 ),
               ),
             ),
@@ -233,7 +245,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
               children: <Widget>[
                 Container(
                     height: 90,  // height of white range
-                    margin: EdgeInsets.only(top: 50),
+                    margin: EdgeInsets.only(top: 60),
                     decoration: BoxDecoration(
                       color: Colors.yellow[100],
                       boxShadow: [
@@ -253,17 +265,25 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                       height: 90,
                       width: 90,
                       child: PlayButton(
-                        pauseIcon: Icon(Icons.pause, color: Colors.white, size: 60, ),
-                        playIcon: Icon(Icons.play_arrow, color: Colors.white, size: 60),
+                        pauseIcon: Icon(_controlIcon, color: Colors.white, size: 60, ),   //Icons.pause
+                        playIcon: Icon(_controlIcon, color: Colors.white, size: 60),     //Icons.play_arrow
                         onPressed: () {
+
                             if(_timerIsRunning) {
                                //stoped ? null : stop();
                                showAlertDialog(context);
                             }
-                            else {                           
-                              started? start() : null;
+                            else {    
+                              _controlIcon = Icons.pause;                       
+                              //started? (start()): null;
+                              if (started) {
+                                start();
+                                gifcontroller.repeat(min:0,max:4,period:Duration(milliseconds: 300));
+                              } else 
+                              started = null;
                             }
                             _timerIsRunning =! _timerIsRunning;
+                            
                             
                         },
                         
@@ -329,12 +349,17 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
       // set up the buttons
       Widget cancelButton = FlatButton(
         child: Text("Cancel"),
-        onPressed:  () {Navigator.of(context).pop(); },
+        onPressed:  () {
+          _controlIcon = Icons.pause;
+          Navigator.of(context).pop(); 
+        },
       );
       Widget continueButton = FlatButton(
         child: Text("Continue"),
         onPressed:  () {
-          stoped ? null : stop(); 
+          stoped ? null : stop();
+          gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
+            _controlIcon = Icons.play_arrow;
           Navigator.of(context).pop();
           
           },
@@ -392,6 +417,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
         if (min <= 15) min = 15;
         min = min -5;
         print("Decrease timer by 5 min : $min " );
+        //min = 1;
       });
     }
   @override
@@ -410,6 +436,15 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
           if(timeForTimer  == 0) {
             // dùng để xử lý sau này khi kết thúc cần sự kiện
             debugPrint("Completed the task");
+            _controlIcon = Icons.play_arrow;
+            gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
+            //_showSuccess(context, "Hoàn thành nhiệm vụ");
+            // cập nhật số gold vào text
+            // setState(() {
+            //     stoped ? null : stop();
+            //     gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
+            // });
+            // cập nhật số gold vào database
           }
           checkTimer = true;
           timetoDisplay = "";
@@ -453,6 +488,29 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
       timetoDisplay = "00:00:00";
     });
     
+  }
+  void _showSuccess(context, String message){
+  Alert(
+    context: context,
+    type: AlertType.success,
+    title: "Thông báo",
+    closeIcon: Icon(Icons.error),
+    desc: message,
+    buttons: [
+      DialogButton(
+        child: Text(
+          "ACCEPT",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+          //runApp(focus());
+        },
+        width: 120,
+        color: Colors.green[400],
+      )
+    ],
+  ).show();
   }
   String convertTimer(timerForTimer){
     String timeToDisplay;
