@@ -74,10 +74,6 @@ flutter:
     - assets/login/icon/facebook.png
     - assets/login/icon/google.png
     - assets/login/icon/twitter.png
-    - assets/achievenment/achieImage/dragon3.png
-    - assets/achievenment/achieImage/dragon2.png
-    - assets/achievenment/achieImage/dragon1.png
-    - assets/achievenment/achieImage/clock.png
     - assets/achievenment/Eggs/eggCarpentry.png
     - assets/achievenment/Eggs/eggElectric.png
     - assets/achievenment/Eggs/eggFire.png
@@ -86,13 +82,17 @@ flutter:
     - assets/achievenment/Eggs/eggRock.png
     - assets/achievenment/Eggs/eggSky.png
     - assets/achievenment/Eggs/eggWater.png
+    - assets/achievenment/achieImage/
 
-#    - assets/achievenment/ui/
-#    - assets/achievenment/ui/cuahang.png
-#    - assets/achievenment/ui/thanhtuu.png
-#    - assets/achievenment/ui/tui.png
+    - assets/achievenment/achieImage/TT02.png
+    - assets/achievenment/achieImage/TT09.png
+    - assets/achievenment/achieImage/TT10.png
+    - assets/achievenment/achieImage/TT12.png
+    - assets/achievenment/achieImage/TT14.png
+    - assets/achievenment/achieImage/TT15.png
+    - assets/achievenment/achieImage/TT17.png
+    - assets/achievenment/achieImage/TT20.png
 
-#    - assets/achievenment/ui/UI_shop_volumn.png
     - assets/Database/create_tables_script.sql
     - assets/achievenment/Eggs/eggBlue.png
     - assets/achievenment/Eggs/eggCheese.png

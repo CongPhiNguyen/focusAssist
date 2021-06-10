@@ -9,6 +9,7 @@ import 'package:focus_assist/pages/achievenment/screen/achievenment_screen.dart'
 import 'package:focus_assist/pages/achievenment/screen/collection_screen.dart';
 import 'package:focus_assist/pages/achievenment/screen/shop_screen.dart';
 import 'package:focus_assist/pages/farm/feature_ui/object_farm.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 class FarmScreen extends StatefulWidget {
@@ -49,8 +50,200 @@ class _FarmScreenState extends State<FarmScreen> {
         snailSpriteCount: StaticData.PokemonUsers[index].currentFrame,
         rareColor: StaticData.PokemonUsers[index].rareColor,
         level: StaticData.PokemonUsers[index].Level,
+        press: (){
+          increaseLevel(index);
+        },
       ),
     );
+  }
+
+  void increaseLevel(int index){
+    int goldLevelUp;
+    if(StaticData.PokemonUsers[index].rareColor == Colors.greenAccent ){
+      goldLevelUp = 50;
+    } else if (StaticData.PokemonUsers[index].rareColor == Colors.blueAccent) {
+      goldLevelUp = 200;
+    } else if (StaticData.PokemonUsers[index].rareColor == Colors.purpleAccent ){
+      goldLevelUp = 800;
+    } else if (StaticData.PokemonUsers[index].rareColor == Colors.redAccent ){
+      goldLevelUp = 3200;
+    }
+
+    if (goldLevelUp > StaticData.Vang) {
+      showFail(context, index, goldLevelUp);
+    } else {
+      showSuccess(context, index, goldLevelUp);
+    }
+
+  }
+
+  void showFail(context, int index,int goldLevelUp){
+    Alert(
+      context: context,
+      title: 'LEVEL UP',
+      closeIcon: Icon(Icons.auto_awesome),
+      desc: "You don't have enough "+goldLevelUp.toString()+' gold to LevelUp',
+      content: Column(
+        children: [
+          Center(
+            child: Text(
+              StaticData.PokemonUsers[index].TenPokemon,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: StaticData.PokemonUsers[index].rareColor,
+              ),
+            ),
+          ),
+          Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+'Down1.png'),),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "CANCEL",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          width: 120,
+          color: Colors.blue,
+        )
+      ],
+    ).show();
+
+
+  }
+
+  void showSuccess(context, int index,int goldLevelUp) {
+      Alert(
+        context: context,
+        title: 'LEVEL UP',
+        closeIcon: Icon(Icons.auto_awesome),
+        desc: "Use "+goldLevelUp.toString()+' gold to LevelUp',
+        content: Column(
+          children: [
+            Center(
+              child: Text(
+                StaticData.PokemonUsers[index].TenPokemon,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: StaticData.PokemonUsers[index].rareColor,
+                ),
+              ),
+            ),
+            Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+'Down1.png'),),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            child: Text(
+              "LevelUp",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () async {
+              StaticData.PokemonUsers[index].Level++;
+
+              final k = await DbProvider.instance.rawQuery('''
+              UPDATE POKEMON
+              SET LEVELPOKEMON = ${StaticData.PokemonUsers[index].Level}
+              WHERE MANGUOIDUNG = '${StaticData.userID}' AND MAPOKEMON = '${StaticData.PokemonUsers[index].MaPOKEMON}'
+              ''');
+              bool isCheckAchiLv50 = false;
+              bool isCheckAchiLv100 = false;
+              //Nhận thành tựu lv 50
+              if(StaticData.PokemonUsers[index].Level == 50) {
+                //Kiểm có thành tựu lv 50 hay chưa
+                for(int i = 0; i < StaticData.AchiUser.length;i++){
+                  if(StaticData.AchiUser[i].MOTA== '${StaticData.PokemonUsers[index]
+                      .TenPokemon} level ${StaticData.PokemonUsers[index]
+                      .Level.toString()}')  {
+                    isCheckAchiLv50 = true;
+                  }
+                }
+                //Thêm thành tựu
+                if(isCheckAchiLv50 ==  false) {
+                  for (int i = 0; i < StaticData.AchiList.length; i++) {
+                    if (StaticData.AchiList[i].MOTA ==
+                        '${StaticData.PokemonUsers[index]
+                            .TenPokemon} level ${StaticData.PokemonUsers[index]
+                            .Level.toString()}') {
+                      StaticData.AchiUser.add(StaticData.AchiList[i]);
+                      StaticData.Vang += StaticData.AchiList[i].bonus;
+
+                      final row = {
+                        'MATHANHTUU': StaticData.AchiList[i].MATHANHTUU,
+                        'MANGUOIDUNG': StaticData.userID
+                      };
+                      int e = await DbProvider.instance.insert(
+                          'THANHTUUNGUOIDUNG', row);
+
+
+                      final k = await DbProvider.instance.rawQuery('''
+                    UPDATE THONGTINNGUOIDUNG
+                    SET VANG = ${StaticData.Vang}
+                    WHERE MANGUOIDUNG = '${StaticData.userID}'
+                    ''');
+                    }
+                  }
+                }
+              }
+
+              //Nhận thành tựu lv 100
+              if(StaticData.PokemonUsers[index].Level == 100) {
+                //Kiểm có thành tựu lv 100 hay chưa
+                for(int i = 0; i < StaticData.AchiUser.length;i++){
+                  if(StaticData.AchiUser[i].MOTA== '${StaticData.PokemonUsers[index]
+                      .TenPokemon} level ${StaticData.PokemonUsers[index]
+                      .Level.toString()}')  {
+                    isCheckAchiLv100 = true;
+                  }
+                }
+                //Thêm thành tựu
+                if(isCheckAchiLv100 ==  false) {
+                  for (int i = 0; i < StaticData.AchiList.length; i++) {
+                    if (StaticData.AchiList[i].MOTA ==
+                        '${StaticData.PokemonUsers[index]
+                            .TenPokemon} level ${StaticData.PokemonUsers[index]
+                            .Level.toString()}') {
+                      StaticData.AchiUser.add(StaticData.AchiList[i]);
+                      StaticData.Vang += StaticData.AchiList[i].bonus;
+
+                      final row = {
+                        'MATHANHTUU': StaticData.AchiList[i].MATHANHTUU,
+                        'MANGUOIDUNG': StaticData.userID
+                      };
+                      int e = await DbProvider.instance.insert(
+                          'THANHTUUNGUOIDUNG', row);
+
+
+                      final k = await DbProvider.instance.rawQuery('''
+                    UPDATE THONGTINNGUOIDUNG
+                    SET VANG = ${StaticData.Vang}
+                    WHERE MANGUOIDUNG = '${StaticData.userID}'
+                    ''');
+                    }
+                  }
+                }
+              }
+
+
+
+              Navigator.pop(context);
+            },
+            color: Color.fromRGBO(0, 179, 134, 1.0),
+          ),
+          DialogButton(
+            child: Text(
+              "CANCEL",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.pop(context),
+            gradient: LinearGradient(colors: [
+              Color.fromRGBO(116, 116, 191, 1.0),
+              Color.fromRGBO(52, 138, 199, 1.0)
+            ]),
+          )
+        ],
+      ).show();
   }
 
   void startAnimation() {
@@ -183,6 +376,7 @@ class _FarmScreenState extends State<FarmScreen> {
         {
           case 1:
             InfoPokemon index = new InfoPokemon(
+              ListPokemon[i]['MAPOKEMON'],
               ListPokemon[i]['NAMEPOKEMON'],
               ListPokemon[i]['LEVELPOKEMON'],
               Colors.greenAccent,
@@ -195,6 +389,7 @@ class _FarmScreenState extends State<FarmScreen> {
 
           case 2:
             InfoPokemon index = new InfoPokemon(
+              ListPokemon[i]['MAPOKEMON'],
               ListPokemon[i]['NAMEPOKEMON'],
               ListPokemon[i]['LEVELPOKEMON'],
               Colors.blueAccent,
@@ -207,6 +402,7 @@ class _FarmScreenState extends State<FarmScreen> {
 
           case 3:
             InfoPokemon index = new InfoPokemon(
+              ListPokemon[i]['MAPOKEMON'],
               ListPokemon[i]['NAMEPOKEMON'],
               ListPokemon[i]['LEVELPOKEMON'],
               Colors.purpleAccent,
@@ -219,6 +415,7 @@ class _FarmScreenState extends State<FarmScreen> {
 
           case 4:
             InfoPokemon index = new InfoPokemon(
+              ListPokemon[i]['MAPOKEMON'],
               ListPokemon[i]['NAMEPOKEMON'],
               ListPokemon[i]['LEVELPOKEMON'],
               Colors.redAccent,

@@ -1,4 +1,6 @@
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:focus_assist/classes/ClassCardShop.dart';
@@ -105,22 +107,22 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
           onPressed: () async {
             String id = StaticData.userID;
             Map<String, dynamic> row;
-
-            InfoPokemon index = new InfoPokemon(name, 1, rareColor);
+            String mapokemon = getRandomString(10);
+            InfoPokemon index = new InfoPokemon(mapokemon,name, 1, rareColor);
             index.randomDirecAndPos();
             StaticData.PokemonUsers.add(index);
 
             if (rareColor == Colors.green){
-              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 1};
+              row = { 'MAPOKEMON': mapokemon,'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 1};
             } else
             if (rareColor == Colors.blueAccent){
-              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 2};
+              row = {'MAPOKEMON': mapokemon,'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 2};
             } else
             if (rareColor == Colors.purpleAccent){
-              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 3};
+              row = {'MAPOKEMON': mapokemon,'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 3};
             }else
             if (rareColor == Colors.red){
-              row = {'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 4};
+              row = {'MAPOKEMON': mapokemon,'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 4};
             }
             int p = await DbProvider.instance.insert('POKEMON', row);
             print(p);
@@ -156,9 +158,14 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
       ],
     ).show();
   }
+
+
 }
 
 
-
+const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+Random _rnd = Random();
+String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
 
