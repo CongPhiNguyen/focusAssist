@@ -1,38 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:focus_assist/classes/ClassTimerHistory.dart';
+import 'package:focus_assist/classes/Data.dart';
 class timerHistory extends StatefulWidget {
   @override
   _timerHistoryState createState() => _timerHistoryState();
 }
 
 class _timerHistoryState extends State<timerHistory> {
+  void initState(){
+    super.initState();
+    loadingDatabase();
+  }
+  void loadingDatabase() async {
+    String id = StaticData.userID;
+    final histories = await DbProvider.instance.rawQuery('''
+      select * from LICHSUTIMER where MANGUOIDUNG = '$id'
+      ''');
+      StaticData.timerHistoriesList.clear();
+      for (int i = 0; i < histories.length; i++) {
+            timerHistories index = new timerHistories(
+                histories[i]['MANGUOIDUNG'],
+                histories[i]['THOIGIAN'],
+                histories[i]['DAHOANTHANH'],
+                );
+            setState(() {
+              StaticData.timerHistoriesList.add(index);
+            });
+      }
+  }
   @override
   Widget build(BuildContext context) {
-    return Container(
-       child: ListView(  
-          children: <Widget>[  
-            ListTile(  
-              leading: Text('1', style: TextStyle(fontSize: 25),),  
-              title: Text('6/6/2020  09:16:00 '),  
-            ),  
-            ListTile(  
-              leading: Text('2', style: TextStyle(fontSize: 25),),   
-              title: Text('7/6/2020  09:16:00 '),   
-            ),  
-            ListTile(  
-              leading: Text('3', style: TextStyle(fontSize: 25),),   
-              title: Text('8/6/2020  09:16:00 '), 
-            ),  
-            ListTile(  
-              leading: Text('4', style: TextStyle(fontSize: 25),),   
-              title: Text('6/6/2020  09:16:00 '),   
-            ),  
-            ListTile(  
-              leading: Text('5', style: TextStyle(fontSize: 25),),   
-              title: Text('6/6/2020  09:16:00 '), 
-            ),  
-          ],  
-        ),  
-    );
+    return ListView.builder(
+              itemCount: StaticData.timerHistoriesList.length,
+              itemBuilder: (context, num) {
+                return Container(
+                  child: ListTile(  
+                      leading: Text('$num', style: TextStyle(fontSize: 25),),   
+                      title: Text(StaticData.timerHistoriesList[num].thoiGian.toString() + "   -   " 
+                      + (StaticData.timerHistoriesList[num].daHoanThanh == "true"?"Completed":"Incompleted").toString(),
+                      style: TextStyle(fontSize: 20), ),   
+                    ), 
+                );
+              });
+    // return Row(
+    //   children: [
+    //     // ElevatedButton(onPressed: (){
+    //     //   for (int i = 0; i < StaticData.timerHistoriesList.length; i ++)
+    //     //                     {
+    //     //                       print(StaticData.timerHistoriesList[i].thoiGian.toString());
+    //     //                     }
+    //     // }, 
+    //     // child: Text("button")),
+    //     Container(
+
+    //       child: ListView.builder(
+    //           itemCount: StaticData.timerHistoriesList.length,
+    //           itemBuilder: (context, num) {
+    //             for (int i = 0; i < StaticData.timerHistoriesList.length; i ++)
+    //                         {
+    //                           print(StaticData.timerHistoriesList[num].thoiGian.toString());
+    //                         }
+    //             return Container(
+    //               child: ListTile(  
+    //                   leading: Text('$num', style: TextStyle(fontSize: 25),),   
+    //                   // title: Text(StaticData.timerHistoriesList[num].thoiGian.toString() + " " 
+    //                   // + StaticData.timerHistoriesList[num].daHoanThanh.toString() ),   
+    //                 ), 
+    //             );
+    //           }),
+    //     )
+    //   ],
+    // );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_volume_slider/flutter_volume_slider.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/dialogHelperToSetTime.dart';
 import 'package:focus_assist/pages/timerScreen/timerHistory.dart';
 import 'package:path/path.dart';
@@ -12,6 +13,7 @@ import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'PlayPauseButton.dart';
 import 'package:flutter_gifimage/flutter_gifimage.dart';
+import 'package:focus_assist/classes/Data.dart';
 import 'setTimer.dart' as st;
 //
 const kPrimaryColor = Color(0xFF0C9869);
@@ -28,42 +30,6 @@ class TimerScreen extends StatefulWidget {
   static int showAlert(){
     print("this is alert");
   }
-  // static int showAlertDialog(BuildContext context) {
-  //   int state;
-  //     // set up the buttons
-  //     Widget cancelButton = FlatButton(
-  //       child: Text("Cancel"),
-  //       onPressed:  () {
-  //         state = 0;
-  //         return state;; Navigator.of(context).pop(); },
-  //     );
-  //     Widget continueButton = FlatButton(
-  //       child: Text("Continue"),
-  //       onPressed:  () {
-  //         state = 1;
-  //         return state;
-  //         Navigator.of(context).pop();
-  //         },
-  //     );
-  //     // set up the AlertDialog
-  //     AlertDialog alert = AlertDialog(
-  //       title: Text("Alert"),
-  //       content: Text("Would you like reset the timer?"),
-  //       actions: [
-  //         cancelButton,
-  //         continueButton,
-  //       ],
-  //     );
-  //     // show the dialog
-  //     showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return new Scaffold( 
-  //           body: Center(child: Text("phuoc"),),
-  //         );
-  //       },
-  //     );
-  // }
 }
 
 class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin{
@@ -73,6 +39,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
   GifController gifcontroller;
   IconData _controlIcon;
   bool timerRunning = false;
+  String duration = "00:00:00";
+  final dbHelper = DbProvider.instance;
   void initState() {
     // TODO: implement initState
     tb = TabController(length: 1, vsync: this);
@@ -80,18 +48,51 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     _timerController = TimerController(this);
     gifcontroller= GifController(vsync: this);
     _controlIcon = Icons.play_arrow;
+    loadGold();
+  }
+  void loadGold() async {
+    String userID = StaticData.userID;
+    List<Map<String, dynamic>> database = await dbHelper.rawQuery(
+        ''' select * from THONGTINNGUOIDUNG where MANGUOIDUNG='$userID' ''');
+    if (database.length > 0) {
+      setState(() {
+        StaticData.Vang = database[0]['VANG'];
+      });
+    }
+  }
+  void updateGold() async {
+    int golds = StaticData.Vang += 50;
+        //Add vào database
+        String userKey = StaticData.userID;
+        dbHelper.rawQuery(
+            ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
+        loadGold();
+    
+  }
+  void updateHistories(bool hoanThanh, String duration) async {
+    DateTime now = DateTime.now();
+    String dateTime = now.year.toString() + "-" + now.month.toString()+ "-"+ now.day.toString()+ " "+ now.hour.toString() 
+        + ":" + now.minute.toString() + ":" + now.second.toString();
+    String userKey = StaticData.userID;
+        dbHelper.rawQuery(
+            ''' INSERT INTO LICHSUTIMER (THOIGIAN, DAHOANTHANH, MANGUOIDUNG)
+            VALUES ('$dateTime', '$hoanThanh', '$userKey' ) ''');
+    print("da ADD vao history");
+    print(duration==""?"null duration":duration);
+
+  }
+  void clearHistory(){
+    String userKey = StaticData.userID;
+     dbHelper.rawQuery(
+            ''' DELETE FROM LICHSUTIMER WHERE MANGUOIDUNG='$userKey'; ''');
   }
   @override
   Widget build(BuildContext context) {
-    // String message = widget.message != null ? widget.message : '0:0:0';
-    // var time = message.split(':');
-    // hour = int.parse(time[0]);
-    // min =int.parse(time[1]);
-    // sec = int.parse(time[2]);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber,
-        title: const Text('Acitivity name'),
+        title: const Text('Focus Timer'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.library_music_rounded),
@@ -110,6 +111,17 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                     appBar: AppBar(
                       backgroundColor: Colors.amber,
                       title: const Text('Timer history'),
+                      actions: <Widget>[
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          tooltip: 'Clear History',
+                          onPressed: () {
+                             print("clear history");
+                             clearHistory();
+                             _showSuccess(context, "Timer history deleted!");
+                          },
+                        ),
+                      ]
                     ),
                     body: timerHistory(),
                   );
@@ -128,47 +140,6 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
         ),
         child: Column(
           children: [
-            // Padding(
-            //   padding: EdgeInsets.only(top: 20, ),
-            //   child: ElevatedButton(
-            //     onPressed: () {
-            //       // set time here
-            //       _navigateAndDisplaySelection(context);
-            //     },
-            //     child: Container(
-            //       decoration: const BoxDecoration(
-            //         gradient: LinearGradient(
-            //           colors:  <Color>[
-            //             Color(0xFF0D47A1),
-            //             Color(0xFF1976D2),
-            //             Color(0xFF42A5F5),
-            //           ],
-            //         ),
-            //       ),
-            //       padding: const EdgeInsets.all(10.0),
-            //       child: RichText(
-            //         text: TextSpan(
-            //           style: Theme.of(context).textTheme.body1,
-            //           children: [
-            //             TextSpan(text: 'Set time ', style: TextStyle(
-            //               color: Colors.white,
-            //               fontSize: 20,
-            //               letterSpacing: 1.3,
-            //             )),
-            //             WidgetSpan(
-            //               child: Padding(
-            //                 padding: const EdgeInsets.symmetric(horizontal: 2.0),
-            //                 child: Icon(Icons.alarm),
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       )
-            //     ),
-            //   ),
-              
-              
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -223,8 +194,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                 // ),
                 child: Container(
                   margin: EdgeInsets.only(top: 60,),
-                  height: 300.0,
-                  width: 300.0,
+                  height: 350.0,
+                  width: 350.0,
                   // decoration: BoxDecoration(
                   //   image: DecorationImage(
                   //     image: AssetImage(
@@ -268,13 +239,14 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                         pauseIcon: Icon(_controlIcon, color: Colors.white, size: 60, ),   //Icons.pause
                         playIcon: Icon(_controlIcon, color: Colors.white, size: 60),     //Icons.play_arrow
                         onPressed: () {
-
+                            
                             if(_timerIsRunning) {
                                //stoped ? null : stop();
                                showAlertDialog(context);
                             }
                             else {    
-                              _controlIcon = Icons.pause;                       
+                              _controlIcon = Icons.pause;  
+                                                 
                               //started? (start()): null;
                               if (started) {
                                 start();
@@ -293,30 +265,33 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                 ),
                 Row(
                   children: [
-                    Column(
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.only(left: 10, top: 65),
-                            child: Text(
-                              "Gold:",
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 10, top: 5),
-                          child: Text(
-                            "    1000    ",  // lưu ý khi chỉnh sửa
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),),
-                        ),
-                      ],
+                    Container(
+                      margin: EdgeInsets.only(top: 70, left: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Color(0xffffffff),
+                            radius: 15,
+                            child: Image.asset('assets/gold.png', width: 30, height: 30),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            StaticData.Vang.toString(),
+                            style: TextStyle(fontSize: 30),
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                        ],
+                      ),
                     ),
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 230, top: 65),
+                          padding: EdgeInsets.only(left: 150, top: 70),
                           child: Text(
                             "Time Focus",
                             style: TextStyle(
@@ -324,7 +299,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                             ),),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 230, top: 5),
+                          padding: EdgeInsets.only(left: 170, top: 5),
                           child: Text(
                             (timetoDisplay=="")? "00:00:00": timetoDisplay ,
                             style: TextStyle(
@@ -360,6 +335,10 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
           stoped ? null : stop();
           gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
             _controlIcon = Icons.play_arrow;
+          // duration = timetoDisplay;  
+          // print(timetoDisplay);
+          updateHistories(false, "00:10:00");
+          updateGold();   // để test
           Navigator.of(context).pop();
           
           },
@@ -393,7 +372,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
   bool started = true;
   bool stoped = true;
   int timeForTimer = 0;
-  String timetoDisplay = "";
+  String timetoDisplay = "00:00:00";
   bool checkTimer = true;
 
     void increase(){           
@@ -407,17 +386,18 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     }
     void decrease(){
       setState(() {
-        if (min <= 0) {
-          if (hour > 0) {
-            hour--;
-            min = 60;
-          }
-          else if (hour == 0) min = 5;
-        }
-        if (min <= 15) min = 15;
-        min = min -5;
-        print("Decrease timer by 5 min : $min " );
-        //min = 1;
+        // if (min <= 0) {
+        //   if (hour > 0) {
+        //     hour--;
+        //     min = 60;
+        //   }
+        //   else if (hour == 0) min = 5;
+        // }
+        // if (min <= 15) min = 15;
+        // min = min -5;
+        // print("Decrease timer by 5 min : $min " );
+        min = 1;
+        
       });
     }
   @override
@@ -438,7 +418,11 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
             debugPrint("Completed the task");
             _controlIcon = Icons.play_arrow;
             gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
-            //_showSuccess(context, "Hoàn thành nhiệm vụ");
+            updateGold();
+            _showSuccess(this.context, "Hoàn thành nhiệm vụ \n + 50 gold");
+
+            updateHistories(true, "00:10:00");
+
             // cập nhật số gold vào text
             // setState(() {
             //     stoped ? null : stop();
@@ -451,6 +435,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
           started = true;
           stoped = true;
         }
+
         // xử lý chuyển đổi timer
         else if (timeForTimer < 60){
           timetoDisplay = "00:00:" + timeForTimer.toString();
