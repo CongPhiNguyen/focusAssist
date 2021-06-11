@@ -386,17 +386,17 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     }
     void decrease(){
       setState(() {
-        // if (min <= 0) {
-        //   if (hour > 0) {
-        //     hour--;
-        //     min = 60;
-        //   }
-        //   else if (hour == 0) min = 5;
-        // }
-        // if (min <= 15) min = 15;
-        // min = min -5;
-        // print("Decrease timer by 5 min : $min " );
-        min = 1;
+        if (min <= 0) {
+          if (hour > 0) {
+            hour--;
+            min = 60;
+          }
+          else if (hour == 0) min = 5;
+        }
+        if (min <= 15) min = 15;
+        min = min -5;
+        print("Decrease timer by 5 min : $min " );
+        //min = 1;
         
       });
     }
