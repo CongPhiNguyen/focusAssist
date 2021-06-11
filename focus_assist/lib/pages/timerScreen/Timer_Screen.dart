@@ -338,7 +338,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
           // duration = timetoDisplay;  
           // print(timetoDisplay);
           updateHistories(false, "00:10:00");
-          updateGold();   // để test
+          //updateGold();   // để test
           Navigator.of(context).pop();
           
           },
