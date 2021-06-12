@@ -652,7 +652,7 @@ class _JournalScreenState extends State<JournalScreen> {
     return Align(
       alignment: Alignment.topLeft,
       child: Container(
-        width: 350,
+        width: 270,
         child: Column(
           children: [
             Container(
@@ -965,7 +965,7 @@ class _JournalScreenState extends State<JournalScreen> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Container(
-                      width: 350,
+                      width: 270,
                       child: ToDoList(),
                     ),
                   ),
@@ -975,7 +975,7 @@ class _JournalScreenState extends State<JournalScreen> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Container(
-                      width: 350,
+                      width: 270,
                       child: DoneTask(),
                     ),
                   ),
