@@ -39,57 +39,6 @@ class _design_appbar_shopState extends State<design_appbar_shop> {
               ),
         child: Image.asset('assets/achievenment/ui/ui_shop.PNG'),
       ),
-      // child: Stack(
-      //   children: <Widget>[
-      //     Container(
-      //       height: size.height * 0.2 - 27,
-      //       decoration: BoxDecoration(
-      //         color: Colors.amber,
-      //         borderRadius: BorderRadius.only(
-      //           bottomLeft: Radius.circular(36),
-      //           bottomRight: Radius.circular(36),
-      //         ),
-      //       ),
-      //     ),
-      //     Positioned(
-      //       child: Row(
-      //         crossAxisAlignment: CrossAxisAlignment.center,
-      //         children: <Widget>[
-      //           Container(
-      //             child: Image.asset(
-      //               'assets/achievenment/ui/UI_shop_volumn.png',
-      //               width: size.width*0.2,
-      //               height: size.height*0.13,
-      //             ),
-      //           ),
-      //           Text(
-      //             'Hi! Welcome shopping',
-      //             style: TextStyle(
-      //               fontSize: 15.0,
-      //               fontWeight: FontWeight.bold,
-      //             ),
-      //           ),
-      //           SizedBox(width: size.width * 0.05,),
-      //
-      //           Container(
-      //             decoration: BoxDecoration(
-      //               color: Colors.amber[600],
-      //               borderRadius: BorderRadius.circular(30),
-      //             ),
-      //             child: Row(
-      //               children: <Widget>[
-      //                 Icon(Icons.wallet_giftcard,color: Colors.green,),
-      //                 Text(StaticData.Vang.toString() +' dollar',
-      //                   style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.green),
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }
