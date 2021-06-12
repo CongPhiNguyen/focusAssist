@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
-
+import 'soundControl.dart';
 class song1 extends StatefulWidget {
   @override
   _song1State createState() => _song1State();
 }
 
 class _song1State extends State<song1>  with TickerProviderStateMixin {
+   _song1State(){}
   @override
  void initState() {
     super.initState();
@@ -23,12 +24,12 @@ class _song1State extends State<song1>  with TickerProviderStateMixin {
     );
 
     //1
-    audioPlayer = new AudioPlayer();
-    audioCache = new AudioCache(fixedPlayer: audioPlayer);
-    audioPlayer.durationHandler = (d) => setState(() {
+    //control.audioPlayer = new AudioPlayer();
+    audioCache = AudioCache(fixedPlayer: control.audioPlayer);
+    control.audioPlayer.durationHandler = (d) => setState(() {
           _duration = d;
         });
-    audioPlayer.positionHandler = (p) => setState(() {
+    control.audioPlayer.positionHandler = (p) => setState(() {
           _position = p;
         });
 
@@ -43,79 +44,94 @@ class _song1State extends State<song1>  with TickerProviderStateMixin {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                  isplaying
-                      ? _animationIconController.reverse()
-                      : _animationIconController.forward();
-                  isplaying = !isplaying;
-                });
-                if (issongplaying == false) {
-                  audioCache.play("Song1.mp3");
-                  setState(() {
-                    issongplaying = true;
-                  });
-                } else {
-                  audioPlayer.pause();
-                  setState(() {
-                    issongplaying = false;
-                  });
-                }
-                  },
-                  child: ClipOval(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        border: Border.all(
-                          width: 2.5,
-                          color: Colors.white,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(50.0),
-                        ),
-                      ),
-                      width: 50,
-                      height: 50,
-                      child: Center(
-                        child: AnimatedIcon(
-                          icon: AnimatedIcons.play_pause,
-                          progress: _animationIconController,
-                          color: Colors.white,
-                          size: 35,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                // Slider(
-                //   activeColor: Colors.blue,
-                //   inactiveColor: Colors.grey,
-                //   value: _position.inSeconds.toDouble(),
-                //   max: _duration.inSeconds.toDouble(),
-                //   onChanged: (double value) {
+                // GestureDetector(
+                //   onTap: () {
                 //     setState(() {
-                //       seekToSeconds(value.toInt());
-                //       value = value;
-                //     });
+                //   isplaying
+                //       ? _animationIconController.reverse()
+                //       : _animationIconController.forward();
+                //   isplaying = !isplaying;
+                // });
+                // if (issongplaying == false) {
+                //   audioCache.play("Song1.mp3");
+                //   setState(() {
+                //     issongplaying = true;
+                //   });
+                // } else {
+                //   control.audioPlayer.pause();
+                //   setState(() {
+                //     issongplaying = false;
+                //   });
+                // }
                 //   },
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       Text("${_position.inSeconds.toDouble()}"+ "/"),
-                //       Text("${_duration.inSeconds.toDouble()}"),
-                //     ],
+                //   child: ClipOval(
+                //     child: Container(
+                //       decoration: BoxDecoration(
+                //         color: Colors.blue,
+                //         border: Border.all(
+                //           width: 2.5,
+                //           color: Colors.white,
+                //         ),
+                //         borderRadius: BorderRadius.all(
+                //           Radius.circular(50.0),
+                //         ),
+                //       ),
+                //       width: 50,
+                //       height: 50,
+                //       child: Center(
+                //         child: AnimatedIcon(
+                //           icon: AnimatedIcons.play_pause,
+                //           progress: _animationIconController,
+                //           color: Colors.white,
+                //           size: 35,
+                //         ),
+                //       ),
+                //     ),
                 //   ),
                 // ),
+                MaterialButton(
+                  
+                  onPressed: () {
+                    control.audioPlayer.pause();
+                    setState(() {
+                      audioCache.play("Song1.mp3");
+                    });
+                  },
+                  minWidth: 0,
+                  elevation: 2.0,
+                  color: Colors.amber,
+                  child: Icon(
+                    Icons.play_arrow,
+                    size: 25.0,
+                  ),
+                  padding: EdgeInsets.all(10.0),
+                  shape: CircleBorder(),
+                  
+                ),
+                MaterialButton(
+                  onPressed: () {
+                    control.audioPlayer.pause();
+                    setState(() {
+                    issongplaying = false;
+                    });
+                  },
+                  elevation: 2.0,
+                  color: Colors.amber,
+                  minWidth: 0,
+                  child: Icon(
+                    Icons.pause,
+                    size: 25.0,
+                  ),
+                  padding: EdgeInsets.all(10.0),
+                  shape: CircleBorder(),
+                ),
+                SizedBox(width: 10,),
                 Text(
                     "Rain sound",
                      style: TextStyle(fontSize: 7, ),
                     textAlign: TextAlign.left,
                     textScaleFactor: 4.0,
-                  ),  
+                  ),
               ],
             ),
             
@@ -129,16 +145,16 @@ AnimationController _animationIconController;
 
 AudioCache audioCache;
 
-AudioPlayer audioPlayer;
+//AudioPlayer audioPlayer;
 
 Duration _duration = new Duration();
 Duration _position = new Duration();
 
-bool issongplaying = false;
+ bool issongplaying = false;
 
 bool isplaying = false;
 void seekToSeconds(int second) {
   Duration newDuration = Duration(seconds: second);
-  audioPlayer.seek(newDuration);
+  control.audioPlayer.seek(newDuration);
 }
 }
