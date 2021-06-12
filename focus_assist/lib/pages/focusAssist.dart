@@ -76,8 +76,8 @@ class _FocusAssistState extends State<FocusAssist> {
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 600),
         onTap: (int tappedIndex) {
-          if (_page == 0 ){
-             showDialogChange(context, "message", tappedIndex);
+          if (_page == 0 && StaticData.focusTimerIsRunning == true){
+             showDialogChange(context, "Timer is running, change tab now?", tappedIndex);
           }
           else {
               if(StaticData.timer != null) {
@@ -134,7 +134,7 @@ void _show(context, String message){
     Alert(
       context: context,
       type: AlertType.warning,
-      title: 'Thông báo',
+      title: 'Warning!!!',
       closeIcon: Icon(Icons.error),
       desc: message,
       buttons: [
