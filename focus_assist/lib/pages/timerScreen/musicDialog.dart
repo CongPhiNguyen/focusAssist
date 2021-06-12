@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_volume_slider/flutter_volume_slider.dart';
-import 'audio/song1.dart';
-import 'audio/song2.dart';
+import 'package:focus_assist/pages/audio/song1.dart';
+import 'package:focus_assist/pages/audio/song2.dart';
 
 class musicDialog extends StatefulWidget {
   const musicDialog({Key key}) : super(key: key);
@@ -11,9 +11,11 @@ class musicDialog extends StatefulWidget {
   _musicDialogState createState() => _musicDialogState();
 }
 
-class _musicDialogState extends State<musicDialog> {
+class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClientMixin {
   final fontFamily = "Roboto";
   @override
+  @override
+  bool get wantKeepAlive => true;
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only( left: 60, top: 150, right: 60, bottom: 160),
@@ -45,7 +47,7 @@ class _musicDialogState extends State<musicDialog> {
               Container(
                 constraints: BoxConstraints.expand(height: 45.0),
                 decoration: BoxDecoration(
-                  color: Colors.amber[400],
+                  color: Colors.amber[800],
                 ),
                 child: Center(
                   child: Text(
@@ -62,14 +64,14 @@ class _musicDialogState extends State<musicDialog> {
               // this is music list
               // this is music list
               Container(
-                padding: EdgeInsets.only(bottom: 190),
+                padding: EdgeInsets.only(bottom: 190,top: 5),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    // song1(),
-                    // song2(),
-                    Text("song 1", style: TextStyle(fontSize: 30),),
-                    Text("song 2" , style: TextStyle(fontSize: 30),),
+                    song1(),
+                    song2(),
+                    // Text("song 1", style: TextStyle(fontSize: 30),),
+                    // Text("song 2" , style: TextStyle(fontSize: 30),),
                     ],
                 ),
               
@@ -101,15 +103,16 @@ class _musicDialogState extends State<musicDialog> {
                   children: [                 
                   RaisedButton(
                   onPressed: (){
-                    print("button 1");
+                    print("button ok");
+                    Navigator.pop(context);
                   },
                   padding: EdgeInsets.symmetric(
                     horizontal: 30.0,
                     vertical: 10.0,
                   ),
-                  color: Colors.green,
+                  color: Colors.amber,
                   child: Text(
-                    "Start",
+                    "OK",
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Colors.white,
@@ -118,25 +121,26 @@ class _musicDialogState extends State<musicDialog> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
-                RaisedButton(
-                  onPressed: (){
-                    print("button 2");
-                  },
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 10.0,
-                  ),
-                  color: Colors.red,
-                  child: Text(
-                    "Stop",
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white,
-                    ),),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                ),
+                // RaisedButton(
+                //   onPressed: (){
+                //     print("Cancle Music");
+                //     Navigator.pop(context);
+                //   },
+                //   padding: EdgeInsets.symmetric(
+                //     horizontal: 40.0,
+                //     vertical: 10.0,
+                //   ),
+                //   color: Colors.red,
+                //   child: Text(
+                //     "Cancle",
+                //     style: TextStyle(
+                //       fontSize: 18.0,
+                //       color: Colors.white,
+                //     ),),
+                //   shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(15.0),
+                //   ),
+                // ),
                 ],)
                 ),
             ],
