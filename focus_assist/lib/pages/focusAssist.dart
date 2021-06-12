@@ -10,9 +10,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 
-
-
-
 class focus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -38,6 +35,7 @@ class _FocusAssistState extends State<FocusAssist> {
   Widget _showPage = new SettingScreen();
 
   Widget _pageChooser(int page) {
+    
     switch (page) {
       case 0:
         return TimerScreen();
@@ -78,23 +76,27 @@ class _FocusAssistState extends State<FocusAssist> {
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 600),
         onTap: (int tappedIndex) {
-          if(StaticData.timer != null) {
-            if(StaticData.timer.isActive)
-            {
-              StaticData.timer.cancel();
-            }
+          if (_page == 0 && StaticData.focusTimerIsRunning == true){
+             showDialogChange(context, "Timer is running, change tab now?", tappedIndex);
           }
-          if(StaticData.timer2 != null) {
-            if(StaticData.timer2.isActive)
-            {
-              StaticData.timer2.cancel();
-            }
+          else {
+              if(StaticData.timer != null) {
+                if(StaticData.timer.isActive)
+                {
+                  StaticData.timer.cancel();
+                }
+              }
+              if(StaticData.timer2 != null) {
+                if(StaticData.timer2.isActive)
+                {
+                  StaticData.timer2.cancel();
+                }
+              }
+              setState(() {
+                //_showPage = _pageChooser(tappedIndex);
+                _page = tappedIndex;
+              });
           }
-
-          setState(() {
-            //_showPage = _pageChooser(tappedIndex);
-            _page = tappedIndex;
-          });
         },
       ),
       body: Container(
@@ -106,9 +108,6 @@ class _FocusAssistState extends State<FocusAssist> {
       ),
     );
   }
-
-
-}
 
 
 void _show(context, String message){
@@ -129,5 +128,62 @@ void _show(context, String message){
       )
     ],
   ).show();
+}
+
+  void showDialogChange(context,String message, int tappedIndex){
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: 'Warning!!!',
+      closeIcon: Icon(Icons.error),
+      desc: message,
+      buttons: [
+              DialogButton(
+                child: Text(
+                  "Continue",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () {
+                  if(StaticData.timer != null) {
+                        if(StaticData.timer.isActive)
+                        {
+                          StaticData.timer.cancel();
+                        }
+                      }
+                      if(StaticData.timer2 != null) {
+                        if(StaticData.timer2.isActive)
+                        {
+                          StaticData.timer2.cancel();
+                        }
+                      }
+                      setState(() {
+                        //_showPage = _pageChooser(tappedIndex);
+                        _page = tappedIndex;
+                      });
+                      Navigator.pop(context);
+                },
+                color: Color.fromRGBO(0, 179, 134, 1.0),
+              ),
+              DialogButton(
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () { 
+                  setState(() {
+                        //_showPage = _pageChooser(tappedIndex);
+                        _page = 0;
+                      });
+                  Navigator.pop(context); 
+                  },
+                gradient: LinearGradient(colors: [
+                  Color.fromRGBO(116, 116, 191, 1.0),
+                  Color.fromRGBO(52, 138, 199, 1.0)
+                ]),
+              )
+            ]
+            ).show();
+  }
+
 }
 

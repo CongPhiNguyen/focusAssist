@@ -15,6 +15,7 @@ import 'PlayPauseButton.dart';
 import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'setTimer.dart' as st;
+
 //
 const kPrimaryColor = Color(0xFF0C9869);
 const kTextColor = Color(0xFF3C4046);
@@ -39,6 +40,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
   GifController gifcontroller;
   IconData _controlIcon;
   bool timerRunning = false;
+
   String duration = "00:00:00";
   final dbHelper = DbProvider.instance;
   void initState() {
@@ -255,7 +257,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                               started = null;
                             }
                             _timerIsRunning =! _timerIsRunning;
-                            
+                            StaticData.focusTimerIsRunning = _timerIsRunning;
                             
                         },
                         
@@ -326,6 +328,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
         child: Text("Cancel"),
         onPressed:  () {
           _controlIcon = Icons.pause;
+          StaticData.focusTimerIsRunning = true;
           Navigator.of(context).pop(); 
         },
       );
