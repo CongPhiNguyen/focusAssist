@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:focus_assist/pages/edit_group_dialog.dart';
-import 'package:focus_assist/pages/list_of_achivement.dart';
-import 'package:focus_assist/pages/view_activity.dart';
+import 'package:focus_assist/pages/statistic//edit_group_dialog.dart';
+import 'package:focus_assist/pages/statistic//list_of_achivement.dart';
+import 'package:focus_assist/pages/statistic//view_activity.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:focus_assist/pages/add_screen.dart';
-import 'package:focus_assist/pages/add_new_group_dialog.dart';
+import 'package:focus_assist/pages/statistic//add_screen.dart';
+import 'package:focus_assist/pages/statistic//add_new_group_dialog.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:intl/intl.dart';
