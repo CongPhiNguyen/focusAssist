@@ -1,9 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/LocalNotificationManager.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:sqflite/sqflite.dart';
+
+import '../classes/LocalNotificationManager.dart';
+import '../classes/LocalNotificationManager.dart';
 
 class NotificationSettingScreen extends StatefulWidget {
   @override
@@ -11,6 +18,7 @@ class NotificationSettingScreen extends StatefulWidget {
 }
 
 class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
+  //FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   bool isNotificationOn = true;
   bool isMorningNotification = true;
   bool isEveningNotification = true;
@@ -24,6 +32,8 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
     // TODO: implement initState
     super.initState();
     LoadNotificationSetting();
+    tz.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation('Asia/Ho_Chi_Minh'));
   }
 
   Future<void> LoadNotificationSetting() async {
@@ -111,12 +121,12 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               await UpdateNotificationSetting();
               if (isNotificationOn) {
                 Time time = new Time(selectedMorningTime.hour, selectedMorningTime.minute);
-                await localNotificationManager.showDailyMorningAtTimeNotification(time);
+                await showDailyMorningAtTimeNotification(time);
                 time = new Time(selectedEveningTime.hour, selectedEveningTime.minute);
-                await localNotificationManager.showDailyEveningAtTimeNotification(time);
+                await showDailyEveningAtTimeNotification(time);
               }
               else {
-                await localNotificationManager.cancelAllNotification();
+                await cancelAllNotification();
               }
             },
             title: Text(
@@ -166,10 +176,10 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               await UpdateNotificationSetting();
               if (isMorningNotification) {
                 Time time = new Time(selectedMorningTime.hour, selectedMorningTime.minute);
-                await localNotificationManager.showDailyMorningAtTimeNotification(time);
+                await showDailyMorningAtTimeNotification(time);
               }
               else {
-                await localNotificationManager.cancelIdNotification(1);
+                await cancelIdNotification(1);
               }
             },
             leading: Icon(
@@ -189,10 +199,10 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
                 await UpdateNotificationSetting();
                 if (isMorningNotification) {
                   Time time = new Time(selectedMorningTime.hour, selectedMorningTime.minute);
-                  await localNotificationManager.showDailyMorningAtTimeNotification(time);
+                  await showDailyMorningAtTimeNotification(time);
                 }
                 else {
-                  await localNotificationManager.cancelIdNotification(1);
+                  await cancelIdNotification(1);
                 }
               },
             ),
@@ -205,7 +215,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               selectMorningTime(context);
             },
             title: Text(
-              '              Send Notification At',
+              '         Send Notification At',
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -238,10 +248,10 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               await UpdateNotificationSetting();
               if (isEveningNotification) {
                 Time time = new Time(selectedEveningTime.hour, selectedEveningTime.minute);
-                await localNotificationManager.showDailyEveningAtTimeNotification(time);
+                await showDailyEveningAtTimeNotification(time);
               }
               else {
-                await localNotificationManager.cancelIdNotification(2);
+                await cancelIdNotification(2);
               }
             },
             leading: Icon(
@@ -261,10 +271,10 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
                 await UpdateNotificationSetting();
                 if (isEveningNotification) {
                   Time time = new Time(selectedEveningTime.hour, selectedEveningTime.minute);
-                  await localNotificationManager.showDailyEveningAtTimeNotification(time);
+                  await showDailyEveningAtTimeNotification(time);
                 }
                 else {
-                  await localNotificationManager.cancelIdNotification(2);
+                  await cancelIdNotification(2);
                 }
               }
             ),
@@ -277,7 +287,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               selectEveningTime(context);
             },
             title: Text(
-              '              Send Notification At',
+              '         Send Notification At',
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -301,20 +311,24 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
           TextButton(
             onPressed: () async {
               Time time = new Time(selectedMorningTime.hour, selectedMorningTime.minute);
-              await localNotificationManager.showDailyMorningAtTimeNotification(time);
+              await showNotification();
+              //await LocalNotificationManager.showNotification();
             },
             child: Text('Send Notification'),
           ),
           TextButton(
             onPressed: () async {
-              var list = await localNotificationManager.getListNotification();
-              print(list);
+              var list = await getListPendingNotification();
+              print(list.length);
+              for (int i = 0; i < list.length; i++) {
+                print('${list[i].id}  /  ${list[i].body}');
+              }
             },
             child: Text('List Notification'),
           ),
           TextButton(
             onPressed: () async {
-              await localNotificationManager.cancelAllNotification();
+              await cancelAllNotification();
             },
             child: Text('Cancel All Notification'),
           ),
@@ -338,9 +352,9 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
       });
       await UpdateNotificationSetting();
       if (isMorningNotification) {
-        await localNotificationManager.cancelIdNotification(1);
+        await cancelIdNotification(1);
         Time time = new Time(selectedMorningTime.hour, selectedMorningTime.minute);
-        await localNotificationManager.showDailyMorningAtTimeNotification(time);
+        await showDailyMorningAtTimeNotification(time);
       }
     }
   }
@@ -360,9 +374,9 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
       });
       await UpdateNotificationSetting();
       if (isEveningNotification) {
-        await localNotificationManager.cancelIdNotification(1);
+        await cancelIdNotification(1);
         Time time = new Time(selectedEveningTime.hour, selectedEveningTime.minute);
-        await localNotificationManager.showDailyEveningAtTimeNotification(time);
+        await showDailyEveningAtTimeNotification(time);
       }
     }
   }
@@ -382,4 +396,119 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
     );
     print('Update Notification setting completed');
   }
+
+  tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate =
+    tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+    return scheduledDate;
+  }
+
+  showDailyMorningAtTimeNotification(Time time) async {
+    try {
+      Database db = await DbProvider.instance.database;
+      List<Map<String, dynamic>> queryRows = await db.rawQuery('SELECT * FROM TRICHDAN ORDER BY RANDOM() LIMIT 1');
+      var androidChannel = AndroidNotificationDetails(
+        'CHANNEL_ID 1',
+        'CHANNEL_NAME 1',
+        'CHANNEL_DESCRIPTION 1',
+        importance: Importance.max,
+        priority: Priority.high,
+        playSound: true,
+      );
+      var iOSChannel = IOSNotificationDetails();
+      var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
+      await StaticData.flutterLocalNotificationsPlugin.zonedSchedule(
+        1,
+        'Focus Assist',
+        '${queryRows.first['TRICHDAN']} - ${queryRows.first['TACGIA']}',
+        _nextInstanceOfTime(time.hour, time.minute),
+        platformChannel,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle: true,
+        payload: 'New payload',
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    }
+    catch (e) {
+      print('Morning notification error: ${e.toString()}');
+    }
+
+  }
+
+  showDailyEveningAtTimeNotification(Time time) async {
+    var androidChannel = AndroidNotificationDetails(
+      'CHANNEL_ID 1',
+      'CHANNEL_NAME 1',
+      'CHANNEL_DESCRIPTION 1',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+    );
+    var iOSChannel = IOSNotificationDetails();
+    var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
+    await StaticData.flutterLocalNotificationsPlugin.zonedSchedule(
+      2,
+      'Focus Assist',
+      'Remember to check in all your today activities',
+      _nextInstanceOfTime(time.hour, time.minute),
+      platformChannel,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      androidAllowWhileIdle: true,
+      payload: 'New payload',
+      matchDateTimeComponents: DateTimeComponents.time,
+    );
+  }
+
+  cancelAllNotification() async {
+    await StaticData.flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  cancelIdNotification(int id) async {
+    await StaticData.flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  showNotification() async {
+    const androidChannel = AndroidNotificationDetails(
+      'CHANNEL_ID',
+      'CHANNEL_NAME',
+      'CHANNEL_DESCRIPTION',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    var iOSChannel = IOSNotificationDetails();
+    var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
+    await StaticData.flutterLocalNotificationsPlugin.show(
+      0,
+      'Notification title',
+      'Notification body',
+      platformChannel,
+      payload: 'New payload',
+    );
+  }
+
+
+  Future <List<ActiveNotification>> getListActiveNotification() async {
+    final List<ActiveNotification> activeNotifications =
+        await StaticData.flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
+        ?.getActiveNotifications();
+    print(activeNotifications.length);
+    return activeNotifications;
+  }
+
+  Future <List<PendingNotificationRequest>> getListPendingNotification() async {
+    final List<PendingNotificationRequest> pendingNotifications =
+    await StaticData.flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
+        ?.pendingNotificationRequests();
+    print(pendingNotifications.length);
+    return pendingNotifications;
+  }
+
 }
