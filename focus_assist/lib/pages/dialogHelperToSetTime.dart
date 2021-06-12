@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:focus_assist/pages/Timer_Screen.dart';
+import 'package:focus_assist/pages/timerScreen/Timer_Screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'musicDialog.dart';
+import 'package:focus_assist/pages/timerScreen/musicDialog.dart';
 
 class dialogHelper {
   static exit(context) => showDialog(context: context, builder: (context) => SetTime() );

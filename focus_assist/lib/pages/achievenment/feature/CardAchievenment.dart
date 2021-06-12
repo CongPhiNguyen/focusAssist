@@ -10,6 +10,7 @@ class CardAchievement extends StatefulWidget {
   final int star;
   final Color endColor;
   final Color startColor;
+  final String imageAchi;
 
   const CardAchievement(
       {Key key,
@@ -19,11 +20,11 @@ class CardAchievement extends StatefulWidget {
       this.iconImage,
       this.star,
       this.endColor,
-      this.startColor})
+      this.startColor, this.imageAchi})
       : super(key: key);
   @override
   _CardAchievementState createState() => _CardAchievementState(
-      name, mota, diemThanhtuu, iconImage, star, endColor, startColor);
+      name, mota, diemThanhtuu, iconImage, star, endColor, startColor,imageAchi);
 }
 
 class _CardAchievementState extends State<CardAchievement> {
@@ -34,9 +35,9 @@ class _CardAchievementState extends State<CardAchievement> {
   final int star;
   final Color endColor;
   final Color startColor;
-
+  final String imageAchi;
   _CardAchievementState(this.name, this.mota, this.diemThanhtuu, this.iconImage,
-      this.star, this.endColor, this.startColor);
+      this.star, this.endColor, this.startColor, this.imageAchi);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -77,7 +78,7 @@ class _CardAchievementState extends State<CardAchievement> {
                 Expanded(
                   flex: 2,
                   child: Image.asset(
-                    'assets/achievenment/Eggs/eggChocolate.png',
+                    'assets/achievenment/achieImage/'+imageAchi+'.png',
                     height: size.height * 0.06,
                   ),
                 ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:focus_assist/pages/Timer_Screen.dart';
+import 'package:focus_assist/pages/timerScreen/Timer_Screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';

@@ -85,9 +85,9 @@ class _PlayButtonState extends State<PlayButton> with TickerProviderStateMixin {
         alignment: Alignment.center,
         children: [
           if (_showWaves) ...[
-            Blob(color: Color(0xff0092ff), scale: _scale, rotation: _rotation),
-            Blob(color: Color(0xff4ac7b7), scale: _scale, rotation: _rotation * 2 - 30),
-            Blob(color: Color(0xffa4a6f6), scale: _scale, rotation: _rotation * 3 - 45),
+            // Blob(color: Color(0xff0092ff), scale: _scale, rotation: _rotation),
+            // Blob(color: Color(0xff4ac7b7), scale: _scale, rotation: _rotation * 2 - 30),
+            // Blob(color: Color(0xffa4a6f6), scale: _scale, rotation: _rotation * 3 - 45),
           ],
           Container(
             constraints: BoxConstraints.expand(),

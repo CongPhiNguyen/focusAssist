@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:focus_assist/pages/edit_activity_screen.dart';
+import 'package:focus_assist/pages/statistic/edit_activity_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
