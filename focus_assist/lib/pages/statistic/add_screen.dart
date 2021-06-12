@@ -6,7 +6,7 @@ import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'dart:math';
 
-import 'package:focus_assist/pages/add_new_group_dialog.dart';
+import 'package:focus_assist/pages/statistic/add_new_group_dialog.dart';
 
 class AddNew extends StatefulWidget {
   @override

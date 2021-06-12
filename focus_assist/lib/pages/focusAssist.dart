@@ -4,16 +4,14 @@ import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/pages/achievenment/screen/achievenment_screen.dart';
 import 'package:focus_assist/pages/farm/screen/farm_screen.dart';
 import 'package:focus_assist/pages/progress_screen.dart';
-import 'package:focus_assist/pages/journal_screen.dart';
+import 'package:focus_assist/pages/statistic/journal_screen.dart';
 import 'package:focus_assist/pages/setting_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-
 class focus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Welcome',
@@ -31,7 +29,6 @@ class _FocusAssistState extends State<FocusAssist> {
   int _page = 3;
   // GlobalKey _bottomNavigationKey = GlobalKey();
 
-
   Widget _showPage = new SettingScreen();
 
   Widget _pageChooser(int page) {
@@ -44,7 +41,7 @@ class _FocusAssistState extends State<FocusAssist> {
         return JournalScreen();
         break;
       case 2:
-        return  FarmScreen();
+        return FarmScreen();
         break;
       case 3:
         return ProgressScreen();
@@ -56,6 +53,7 @@ class _FocusAssistState extends State<FocusAssist> {
         break;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -67,7 +65,7 @@ class _FocusAssistState extends State<FocusAssist> {
         items: <Widget>[
           Icon(Icons.timer, size: 30),
           Icon(Icons.wysiwyg_rounded, size: 30),
-          Icon(Icons.style,size:30),
+          Icon(Icons.style, size: 30),
           Icon(Icons.waterfall_chart, size: 30),
           Icon(Icons.settings, size: 30),
         ],
@@ -109,8 +107,7 @@ class _FocusAssistState extends State<FocusAssist> {
     );
   }
 
-
-void _show(context, String message){
+void _show(context, String message) {
   Alert(
     context: context,
     type: AlertType.success,
@@ -129,7 +126,6 @@ void _show(context, String message){
     ],
   ).show();
 }
-
   void showDialogChange(context,String message, int tappedIndex){
     Alert(
       context: context,
