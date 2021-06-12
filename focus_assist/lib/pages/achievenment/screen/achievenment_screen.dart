@@ -57,6 +57,7 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
                 star: StaticData.AchiUser[num].star,
                 endColor: StaticData.AchiUser[num].endColor,
                 startColor: StaticData.AchiUser[num].startColor,
+                imageAchi: StaticData.AchiUser[num].MATHANHTUU,
               ),
             );
           }),
