@@ -68,21 +68,21 @@ class _FarmScreenState extends State<FarmScreen> {
     } else if (StaticData.PokemonUsers[index].rareColor == Colors.redAccent ){
       goldLevelUp = 3200;
     }
-
-    if (goldLevelUp > StaticData.Vang) {
-      showFail(context, index, goldLevelUp);
+    if (StaticData.PokemonUsers[index].Level == 100){
+      showFail(context, index, goldLevelUp,"Your pokemon has been max level");
+    } else if (goldLevelUp > StaticData.Vang) {
+      showFail(context, index, goldLevelUp,"You don't have enough "+goldLevelUp.toString()+' gold to LevelUp');
     } else {
       showSuccess(context, index, goldLevelUp);
     }
-
   }
 
-  void showFail(context, int index,int goldLevelUp){
+  void showFail(context, int index,int goldLevelUp, String message){
     Alert(
       context: context,
       title: 'LEVEL UP',
       closeIcon: Icon(Icons.auto_awesome),
-      desc: "You don't have enough "+goldLevelUp.toString()+' gold to LevelUp',
+      desc: message,
       content: Column(
         children: [
           Center(
@@ -140,7 +140,7 @@ class _FarmScreenState extends State<FarmScreen> {
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onPressed: () async {
-              StaticData.PokemonUsers[index].Level++;
+              StaticData.PokemonUsers[index].Level+=3;
 
               final k = await DbProvider.instance.rawQuery('''
               UPDATE POKEMON

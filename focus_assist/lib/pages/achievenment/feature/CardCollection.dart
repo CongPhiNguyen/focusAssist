@@ -1,13 +1,8 @@
-
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-
-import 'package:focus_assist/classes/ClassCardShop.dart';
 import 'package:focus_assist/classes/ClassPokemon.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
-import 'package:focus_assist/pages/farm/feature_ui/object_farm.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 
@@ -110,7 +105,10 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
             String mapokemon = getRandomString(10);
             InfoPokemon index = new InfoPokemon(mapokemon,name, 1, rareColor);
             index.randomDirecAndPos();
-            StaticData.PokemonUsers.add(index);
+            setState(() {
+              StaticData.PokemonUsers.add(index);
+            });
+
 
             if (rareColor == Colors.green){
               row = { 'MAPOKEMON': mapokemon,'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 1};
@@ -124,6 +122,7 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
             if (rareColor == Colors.red){
               row = {'MAPOKEMON': mapokemon,'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 4};
             }
+
             int p = await DbProvider.instance.insert('POKEMON', row);
             print(p);
 
@@ -158,8 +157,6 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
       ],
     ).show();
   }
-
-
 }
 
 
