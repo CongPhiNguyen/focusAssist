@@ -47,7 +47,7 @@ class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClient
               Container(
                 constraints: BoxConstraints.expand(height: 45.0),
                 decoration: BoxDecoration(
-                  color: Colors.amber[400],
+                  color: Colors.amber[800],
                 ),
                 child: Center(
                   child: Text(
@@ -64,7 +64,7 @@ class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClient
               // this is music list
               // this is music list
               Container(
-                padding: EdgeInsets.only(bottom: 190),
+                padding: EdgeInsets.only(bottom: 190,top: 5),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -103,15 +103,16 @@ class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClient
                   children: [                 
                   RaisedButton(
                   onPressed: (){
-                    print("button 1");
+                    print("button ok");
+                    Navigator.pop(context);
                   },
                   padding: EdgeInsets.symmetric(
                     horizontal: 30.0,
                     vertical: 10.0,
                   ),
-                  color: Colors.green,
+                  color: Colors.amber,
                   child: Text(
-                    "Start",
+                    "OK",
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Colors.white,
@@ -120,25 +121,26 @@ class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClient
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
-                RaisedButton(
-                  onPressed: (){
-                    print("button 2");
-                  },
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 10.0,
-                  ),
-                  color: Colors.red,
-                  child: Text(
-                    "Stop",
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white,
-                    ),),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                ),
+                // RaisedButton(
+                //   onPressed: (){
+                //     print("Cancle Music");
+                //     Navigator.pop(context);
+                //   },
+                //   padding: EdgeInsets.symmetric(
+                //     horizontal: 40.0,
+                //     vertical: 10.0,
+                //   ),
+                //   color: Colors.red,
+                //   child: Text(
+                //     "Cancle",
+                //     style: TextStyle(
+                //       fontSize: 18.0,
+                //       color: Colors.white,
+                //     ),),
+                //   shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(15.0),
+                //   ),
+                // ),
                 ],)
                 ),
             ],
