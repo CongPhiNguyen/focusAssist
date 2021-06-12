@@ -110,7 +110,7 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
             });
 
 
-            if (rareColor == Colors.green){
+            if (rareColor == Colors.greenAccent){
               row = { 'MAPOKEMON': mapokemon,'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 1};
             } else
             if (rareColor == Colors.blueAccent){
@@ -119,7 +119,7 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
             if (rareColor == Colors.purpleAccent){
               row = {'MAPOKEMON': mapokemon,'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 3};
             }else
-            if (rareColor == Colors.red){
+            if (rareColor == Colors.redAccent){
               row = {'MAPOKEMON': mapokemon,'MANGUOIDUNG': id,'NAMEPOKEMON': name, 'LEVELPOKEMON': 1,'DOHIEM': 4};
             }
 
