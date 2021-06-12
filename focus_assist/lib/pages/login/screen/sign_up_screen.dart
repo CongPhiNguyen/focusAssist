@@ -9,9 +9,11 @@ import 'package:focus_assist/pages/login/feature_ui/edit_text_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/edit_text_password_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/login_with_socialnetwork.dart';
 import 'package:focus_assist/pages/login/feature_ui/or_ui.dart';
+import 'package:sqflite/sqflite.dart';
 import 'login_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:math';
+import 'package:focus_assist/pages/main_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
   String _taiKhoan, _matKhau, _maUser, _ten;
@@ -174,16 +176,16 @@ void _queryCheckUser(String tk,String mk, String maUser, String name ,context) a
 
     row = {'MANGUOIDUNG': maUser ,
       'HOTEN': name,
-      'ANH':  '0',
+      'ANH':  '',
       'VANG': 7000,
-      'THONGBAO': null,
-      'THONGBAOSANG': null,
-      'THONGBAOTOI' : null,
-      'THOIGIANTHONGBAOSANG': null,
-      'THOIGIANTHONGBAOTOI': null,
-      'DARKMODE': null,
-      'PRIVACYLOCK': null,
-      'LOCKPASSCODE': null};
+      'THONGBAO': 1,
+      'THONGBAOSANG': 1,
+      'THONGBAOTOI' : 1,
+      'THOIGIANTHONGBAOSANG': '07:00:00',
+      'THOIGIANTHONGBAOTOI': '22:00:00',
+      'DARKMODE': 0,
+      'PRIVACYLOCK': 0,
+      'LOCKPASSCODE': ''};
     int j = await DbProvider.instance.insert('THONGTINNGUOIDUNG', row);
 
     print('value of insert: $i');
@@ -229,10 +231,21 @@ void _showSuccess(context, String message){
           "ACCEPT",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
-        onPressed: () {
-
+        onPressed: () async {
+          StaticData.isSignedIn = true;
+          Database db = await DbProvider.instance.database;
+          await db.execute(
+              '''
+              UPDATE THAMSO
+              SET DADANGNHAP = 1,
+                  MANGUOIDUNG = '${StaticData.userID}';
+              ''');
           Navigator.pop(context);
-          runApp(focus());
+          Navigator.pop(context);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainScreen()),
+          );
         },
         width: 120,
         color: Colors.green[400],

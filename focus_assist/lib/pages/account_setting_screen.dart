@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:focus_assist/pages/login/screen/welcome_screen.dart';
+
+import '../classes/DbProvider.dart';
 
 class AccountSettingScreen extends StatefulWidget {
   @override
@@ -17,6 +21,9 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   String username = 'Username';
   Image image;
   TextEditingController usernameEditingController = new TextEditingController();
+  TextEditingController passwordEditingController = new TextEditingController();
+  TextEditingController newPasswordEditingController = new TextEditingController();
+  TextEditingController confirmNewPasswordEditingController = new TextEditingController();
 
   @override
   void initState() {
@@ -206,7 +213,9 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                           borderRadius: BorderRadius.circular(50.0)),
                       elevation: 0.0,
                       child: ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          _showChangePassworDialog(context);
+                        },
                         title: Text(
                           'Change Password',
                           style: TextStyle(
@@ -249,9 +258,11 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                           borderRadius: BorderRadius.circular(50.0)),
                       elevation: 0.0,
                       child: ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          _showDeleteAllActivitiesDialog(context);
+                        },
                         title: Text(
-                          'Delete Data',
+                          'Delete All Activities',
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
@@ -268,7 +279,9 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                       child: ListTile(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15.0)),
-                        onTap: () {},
+                        onTap: () {
+                          _showDeleteAccountDialog(context);
+                        },
                         title: Text(
                           'Delete Account',
                           style: TextStyle(
@@ -320,11 +333,16 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   //   'LOAIHINH': 'REPEATING',
                   //   'KHOANGTHOIGIAN': 5
                   // };
+                  // Map<String, dynamic> row = {
+                  //   'DADANGNHAP': 0,
+                  //   'MANGUOIDUNG': ''
+                  // };
                   Map<String, dynamic> row = {
-                    'MAMUCTIEU': 'MT00001',
-                    'NGAYHOANTHANH': 20210713
+                    'MATRICHDAN': 'TD005',
+                    'TRICHDAN': 'The will to win, the desire to succeed, the urge to reach your full potential... these are the keys that will unlock the door to personal excellence',
+                    'TACGIA': 'Confucius'
                   };
-                  print(await db.insert('THONGKE', row));
+                  print(await db.insert('TRICHDAN', row));
 
                   // Database db = await DbProvider.instance.database;
                   // await db.execute(
@@ -342,7 +360,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
                   List<Map<String, dynamic>> queryRows =
-                      await db.query('MUCTIEU');
+                      await db.query('NGUOIDUNG');
                   print(queryRows);
                 },
                 child: Text(
@@ -353,17 +371,10 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 onPressed: () async {
                   Database db = await DbProvider.instance.database;
                   db.execute('''
-                  CREATE TABLE MUCTIEU (
-                      MAMUCTIEU TEXT PRIMARY KEY,
+                  CREATE TABLE THAMSO (
+                      DADANGNHAP BOOL,
                       MANGUOIDUNG TEXT,
-                      MANHOM TEXT,
-                      TENMUCTIEU TEXT,
-                      MOTA TEXT,
-                      NGAYBATDAU INTEGER,
-                      LOAIHINH TEXT,
-                      CACNGAY INTEGER,
-                      SOLAN INTEGER,
-                      KHOANGTHOIGIAN INTEGER
+                      PRIMARY KEY (DADANGNHAP, MANGUOIDUNG)
                   );
                     ''');
                   // db.execute(
@@ -420,7 +431,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   controller: usernameEditingController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    //labelText: 'Username',
+                    labelText: 'Username',
                     hintText: username,
                   ),
                 ),
@@ -432,9 +443,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               child: Text('Cancel'),
               onPressed: () {
                 print('Cancel');
-                setState(() {
-                  usernameEditingController.clear();
-                });
+                usernameEditingController.clear();
                 Navigator.pop(context);
               },
             ),
@@ -442,11 +451,15 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
               child: Text('OK'),
               onPressed: () {
                 print('OK');
-                setState(() {
+                if (usernameEditingController.text == '') {
+                  Fluttertoast.showToast(msg: 'Please enter username', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+                }
+                else {
                   username = usernameEditingController.text;
-                });
-                UpdateUsername('${StaticData.userID}'); // user.getID()
-                Navigator.pop(context);
+                  UpdateUsername(username);
+                  Navigator.pop(context);
+                }
+
               },
             ),
           ],
@@ -467,10 +480,10 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Divider(
-                  height: 1,
-                  color: Colors.blue,
-                ),
+                // Divider(
+                //   height: 1,
+                //   color: Colors.blue,
+                // ),
                 ListTile(
                   onTap: () {
                     _openGallery(context);
@@ -533,13 +546,14 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
     Navigator.pop(context);
   }
 
-  Future UpdateUsername(String userID) async {
+  Future UpdateUsername(String newUsername) async {
     Database db = await DbProvider.instance.database;
     db.execute('''
         UPDATE THONGTINNGUOIDUNG
-        SET HOTEN = '$username'
-        WHERE MANGUOIDUNG = '$userID';
+        SET HOTEN = '$newUsername'
+        WHERE MANGUOIDUNG = '${StaticData.userID}';
         ''');
+    Fluttertoast.showToast(msg: 'Change username successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
   }
 
   Future UpdateUserAvatar(String userID, String imageByteString) async {
@@ -549,6 +563,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
         SET ANH = '$imageByteString'
         WHERE MANGUOIDUNG = '$userID';
         ''');
+    Fluttertoast.showToast(msg: 'Change avatar successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
   }
 
   static Image imageFromBase64String(String base64String) {
@@ -609,18 +624,313 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
             ),
             TextButton(
               child: Text('OK'),
-              onPressed: () {
+              onPressed: () async {
+                StaticData.isSignedIn = false;
+                Database db = await DbProvider.instance.database;
+                await db.execute(
+                    '''
+                    UPDATE THAMSO
+                    SET DADANGNHAP = 0,
+                        MANGUOIDUNG = '';
+                    ''');
+                Navigator.pop(context);
                 Navigator.pop(context);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => WelcomeScreen()),
                 );
+                StaticData.userID = '';
               },
             ),
           ],
         );
       },
     );
+  }
+
+  _showChangePassworDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      //barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+              child: Text(
+                'Change Password',
+                style: TextStyle(color: Colors.blue),
+              )),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                // Divider(
+                //   height: 5,
+                //   color: Colors.blue,
+                // ),
+                TextField(
+                  controller: passwordEditingController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                    //hintText: 'Password',
+                  ),
+                ),
+                SizedBox(height: 5),
+                // Divider(
+                //   height: 1,
+                //   color: Colors.blue,
+                // ),
+                TextField(
+                  controller: newPasswordEditingController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'New Password',
+                    //hintText: 'New Password',
+                  ),
+                ),
+                // Divider(
+                //   height: 1,
+                //   color: Colors.blue,
+                // ),
+                SizedBox(height: 5),
+                TextField(
+                  controller: confirmNewPasswordEditingController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Confirm Password',
+                    //hintText: 'Confirm New Password',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                print('Cancel');
+                passwordEditingController.clear();
+                newPasswordEditingController.clear();
+                confirmNewPasswordEditingController.clear();
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () async {
+                print('OK');
+                List<Map<String, dynamic>> queryList = await DbProvider.instance.rawQuery('''
+                    select * from NGUOIDUNG where MANGUOIDUNG = '${StaticData.userID}'
+                    ''');
+                if (passwordEditingController.text == '' || newPasswordEditingController.text == '' || confirmNewPasswordEditingController.text == '') {
+                  Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+                }
+                else if (passwordEditingController.text != queryList[0]['MATKHAU']) {
+                  Fluttertoast.showToast(msg: 'Incorrect Password', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+                }
+                else if (newPasswordEditingController.text != confirmNewPasswordEditingController.text) {
+                  Fluttertoast.showToast(msg: 'Confirm password does not match', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+                }
+                else {
+                  UpdatePassword(newPasswordEditingController.text);
+                  //Fluttertoast.showToast(msg: 'Change password successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+                  passwordEditingController.clear();
+                  newPasswordEditingController.clear();
+                  confirmNewPasswordEditingController.clear();
+                  Navigator.pop(context);
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future UpdatePassword(String newPassword) async {
+    Database db = await DbProvider.instance.database;
+    db.execute('''
+        UPDATE NGUOIDUNG
+        SET MATKHAU = '$newPassword'
+        WHERE MANGUOIDUNG = '${StaticData.userID}'
+        ''');
+    Fluttertoast.showToast(msg: 'Change password successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+  }
+
+  _showDeleteAllActivitiesDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+              child: Text(
+                'Delete All Activities',
+                style: TextStyle(color: Colors.blue),
+              )),
+          content: SingleChildScrollView(
+            child: Center(
+              child: Text(
+                  'Are you sure you want to delete all activities?'
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () async {
+                await _deleteFromTableTHONGKE();
+                await _deleteFromTableNHOMMUCTIEU();
+                await _deleteFromTableMUCTIEU();
+                Fluttertoast.showToast(msg: 'Delete all activities successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  _showDeleteAccountDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+              child: Text(
+                'Delete Account',
+                style: TextStyle(color: Colors.blue),
+              )),
+          content: SingleChildScrollView(
+            child: Center(
+              child: Text(
+                  'Are you sure you want to delete account?'
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () async {
+                _deleteFromTableTHONGKE();
+                _deleteFromTableNHOMMUCTIEU();
+                _deleteFromTableMUCTIEU();
+                _deleteFromTableLICHSUTIMER();
+                _deleteFromTableTHANHTUUNGUOIDUNG();
+                _deleteFromTableVATPHAMNGUOIDUNG();
+                _deleteFromTablePOKEMON();
+                _deleteFromTableTHONGTINNGUOIDUNG();
+                _deleteFromTableNGUOIDUNG();
+                Fluttertoast.showToast(msg: 'Delete account successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+                StaticData.isSignedIn = false;
+                Database db = await DbProvider.instance.database;
+                await db.execute(
+                    '''
+                    UPDATE THAMSO
+                    SET DADANGNHAP = 0,
+                        MANGUOIDUNG = '';
+                    ''');
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                );
+                StaticData.userID = '';
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  _deleteFromTableTHONGKE() async {
+    Database db = await DbProvider.instance.database;
+    await db.execute('''
+        DELETE FROM THONGKE
+        WHERE MAMUCTIEU IN (SELECT MAMUCTIEU FROM MUCTIEU WHERE MANGUOIDUNG = '${StaticData.userID}')
+        ''');
+  }
+
+  _deleteFromTableNHOMMUCTIEU() async {
+    Database db = await DbProvider.instance.database;
+    await db.execute('''
+        DELETE FROM NHOMMUCTIEU
+        WHERE MANGUOIDUNG = '${StaticData.userID}'
+        ''');
+  }
+
+  _deleteFromTableMUCTIEU() async {
+    Database db = await DbProvider.instance.database;
+    await db.execute('''
+        DELETE FROM MUCTIEU
+        WHERE MANGUOIDUNG = '${StaticData.userID}'
+        ''');
+  }
+
+  _deleteFromTableLICHSUTIMER() async {
+    Database db = await DbProvider.instance.database;
+    await db.execute('''
+        DELETE FROM LICHSUTIMER
+        WHERE MANGUOIDUNG = '${StaticData.userID}'
+        ''');
+  }
+
+  _deleteFromTableNGUOIDUNG() async {
+    Database db = await DbProvider.instance.database;
+    await db.execute('''
+        DELETE FROM NGUOIDUNG
+        WHERE MANGUOIDUNG = '${StaticData.userID}'
+        ''');
+  }
+
+  _deleteFromTableTHANHTUUNGUOIDUNG() async {
+    Database db = await DbProvider.instance.database;
+    await db.execute('''
+        DELETE FROM THANHTUUNGUOIDUNG
+        WHERE MANGUOIDUNG = '${StaticData.userID}'
+        ''');
+  }
+
+  _deleteFromTableTHONGTINNGUOIDUNG() async {
+    Database db = await DbProvider.instance.database;
+    await db.execute('''
+        DELETE FROM THONGTINNGUOIDUNG
+        WHERE MANGUOIDUNG = '${StaticData.userID}'
+        ''');
+  }
+
+  _deleteFromTablePOKEMON() async {
+    Database db = await DbProvider.instance.database;
+    await db.execute('''
+        DELETE FROM POKEMON
+        WHERE MANGUOIDUNG = '${StaticData.userID}'
+        ''');
+  }
+
+  _deleteFromTableVATPHAMNGUOIDUNG() async {
+    Database db = await DbProvider.instance.database;
+    await db.execute('''
+        DELETE FROM VATPHAMNGUOIDUNG
+        WHERE MANGUOIDUNG = '${StaticData.userID}'
+        ''');
   }
 
 }
