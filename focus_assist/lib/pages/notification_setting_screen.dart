@@ -308,30 +308,30 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               ],
             ),
           ),
-          TextButton(
-            onPressed: () async {
-              Time time = new Time(selectedMorningTime.hour, selectedMorningTime.minute);
-              await showNotification();
-              //await LocalNotificationManager.showNotification();
-            },
-            child: Text('Send Notification'),
-          ),
-          TextButton(
-            onPressed: () async {
-              var list = await getListPendingNotification();
-              print(list.length);
-              for (int i = 0; i < list.length; i++) {
-                print('${list[i].id}  /  ${list[i].body}');
-              }
-            },
-            child: Text('List Notification'),
-          ),
-          TextButton(
-            onPressed: () async {
-              await cancelAllNotification();
-            },
-            child: Text('Cancel All Notification'),
-          ),
+          // TextButton(
+          //   onPressed: () async {
+          //     Time time = new Time(selectedMorningTime.hour, selectedMorningTime.minute);
+          //     await showNotification();
+          //     //await LocalNotificationManager.showNotification();
+          //   },
+          //   child: Text('Send Notification'),
+          // ),
+          // TextButton(
+          //   onPressed: () async {
+          //     var list = await getListPendingNotification();
+          //     print(list.length);
+          //     for (int i = 0; i < list.length; i++) {
+          //       print('${list[i].id}  /  ${list[i].body}');
+          //     }
+          //   },
+          //   child: Text('List Notification'),
+          // ),
+          // TextButton(
+          //   onPressed: () async {
+          //     await cancelAllNotification();
+          //   },
+          //   child: Text('Cancel All Notification'),
+          // ),
         ],
       ),
     );

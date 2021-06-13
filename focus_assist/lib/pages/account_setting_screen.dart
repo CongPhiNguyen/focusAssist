@@ -592,22 +592,6 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 'Sign Out',
                 style: TextStyle(color: Colors.blue),
               )),
-          // content: SingleChildScrollView(
-          //   child: ListBody(
-          //     children: <Widget>[
-          //       // Divider(
-          //       //   height: 1,
-          //       //   color: Colors.blue,
-          //       // ),
-          //       SizedBox(
-          //         height: 20,
-          //         child: Text(
-          //           'Do you want to sign out?'
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           content: SingleChildScrollView(
             child: Center(
               child: Text(
@@ -633,12 +617,14 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                     SET DADANGNHAP = 0,
                         MANGUOIDUNG = '';
                     ''');
+                StaticData.flutterLocalNotificationsPlugin.cancelAll();
                 Navigator.pop(context);
                 Navigator.pop(context);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => WelcomeScreen()),
                 );
+                Fluttertoast.showToast(msg: 'Sign out successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_SHORT);
                 StaticData.userID = '';
               },
             ),

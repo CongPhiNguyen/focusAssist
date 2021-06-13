@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
 import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
@@ -60,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                         children: <Widget>[
                           FadeAnimation(1.2,Text('Login', style: TextStyle(color: Colors.white, fontSize: size.height*0.05,fontWeight: FontWeight.bold,),)),
                           SizedBox(height: size.height*0.01,),
-                          FadeAnimation(1.2,  Text('Welcome you comeback',style: TextStyle(color: Colors.white,fontSize: size.height*0.025),)),
+                          FadeAnimation(1.2,  Text('Welcome back',style: TextStyle(color: Colors.white,fontSize: size.height*0.025),)),
                           SizedBox(height: size.height*0.01,),
                         ],
                       ),
@@ -88,7 +89,7 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(height: size.height*0.03,),
                       FadeAnimation(1.4,edit_text_login(
                         icon: Icons.person,
-                        hintText: "Your Email",
+                        hintText: "Username",
                         onChanged: (value){
                             _taiKhoan = value;
                         },
@@ -129,121 +130,172 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-}
 
 
-//TODO Check tài khoản có tồn tại hay không
-void _queryCheckUser(String tk, String mk,context) async
-{
-
-  if (tk == null || mk == null)
+  void _queryCheckUser(String tk, String mk,context) async
   {
-    print('Điền đầy đủ thông tin');
-    _show(context, 'Điền đầy đủ thông tin!');
-    return;
-  }
 
-  //Check tài khoản
-  final checkTK = await DbProvider.instance.rawQuery('''
-  select * from NGUOIDUNG where TENTAIKHOAN = '$tk'
-  ''');
-
-  if (checkTK.length == 0)
+    if (tk == null || mk == null)
     {
-      _show(context,"Tài khoản không tồn tại");
+      //print('Điền đầy đủ thông tin');
+      Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+      //_show(context, 'Điền đầy đủ thông tin!');
       return;
     }
 
-  if (checkTK[0]['MATKHAU'] == mk)
-  {
+    //Check tài khoản
+    final checkTK = await DbProvider.instance.rawQuery('''
+  select * from NGUOIDUNG where TENTAIKHOAN = '$tk'
+  ''');
+
+    if (checkTK.length == 0)
+    {
+      //_show(context,"Tài khoản không tồn tại");
+      Fluttertoast.showToast(msg: 'Incorrect username or password', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+      return;
+    }
+
+    if (checkTK[0]['MATKHAU'] != mk)
+    {
+      //_show(context, "Sai mật khẩu");
+      Fluttertoast.showToast(msg: 'Incorrect username or password', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+      return;
+    }
+
     StaticData.userID = checkTK[0]['MANGUOIDUNG'];
-    _showSuccess(context, "Đăng nhập thành công!");
-    return;
-  } else {
-    _show(context, "Sai mật khẩu");
+    //_showSuccess(context, "Đăng nhập thành công!");
+    StaticData.isSignedIn = true;
+    Database db = await DbProvider.instance.database;
+    await db.execute(
+        '''
+      UPDATE THAMSO
+      SET DADANGNHAP = 1,
+          MANGUOIDUNG = '${StaticData.userID}';
+      ''');
+    InitUserNotification();
+    Navigator.pop(context);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MainScreen()),
+    );
+    Fluttertoast.showToast(msg: 'Sign in successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_SHORT);
   }
-  return;
-}
+
 
 
 //TODO Show thông báo
-void _show(context, String message){
-  Alert(
-    context: context,
-    title: 'Thông báo',
-    type: AlertType.warning,
-    closeIcon: Icon(Icons.error),
-    desc: message,
-    buttons: [
-      DialogButton(
-        child: Text(
-          "CANCEL",
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        onPressed: () => Navigator.pop(context),
-        width: 120,
-        color: Colors.red,
-      )
-    ],
-  ).show();
-}
+  void _show(context, String message){
+    Alert(
+      context: context,
+      title: 'Thông báo',
+      type: AlertType.warning,
+      closeIcon: Icon(Icons.error),
+      desc: message,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "CANCEL",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          width: 120,
+          color: Colors.red,
+        )
+      ],
+    ).show();
+  }
 
 
-void _showSuccess(context, String message){
-  Alert(
-    context: context,
-    type: AlertType.success,
-    title: "Thông báo",
-    closeIcon: Icon(Icons.error),
-    desc: message,
-    buttons: [
-      DialogButton(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+  void _showSuccess(context, String message){
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: "Thông báo",
+      closeIcon: Icon(Icons.error),
+      desc: message,
+      buttons: [
+        DialogButton(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
 
-            Text(
-              "ACCEPT",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          ],
-        ),
-        onPressed: () async {
-          StaticData.isSignedIn = true;
-          Database db = await DbProvider.instance.database;
-          await db.execute(
-              '''
+              Text(
+                "ACCEPT",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            ],
+          ),
+          onPressed: () async {
+            StaticData.isSignedIn = true;
+            Database db = await DbProvider.instance.database;
+            await db.execute(
+                '''
               UPDATE THAMSO
               SET DADANGNHAP = 1,
                   MANGUOIDUNG = '${StaticData.userID}';
               ''');
-          List<Map<String, dynamic>> queryList = await DbProvider.instance.rawQuery('''
+            InitUserNotification();
+            Navigator.pop(context);
+            Navigator.pop(context);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MainScreen()),
+            );
+          },
+          width: 120,
+          color: Colors.green[400],
+        )
+      ],
+    ).show();
+  }
+
+  InitUserNotification() async {
+    List<Map<String, dynamic>> queryList = await DbProvider.instance.rawQuery('''
                     SELECT * from THONGTINNGUOIDUNG where MANGUOIDUNG = '${StaticData.userID}'
                     ''');
-          TimeOfDay morningNotificationTime = StringToTimeOfDay(queryList.first['THOIGIANTHONGBAOSANG']);
-          TimeOfDay eveningNotificationTime = StringToTimeOfDay(queryList.first['THOIGIANTHONGBAOTOI']);;
-          print('morningNotificationTime: $morningNotificationTime');
-          print('eveningNotificationTime: $eveningNotificationTime');
-          //showDailyMorningAtTimeNotification(Time(morningNotificationTime.hour, morningNotificationTime.minute));
-          //showDailyEveningAtTimeNotification(Time(eveningNotificationTime.hour, eveningNotificationTime.minute));
-          Navigator.pop(context);
-          Navigator.pop(context);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => MainScreen()),
-          );
-          },
-        width: 120,
-        color: Colors.green[400],
-      )
-    ],
-  ).show();
-}
+    if (queryList.first['THONGBAOSANG'] == 1) {
+      TimeOfDay morningNotificationTime = StringToTimeOfDay(queryList.first['THOIGIANTHONGBAOSANG']);
+      showDailyMorningAtTimeNotification(Time(morningNotificationTime.hour, morningNotificationTime.minute));
+    }
+    if (queryList.first['THONGBAOTOI'] == 1) {
+      TimeOfDay eveningNotificationTime = StringToTimeOfDay(queryList.first['THOIGIANTHONGBAOTOI']);
+      showDailyEveningAtTimeNotification(Time(eveningNotificationTime.hour, eveningNotificationTime.minute));
+    }
+  }
 
-showDailyMorningAtTimeNotification(Time time) async {
-  try {
-    Database db = await DbProvider.instance.database;
-    List<Map<String, dynamic>> queryRows = await db.rawQuery('SELECT * FROM TRICHDAN ORDER BY RANDOM() LIMIT 1');
+  showDailyMorningAtTimeNotification(Time time) async {
+    try {
+      Database db = await DbProvider.instance.database;
+      List<Map<String, dynamic>> queryRows = await db.rawQuery('SELECT * FROM TRICHDAN ORDER BY RANDOM() LIMIT 1');
+      var androidChannel = AndroidNotificationDetails(
+        'CHANNEL_ID 1',
+        'CHANNEL_NAME 1',
+        'CHANNEL_DESCRIPTION 1',
+        importance: Importance.max,
+        priority: Priority.high,
+        playSound: true,
+      );
+      var iOSChannel = IOSNotificationDetails();
+      var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
+      await StaticData.flutterLocalNotificationsPlugin.zonedSchedule(
+        1,
+        'Focus Assist',
+        '${queryRows.first['TRICHDAN']} - ${queryRows.first['TACGIA']}',
+        _nextInstanceOfTime(time.hour, time.minute),
+        platformChannel,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle: true,
+        payload: 'New payload',
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    }
+    catch (e) {
+      print('Morning notification error: ${e.toString()}');
+    }
+
+  }
+
+  showDailyEveningAtTimeNotification(Time time) async {
     var androidChannel = AndroidNotificationDetails(
       'CHANNEL_ID 1',
       'CHANNEL_NAME 1',
@@ -255,9 +307,9 @@ showDailyMorningAtTimeNotification(Time time) async {
     var iOSChannel = IOSNotificationDetails();
     var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
     await StaticData.flutterLocalNotificationsPlugin.zonedSchedule(
-      1,
+      2,
       'Focus Assist',
-      '${queryRows.first['TRICHDAN']} - ${queryRows.first['TACGIA']}',
+      'Remember to check in all your today activities',
       _nextInstanceOfTime(time.hour, time.minute),
       platformChannel,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
@@ -266,48 +318,22 @@ showDailyMorningAtTimeNotification(Time time) async {
       matchDateTimeComponents: DateTimeComponents.time,
     );
   }
-  catch (e) {
-    print('Morning notification error: ${e.toString()}');
+
+  tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate =
+    tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+    return scheduledDate;
   }
 
-}
-
-showDailyEveningAtTimeNotification(Time time) async {
-  var androidChannel = AndroidNotificationDetails(
-    'CHANNEL_ID 1',
-    'CHANNEL_NAME 1',
-    'CHANNEL_DESCRIPTION 1',
-    importance: Importance.max,
-    priority: Priority.high,
-    playSound: true,
-  );
-  var iOSChannel = IOSNotificationDetails();
-  var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
-  await StaticData.flutterLocalNotificationsPlugin.zonedSchedule(
-    2,
-    'Focus Assist',
-    'Remember to check in all your today activities',
-    _nextInstanceOfTime(time.hour, time.minute),
-    platformChannel,
-    uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-    androidAllowWhileIdle: true,
-    payload: 'New payload',
-    matchDateTimeComponents: DateTimeComponents.time,
-  );
-}
-
-tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
-  final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-  tz.TZDateTime scheduledDate =
-  tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
-  if (scheduledDate.isBefore(now)) {
-    scheduledDate = scheduledDate.add(const Duration(days: 1));
+  TimeOfDay StringToTimeOfDay(String timeString) {
+    List<String> splitString = timeString.split(':');
+    TimeOfDay time = TimeOfDay(hour: int.parse(splitString[0]), minute: int.parse(splitString[1]));
+    return time;
   }
-  return scheduledDate;
 }
 
-TimeOfDay StringToTimeOfDay(String timeString) {
-  List<String> splitString = timeString.split(':');
-  TimeOfDay time = TimeOfDay(hour: int.parse(splitString[0]), minute: int.parse(splitString[1]));
-  return time;
-}
+
