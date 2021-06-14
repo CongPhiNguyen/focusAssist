@@ -135,9 +135,12 @@ class _AddNewState extends State<AddNew> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          setState(() {
-                            checkDay[index] = !checkDay[index];
-                          });
+                          if (this.mounted) {
+                            setState(() {
+                              checkDay[index] = !checkDay[index];
+                            });
+                          } else
+                            return;
                         },
                         child: Container(
                             decoration: BoxDecoration(
@@ -391,18 +394,26 @@ class _AddNewState extends State<AddNew> {
     } else if (dropDownValue == 'Repeating') {
       row['KHOANGTHOIGIAN'] = getRepeatingDay.text;
     }
-    setState(() {
-      text = row.toString();
-    });
+    if (this.mounted) {
+      setState(() {
+        text = row.toString();
+      });
+    } else
+      return;
+
     final id = await dbHelper.insert('MUCTIEU', row);
     print('inserted row id: $id');
   }
 
   void getAllGroup() async {
     List<Map<String, dynamic>> database = await dbHelper.query('NHOMMUCTIEU');
-    setState(() {
-      text2 = database.toString();
-    });
+    if (this.mounted) {
+      setState(() {
+        text2 = database.toString();
+      });
+    } else
+      return;
+
     // setState(() {
     //   allGroup = [];
     //   allGroupKey = [];
@@ -417,10 +428,13 @@ class _AddNewState extends State<AddNew> {
     }
 
     if (allGroup.length == 0) {
-      setState(() {
-        allGroup = ['None', 'None1', 'None2'];
-        dropDownValue = allGroup[0];
-      });
+      if (this.mounted) {
+        setState(() {
+          allGroup = ['None', 'None1', 'None2'];
+          dropDownValue = allGroup[0];
+        });
+      } else
+        return;
     }
   }
 
@@ -543,9 +557,12 @@ class _AddNewState extends State<AddNew> {
                                 firstDate: DateTime.utc(2020, 1, 1),
                                 lastDate: DateTime.utc(2120, 31, 12))
                             .then((date) {
-                          setState(() {
-                            if (date != null) startTime = date;
-                          });
+                          if (this.mounted) {
+                            setState(() {
+                              if (date != null) startTime = date;
+                            });
+                          } else
+                            return;
                         });
                       },
                       label: Text(""),
@@ -586,9 +603,12 @@ class _AddNewState extends State<AddNew> {
                       color: Colors.deepPurpleAccent,
                     ),
                     onChanged: (String newValue) {
-                      setState(() {
-                        dropDownGroup = newValue;
-                      });
+                      if (this.mounted) {
+                        setState(() {
+                          dropDownGroup = newValue;
+                        });
+                      } else
+                        return;
                     },
                     items:
                         allGroup.map<DropdownMenuItem<String>>((String value) {
@@ -642,9 +662,12 @@ class _AddNewState extends State<AddNew> {
                       color: Colors.deepPurpleAccent,
                     ),
                     onChanged: (String newValue) {
-                      setState(() {
-                        dropDownValue = newValue;
-                      });
+                      if (this.mounted) {
+                        setState(() {
+                          dropDownValue = newValue;
+                        });
+                      } else
+                        return;
                     },
                     items: <String>['Fixed', 'Flexible', 'Repeating']
                         .map<DropdownMenuItem<String>>((String value) {
@@ -691,9 +714,12 @@ class _AddNewState extends State<AddNew> {
               onPressed: () async {
                 List<Map<String, dynamic>> data = await dbHelper
                     .rawQuery('''select * from THONGTINNGUOIDUNG''');
-                setState(() {
-                  text3 = data.toString();
-                });
+                if (this.mounted) {
+                  setState(() {
+                    text3 = data.toString();
+                  });
+                } else
+                  return;
               },
               child: Text(text3, style: TextStyle(fontSize: 30))),
         ),

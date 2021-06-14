@@ -37,17 +37,20 @@ class _ListAchivementState extends State<ListAchivement> {
   void getData() async {
     await getCount();
     await getCurrentLevel();
-    setState(() {
-      currentDoneTarget = currentDoneLevel * 10;
-      if (currentDoneTarget > 30) currentDoneTarget = 30;
-      percentDone = doneNum * 1.0 / currentDoneTarget;
-    });
+    if (this.mounted) {
+      setState(() {
+        currentDoneTarget = currentDoneLevel * 10;
+        if (currentDoneTarget > 30) currentDoneTarget = 30;
+        percentDone = doneNum * 1.0 / currentDoneTarget;
+      });
 
-    setState(() {
-      currentActivityTarget = currentActivityLevel * 3;
-      if (currentActivityTarget > 30) currentActivityTarget = 30;
-      percentActivity = activityNum * 1.0 / currentActivityTarget;
-    });
+      setState(() {
+        currentActivityTarget = currentActivityLevel * 3;
+        if (currentActivityTarget > 30) currentActivityTarget = 30;
+        percentActivity = activityNum * 1.0 / currentActivityTarget;
+      });
+    } else
+      return;
   }
 
   Future<int> getCurrentActivityLevel() async {
@@ -57,9 +60,13 @@ class _ListAchivementState extends State<ListAchivement> {
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
         '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
     if (data[0]['DEM'] > 0) {
-      setState(() {
-        isFullActive = true;
-      });
+      if (this.mounted) {
+        setState(() {
+          isFullActive = true;
+        });
+      } else
+        return 0;
+
       return 4;
     }
     // Xem thử đã qua cấp 2 chưa
@@ -86,9 +93,13 @@ class _ListAchivementState extends State<ListAchivement> {
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
         '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
     if (data[0]['DEM'] > 0) {
-      setState(() {
-        isFullDone = true;
-      });
+      if (this.mounted) {
+        setState(() {
+          isFullDone = true;
+        });
+      } else
+        return 0;
+
       return 4;
     }
     // Xem thử đã qua cấp 2 chưa
@@ -112,10 +123,13 @@ class _ListAchivementState extends State<ListAchivement> {
     int currentDone = await getCurrentDoneLevel();
     int currentActive = await getCurrentActivityLevel();
     print('currentDone: $currentDone currentActive: $currentActive');
-    setState(() {
-      currentDoneLevel = currentDone;
-      currentActivityLevel = currentActive;
-    });
+    if (this.mounted) {
+      setState(() {
+        currentDoneLevel = currentDone;
+        currentActivityLevel = currentActive;
+      });
+    } else
+      return;
   }
 
   int currentDoneLevel,
@@ -142,9 +156,13 @@ class _ListAchivementState extends State<ListAchivement> {
   void FinishClick() async {
     if (percentDone < 1.0) return;
     if (currentDoneLevel >= 4) {
-      setState(() {
-        isFullDone = true;
-      });
+      if (this.mounted) {
+        setState(() {
+          isFullDone = true;
+        });
+      } else
+        return;
+
       return;
     } else if (currentDoneLevel == 3) {
       Map<String, dynamic> row = {
@@ -212,9 +230,13 @@ class _ListAchivementState extends State<ListAchivement> {
   void HaveClick() async {
     if (percentActivity < 1.0) return;
     if (currentActivityLevel >= 4) {
-      setState(() {
-        isFullActive = true;
-      });
+      if (this.mounted) {
+        setState(() {
+          isFullActive = true;
+        });
+      } else
+        return;
+
       return;
     } else if (currentActivityLevel == 3) {
       Map<String, dynamic> row = {

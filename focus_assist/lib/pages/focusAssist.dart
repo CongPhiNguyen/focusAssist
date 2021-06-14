@@ -73,26 +73,6 @@ class _FocusAssistState extends State<FocusAssist> {
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 600),
         onTap: (int tappedIndex) {
-<<<<<<< HEAD
-          if (_page == 0 && StaticData.focusTimerIsRunning == true) {
-            showDialogChange(
-                context, "Timer is running, change tab now?", tappedIndex);
-          } else {
-            if (StaticData.timer != null) {
-              if (StaticData.timer.isActive) {
-                StaticData.timer.cancel();
-              }
-            }
-            if (StaticData.timer2 != null) {
-              if (StaticData.timer2.isActive) {
-                StaticData.timer2.cancel();
-              }
-            }
-            setState(() {
-              //_showPage = _pageChooser(tappedIndex);
-              _page = tappedIndex;
-            });
-=======
           if (_page == 0 && StaticData.focusTimerIsRunning == true){
              showDialogChange(context, "Timer is running, change tab now?", tappedIndex);
           }
@@ -113,7 +93,6 @@ class _FocusAssistState extends State<FocusAssist> {
                 //_showPage = _pageChooser(tappedIndex);
                 _page = tappedIndex;
               });
->>>>>>> cfa4b477a8fdf6b7f2eb856de9ef89b4d926770f
           }
         },
       ),
@@ -127,30 +106,7 @@ class _FocusAssistState extends State<FocusAssist> {
     );
   }
 
-<<<<<<< HEAD
   void _show(context, String message) {
-=======
-void _show(context, String message) {
-  Alert(
-    context: context,
-    type: AlertType.success,
-    title: 'Thông báo',
-    closeIcon: Icon(Icons.error),
-    desc: message,
-    buttons: [
-      DialogButton(
-        child: Text(
-          "ACCEPT",
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        onPressed: () => Navigator.pop(context),
-        width: 120,
-      )
-    ],
-  ).show();
-}
-  void showDialogChange(context,String message, int tappedIndex){
->>>>>>> cfa4b477a8fdf6b7f2eb856de9ef89b4d926770f
     Alert(
       context: context,
       type: AlertType.success,
@@ -222,7 +178,3 @@ void _show(context, String message) {
         ]).show();
   }
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> cfa4b477a8fdf6b7f2eb856de9ef89b4d926770f

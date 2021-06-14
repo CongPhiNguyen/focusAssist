@@ -105,9 +105,13 @@ class _EditGroupState extends State<EditGroup> {
                 onTap: () {
                   if (getGroupName.text == null ||
                       getGroupName.text.length < 1) {
-                    setState(() {
-                      isOK = false;
-                    });
+                    if (this.mounted) {
+                      setState(() {
+                        isOK = false;
+                      });
+                    } else
+                      return;
+
                     print("Fuck");
                   } else {
                     editGroup();

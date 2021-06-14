@@ -94,9 +94,12 @@ class _AddGroupState extends State<AddGroup> {
                 onTap: () {
                   if (getGroupName.text == null ||
                       getGroupName.text.length < 1) {
-                    setState(() {
-                      isOK = false;
-                    });
+                    if (this.mounted) {
+                      setState(() {
+                        isOK = false;
+                      });
+                    } else
+                      return;
                     print("Fuck");
                   } else {
                     AddNewGroup();
