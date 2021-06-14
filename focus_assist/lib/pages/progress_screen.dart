@@ -692,251 +692,6 @@ class _ProgressScreenState extends State<ProgressScreen> {
     return percentage;
   }
 
-    // if (activity['LOAIHINH'] == 'FIXED') {
-    //   String activityDayString = activity['CACNGAY'].toString();
-    //   int activityDayCount = 0;
-    //   int completedDayCount = 0;
-    //   DateTime firstDayOfWeek = currentDayTime.subtract(Duration(days: currentDayTime.weekday - 1));
-    //   if (DateTimeToInt(firstDayOfWeek) >= activity['NGAYBATDAU']) {
-    //     for (int i = 0; i < activityDayString.length; i++) {
-    //       if (activityDayString[i] == '1') activityDayCount++;
-    //     }
-    //   }
-    //   else {
-    //     DateTime startDay = IntToDateTime(activity['NGAYBATDAU']);
-    //     int startWeekday = startDay.weekday - 1;
-    //     for (int i = startWeekday; i < activityDayString.length; i++) {
-    //       if (activityDayString[i] == '1') activityDayCount++;
-    //     }
-    //   }
-    //   for (int i = 0; i < completedDayList.length; i++) {
-    //     if (completedDayList[i] == true) completedDayCount++;
-    //   }
-    //   percentage = (completedDayCount / activityDayCount * 100).round();
-    // }
-    // else if (activity['LOAIHINH'] == 'FLEXIBLE') {
-    //   int completedDayCount = 0;
-    //   for (int i = 0; i < completedDayList.length; i++) {
-    //     if (completedDayList[i] == true) completedDayCount++;
-    //   }
-    //   percentage = (completedDayCount / activity['SOLAN'] * 100).round();
-    // }
-    // else if (activity['LOAIHINH'] == 'REPEATING') {
-    //   int activityDayCount = 0;
-    //   int completedDayCount = 0;
-    //   for (int i = 0; i < completedDayList.length; i++) {
-    //     if (completedDayList[i] == true) completedDayCount++;
-    //   }
-    //   DateTime dateTime = currentDayTime.add(Duration(days: 7 - currentDayTime.weekday));
-    //   dateTime = new DateTime(dateTime.year, dateTime.month, dateTime.day);
-    //   int dayDifference = dateTime.difference(IntToDateTime(activity['NGAYBATDAU'])).inDays;
-    //   dayDifference = dayDifference % activity['KHOANGTHOIGIAN'];
-    //   if (dayDifference < 7) {
-    //     DateTime weekLastCompletedDay = dateTime.subtract(Duration(days: dayDifference));
-    //     activityDayCount++;
-    //     int weekDay = weekLastCompletedDay.weekday;
-    //     while (weekDay > 1 && weekDay > activity['KHOANGTHOIGIAN']) {
-    //       weekDay -= activity['KHOANGTHOIGIAN'];
-    //       activityDayCount++;
-    //     }
-    //   }
-    //   if (activityDayCount == 0) percentage = 100;
-    //   percentage = (completedDayCount / activityDayCount * 100).round();
-    // }
-
-
-  // int CalculateActivityPreviousWeekPercentage(Map<String, dynamic> activity, List<bool> completedDayList) {
-  //   int percentage;
-  //   if (activity['LOAIHINH'] == 'FIXED') {
-  //     String activityDayString = activity['CACNGAY'].toString();
-  //     int activityDayCount = 0;
-  //     int completedDayCount = 0;
-  //     DateTime firstDayOfWeek = currentDayTime.subtract(Duration(days: currentDayTime.weekday - 1));
-  //     firstDayOfWeek = firstDayOfWeek.subtract(Duration(days: 7));
-  //     if (DateTimeToInt(firstDayOfWeek) >= activity['NGAYBATDAU']) {
-  //       for (int i = 0; i < activityDayString.length; i++) {
-  //         if (activityDayString[i] == '1') activityDayCount++;
-  //       }
-  //     }
-  //     else {
-  //       DateTime startDay = IntToDateTime(activity['NGAYBATDAU']);
-  //       int startWeekday = startDay.weekday - 1;
-  //       for (int i = startWeekday; i < activityDayString.length; i++) {
-  //         if (activityDayString[i] == '1') activityDayCount++;
-  //       }
-  //     }
-  //     for (int i = 0; i < completedDayList.length; i++) {
-  //       if (completedDayList[i] == true) completedDayCount++;
-  //     }
-  //     percentage = (completedDayCount / activityDayCount * 100).round();
-  //   }
-  //   else if (activity['LOAIHINH'] == 'FLEXIBLE') {
-  //     int completedDayCount = 0;
-  //     for (int i = 0; i < completedDayList.length; i++) {
-  //       if (completedDayList[i] == true) completedDayCount++;
-  //     }
-  //     percentage = (completedDayCount / activity['SOLAN'] * 100).round();
-  //   }
-  //   else if (activity['LOAIHINH'] == 'REPEATING') {
-  //     int activityDayCount = 0;
-  //     int completedDayCount = 0;
-  //     for (int i = 0; i < completedDayList.length; i++) {
-  //       if (completedDayList[i] == true) completedDayCount++;
-  //     }
-  //     DateTime dateTime = currentDayTime.add(Duration(days: 7 - currentDayTime.weekday));
-  //     dateTime = new DateTime(dateTime.year, dateTime.month, dateTime.day);
-  //     int dayDifference = dateTime.difference(IntToDateTime(activity['NGAYBATDAU'])).inDays;
-  //     dayDifference = dayDifference % activity['KHOANGTHOIGIAN'];
-  //     if (dayDifference < 7) {
-  //       DateTime weekLastCompletedDay = dateTime.subtract(Duration(days: dayDifference));
-  //       activityDayCount++;
-  //       int weekDay = weekLastCompletedDay.weekday;
-  //       while (weekDay > 1 && weekDay > activity['KHOANGTHOIGIAN']) {
-  //         weekDay -= activity['KHOANGTHOIGIAN'];
-  //         activityDayCount++;
-  //       }
-  //     }
-  //     if (activityDayCount == 0) percentage = 100;
-  //     percentage = (completedDayCount / activityDayCount * 100).round();
-  //   }
-  //   return percentage;
-  // }
-
-  // List<int> GetActivityCompletedMissedCount(Map<String, dynamic> activity, List<bool> completedDayList) {
-  //   List<int> listInt = [];
-  //   int activityDayCount = 0;
-  //   int activityCompletedCount = 0;
-  //
-  //
-  //   if (_calendarFormat == CalendarFormat.week) {
-  //     if (DateTimeToInt(currentDayTime) < DateTimeToInt(IntToDateTime(activity['NGAYBATDAU']).subtract(Duration(days: IntToDateTime(activity['NGAYBATDAU']).weekday - 1)))
-  //       || DateTimeToInt(currentDayTime) > DateTimeToInt(DateTime.now().add(Duration(days: 7 - DateTime.now().weekday)))) {
-  //       activityDayCount = 0;
-  //       activityCompletedCount = 0;
-  //     }
-  //     else {
-  //       if (activity['LOAIHINH'] == 'FIXED') {
-  //         String activityDayString = activity['CACNGAY'].toString();
-  //         DateTime firstDayOfWeek = currentDayTime.subtract(Duration(days: currentDayTime.weekday - 1));
-  //         if (DateTimeToInt(firstDayOfWeek) >= activity['NGAYBATDAU']) {
-  //           for (int i = 0; i < activityDayString.length; i++) {
-  //             if (activityDayString[i] == '1') activityDayCount++;
-  //           }
-  //         }
-  //         else {
-  //           DateTime startDay = IntToDateTime(activity['NGAYBATDAU']);
-  //           int startWeekday = startDay.weekday - 1;
-  //           for (int i = startWeekday; i < activityDayString.length; i++) {
-  //             if (activityDayString[i] == '1') activityDayCount++;
-  //           }
-  //         }
-  //       }
-  //       else if (activity['LOAIHINH'] == 'FLEXIBLE') {
-  //         DateTime firstDayOfWeek = currentDayTime.subtract(Duration(days: currentDayTime.weekday - 1));
-  //         if (DateTimeToInt(firstDayOfWeek) >= activity['NGAYBATDAU']) activityDayCount = activity['SOLAN'];
-  //         else {
-  //           DateTime startDay = IntToDateTime(activity['NGAYBATDAU']);
-  //           activityDayCount = (((7 - startDay.weekday + 1).toDouble() / 7.0) * activity['SOLAN']).floor();
-  //         }
-  //
-  //       }
-  //       else if (activity['LOAIHINH'] == 'REPEATING') {
-  //         DateTime dateTime = currentDayTime.add(Duration(days: 7 - currentDayTime.weekday));
-  //         dateTime = new DateTime(dateTime.year, dateTime.month, dateTime.day);
-  //         int dayDifference = dateTime.difference(IntToDateTime(activity['NGAYBATDAU'])).inDays;
-  //         dayDifference = dayDifference % activity['KHOANGTHOIGIAN'];
-  //         if (dayDifference < 7) {
-  //           DateTime weekLastCompletedDay = dateTime.subtract(Duration(days: dayDifference));
-  //           activityDayCount++;
-  //           int weekDay = weekLastCompletedDay.weekday;
-  //           while (weekDay > 1 && weekDay > activity['KHOANGTHOIGIAN']) {
-  //             weekDay -= activity['KHOANGTHOIGIAN'];
-  //             activityDayCount++;
-  //           }
-  //         }
-  //       }
-  //       for (int i = 0; i < completedDayList.length; i++) {
-  //         if (completedDayList[i] == true) activityCompletedCount++;
-  //       }
-  //     }
-  //   }
-  //   else if (_calendarFormat == CalendarFormat.month) {
-  //
-  //     if (DateTimeToInt(currentDayTime) < DateTimeToInt(IntToDateTime(activity['NGAYBATDAU']).subtract(Duration(days: IntToDateTime(activity['NGAYBATDAU']).day - 1)))
-  //         || DateTimeToInt(currentDayTime) > DateTimeToInt(DateTime.now().add(Duration(days: NumberOfDaysInMonth(DateTime.now().month, DateTime.now().year) - DateTime.now().day)))) {
-  //       activityDayCount = 0;
-  //       activityCompletedCount = 0;
-  //     }
-  //     else {
-  //       if (activity['LOAIHINH'] == 'FIXED') {
-  //         String activityDayString = activity['CACNGAY'].toString();
-  //         // int timesPerWeek = 0;
-  //         // for (int i = 0; i < activityDayString.length; i++) {
-  //         //   if (activityDayString[i] == '1') timesPerWeek++;
-  //         // }
-  //         DateTime firstDayOfMonth = currentDayTime.subtract(Duration(days: currentDayTime.day - 1));
-  //         DateTime lastDayOfMonth = firstDayOfMonth.add(Duration(days: NumberOfDaysInMonth(firstDayOfMonth.month, firstDayOfMonth.year) - 1));
-  //         DateTime firstDayOfWeek = firstDayOfMonth;
-  //         DateTime lastDayOfWeek = firstDayOfWeek.add(Duration(days: 7 - firstDayOfWeek.weekday));
-  //
-  //         while((DateTimeToInt(lastDayOfWeek) < activity['NGAYBATDAU']) && (DateTimeToInt(lastDayOfWeek) < DateTimeToInt(lastDayOfMonth))) {
-  //           lastDayOfWeek = lastDayOfWeek.add(Duration(days: 7));
-  //           if (DateTimeToInt(lastDayOfWeek) > DateTimeToInt(lastDayOfMonth)) lastDayOfWeek = lastDayOfMonth;
-  //           firstDayOfWeek = lastDayOfWeek.subtract(Duration(days: lastDayOfWeek.weekday - 1));
-  //         }
-  //         while(DateTimeToInt(lastDayOfWeek) <= DateTimeToInt(lastDayOfMonth)) {
-  //           for (int i = firstDayOfWeek.weekday - 1; i < lastDayOfWeek.weekday; i++) {
-  //             if (activityDayString[i] == '1') activityDayCount++;
-  //           }
-  //           lastDayOfWeek = lastDayOfWeek.add(Duration(days: 7));
-  //           firstDayOfWeek = lastDayOfWeek.subtract(Duration(days: lastDayOfWeek.weekday - 1));
-  //         }
-  //         if (DateTimeToInt(firstDayOfWeek) <= DateTimeToInt(lastDayOfMonth)) {
-  //           if (DateTimeToInt(lastDayOfWeek) > DateTimeToInt(lastDayOfMonth)) lastDayOfWeek = lastDayOfMonth;
-  //           for (int i = firstDayOfWeek.weekday - 1; i < lastDayOfWeek.weekday; i++) {
-  //             if (activityDayString[i] == '1') activityDayCount++;
-  //           }
-  //         }
-  //       }
-  //       else if (activity['LOAIHINH'] == 'FLEXIBLE') {
-  //         DateTime firstDayOfMonth = currentDayTime.subtract(Duration(days: currentDayTime.day - 1));
-  //         if (DateTimeToInt(firstDayOfMonth) >= activity['NGAYBATDAU']) activityDayCount = ((NumberOfDaysInMonth(firstDayOfMonth.month, firstDayOfMonth.year).toDouble() / 7.0) * activity['SOLAN']).floor();
-  //         else {
-  //           DateTime startDay = IntToDateTime(activity['NGAYBATDAU']);
-  //           activityDayCount = (((NumberOfDaysInMonth(firstDayOfMonth.month, firstDayOfMonth.year) - startDay.day + 1).toDouble() / 7.0) * activity['SOLAN']).floor();
-  //         }
-  //       }
-  //       else if (activity['LOAIHINH'] == 'REPEATING') {
-  //         DateTime firstDayOfMonth = currentDayTime.subtract(Duration(days: currentDayTime.day - 1));
-  //         firstDayOfMonth = new DateTime(firstDayOfMonth.year, firstDayOfMonth.month, firstDayOfMonth.day);
-  //
-  //         if (DateTimeToInt(firstDayOfMonth) >= activity['NGAYBATDAU']) {
-  //           int dayDifference = firstDayOfMonth.difference(IntToDateTime(activity['NGAYBATDAU'])).inDays;
-  //           dayDifference = dayDifference % activity['KHOANGTHOIGIAN'];
-  //           DateTime firstActivityDay;
-  //           if (dayDifference > 0) firstActivityDay = firstDayOfMonth.add(Duration(days: activity['KHOANGTHOIGIAN'] - dayDifference));
-  //           else firstActivityDay = firstDayOfMonth;
-  //           activityDayCount = ((NumberOfDaysInMonth(firstDayOfMonth.month, firstDayOfMonth.year) - firstActivityDay.day).toDouble() / 3).floor() + 1;
-  //         }
-  //         else {
-  //           DateTime firstActivityDay;
-  //           firstActivityDay = IntToDateTime(activity['NGAYBATDAU']);
-  //           activityDayCount = ((NumberOfDaysInMonth(firstDayOfMonth.month, firstDayOfMonth.year) - firstActivityDay.day).toDouble() / 3).floor() + 1;
-  //         }
-  //       }
-  //       for (int i = 0; i < completedDayList.length; i++) {
-  //         if (completedDayList[i] == true) activityCompletedCount++;
-  //       }
-  //     }
-  //   }
-  //   if ((activity['LOAIHINH'] == 'FLEXIBLE') && activityCompletedCount > activityDayCount ) {
-  //     activityCompletedCount = activityDayCount;
-  //   }
-  //   listInt.add(activityCompletedCount);
-  //   listInt.add(activityDayCount - activityCompletedCount);
-  //   return listInt;
-  // }
-
   List<int> GetActivityCompletedMissedCount(Map<String, dynamic> activity, List<bool> completedDayList, DateTime firstDay, DateTime lastDay) {
     List<int> listInt = [];
     int activityDayCount = 0;
@@ -953,7 +708,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
         activityCompletedCount = 0;
       }
       else {
-        if (activity['LOAIHINH'] == 'FIXED') {
+        if (activity['LOAIHINH'] == 'Fixed') {
           String activityDayString = activity['CACNGAY'].toString();
           //DateTime firstDayOfWeek = currentDayTime.subtract(Duration(days: currentDayTime.weekday - 1));
           if (DateTimeToInt(firstDay) >= activity['NGAYBATDAU']) {
@@ -969,7 +724,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
             }
           }
         }
-        else if (activity['LOAIHINH'] == 'FLEXIBLE') {
+        else if (activity['LOAIHINH'] == 'Flexible') {
           // DateTime firstDayOfWeek = currentDayTime.subtract(Duration(days: currentDayTime.weekday - 1));
           if (DateTimeToInt(firstDay) >= activity['NGAYBATDAU']) activityDayCount = activity['SOLAN'];
           else {
@@ -978,7 +733,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
           }
 
         }
-        else if (activity['LOAIHINH'] == 'REPEATING') {
+        else if (activity['LOAIHINH'] == 'Repeating') {
           // DateTime dateTime = currentDayTime.add(Duration(days: 7 - currentDayTime.weekday));
           // dateTime = new DateTime(dateTime.year, dateTime.month, dateTime.day);
           int dayDifference = lastDay.difference(IntToDateTime(activity['NGAYBATDAU'])).inDays;
@@ -1009,7 +764,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
         activityCompletedCount = 0;
       }
       else {
-        if (activity['LOAIHINH'] == 'FIXED') {
+        if (activity['LOAIHINH'] == 'Fixed') {
           String activityDayString = activity['CACNGAY'].toString();
           // int timesPerWeek = 0;
           // for (int i = 0; i < activityDayString.length; i++) {
@@ -1039,7 +794,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
             }
           }
         }
-        else if (activity['LOAIHINH'] == 'FLEXIBLE') {
+        else if (activity['LOAIHINH'] == 'Flexible') {
           // DateTime firstDayOfMonth = currentDayTime.subtract(Duration(days: currentDayTime.day - 1));
           if (DateTimeToInt(firstDay) >= activity['NGAYBATDAU']) activityDayCount = ((NumberOfDaysInMonth(firstDay.month, firstDay.year).toDouble() / 7.0) * activity['SOLAN']).floor();
           else {
@@ -1047,7 +802,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
             activityDayCount = (((NumberOfDaysInMonth(firstDay.month, firstDay.year) - startDay.day + 1).toDouble() / 7.0) * activity['SOLAN']).floor();
           }
         }
-        else if (activity['LOAIHINH'] == 'REPEATING') {
+        else if (activity['LOAIHINH'] == 'Repeating') {
           // DateTime firstDayOfMonth = currentDayTime.subtract(Duration(days: currentDayTime.day - 1));
           // firstDayOfMonth = new DateTime(firstDayOfMonth.year, firstDayOfMonth.month, firstDayOfMonth.day);
 
@@ -1070,7 +825,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
         }
       }
     }
-    if ((activity['LOAIHINH'] == 'FLEXIBLE') && activityCompletedCount > activityDayCount ) {
+    if ((activity['LOAIHINH'] == 'Flexible') && activityCompletedCount > activityDayCount ) {
       activityCompletedCount = activityDayCount;
     }
     listInt.add(activityCompletedCount);
