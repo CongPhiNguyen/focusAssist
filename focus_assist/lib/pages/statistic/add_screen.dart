@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:focus_assist/classes/Data.dart';
@@ -44,7 +42,6 @@ class _AddNewState extends State<AddNew> {
     allGroup = ['Choose a group'];
     dropDownGroup = allGroup[0];
     allGroupKey = ['None'];
-    // TODO: implement initState
     super.initState();
     dropDownValue = 'Fixed';
     startTime = DateTime.now();
@@ -65,6 +62,7 @@ class _AddNewState extends State<AddNew> {
   }
 
   // List các hàm tạo các widget phù hợp với từng loại hoạt động
+  // ignore: non_constant_identifier_names
   List<Widget> Flexible() {
     return <Widget>[
       Center(
@@ -111,6 +109,7 @@ class _AddNewState extends State<AddNew> {
     ];
   }
 
+  // ignore: non_constant_identifier_names
   List<Widget> Fixed() {
     return <Widget>[
       Column(
@@ -187,6 +186,7 @@ class _AddNewState extends State<AddNew> {
     ];
   }
 
+  // ignore: non_constant_identifier_names
   List<Widget> Repeating() {
     return <Widget>[
       SizedBox(
@@ -460,7 +460,7 @@ class _AddNewState extends State<AddNew> {
           backgroundColor: Color(0xff8A2BE2),
           title: Text("Add new activity", style: TextStyle(fontSize: 25)),
           actions: [
-            FlatButton(
+            TextButton(
                 onPressed: () async {
                   await addActivity();
                   if (isFailed) {
@@ -548,7 +548,7 @@ class _AddNewState extends State<AddNew> {
                       startTime.toString().substring(0, 10),
                       style: TextStyle(fontSize: 20),
                     ),
-                    FlatButton.icon(
+                    TextButton.icon(
                       icon: Icon(Icons.date_range),
                       onPressed: () {
                         showDatePicker(

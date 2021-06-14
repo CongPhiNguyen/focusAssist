@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/statistic/edit_activity_screen.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:intl/intl.dart';
@@ -21,10 +20,6 @@ class ViewActivity extends StatefulWidget {
 class _ViewActivityState extends State<ViewActivity> {
   String keyname, name;
   final dbHelper = DbProvider.instance;
-  // Các biến dùng trong cái lịch
-  CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.now();
-  DateTime _selectedDay = DateTime.now();
   List<Map<String, dynamic>> database;
   Map<String, double> dataMap = {
     "Done": 5,
@@ -47,7 +42,6 @@ class _ViewActivityState extends State<ViewActivity> {
   );
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     database = [];
     name = widget.activityName;
@@ -384,7 +378,7 @@ class _ViewActivityState extends State<ViewActivity> {
             startTime.toString().substring(0, 10),
             style: TextStyle(fontSize: 20),
           ),
-          FlatButton.icon(
+          TextButton.icon(
             icon: Icon(Icons.date_range),
             onPressed: () async {
               await showDatePicker(

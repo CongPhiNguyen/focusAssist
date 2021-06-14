@@ -142,7 +142,6 @@ class _ListAchivementState extends State<ListAchivement> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     percentDone = 0.0;
     percentActivity = 0.0;
@@ -153,7 +152,7 @@ class _ListAchivementState extends State<ListAchivement> {
     getData();
   }
 
-  void FinishClick() async {
+  void finishClick() async {
     if (percentDone < 1.0) return;
     if (currentDoneLevel >= 4) {
       if (this.mounted) {
@@ -227,7 +226,7 @@ class _ListAchivementState extends State<ListAchivement> {
     }
   }
 
-  void HaveClick() async {
+  void haveClick() async {
     if (percentActivity < 1.0) return;
     if (currentActivityLevel >= 4) {
       if (this.mounted) {
@@ -349,7 +348,7 @@ class _ListAchivementState extends State<ListAchivement> {
                   Expanded(
                       flex: 1,
                       child: ElevatedButton(
-                        onPressed: FinishClick,
+                        onPressed: finishClick,
                         style: ElevatedButton.styleFrom(
                           primary: !isFullDone ? Colors.blue : Colors.grey,
                         ),
@@ -382,7 +381,7 @@ class _ListAchivementState extends State<ListAchivement> {
                   Expanded(
                       flex: 1,
                       child: ElevatedButton(
-                        onPressed: HaveClick,
+                        onPressed: haveClick,
                         style: ElevatedButton.styleFrom(
                           primary: !isFullActive ? Colors.blue : Colors.grey,
                         ),

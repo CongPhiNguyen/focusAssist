@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'dart:math';
 import 'package:focus_assist/pages/statistic/add_new_group_dialog.dart';
@@ -45,7 +42,6 @@ class _EditActivityState extends State<EditActivity> {
     allGroup = ['Choose a group'];
     dropDownGroup = allGroup[0];
     allGroupKey = ['None'];
-    // TODO: implement initState
     super.initState();
     dropDownValue = 'Fixed';
     startTime = DateTime.now();
@@ -149,6 +145,7 @@ class _EditActivityState extends State<EditActivity> {
   }
 
   // List các hàm tạo các widget phù hợp với từng loại hoạt động
+  // ignore: non_constant_identifier_names
   List<Widget> Flexible() {
     return <Widget>[
       Center(
@@ -189,6 +186,7 @@ class _EditActivityState extends State<EditActivity> {
     ];
   }
 
+  // ignore: non_constant_identifier_names
   List<Widget> Fixed() {
     return <Widget>[
       Column(children: [
@@ -263,6 +261,7 @@ class _EditActivityState extends State<EditActivity> {
     ];
   }
 
+  // ignore: non_constant_identifier_names
   List<Widget> Repeating() {
     return <Widget>[
       Center(
@@ -521,7 +520,7 @@ class _EditActivityState extends State<EditActivity> {
           backgroundColor: Color(0xff8A2BE2),
           title: Text("Add new activity", style: TextStyle(fontSize: 25)),
           actions: [
-            FlatButton(
+            TextButton(
                 onPressed: () {
                   editActivity();
                   Navigator.pop(context);
@@ -649,7 +648,7 @@ class _EditActivityState extends State<EditActivity> {
                     startTime.toString().substring(0, 10),
                     style: TextStyle(fontSize: 20),
                   ),
-                  FlatButton.icon(
+                  TextButton.icon(
                     icon: Icon(Icons.date_range),
                     onPressed: () {
                       showDatePicker(

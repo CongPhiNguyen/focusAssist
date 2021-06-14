@@ -45,7 +45,6 @@ class _JournalScreenState extends State<JournalScreen> {
   String rate;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     allGroup = ['Fuck'];
     doneList = ['Không có gì'];
@@ -204,6 +203,7 @@ class _JournalScreenState extends State<JournalScreen> {
       return;
   }
 
+  // ignore: non_constant_identifier_names
   Widget DoneTask() {
     return Column(
       children: [
@@ -434,6 +434,7 @@ class _JournalScreenState extends State<JournalScreen> {
     }
   }
 
+  // ignore: non_constant_identifier_names
   Widget ToDoList() {
     return Column(
       children: [
@@ -555,6 +556,7 @@ class _JournalScreenState extends State<JournalScreen> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget AllActivity() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -625,6 +627,7 @@ class _JournalScreenState extends State<JournalScreen> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget GroupTable() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -701,6 +704,7 @@ class _JournalScreenState extends State<JournalScreen> {
     }
   }
 
+  // ignore: non_constant_identifier_names
   Widget GroupActivity(inDex) {
     return Align(
       alignment: Alignment.topLeft,
@@ -843,6 +847,7 @@ class _JournalScreenState extends State<JournalScreen> {
     dbHelper.rawQuery(''' delete from NHOMMUCTIEU where MANHOM='$key' ''');
   }
 
+  // ignore: non_constant_identifier_names
   Widget Calendar() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
