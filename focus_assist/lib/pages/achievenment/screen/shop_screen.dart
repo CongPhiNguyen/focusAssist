@@ -42,55 +42,57 @@ class _ShopScreenState extends State<ShopScreen> {
       ),
       body: Container(
         height: size.height,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-         // mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            design_appbar_shop(size: size),
-            SizedBox(height: size.height*0.02,),
-            Container(
-              width: size.width*0.4,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                  ),
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.wallet_giftcard,color: Colors.green,),
-                  Text(StaticData.Vang.toString() +' dollar',
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.green),
-                  ),
-                ],
+        child: ListView(
+          children: [ Column(
+            mainAxisSize: MainAxisSize.max,
+           // mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              design_appbar_shop(size: size),
+              SizedBox(height: size.height*0.02,),
+              Container(
+                width: size.width*0.4,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                    ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.wallet_giftcard,color: Colors.green,),
+                    Text(StaticData.Vang.toString() +' dollar',
+                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.green),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: size.height*0.02,),
-            Container(
-              height: size.height * 0.6,
-              child: ListView.builder(
-                  itemCount: StaticData.EggShop.length,
-                  itemBuilder: (context, num) {
-                    isBuy = false;
-                    for (int i = 0; i < StaticData.EggUser.length; i ++)
-                        {
-                          if (StaticData.EggShop[num].MaVP == StaticData.EggUser[i].MaVP)
-                           { isBuy = true;
-                            break;}
-                        }
-                    return Center(
-                      child: card_shop(
-                        size: size,
-                        name: StaticData.EggShop[num].TenVP,
-                        price: StaticData.EggShop[num].Gia,
-                        rareColor: StaticData.EggShop[num].rareColor,
-                        imageEgg: StaticData.EggShop[num].imageEgg,
-                        MAVP: StaticData.EggShop[num].MaVP,
-                        isBuy: isBuy,
-                      ),
-                    );
-                  }),
-            ),
-          ],
+              SizedBox(height: size.height*0.02,),
+              Container(
+                height: size.height * 0.6,
+                child: ListView.builder(
+                    itemCount: StaticData.EggShop.length,
+                    itemBuilder: (context, num) {
+                      isBuy = false;
+                      for (int i = 0; i < StaticData.EggUser.length; i ++)
+                          {
+                            if (StaticData.EggShop[num].MaVP == StaticData.EggUser[i].MaVP)
+                             { isBuy = true;
+                              break;}
+                          }
+                      return Center(
+                        child: card_shop(
+                          size: size,
+                          name: StaticData.EggShop[num].TenVP,
+                          price: StaticData.EggShop[num].Gia,
+                          rareColor: StaticData.EggShop[num].rareColor,
+                          imageEgg: StaticData.EggShop[num].imageEgg,
+                          MAVP: StaticData.EggShop[num].MaVP,
+                          isBuy: isBuy,
+                        ),
+                      );
+                    }),
+              ),
+            ],
+          )],
         ),
       ),
     );
@@ -107,7 +109,7 @@ class _ShopScreenState extends State<ShopScreen> {
               infoVATPHAM[i]['TENVATPHAM'],
               infoVATPHAM[i]['MOTA'],
               infoVATPHAM[i]['GIA'],
-              Colors.green,
+              Colors.greenAccent,
               'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
           setState(() {
             StaticData.EggShop.add(index);
@@ -144,7 +146,7 @@ class _ShopScreenState extends State<ShopScreen> {
               infoVATPHAM[i]['TENVATPHAM'],
               infoVATPHAM[i]['MOTA'],
               infoVATPHAM[i]['GIA'],
-              Colors.red,
+              Colors.redAccent,
               'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
           setState(() {
             StaticData.EggShop.add(index);

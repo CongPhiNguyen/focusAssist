@@ -117,25 +117,25 @@ class SignUpScreen extends StatelessWidget {
                         press: (){Navigator.push(context, MaterialPageRoute(builder: (context){return LoginScreen();}));},
                       )),
                       SizedBox(height: size.height*0.02,),
-                      FadeAnimation(1.6,Or()),
-                      SizedBox(height: size.height*0.03,),
-                      FadeAnimation(1.6,  Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          login_with_socialnetwork(
-                            iconImage: "assets/login/icon/facebook.png",
-                            press: (){},
-                          ),
-                          login_with_socialnetwork(
-                            iconImage: "assets/login/icon/google.png",
-                            press: (){},
-                          ),
-                          login_with_socialnetwork(
-                            iconImage: "assets/login/icon/twitter.png",
-                            press: (){},
-                          ),
-                        ],
-                      )),
+                      //FadeAnimation(1.6,Or()),
+                      //  SizedBox(height: size.height*0.03,),
+                      // FadeAnimation(1.6,  Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: <Widget>[
+                      //     login_with_socialnetwork(
+                      //       iconImage: "assets/login/icon/facebook.png",
+                      //       press: (){},
+                      //     ),
+                      //     login_with_socialnetwork(
+                      //       iconImage: "assets/login/icon/google.png",
+                      //       press: (){},
+                      //     ),
+                      //     login_with_socialnetwork(
+                      //       iconImage: "assets/login/icon/twitter.png",
+                      //       press: (){},
+                      //     ),
+                      //   ],
+                      // )),
                       FadeAnimation(2.5,Container(
                         height: size.height*0.15,
                         width: size.width*0.6,
