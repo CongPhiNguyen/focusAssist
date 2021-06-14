@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:focus_assist/pages/account_setting_screen.dart';
-import 'package:focus_assist/pages/notification_setting_screen.dart';
-import 'package:focus_assist/pages/privacy_lock_setting_screen.dart';
+import 'package:focus_assist/pages/settings/account_setting_screen.dart';
+import 'package:focus_assist/pages/settings/chat_login_screen.dart';
+import 'package:focus_assist/pages/settings/notification_setting_screen.dart';
+import 'package:focus_assist/pages/settings/privacy_lock_setting_screen.dart';
 
 class SettingScreen extends StatefulWidget {
   @override
@@ -142,7 +143,12 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               SizedBox(height: 5.0,),
               ListTile (
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatLoginScreen()),
+                  );
+                },
                 title: Text(
                   'Chat with Our Support Team',
                 ),

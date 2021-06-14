@@ -26,12 +26,12 @@ class _song2State extends State<song2>  with TickerProviderStateMixin {
     //1
     //audioPlayer = new AudioPlayer();
     audioCache = new AudioCache(fixedPlayer: control.audioPlayer);
-    control.audioPlayer.durationHandler = (d) => setState(() {
-          _duration = d;
-        });
-    control.audioPlayer.positionHandler = (p) => setState(() {
-          _position = p;
-        });
+    // control.audioPlayer.durationHandler = (d) => setState(() {
+    //       _duration = d;
+    //     });
+    // control.audioPlayer.positionHandler = (p) => setState(() {
+    //       _position = p;
+    //     });
 
   }
 

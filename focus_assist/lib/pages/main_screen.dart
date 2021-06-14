@@ -6,7 +6,7 @@ import '../classes/Data.dart';
 import 'package:focus_assist/pages/timerScreen/Timer_Screen.dart';
 import 'farm/screen/farm_screen.dart';
 import 'progress_screen.dart';
-import 'setting_screen.dart';
+import 'settings/setting_screen.dart';
 import 'statistic/journal_screen.dart';
 
 class MainScreen extends StatefulWidget {

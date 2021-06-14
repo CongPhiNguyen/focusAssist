@@ -9,8 +9,6 @@ import 'package:focus_assist/classes/LocalNotificationManager.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../classes/LocalNotificationManager.dart';
-import '../classes/LocalNotificationManager.dart';
 
 class NotificationSettingScreen extends StatefulWidget {
   @override

@@ -10,7 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:focus_assist/pages/login/screen/welcome_screen.dart';
 
-import '../classes/DbProvider.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
 
 class AccountSettingScreen extends StatefulWidget {
   @override

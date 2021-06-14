@@ -3,13 +3,15 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:focus_assist/classes/Data.dart';
 import 'classes/DbProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterConfig.loadEnvVariables();
+  //await FlutterConfig.loadEnvVariables();
+  await Firebase.initializeApp();
   await initAppSetting();
   await initializeNotification();
   runApp(FocusAssist());
