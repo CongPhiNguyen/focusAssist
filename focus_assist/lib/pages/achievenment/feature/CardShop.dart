@@ -13,11 +13,12 @@ class card_shop extends StatefulWidget {
   final Color rareColor;
   final bool isBuy;
   final Size size;
+  final Function updateVang;
 
-  const card_shop({Key key, this.MAVP, this.name, this.price, this.imageEgg, this.rareColor, this.isBuy, this.size}) : super(key: key);
+  const card_shop({Key key, this.MAVP, this.name, this.price, this.imageEgg, this.rareColor, this.isBuy, this.size, this.updateVang}) : super(key: key);
 
   @override
-  _testState createState() => _testState(MAVP,name,price,imageEgg,rareColor,isBuy,size);
+  _testState createState() => _testState(MAVP,name,price,imageEgg,rareColor,isBuy,size, updateVang);
 }
 
 class _testState extends State<card_shop> {
@@ -28,8 +29,9 @@ class _testState extends State<card_shop> {
   Color rareColor;
   bool isBuy;
   Size size;
+  final Function updateVang;
 
-  _testState(this.MAVP, this.name, this.price, this.imageEgg, this.rareColor, this.isBuy, this.size);
+  _testState(this.MAVP, this.name, this.price, this.imageEgg, this.rareColor, this.isBuy, this.size, this.updateVang);
 
 
   void _Update() async {
@@ -101,6 +103,7 @@ class _testState extends State<card_shop> {
                                      WHERE MANGUOIDUNG = '$id'
                                      ''');
           _showBILL(context, "Mua thành công!", true);
+          updateVang();
         }
       }
       else {
@@ -165,8 +168,13 @@ class _testState extends State<card_shop> {
                         width: size.width*0.2,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(25),
-                          child: FlatButton(
-                            color: isBuy ? Colors.grey : Colors.green[400],
+                          child: ElevatedButton(
+                            //color: isBuy ? Colors.grey : Colors.green[400],
+                            style:
+                            ElevatedButton.styleFrom(
+                              primary: isBuy ? Colors.grey : Colors.green[400],
+                            ),
+
                             onPressed: _Update,
                             child: Text(
                               isBuy ? 'Đã mua' : 'Mua',

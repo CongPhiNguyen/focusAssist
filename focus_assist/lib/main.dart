@@ -6,12 +6,23 @@ import 'package:sqflite/sqflite.dart';
 
 import 'package:focus_assist/classes/Data.dart';
 import 'classes/DbProvider.dart';
+import 'classes/DbProvider.dart';
+import 'classes/DbProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
+
+  // Map<String, dynamic> row = {
+  //   'DADANGNHAP': 0,
+  //   'MANGUOIDUNG': ''
+  // };
+  //
+  // await DbProvider.instance.insert('THAMSO', row);
+
   await initAppSetting();
   await initializeNotification();
+
   runApp(FocusAssist());
 }
 

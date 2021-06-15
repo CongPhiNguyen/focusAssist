@@ -11,6 +11,8 @@ import 'package:focus_assist/pages/achievenment/screen/shop_screen.dart';
 import 'package:focus_assist/pages/farm/feature_ui/object_farm.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+import '../../../classes/Data.dart';
+
 
 class FarmScreen extends StatefulWidget {
   @override
@@ -53,22 +55,82 @@ class _FarmScreenState extends State<FarmScreen> {
         press: (){
           increaseLevel(index);
         },
+        longPress: (){
+          deletePokemon(context, index);
+        },
       ),
     );
   }
 
+  void deletePokemon(context,int index){
+    Alert(
+        context: context,
+        title: 'DELETE POKEMON',
+        closeIcon: Icon(Icons.auto_awesome),
+        desc: "Do you want to delete this pokemon?",
+        content: Column(
+          children: [
+            Center(
+              child: Text(
+                StaticData.PokemonUsers[index].TenPokemon,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: StaticData.PokemonUsers[index].rareColor,
+                ),
+              ),
+            ),
+            Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+'Down1.png'),),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            child: Text(
+              "DELETE",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () async {
+
+              await DbProvider.instance.rawQuery('''
+            DELETE FROM POKEMON
+            WHERE MAPOKEMON = '${StaticData.PokemonUsers[index].MaPOKEMON}' AND MANGUOIDUNG = '${StaticData.userID}'
+            ''');
+
+              setState(() {
+                StaticData.PokemonUsers.removeAt(index);
+              });
+
+              Navigator.pop(context);
+            } ,
+            color: Colors.redAccent,
+          ),
+          DialogButton(
+            child: Text(
+              "CANCEL",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.pop(context),
+            gradient: LinearGradient(colors: [
+              Color.fromRGBO(116, 116, 191, 1.0),
+              Color.fromRGBO(52, 138, 199, 1.0)
+            ]),
+          )
+        ]
+    ).show();
+  }
+
+
   void increaseLevel(int index){
     int goldLevelUp;
     if(StaticData.PokemonUsers[index].rareColor == Colors.greenAccent ){
-      goldLevelUp = 50;
+      goldLevelUp = 5;
     } else if (StaticData.PokemonUsers[index].rareColor == Colors.blueAccent) {
-      goldLevelUp = 200;
+      goldLevelUp = 10;
     } else if (StaticData.PokemonUsers[index].rareColor == Colors.purpleAccent ){
-      goldLevelUp = 800;
+      goldLevelUp = 15;
     } else if (StaticData.PokemonUsers[index].rareColor == Colors.redAccent ){
-      goldLevelUp = 3200;
+      goldLevelUp = 20;
     }
-    if (StaticData.PokemonUsers[index].Level == 100){
+    if (StaticData.PokemonUsers[index].Level >= 50){
       showFail(context, index, goldLevelUp,"Your pokemon has been max level");
     } else if (goldLevelUp > StaticData.Vang) {
       showFail(context, index, goldLevelUp,"You don't have enough "+goldLevelUp.toString()+' gold to LevelUp');
@@ -113,6 +175,8 @@ class _FarmScreenState extends State<FarmScreen> {
 
   }
 
+
+
   void showSuccess(context, int index,int goldLevelUp) {
       Alert(
         context: context,
@@ -141,7 +205,9 @@ class _FarmScreenState extends State<FarmScreen> {
             ),
             onPressed: () async {
               StaticData.PokemonUsers[index].Level+=1;
-
+              setState(() {
+                StaticData.Vang -= goldLevelUp;
+              });
               final k = await DbProvider.instance.rawQuery('''
               UPDATE POKEMON
               SET LEVELPOKEMON = ${StaticData.PokemonUsers[index].Level}
@@ -149,8 +215,8 @@ class _FarmScreenState extends State<FarmScreen> {
               ''');
               bool isCheckAchiLv50 = false;
               bool isCheckAchiLv100 = false;
-              //Nhận thành tựu lv 50
-              if(StaticData.PokemonUsers[index].Level == 50) {
+              //Nhận thành tựu lv 25
+              if(StaticData.PokemonUsers[index].Level == 25) {
                 //Kiểm có thành tựu lv 50 hay chưa
                 for(int i = 0; i < StaticData.AchiUser.length;i++){
                   if(StaticData.AchiUser[i].MOTA== '${StaticData.PokemonUsers[index]
@@ -182,13 +248,25 @@ class _FarmScreenState extends State<FarmScreen> {
                     SET VANG = ${StaticData.Vang}
                     WHERE MANGUOIDUNG = '${StaticData.userID}'
                     ''');
+                      if(StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+                        {
+                          Navigator.pop(context);
+                          receiveAchi(context, "Bạn tiến hóa và nhận thanh tựu, được bonus ${StaticData.AchiList[i].bonus}", index);
+                          return;
+                        }else {
+                        Navigator.pop(context);
+                        receiveAchi(context, "Bạn nhận đạt được thành tựu lv 25 và được bonus ${StaticData.AchiList[i].bonus}", index);
+                        return;
+
+                      }
+
                     }
                   }
                 }
               }
-
-              //Nhận thành tựu lv 100
-              if(StaticData.PokemonUsers[index].Level == 100) {
+            //  receiveAchi(context, "Bạn nhận đạt được thành tựu lv 25 và được bonus ${StaticData.AchiList[index].bonus}", index);
+              //Nhận thành tựu lv 50
+              if(StaticData.PokemonUsers[index].Level == 50) {
                 //Kiểm có thành tựu lv 100 hay chưa
                 for(int i = 0; i < StaticData.AchiUser.length;i++){
                   if(StaticData.AchiUser[i].MOTA== '${StaticData.PokemonUsers[index]
@@ -220,11 +298,23 @@ class _FarmScreenState extends State<FarmScreen> {
                     SET VANG = ${StaticData.Vang}
                     WHERE MANGUOIDUNG = '${StaticData.userID}'
                     ''');
+
+                      if(StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+                      {
+                        Navigator.pop(context);
+                        receiveAchi(context, "Bạn tiến hóa và nhận thanh tựu, được bonus ${StaticData.AchiList[i].bonus}", index);
+                        return;
+                      }else {
+                        Navigator.pop(context);
+                        receiveAchi(context, "Bạn nhận đạt được thành tựu lv 50 và được bonus ${StaticData.AchiList[i].bonus}", index);
+                        return;
+
+                      }
+
                     }
                   }
                 }
               }
-
 
 
               Navigator.pop(context);
@@ -277,7 +367,7 @@ class _FarmScreenState extends State<FarmScreen> {
           child: Column(
             children: [
               Container(
-                height: size.height*0.2 ,
+                height: size.height*0.2,
                 child: Row(
                   children: [
                     Container(
@@ -350,7 +440,26 @@ class _FarmScreenState extends State<FarmScreen> {
                 ),
               ),
               Container(
-                height: size.height*0.7,
+                width: size.width*0.35,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: size.height*0.035,
+                      child: Image.asset('assets/gold.png'),
+                    ),
+                    // Icon(Icons.wallet_giftcard,color: Colors.green,),
+                    SizedBox(width: 5,),
+                    Text(StaticData.Vang.toString() +' Gold',
+                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: size.height*0.65,
                 child: Stack(
                   children: pokemonWidgetList,
                 ),
@@ -363,7 +472,27 @@ class _FarmScreenState extends State<FarmScreen> {
   }
 
   void Loading() async {
+    StaticData.EggUser.clear();
     String id = StaticData.userID;
+    final k = await DbProvider.instance.rawQuery('''
+      select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
+      '''
+    );
+
+
+    for (int i = 0 ; i < k.length; i++)
+    {
+      for (int j = 0; j < StaticData.EggShop.length; j++ )
+      {
+        if(StaticData.EggShop[j].MaVP == k[i]['MAVATPHAM'])
+        {
+          setState(() {
+            StaticData.EggUser.add(StaticData.EggShop[j]);
+          });
+        }
+      }
+    }
+
 
     final ListPokemon = await DbProvider.instance.rawQuery('''
     SELECT * FROM POKEMON WHERE MANGUOIDUNG = '$id'
@@ -519,3 +648,38 @@ class _FarmScreenState extends State<FarmScreen> {
   }
 }
 
+void receiveAchi(context,String message, int index) {
+  Alert(
+      context: context,
+      title: 'Achievenment',
+      closeIcon: Icon(Icons.auto_awesome),
+      desc: message,
+      content: Column(
+        children: [
+          Center(
+            child: Text(
+              StaticData.PokemonUsers[index].TenPokemon,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: StaticData.PokemonUsers[index].rareColor,
+              ),
+            ),
+          ),
+          Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+'Down1.png'),),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "ACCEPT",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          gradient: LinearGradient(colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0)
+          ]),
+        )
+      ]
+  ).show();
+}

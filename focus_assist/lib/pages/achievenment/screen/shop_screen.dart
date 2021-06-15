@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/ClassCardShop.dart';
 import 'package:focus_assist/classes/Data.dart';
@@ -16,10 +17,15 @@ class _ShopScreenState extends State<ShopScreen> {
     // TODO: implement initState
     super.initState();
     LoadingDatabase();
+
+    vang = StaticData.Vang;
+
   }
+  int vang;
 
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     bool isBuy;
     return Scaffold(
@@ -45,7 +51,6 @@ class _ShopScreenState extends State<ShopScreen> {
         child: ListView(
           children: [ Column(
             mainAxisSize: MainAxisSize.max,
-           // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               design_appbar_shop(size: size),
@@ -58,14 +63,18 @@ class _ShopScreenState extends State<ShopScreen> {
                     ),
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.wallet_giftcard,color: Colors.green,),
-                    Text(StaticData.Vang.toString() +' dollar',
-                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.green),
+                    Container(
+                      height: size.height*0.035,
+                      child: Image.asset('assets/gold.png'),
+                    ),
+                    SizedBox(width: 5,),
+                    Text('$vang Gold',
+                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.black),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: size.height*0.02,),
+
               Container(
                 height: size.height * 0.6,
                 child: ListView.builder(
@@ -87,6 +96,11 @@ class _ShopScreenState extends State<ShopScreen> {
                           imageEgg: StaticData.EggShop[num].imageEgg,
                           MAVP: StaticData.EggShop[num].MaVP,
                           isBuy: isBuy,
+                          updateVang: () {
+                            setState(() {
+                              vang = StaticData.Vang;
+                            });
+                          },
                         ),
                       );
                     }),
