@@ -162,7 +162,7 @@ class _ListAchivementState extends State<ListAchivement> {
         'MATHANHTUU': 'TT03',
         'TENTHANHTUU': 'Finish $currentDoneTarget times',
         'CAPDO': 3,
-        'VANG': 100
+        'VANG': 300
       };
       print(row);
       final id = await dbHelper.insert('THANHTUU', row);
@@ -204,7 +204,7 @@ class _ListAchivementState extends State<ListAchivement> {
         'MATHANHTUU': 'TT01',
         'TENTHANHTUU': 'Finish $currentDoneTarget times',
         'CAPDO': 1,
-        'VANG': 100
+        'VANG': 25
       };
       final id = await dbHelper.insert('THANHTUU', row);
       print('inserted row id: $id');
