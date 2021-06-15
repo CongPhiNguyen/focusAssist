@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/statistic//edit_group_dialog.dart';
-import 'package:focus_assist/pages/statistic//list_of_achivement.dart';
+import 'package:focus_assist/pages/statistic//list_of_achivement_screen.dart';
 import 'package:focus_assist/pages/statistic//view_activity_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:focus_assist/pages/statistic//add_new_activity_screen.dart';

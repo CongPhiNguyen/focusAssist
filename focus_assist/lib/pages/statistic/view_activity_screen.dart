@@ -27,6 +27,7 @@ class _ViewActivityState extends State<ViewActivity> {
   };
   String consecutiveDays;
   String activityStartDay;
+  String des;
   // Các biến dùng để debug
   DateTime startTime;
   String doDays, failDays;
@@ -43,6 +44,7 @@ class _ViewActivityState extends State<ViewActivity> {
   @override
   void initState() {
     super.initState();
+    des = '';
     database = [];
     name = widget.activityName;
     keyname = widget.activityKey;
@@ -77,6 +79,7 @@ class _ViewActivityState extends State<ViewActivity> {
     if (database.length > 0) {
       if (this.mounted) {
         setState(() {
+          des = database[0]['MOTA'];
           name = database[0]['TENMUCTIEU'];
           activityStartDay =
               intToDateTime(database[0]['NGAYBATDAU']).toString();
@@ -500,16 +503,21 @@ class _ViewActivityState extends State<ViewActivity> {
             ],
           ),
         ),
+        Center(
+            child: Padding(
+          padding: const EdgeInsets.fromLTRB(40, 0, 40, 10),
+          child: Text(des, style: TextStyle(fontSize: 20)),
+        )),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-              height: 100,
+              height: 70,
               child: ListView(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   children: [
                     Container(
-                      width: 300,
+                      width: 250,
                       decoration: new BoxDecoration(
                           color: Color(0xffebe8e1),
                           borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -517,7 +525,7 @@ class _ViewActivityState extends State<ViewActivity> {
                         child: ListTile(
                           leading: Icon(
                             Icons.fireplace,
-                            size: 60,
+                            size: 50,
                             color: Color(0xffd40f23),
                           ),
                           title: Text(
@@ -532,7 +540,7 @@ class _ViewActivityState extends State<ViewActivity> {
                       width: 20,
                     ),
                     Container(
-                      width: 300,
+                      width: 250,
                       decoration: new BoxDecoration(
                           color: Color(0xffebe8e1),
                           borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -550,7 +558,7 @@ class _ViewActivityState extends State<ViewActivity> {
                       width: 20,
                     ),
                     Container(
-                      width: 300,
+                      width: 250,
                       decoration: new BoxDecoration(
                           color: Color(0xffebe8e1),
                           borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -567,7 +575,7 @@ class _ViewActivityState extends State<ViewActivity> {
                       width: 20,
                     ),
                     Container(
-                      width: 300,
+                      width: 250,
                       decoration: new BoxDecoration(
                           color: Color(0xffebe8e1),
                           borderRadius: BorderRadius.all(Radius.circular(20))),
