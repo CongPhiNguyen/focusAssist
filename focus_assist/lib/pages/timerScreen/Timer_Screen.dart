@@ -28,9 +28,7 @@ class TimerScreen extends StatefulWidget {
   final String message ;
     TimerScreen({this.message});
   _TimerScreenState createState() => _TimerScreenState();
-  static int showAlert(){
-    print("this is alert");
-  }
+
 }
 
 class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin{
@@ -79,7 +77,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
         dbHelper.rawQuery(
             ''' INSERT INTO LICHSUTIMER (THOIGIAN, DAHOANTHANH, MANGUOIDUNG)
             VALUES ('$dateTime', '$hoanThanh', '$userKey' ) ''');
-    print("da ADD vao history");
+    print("da add vao history!");
     print(duration==""?"null duration":duration);
 
   }
@@ -151,7 +149,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                           icon: const Icon(Icons.delete),
                           tooltip: 'Clear History',
                           onPressed: () {
-                             print("clear history");
+                             print("cleared history");
                              clearHistory();
                              _showSuccess(context, "Timer history deleted!");
                           },
@@ -336,29 +334,6 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     );
   }
 
-  //for alert 
-  // void showAlertDialog(BuildContext context) {
-  //     // set up the buttons
-  //     Widget cancelButton = FlatButton(
-  //       child: Text("Cancel"),
-  //       onPressed:  () {
-  //         _controlIcon = Icons.pause;
-  //         StaticData.focusTimerIsRunning = true;
-  //         Navigator.of(context).pop(); 
-  //       },
-  //     );
-  //     Widget continueButton = FlatButton(
-  //       child: Text("Continue"),
-  //       onPressed:  () {
-  //         checkThanhTuu();
-  //         stoped ? null : stop();
-  //         gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
-  //           _controlIcon = Icons.play_arrow;
-  //         // duration = timetoDisplay;  
-  //         // print(timetoDisplay);
-  //         updateHistories(true, "00:10:00");
-  //         //updateGold();   // để test
-  //         Navigator.of(context).pop();
           
   bool _timerIsRunning = false;
 
@@ -406,6 +381,9 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     });
     timeForTimer = (hour*60 *60) + min*60 + sec;
     //debugPrint(timeForTimer.toString());
+    StaticData.timeToGold = timeForTimer;
+    int reward = (StaticData.timeToGold~/150);
+    print("nếu hoàn thành thưởng "+reward.toString());
     Timer.periodic(
         Duration(seconds: 1), (Timer t){
       setState(() {
@@ -416,8 +394,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
             debugPrint("Completed the task");
             _controlIcon = Icons.play_arrow;
             gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
-            updateGold(5);
-            _showSuccess(this.context, "Hoàn thành nhiệm vụ \n Tặng gold");
+            updateGold(reward);
+            _showSuccess(this.context, "Hoàn thành nhiệm vụ \n + $reward gold");
             updateHistories(true, "00:10:00");
             checkThanhTuu();
           }
@@ -446,8 +424,10 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
           timetoDisplay = h.toString() + ":" + m.toString() + ":" + s.toString();
           timeForTimer = timeForTimer -1;
         }
+         
       });
     });
+   
   }
   void stop(){
     setState(() {
@@ -475,7 +455,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     buttons: [
       DialogButton(
         child: Text(
-          "ACCEPT",
+          "OK",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         onPressed: () {
@@ -532,8 +512,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                         _controlIcon = Icons.play_arrow;
                       // duration = timetoDisplay;  
                       // print(timetoDisplay);
-                      updateHistories(true, "00:10:00");
-                      //updateGold();   // để test
+                      updateHistories(false, "00:10:00");
                       Navigator.of(context).pop();
                 },
                 color: Color.fromRGBO(0, 179, 134, 1.0),

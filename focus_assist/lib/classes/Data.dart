@@ -18,4 +18,5 @@ class StaticData {
   static List<InfoPokemon> PokemonUsers = [];
   static List<timerHistories> timerHistoriesList = [];
   static bool focusTimerIsRunning;
+  static int timeToGold;
 }
