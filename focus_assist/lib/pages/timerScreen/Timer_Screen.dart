@@ -34,7 +34,6 @@ class TimerScreen extends StatefulWidget {
 class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin{
   bool isVisible = true;
   bool isNotVisible = false;
-  TimerController _timerController;
   GifController gifcontroller;
   IconData _controlIcon;
   bool timerRunning = false;
@@ -45,7 +44,6 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     // TODO: implement initState
     tb = TabController(length: 1, vsync: this);
     super.initState();
-    _timerController = TimerController(this);
     gifcontroller= GifController(vsync: this);
     _controlIcon = Icons.play_arrow;
     loadGold();
@@ -54,11 +52,17 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     String userID = StaticData.userID;
     List<Map<String, dynamic>> database = await dbHelper.rawQuery(
         ''' select * from THONGTINNGUOIDUNG where MANGUOIDUNG='$userID' ''');
-    if (database.length > 0) {
+    try {
+      if (database.length > 0) {
       setState(() {
         StaticData.Vang = database[0]['VANG'];
       });
+      }
+    } catch(e) {print("error load gold");}
+    finally {
+      print("da cap nhat duoc gold");
     }
+    
   }
   void updateGold(int reward) async {
     int golds = StaticData.Vang += reward;
@@ -78,7 +82,6 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
             ''' INSERT INTO LICHSUTIMER (THOIGIAN, DAHOANTHANH, MANGUOIDUNG)
             VALUES ('$dateTime', '$hoanThanh', '$userKey' ) ''');
     print("da add vao history!");
-    print(duration==""?"null duration":duration);
 
   }
   void clearHistory(){
@@ -91,7 +94,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     List<Map<String, dynamic>> database = await dbHelper.rawQuery(
             ''' SELECT COUNT(*) as count FROM LICHSUTIMER
             where MANGUOIDUNG='$userKey' and DAHOANTHANH = 'true' ''');
-    print(database[0]['count']);
+    print("da hoan thanh duoc "+ database[0]['count'].toString());
     switch(database[0]['count']){
       case 5: {
         _showSuccessThanhTuu(this.context, "Congrat, you focused 5 times!\n + 40 gold", 40);
@@ -121,7 +124,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
   
   @override
   Widget build(BuildContext context) {
-
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber,
@@ -166,16 +169,15 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
       ),
       body: Container(
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Color(0xffffba42),Color(0xffFFD358)],
-                begin: FractionalOffset(0.5,1)
-            )
+          //background color here
+            color: Colors.orange,
         ),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                
                 IconButton (
                   icon: Icon(Icons.keyboard_arrow_down_sharp),
                   iconSize: 50,
@@ -198,32 +200,38 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                 ),
               ],
             ),
-            SizedBox(height: 10,),
+             SizedBox(height: 10,),
+            SizedBox(height: 40,
+            
+              child: Text("Stay calm, stay focused!", 
+                style: TextStyle(color: Colors.white, fontSize: 30),
+              ),
+             ),
             Expanded(
               flex: 4,
-              child: Container(
-                margin: EdgeInsets.only(bottom: 10),
-                alignment: Alignment.topCenter,
-                height: MediaQuery.of(context).size.height* 0.3,
-                width: MediaQuery.of(context).size.width*0.8,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 2,
-                  ),
-                ),
+              // child: Container(
+              //   margin: EdgeInsets.only(bottom: 10),
+              //   alignment: Alignment.topCenter,
+              //   height: MediaQuery.of(context).size.height* 0.3,
+              //   width: MediaQuery.of(context).size.width*0.8,
+              //   decoration: BoxDecoration(
+              //     shape: BoxShape.circle,
+              //     //color circle
+              //     color: Colors.blue,
+              //     border: Border.all(
+              //       color: Colors.grey,
+              //       width: 2,
+              //     ),
+              //   ),
                 child: Container(
-                  margin: EdgeInsets.only(top: 60,),
-                  height: 350.0,
-                  width: 350.0,
+                height: MediaQuery.of(context).size.height* 0.8 + 100,
+                width: MediaQuery.of(context).size.width*0.8 + 200,
+                  margin: EdgeInsets.only(top: 10,),
                   child: GifImage(
                       controller: gifcontroller,
                       image: AssetImage("assets/images/clock.gif"),
                     ),
                 ),
-              ),
             ),
             SizedBox(height: 10,),
             Stack(
@@ -265,7 +273,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                               //started? (start()): null;
                               if (started) {
                                 start();
-                                gifcontroller.repeat(min:0,max:4,period:Duration(milliseconds: 300));
+                                gifcontroller.repeat(min:0,max:95,period:Duration(milliseconds: 3000));
                               } else 
                               started = null;
                             }
@@ -385,17 +393,19 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     int reward = (StaticData.timeToGold~/150);
     print("nếu hoàn thành thưởng "+reward.toString());
     Timer.periodic(
-        Duration(seconds: 1), (Timer t){
-      setState(() {
+      Duration(seconds: 1), (Timer t){
+      try{
+          setState(() {
         if(timeForTimer < 1 || checkTimer == false) {
           t.cancel();
           if(timeForTimer  == 0) {
             // dùng để xử lý sau này khi kết thúc cần sự kiện
             debugPrint("Completed the task");
             _controlIcon = Icons.play_arrow;
-            gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
+            // gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
             updateGold(reward);
             _showSuccess(this.context, "Hoàn thành nhiệm vụ \n + $reward gold");
+            gifcontroller.stop();
             updateHistories(true, "00:10:00");
             checkThanhTuu();
           }
@@ -424,8 +434,11 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
           timetoDisplay = h.toString() + ":" + m.toString() + ":" + s.toString();
           timeForTimer = timeForTimer -1;
         }
-         
       });
+
+      } catch(e){ print("loi timer dong 397 timerScreen");}
+      finally {print("ko loi timer 397"); }
+      
     });
    
   }
@@ -469,7 +482,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
   ).show();
   }
   void _showSuccessThanhTuu(context, String message, int reward){
-  Alert(
+  try { 
+    Alert(
     context: context,
     type: AlertType.success,
     title: "Thông báo",
@@ -491,6 +505,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
       )
     ],
   ).show();
+  }
+  catch(e) {print("loi o show thanh tuu");}
   }
   void showDialogResetTimer(context,String message){
     Alert(

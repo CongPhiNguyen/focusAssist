@@ -19,4 +19,5 @@ class StaticData {
   static List<timerHistories> timerHistoriesList = [];
   static bool focusTimerIsRunning;
   static int timeToGold;
+  
 }

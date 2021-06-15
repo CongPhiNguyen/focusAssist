@@ -144,6 +144,7 @@ void _show(context, String message){
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 onPressed: () {
+                  StaticData.focusTimerIsRunning = false;
                   if(StaticData.timer != null) {
                         if(StaticData.timer.isActive)
                         {
