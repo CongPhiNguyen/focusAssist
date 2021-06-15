@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:focus_assist/pages/edit_group_dialog.dart';
-import 'package:focus_assist/pages/list_of_achivement.dart';
-import 'package:focus_assist/pages/view_activity.dart';
+import 'package:focus_assist/pages/statistic//edit_group_dialog.dart';
+import 'package:focus_assist/pages/statistic//list_of_achivement.dart';
+import 'package:focus_assist/pages/statistic//view_activity.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:focus_assist/pages/add_screen.dart';
-import 'package:focus_assist/pages/add_new_group_dialog.dart';
+import 'package:focus_assist/pages/statistic//add_screen.dart';
+import 'package:focus_assist/pages/statistic//add_new_group_dialog.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:intl/intl.dart';
@@ -517,7 +517,7 @@ class _JournalScreenState extends State<JournalScreen> {
 
   Widget AllActivity() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       child: Column(
         children: [
           Container(
@@ -587,7 +587,7 @@ class _JournalScreenState extends State<JournalScreen> {
 
   Widget GroupTable() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -652,7 +652,7 @@ class _JournalScreenState extends State<JournalScreen> {
     return Align(
       alignment: Alignment.topLeft,
       child: Container(
-        width: 350,
+        width: 270,
         child: Column(
           children: [
             Container(
@@ -792,7 +792,7 @@ class _JournalScreenState extends State<JournalScreen> {
 
   Widget Calendar() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       child: Column(
         children: [
           TableCalendar(
@@ -940,7 +940,7 @@ class _JournalScreenState extends State<JournalScreen> {
         //Hiển thị calendar
         Calendar(),
         Padding(
-          padding: const EdgeInsets.fromLTRB(15, 10, 10, 0),
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             Image.asset(
               'assets/dodone.png',
@@ -955,7 +955,7 @@ class _JournalScreenState extends State<JournalScreen> {
           ]),
         ),
         Padding(
-            padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -965,7 +965,7 @@ class _JournalScreenState extends State<JournalScreen> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Container(
-                      width: 350,
+                      width: 270,
                       child: ToDoList(),
                     ),
                   ),
@@ -975,7 +975,7 @@ class _JournalScreenState extends State<JournalScreen> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Container(
-                      width: 350,
+                      width: 270,
                       child: DoneTask(),
                     ),
                   ),
@@ -983,7 +983,7 @@ class _JournalScreenState extends State<JournalScreen> {
               ),
             )),
         Padding(
-            padding: const EdgeInsets.fromLTRB(15, 10, 10, 0),
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -1011,7 +1011,7 @@ class _JournalScreenState extends State<JournalScreen> {
                   ],
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   decoration: BoxDecoration(
                       color: Color(0xffe0e6ee),
                       borderRadius: BorderRadius.only(
@@ -1043,7 +1043,7 @@ class _JournalScreenState extends State<JournalScreen> {
           height: 12,
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(15, 10, 10, 0),
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: Row(
             children: [
               Image.asset('assets/allactivity.png', width: 50, height: 50),

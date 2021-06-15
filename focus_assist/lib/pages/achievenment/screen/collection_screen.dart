@@ -72,7 +72,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
               infoVATPHAM[i]['TENVATPHAM'],
               infoVATPHAM[i]['MOTA'],
               infoVATPHAM[i]['GIA'],
-              Colors.green,
+              Colors.greenAccent,
               'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
           setState(() {
             StaticData.EggShop.add(index);
@@ -109,7 +109,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
               infoVATPHAM[i]['TENVATPHAM'],
               infoVATPHAM[i]['MOTA'],
               infoVATPHAM[i]['GIA'],
-              Colors.red,
+              Colors.redAccent,
               'assets/achievenment/Eggs/egg'+infoVATPHAM[i]['TENVATPHAM']+'.png');
           setState(() {
             StaticData.EggShop.add(index);
