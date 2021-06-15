@@ -44,12 +44,15 @@ class _JournalScreenState extends State<JournalScreen> {
   String quotes;
 
   String rate;
+
+  bool gotAchive;
   @override
   void initState() {
     super.initState();
+    gotAchive = false;
     quotes = '';
     allGroup = ['Fuck'];
-    doneList = ['Không có gì'];
+    doneList = ['Nothing'];
     doneListKey = ['None'];
     allGroupKey = ['NONE'];
     allGroupActivity = [];
@@ -59,12 +62,12 @@ class _JournalScreenState extends State<JournalScreen> {
     _selectedDay = _focusedDay;
     items1 = ["Chơi cờ vua", "Luyện tập code", "Cày game"];
     toDos = [
-      ToDo(check: false, task: "Không có gì", taskKey: 'None'),
+      ToDo(check: false, task: "Nothing", taskKey: 'None'),
     ];
 
     items = [];
     dataMap = {"Skip": 500, "Done": 322, "Fail": 112};
-    allActivity = ["Không có gì"];
+    allActivity = ["Nothing"];
     allActivityKey = ['None'];
     loadGold();
     getAllActivity();
@@ -72,6 +75,7 @@ class _JournalScreenState extends State<JournalScreen> {
     getAllGroup();
     getDoneTask();
     loadQuote();
+    achiveNotification();
     rate = '0';
   }
 
@@ -95,9 +99,13 @@ class _JournalScreenState extends State<JournalScreen> {
         setState(() {
           StaticData.Vang = database[0]['VANG'];
         });
-      } else
+        print('vang' + database[0]['VANG'].toString());
+      } else {
+        print('bug1');
         return;
-    }
+      }
+    } else
+      print('bug2');
   }
 
   // Các hàm cần thiết để load dữ liệu
@@ -114,7 +122,6 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   void getDoneTask() async {
-    print("Fuck Done");
     String userID = StaticData.userID;
     int selectedDay = dateTimeToInt(_selectedDay);
     database = await dbHelper.rawQuery(
@@ -122,7 +129,7 @@ class _JournalScreenState extends State<JournalScreen> {
     if (database.length == 0) {
       if (this.mounted) {
         setState(() {
-          doneList = ['Không có gì'];
+          doneList = ['Nothing'];
           doneListKey = ['None'];
         });
       } else
@@ -289,7 +296,7 @@ class _JournalScreenState extends State<JournalScreen> {
     if (database.length == 0) {
       if (this.mounted) {
         setState(() {
-          allActivity = ['Không có gì'];
+          allActivity = ['Nothing'];
           allActivityKey = ['None'];
         });
       } else
@@ -321,7 +328,7 @@ class _JournalScreenState extends State<JournalScreen> {
       if (this.mounted) {
         setState(() {
           toDos = [
-            ToDo(check: false, task: "Không có gì", taskKey: 'None'),
+            ToDo(check: false, task: "Nothing", taskKey: 'None'),
           ];
         });
       } else
@@ -444,7 +451,7 @@ class _JournalScreenState extends State<JournalScreen> {
     }
     if (toDos.length == 0) {
       toDos = [
-        ToDo(check: false, task: "Không có gì", taskKey: 'None'),
+        ToDo(check: false, task: "Nothing", taskKey: 'None'),
       ];
     }
   }
@@ -514,15 +521,11 @@ class _JournalScreenState extends State<JournalScreen> {
                                 TextButton(
                                   onPressed: () async {
                                     Navigator.pop(context);
-                                    if (this.mounted) {
-                                      setState(() {
-                                        toDos[index].check = value;
-                                      });
-                                    } else
-                                      return;
-
-                                    // Thêm 50 vàng
-                                    int golds = StaticData.Vang += 50;
+                                    setState(() {
+                                      toDos[index].check = value;
+                                    });
+                                    // Thêm 5 vàng
+                                    int golds = StaticData.Vang + 5;
                                     //Add vào database
                                     String userKey = StaticData.userID;
                                     dbHelper.rawQuery(
@@ -958,6 +961,62 @@ class _JournalScreenState extends State<JournalScreen> {
     );
   }
 
+  Future<int> countDone() async {
+    String key = StaticData.userID;
+    List<Map<String, dynamic>> data = await dbHelper.rawQuery(
+        '''select count(*) as SOLAN from THONGKE tk join MUCTIEU mt on tk.MAMUCTIEU=mt.MAMUCTIEU where mt.MANGUOIDUNG='$key' ''');
+    return data[0]['SOLAN'];
+  }
+
+  Future<int> getCurrentDoneLevel() async {
+    String userID = StaticData.userID;
+    // Xem thử đã qua cấp 3 chưa
+    String maThanhTuu = 'TT03';
+    List<Map<String, dynamic>> data = await dbHelper.rawQuery(
+        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
+    if (data[0]['DEM'] > 0) {
+      return 4;
+    }
+    // Xem thử đã qua cấp 2 chưa
+    maThanhTuu = 'TT04';
+    List<Map<String, dynamic>> data1 = await dbHelper.rawQuery(
+        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
+    if (data1[0]['DEM'] > 0) {
+      return 3;
+    }
+    // Xem thử qua cấp 1 hay chưa
+    maThanhTuu = 'TT01';
+    List<Map<String, dynamic>> data2 = await dbHelper.rawQuery(
+        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
+    if (data2[0]['DEM'] > 0) {
+      return 2;
+    }
+    return 1;
+  }
+
+  void achiveNotification() async {
+    int level = await getCurrentDoneLevel();
+    if (level == 4) {
+      if (this.mounted)
+        setState(() {
+          gotAchive = false;
+        });
+      return;
+    }
+
+    int done = await countDone();
+    List<int> targetDone = [1, 3, 5]; //[100, 500, 1500];
+    if (done > targetDone[level - 1]) {
+      if (this.mounted)
+        setState(() {
+          gotAchive = true;
+        });
+    } else if (this.mounted)
+      setState(() {
+        gotAchive = false;
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -972,6 +1031,7 @@ class _JournalScreenState extends State<JournalScreen> {
               context: context,
               builder: (_) => ListAchivement(),
             );
+            achiveNotification();
             loadGold();
           },
           child: Row(
@@ -982,6 +1042,11 @@ class _JournalScreenState extends State<JournalScreen> {
                 radius: 15,
                 child: Image.asset('assets/gold.png', width: 30, height: 30),
               ),
+              Text(gotAchive ? '!' : '',
+                  style: TextStyle(
+                      fontSize: 28,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold)),
               SizedBox(
                 width: 10,
               ),

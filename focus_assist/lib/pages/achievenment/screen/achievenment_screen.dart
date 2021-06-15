@@ -52,7 +52,9 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
             return Center(
               child: CardAchievement(
                 name: StaticData.AchiUser[num].TENTHANHTUU,
-                mota: StaticData.AchiUser[num].MOTA,
+                mota: StaticData.AchiUser[num].MOTA == null
+                    ? ''
+                    : StaticData.AchiUser[num].MOTA,
                 diemThanhtuu: StaticData.AchiUser[num].bonus,
                 star: StaticData.AchiUser[num].star,
                 endColor: StaticData.AchiUser[num].endColor,
