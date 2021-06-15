@@ -183,7 +183,7 @@ class _ViewActivityState extends State<ViewActivity> {
         } else
           return;
       } else if (database[0]['LOAIHINH'] == 'Repeating') {
-        int cachNgay = int.parse(database[0]['KHOANGTHOIGIAN']);
+        int cachNgay = int.parse(database[0]['KHOANGTHOIGIAN'].toString());
         // List tất cả các ngày cần làm:
         List<int> toDoDays = [];
         for (int day = database[0]['NGAYBATDAU'];

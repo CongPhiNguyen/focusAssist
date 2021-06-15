@@ -241,7 +241,7 @@ class _AddNewState extends State<AddNew> {
     }
     // Nhập desciption(không bắt buộc)
     if (getDescription.text == null || getDescription.text.length < 1) {
-      return await showDialog(
+      bool k = await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
                 title: Text("Message"),
@@ -262,6 +262,7 @@ class _AddNewState extends State<AddNew> {
                   )
                 ],
               ));
+      if (k == false) return k;
     }
 
     // Trường hợp nhập sai của Flexible
@@ -345,21 +346,28 @@ class _AddNewState extends State<AddNew> {
     }
     // Trường hợp thiếu nhóm:
     if (dropDownGroup == 'Choose a group') {
-      showDialog(
+      bool k = await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
                 title: Text("Message"),
-                content: Text("You must choose a group"),
+                content:
+                    Text("Are you sure to not add this activity to a group ?"),
                 actions: [
                   TextButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, true);
                     },
-                    child: Text("OK"),
+                    child: Text("Yes"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, false);
+                    },
+                    child: Text("No"),
                   )
                 ],
               ));
-      return false;
+      if (k == false) return k;
     }
     return true;
   }
@@ -405,8 +413,10 @@ class _AddNewState extends State<AddNew> {
     print('inserted row id: $id');
   }
 
-  void getAllGroup() async {
-    List<Map<String, dynamic>> database = await dbHelper.query('NHOMMUCTIEU');
+  Future<void> getAllGroup() async {
+    String userID = StaticData.userID;
+    List<Map<String, dynamic>> database = await dbHelper
+        .rawQuery('''select * from NHOMMUCTIEU where MANGUOIDUNG='$userID' ''');
     if (this.mounted) {
       setState(() {
         text2 = database.toString();
@@ -621,11 +631,15 @@ class _AddNewState extends State<AddNew> {
                   SizedBox(width: 20),
                   InkWell(
                     onTap: () async {
-                      await showDialog(
+                      bool l = await showDialog(
                         context: context,
                         builder: (_) => AddGroup(),
                       );
-                      getAllGroup();
+                      await getAllGroup();
+                      print(l);
+                      if (l != null && l == true) {
+                        dropDownGroup = allGroup[allGroup.length - 1];
+                      }
                     },
                     child: Text(
                       "New",

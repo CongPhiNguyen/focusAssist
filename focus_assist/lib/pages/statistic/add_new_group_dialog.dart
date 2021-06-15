@@ -103,7 +103,8 @@ class _AddGroupState extends State<AddGroup> {
                     print("Fuck");
                   } else {
                     AddNewGroup();
-                    Navigator.pop(context);
+                    // trả về true khi tạo thành công
+                    Navigator.pop(context, true);
                   }
                 },
                 child: Text('Create',

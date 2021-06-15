@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/statistic//edit_group_dialog.dart';
 import 'package:focus_assist/pages/statistic//list_of_achivement.dart';
-import 'package:focus_assist/pages/statistic//view_activity.dart';
+import 'package:focus_assist/pages/statistic//view_activity_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:focus_assist/pages/statistic//add_screen.dart';
+import 'package:focus_assist/pages/statistic//add_new_activity_screen.dart';
 import 'package:focus_assist/pages/statistic//add_new_group_dialog.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
@@ -165,7 +165,7 @@ class _JournalScreenState extends State<JournalScreen> {
           } else
             return;
         } else if (database[i]['LOAIHINH'] == 'Repeating') {
-          int val = int.parse(database[i]['KHOANGTHOIGIAN']);
+          int val = int.parse(database[i]['KHOANGTHOIGIAN'].toString());
           Duration diff = start.difference(_selectedDay);
           if (diff.inDays % val == 0) {
             print(val);
@@ -360,7 +360,7 @@ class _JournalScreenState extends State<JournalScreen> {
           // Quăng ra ngoài rồi hẵn xử lý
           flexibleData.add(database[i]);
         } else if (database[i]['LOAIHINH'] == 'Repeating') {
-          int val = int.parse(database[i]['KHOANGTHOIGIAN']);
+          int val = int.parse(database[i]['KHOANGTHOIGIAN'].toString());
           Duration diff = start.difference(_selectedDay);
           if (diff.inDays % val == 0) {
             print(val);
@@ -756,7 +756,7 @@ class _JournalScreenState extends State<JournalScreen> {
                                           AlertDialog(
                                             title: Text("Message"),
                                             content: Text(
-                                                "Are you sure to delete this group and all activity belong to it ?"),
+                                                "Are you sure to delete this group ?"),
                                             actions: [
                                               TextButton(
                                                 onPressed: () {
@@ -835,13 +835,6 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   void deleteGroup(inDex) {
-    //Delete activitys of group
-    for (int i = 0; i < allGroupActivityKey[inDex].length; i++) {
-      String key = allGroupActivityKey[inDex][i];
-      dbHelper.rawQuery(''' delete from MUCTIEU where MAMUCTIEU='$key' ''');
-      // Delete trong bảng thống kê
-      dbHelper.rawQuery(''' delete from THONGKE where MAMUCTIEU='$key' ''');
-    }
     String key = allGroupKey[inDex];
     //Delete group
     dbHelper.rawQuery(''' delete from NHOMMUCTIEU where MANHOM='$key' ''');
