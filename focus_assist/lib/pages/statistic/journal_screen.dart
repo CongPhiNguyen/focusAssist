@@ -41,11 +41,13 @@ class _JournalScreenState extends State<JournalScreen> {
   List<String> allGroup, allGroupKey;
   List<List<String>> allGroupActivity, allGroupActivityKey;
   List<String> doneList, doneListKey;
+  String quotes;
 
   String rate;
   @override
   void initState() {
     super.initState();
+    quotes = '';
     allGroup = ['Fuck'];
     doneList = ['Không có gì'];
     doneListKey = ['None'];
@@ -69,6 +71,7 @@ class _JournalScreenState extends State<JournalScreen> {
     getToDoList();
     getAllGroup();
     getDoneTask();
+    loadQuote();
     rate = '0';
   }
 
@@ -98,6 +101,18 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   // Các hàm cần thiết để load dữ liệu
+  void loadQuote() async {
+    List<Map<String, dynamic>> database = await dbHelper
+        .rawQuery(''' select * from TRICHDAN order by RANDOM() ''');
+    if (database.length > 0) {
+      if (this.mounted) {
+        setState(() {
+          quotes = database[0]['TRICHDAN'] + ' - ' + database[0]['TACGIA'];
+        });
+      }
+    }
+  }
+
   void getDoneTask() async {
     print("Fuck Done");
     String userID = StaticData.userID;
@@ -981,16 +996,14 @@ class _JournalScreenState extends State<JournalScreen> {
           ),
         ),
         //Đây để hiện cái dòng qoutes
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: Text(
-                "\' No pain, no gain \'",
-                style: TextStyle(fontSize: 30),
-              ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
+          child: Center(
+            child: Text(
+              quotes,
+              style: TextStyle(fontSize: 23),
             ),
-          ],
+          ),
         ),
         SizedBox(
           height: 10,

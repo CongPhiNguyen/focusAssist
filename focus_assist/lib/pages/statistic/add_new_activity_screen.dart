@@ -638,7 +638,11 @@ class _AddNewState extends State<AddNew> {
                       await getAllGroup();
                       print(l);
                       if (l != null && l == true) {
-                        dropDownGroup = allGroup[allGroup.length - 1];
+                        if (this.mounted) {
+                          setState(() {
+                            dropDownGroup = allGroup[allGroup.length - 1];
+                          });
+                        }
                       }
                     },
                     child: Text(
