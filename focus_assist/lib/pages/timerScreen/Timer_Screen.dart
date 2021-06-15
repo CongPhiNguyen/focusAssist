@@ -62,8 +62,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
       });
     }
   }
-  void updateGold() async {
-    int golds = StaticData.Vang += 50;
+  void updateGold(int reward) async {
+    int golds = StaticData.Vang += reward;
         //Add vào database
         String userKey = StaticData.userID;
         dbHelper.rawQuery(
@@ -88,6 +88,39 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
      dbHelper.rawQuery(
             ''' DELETE FROM LICHSUTIMER WHERE MANGUOIDUNG='$userKey'; ''');
   }
+  void checkThanhTuu() async {
+    String userKey = StaticData.userID;
+    List<Map<String, dynamic>> database = await dbHelper.rawQuery(
+            ''' SELECT COUNT(*) as count FROM LICHSUTIMER
+            where MANGUOIDUNG='$userKey' and DAHOANTHANH = 'true' ''');
+    print(database[0]['count']);
+    switch(database[0]['count']){
+      case 5: {
+        _showSuccessThanhTuu(this.context, "Congrat, you focused 5 times!\n + 40 gold", 40);
+        break;
+      }
+      case 10: {
+        _showSuccessThanhTuu(this.context, "Congrat, you focused 10 times!\n + 100 gold",100);
+        break;
+      }
+      case 20: {
+        _showSuccessThanhTuu(this.context, "Congrat, you focused 20 times!\n + 200 gold",200);
+        break;
+      }
+      case 30: {
+        _showSuccessThanhTuu(this.context, "Congrat, you focused 30 times!\n + 300 gold", 300);
+        break;
+      }
+      case 50: {
+        _showSuccessThanhTuu(this.context, "Congrat, you focused 50 times!\n + 500 gold", 500);
+        break;
+      }
+      default:
+        break;
+    }
+
+  }
+  
   @override
   Widget build(BuildContext context) {
 
@@ -183,29 +216,10 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                     width: 2,
                   ),
                 ),
-                /////////////////////////////////
-                // child: SimpleTimer(
-                //   duration: Duration(hours: hour, minutes: min),
-                //   backgroundColor: Colors.white,
-                //   controller: _timerController,
-                //   progressTextStyle: TextStyle(
-                //     color: Colors.white,
-                //     fontSize: 50,
-                //   ),
-                //   strokeWidth: 10,
-                // ),
                 child: Container(
                   margin: EdgeInsets.only(top: 60,),
                   height: 350.0,
                   width: 350.0,
-                  // decoration: BoxDecoration(
-                  //   image: DecorationImage(
-                  //     image: AssetImage(
-                  //         'assets/images/focusTime_background.png'),
-                  //     fit: BoxFit.fill,
-                  //   ),
-                  //   shape: BoxShape.circle,
-                  // ),
                   child: GifImage(
                       controller: gifcontroller,
                       image: AssetImage("assets/images/clock.gif"),
@@ -244,7 +258,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                             
                             if(_timerIsRunning) {
                                //stoped ? null : stop();
-                               showAlertDialog(context);
+                               //showAlertDialog(context);
+                               showDialogResetTimer(context, "Reset timer?");
                             }
                             else {    
                               _controlIcon = Icons.pause;  
@@ -322,49 +337,29 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
   }
 
   //for alert 
-  void showAlertDialog(BuildContext context) {
-      // set up the buttons
-      Widget cancelButton = FlatButton(
-        child: Text("Cancel"),
-        onPressed:  () {
-          _controlIcon = Icons.pause;
-          StaticData.focusTimerIsRunning = true;
-          Navigator.of(context).pop(); 
-        },
-      );
-      Widget continueButton = FlatButton(
-        child: Text("Continue"),
-        onPressed:  () {
-          stoped ? null : stop();
-          gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
-            _controlIcon = Icons.play_arrow;
-          // duration = timetoDisplay;  
-          // print(timetoDisplay);
-          updateHistories(false, "00:10:00");
-          //updateGold();   // để test
-          Navigator.of(context).pop();
+  // void showAlertDialog(BuildContext context) {
+  //     // set up the buttons
+  //     Widget cancelButton = FlatButton(
+  //       child: Text("Cancel"),
+  //       onPressed:  () {
+  //         _controlIcon = Icons.pause;
+  //         StaticData.focusTimerIsRunning = true;
+  //         Navigator.of(context).pop(); 
+  //       },
+  //     );
+  //     Widget continueButton = FlatButton(
+  //       child: Text("Continue"),
+  //       onPressed:  () {
+  //         checkThanhTuu();
+  //         stoped ? null : stop();
+  //         gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
+  //           _controlIcon = Icons.play_arrow;
+  //         // duration = timetoDisplay;  
+  //         // print(timetoDisplay);
+  //         updateHistories(true, "00:10:00");
+  //         //updateGold();   // để test
+  //         Navigator.of(context).pop();
           
-          },
-      );
-
-      // set up the AlertDialog
-      AlertDialog alert = AlertDialog(
-        title: Text("Alert"),
-        content: Text("Would you like reset the timer?"),
-        actions: [
-          cancelButton,
-          continueButton,
-        ],
-      );
-      // show the dialog
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return alert;
-        },
-      );
-  }
-  // for timer set up
   bool _timerIsRunning = false;
 
   TabController tb;
@@ -389,18 +384,18 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     }
     void decrease(){
       setState(() {
-        if (min <= 0) {
-          if (hour > 0) {
-            hour--;
-            min = 60;
-          }
-          else if (hour == 0) min = 5;
-        }
-        if (min <= 15) min = 15;
-        min = min -5;
-        print("Decrease timer by 5 min : $min " );
-        //min = 1;
-        
+        // if (min <= 0) {
+        //   if (hour > 0) {
+        //     hour--;
+        //     min = 60;
+        //   }
+        //   else if (hour == 0) min = 5;
+        // }
+        // if (min <= 15) min = 15;
+        // min = min -5;
+        // print("Decrease timer by 5 min : $min " );
+        min = 1;
+        updateGold(50);
       });
     }
   @override
@@ -421,17 +416,10 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
             debugPrint("Completed the task");
             _controlIcon = Icons.play_arrow;
             gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
-            updateGold();
-            _showSuccess(this.context, "Hoàn thành nhiệm vụ \n + 50 gold");
-
+            updateGold(5);
+            _showSuccess(this.context, "Hoàn thành nhiệm vụ \n Tặng gold");
             updateHistories(true, "00:10:00");
-
-            // cập nhật số gold vào text
-            // setState(() {
-            //     stoped ? null : stop();
-            //     gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
-            // });
-            // cập nhật số gold vào database
+            checkThanhTuu();
           }
           checkTimer = true;
           timetoDisplay = "";
@@ -499,6 +487,74 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
       )
     ],
   ).show();
+  }
+  void _showSuccessThanhTuu(context, String message, int reward){
+  Alert(
+    context: context,
+    type: AlertType.success,
+    title: "Thông báo",
+    closeIcon: Icon(Icons.cancel_outlined),
+    desc: message,
+    buttons: [
+      DialogButton(
+        child: Text(
+          "OK",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () {
+          updateGold(reward);
+          Navigator.pop(context);
+          //runApp(focus());
+        },
+        width: 120,
+        color: Colors.green[400],
+      )
+    ],
+  ).show();
+  }
+  void showDialogResetTimer(context,String message){
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: 'Warning!!!',
+      closeIcon: Icon(Icons.close_outlined),
+      desc: message,
+      buttons: [
+              DialogButton(
+                child: Text(
+                  "Continue",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () {
+                      checkThanhTuu();
+                      stoped ? null : stop();
+                      gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
+                        _controlIcon = Icons.play_arrow;
+                      // duration = timetoDisplay;  
+                      // print(timetoDisplay);
+                      updateHistories(true, "00:10:00");
+                      //updateGold();   // để test
+                      Navigator.of(context).pop();
+                },
+                color: Color.fromRGBO(0, 179, 134, 1.0),
+              ),
+              DialogButton(
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () { 
+                    _controlIcon = Icons.pause;
+                  StaticData.focusTimerIsRunning = true;
+                  Navigator.of(context).pop(); 
+                  },
+                gradient: LinearGradient(colors: [
+                  Color.fromRGBO(116, 116, 191, 1.0),
+                  Color.fromRGBO(52, 138, 199, 1.0)
+                ]),
+              )
+            ]
+            ).show();
   }
   String convertTimer(timerForTimer){
     String timeToDisplay;
