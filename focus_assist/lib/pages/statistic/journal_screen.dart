@@ -74,7 +74,7 @@ class _JournalScreenState extends State<JournalScreen> {
     getToDoList();
     getAllGroup();
     getDoneTask();
-    loadQuote();
+    //loadQuote();
     achiveNotification();
     rate = '0';
   }
@@ -111,7 +111,7 @@ class _JournalScreenState extends State<JournalScreen> {
   // Các hàm cần thiết để load dữ liệu
   void loadQuote() async {
     List<Map<String, dynamic>> database = await dbHelper
-        .rawQuery(''' select * from TRICHDAN order by RANDOM() ''');
+        .rawQuery(''' select * from TRICHDAN order by RANDOM() limit 1''');
     if (database.length > 0) {
       if (this.mounted) {
         setState(() {
@@ -867,6 +867,7 @@ class _JournalScreenState extends State<JournalScreen> {
           TableCalendar(
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
+            startingDayOfWeek: StartingDayOfWeek.monday,
             focusedDay: _focusedDay,
             calendarFormat: _calendarFormat,
             selectedDayPredicate: (day) {
@@ -994,7 +995,17 @@ class _JournalScreenState extends State<JournalScreen> {
     return 1;
   }
 
-  void achiveNotification() async {
+  Future<int> getCurrentActivityLevel() async {
+    int countDatabaseLevel = 0;
+    String key = StaticData.userID;
+    List<Map<String, dynamic>> data = await dbHelper.rawQuery(
+        '''select count(*) as SOLAN from THANHTUU t join THANHTUUNGUOIDUNG tn on t.MATHANHTUU=tn.MATHANHTUU where tn.MANGUOIDUNG='$key' and t.VANG=20  ''');
+    countDatabaseLevel = data[0]['SOLAN'];
+    print('shit' + countDatabaseLevel.toString());
+    return countDatabaseLevel;
+  }
+
+  Future<void> achiveNotification() async {
     int level = await getCurrentDoneLevel();
     if (level == 4) {
       if (this.mounted)
@@ -1005,16 +1016,27 @@ class _JournalScreenState extends State<JournalScreen> {
     }
 
     int done = await countDone();
-    List<int> targetDone = [1, 3, 5]; //[100, 500, 1500];
+    List<int> targetDone = [100, 500, 1500]; //[1, 3, 5]; //[100, 500, 1500];
     if (done > targetDone[level - 1]) {
       if (this.mounted)
         setState(() {
           gotAchive = true;
         });
-    } else if (this.mounted)
+      return;
+    }
+    int levelNow = (done * 1.0 / 4).round();
+    int achivedLevel = await getCurrentActivityLevel();
+    print('levelNow $levelNow');
+    if (levelNow > achivedLevel) {
+      if (this.mounted)
+        setState(() {
+          gotAchive = true;
+        });
+    } else {
       setState(() {
         gotAchive = false;
       });
+    }
   }
 
   @override
@@ -1058,16 +1080,6 @@ class _JournalScreenState extends State<JournalScreen> {
                 width: 30,
               ),
             ],
-          ),
-        ),
-        //Đây để hiện cái dòng qoutes
-        Padding(
-          padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
-          child: Center(
-            child: Text(
-              quotes,
-              style: TextStyle(fontSize: 23),
-            ),
           ),
         ),
         SizedBox(

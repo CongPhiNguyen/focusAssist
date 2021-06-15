@@ -12,7 +12,6 @@ class ListAchivement extends StatefulWidget {
 
 class _ListAchivementState extends State<ListAchivement> {
   //Đây sẽ list các thành tựu các kiếu sau
-
   Future<int> countDone() async {
     String key = StaticData.userID;
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
@@ -20,11 +19,9 @@ class _ListAchivementState extends State<ListAchivement> {
     return data[0]['SOLAN'];
   }
 
-  int doneNum = 0, activityNum = 0;
   Future<void> getCount() async {
     int dones = await countDone();
     doneNum = dones;
-    activityNum = dones;
   }
 
   void getData() async {
@@ -37,48 +34,22 @@ class _ListAchivementState extends State<ListAchivement> {
         else
           currentDoneTarget = targetDone[currentDoneLevel - 1];
         percentDone = doneNum * 1.0 / currentDoneTarget;
-      });
 
-      setState(() {
-        currentActivityTarget = currentActivityLevel * 3;
-        if (currentActivityTarget > 30) currentActivityTarget = 30;
-        percentActivity = activityNum * 1.0 / currentActivityTarget;
+        percentActivity = doneNumLeft * 1.0 / targetToReach;
       });
     } else
       return;
   }
 
   Future<int> getCurrentActivityLevel() async {
-    String userID = StaticData.userID;
-    // Xem thử đã qua cấp 3 chưa
-    String maThanhTuu = 'ACTIVE3';
+    //int levelNow = (doneNum / 75).round();
+    int countDatabaseLevel = 0;
+    String key = StaticData.userID;
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
-        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
-    if (data[0]['DEM'] > 0) {
-      if (this.mounted) {
-        setState(() {
-          isFullActive = true;
-        });
-      } else
-        return 0;
-
-      return 4;
-    }
-    // Xem thử đã qua cấp 2 chưa
-    maThanhTuu = 'ACTIVE2';
-    List<Map<String, dynamic>> data1 = await dbHelper.rawQuery(
-        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
-    if (data1[0]['DEM'] > 0) {
-      return 3;
-    }
-    // Xem thử qua cấp 1 hay chưa
-    maThanhTuu = 'ACTIVE1';
-    List<Map<String, dynamic>> data2 = await dbHelper.rawQuery(
-        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
-    if (data2[0]['DEM'] > 0) {
-      return 2;
-    }
-    return 1;
+        '''select count(*) as SOLAN from THANHTUU t join THANHTUUNGUOIDUNG tn on t.MATHANHTUU=tn.MATHANHTUU where tn.MANGUOIDUNG='$key' and t.VANG=20  ''');
+    countDatabaseLevel = data[0]['SOLAN'];
+    print('shit' + countDatabaseLevel.toString());
+    return countDatabaseLevel;
   }
 
   Future<int> getCurrentDoneLevel() async {
@@ -121,18 +92,23 @@ class _ListAchivementState extends State<ListAchivement> {
         currentDoneLevel = currentDone;
         currentActivityLevel = currentActive;
       });
+      setState(() {
+        doneNumLeft = doneNum - currentActive * targetToReach;
+      });
     } else
       return;
   }
 
-  List<int> targetDone = [1, 3, 5]; //[100, 500, 1500];
+  int targetToReach;
+  int doneNum = 0, doneNumLeft = 0;
+  List<int> targetDone = [100, 500, 1500]; //[1, 3, 5]; //[100, 500, 1500];
   int currentDoneLevel,
       currentActivityLevel,
       currentDoneTarget,
       currentActivityTarget;
   double percentDone, percentActivity;
   final dbHelper = DbProvider.instance;
-  bool isFullActive = false, isFullDone = false;
+  bool isFullDone = false;
 
   @override
   void initState() {
@@ -143,6 +119,7 @@ class _ListAchivementState extends State<ListAchivement> {
     currentActivityTarget = 0;
     currentActivityLevel = 1;
     currentDoneLevel = 1;
+    targetToReach = 4;
     getData();
   }
 
@@ -223,77 +200,34 @@ class _ListAchivementState extends State<ListAchivement> {
   }
 
   void haveClick() async {
-    // if (percentActivity < 1.0) return;
-    // if (currentActivityLevel >= 4) {
-    //   if (this.mounted) {
-    //     setState(() {
-    //       isFullActive = true;
-    //     });
-    //   } else
-    //     return;
+    if (percentActivity < 1.0) return;
+    String maThanhTuu = 'TT';
+    int newNum = 5 + (currentActivityLevel % 53);
+    String newNum2 = newNum.toString();
+    while (newNum2.length < 2) {
+      newNum2 = '0' + newNum2;
+    }
+    maThanhTuu += newNum2;
+    Map<String, dynamic> row = {
+      'MATHANHTUU': maThanhTuu,
+      'TENTHANHTUU':
+          'Finish ${(currentActivityLevel + 1) * targetToReach} times',
+      'CAPDO': 1,
+      'VANG': 20
+    };
+    print('have:$row');
+    final id = await dbHelper.insert('THANHTUU', row);
+    print('inserted row id: $id');
+    row = {'MATHANHTUU': maThanhTuu, 'MANGUOIDUNG': StaticData.userID};
+    final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
+    print('inserted row id: $id2');
 
-    //   return;
-    // } else if (currentActivityLevel == 3) {
-    //   Map<String, dynamic> row = {
-    //     'MATHANHTUU': 'ACTIVE3',
-    //     'TENTHANHTUU': 'Have 9 activities',
-    //     'CAPDO': 3,
-    //     'VANG': 100
-    //   };
-    //   final id = await dbHelper.insert('THANHTUU', row);
-    //   print('inserted row id: $id');
-    //   row = {'MATHANHTUU': 'ACTIVE3', 'MANGUOIDUNG': StaticData.userID};
-    //   final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
-    //   print('inserted row id: $id2');
-
-    //   int golds = StaticData.Vang += 50;
-    //   //Add vào database
-    //   String userKey = StaticData.userID;
-    //   dbHelper.rawQuery(
-    //       ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
-
-    //   getData();
-    // } else if (currentActivityLevel == 2) {
-    //   Map<String, dynamic> row = {
-    //     'MATHANHTUU': 'ACTIVE2',
-    //     'TENTHANHTUU': 'Have 6 activities',
-    //     'CAPDO': 2,
-    //     'VANG': 100
-    //   };
-    //   final id = await dbHelper.insert('THANHTUU', row);
-    //   print('inserted row id: $id');
-    //   row = {'MATHANHTUU': 'ACTIVE2', 'MANGUOIDUNG': StaticData.userID};
-    //   final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
-    //   print('inserted row id: $id2');
-
-    //   int golds = StaticData.Vang += 50;
-    //   //Add vào database
-    //   String userKey = StaticData.userID;
-    //   dbHelper.rawQuery(
-    //       ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
-
-    //   getData();
-    // } else if (currentActivityLevel == 1) {
-    //   Map<String, dynamic> row = {
-    //     'MATHANHTUU': 'ACTIVE1',
-    //     'TENTHANHTUU': 'Have 3 activities',
-    //     'CAPDO': 1,
-    //     'VANG': 100
-    //   };
-    //   final id = await dbHelper.insert('THANHTUU', row);
-    //   print('inserted row id: $id');
-    //   row = {'MATHANHTUU': 'ACTIVE1', 'MANGUOIDUNG': StaticData.userID};
-    //   final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
-    //   print('inserted row id: $id2');
-
-    //   int golds = StaticData.Vang += 50;
-    //   //Add vào database
-    //   String userKey = StaticData.userID;
-    //   dbHelper.rawQuery(
-    //       ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
-
-    //   getData();
-    // }
+    int golds = StaticData.Vang += 20;
+    //Add vàng vào database
+    String userKey = StaticData.userID;
+    dbHelper.rawQuery(
+        ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
+    getData();
   }
 
   @override
@@ -325,13 +259,13 @@ class _ListAchivementState extends State<ListAchivement> {
               Center(
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
                   Expanded(
-                      flex: 3,
+                      flex: 2,
                       child: Center(
                         child: Text("Finish $currentDoneTarget times",
                             style: TextStyle(fontSize: 20)),
                       )),
                   Expanded(
-                    flex: 3,
+                    flex: 2,
                     child: LinearPercentIndicator(
                       center: Text('$doneNum/$currentDoneTarget'),
                       //width: 100.0,
@@ -342,15 +276,15 @@ class _ListAchivementState extends State<ListAchivement> {
                     ),
                   ),
                   Expanded(
-                      flex: 2,
-                      child: ElevatedButton(
+                      flex: 1,
+                      child: TextButton(
                         onPressed: finishClick,
                         style: ElevatedButton.styleFrom(
                           primary: !isFullDone ? Colors.blue : Colors.grey,
                         ),
                         child: Text(
                           'Claim',
-                          style: TextStyle(color: Colors.white, fontSize: 17),
+                          style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ))
                 ]),
@@ -358,38 +292,38 @@ class _ListAchivementState extends State<ListAchivement> {
               SizedBox(
                 height: 10,
               ),
-              // Center(
-              //   child: Row(mainAxisSize: MainAxisSize.min, children: [
-              //     Expanded(
-              //         flex: 2,
-              //         child: Center(
-              //           child: Text("Have $currentActivityTarget activity",
-              //               style: TextStyle(fontSize: 20)),
-              //         )),
-              //     Expanded(
-              //       flex: 2,
-              //       child: LinearPercentIndicator(
-              //         center: Text("$activityNum/$currentActivityTarget"),
-              //         lineHeight: 14.0,
-              //         percent: (percentActivity > 1) ? 1.0 : percentActivity,
-              //         backgroundColor: Colors.grey,
-              //         progressColor: Colors.blue,
-              //       ),
-              //     ),
-              //     Expanded(
-              //         flex: 1,
-              //         child: TextButton(
-              //           onPressed: haveClick,
-              //           style: ElevatedButton.styleFrom(
-              //             primary: !isFullActive ? Colors.blue : Colors.grey,
-              //           ),
-              //           child: Text(
-              //             'Claim',
-              //             style: TextStyle(color: Colors.white, fontSize: 20),
-              //           ),
-              //         ))
-              //   ]),
-              // ),
+              Center(
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Expanded(
+                      flex: 2,
+                      child: Center(
+                        child: Text("Done $targetToReach times",
+                            style: TextStyle(fontSize: 20)),
+                      )),
+                  Expanded(
+                    flex: 2,
+                    child: LinearPercentIndicator(
+                      center: Text("$doneNumLeft/$targetToReach"),
+                      lineHeight: 14.0,
+                      percent: (percentActivity > 1) ? 1.0 : percentActivity,
+                      backgroundColor: Colors.grey,
+                      progressColor: Colors.blue,
+                    ),
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: TextButton(
+                        onPressed: haveClick,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue,
+                        ),
+                        child: Text(
+                          'Claim',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ))
+                ]),
+              ),
             ],
           ),
         )));
