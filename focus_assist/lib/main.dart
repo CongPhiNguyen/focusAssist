@@ -22,6 +22,12 @@ Future<void> initAppSetting() async {
   List<Map<String, dynamic>> queryRows = await db.query('THAMSO');
   StaticData.isSignedIn = (queryRows.first['DADANGNHAP'] == 1);
   StaticData.userID = queryRows.first['MANGUOIDUNG'];
+  if (StaticData.isSignedIn) {
+    queryRows = await DbProvider.instance.rawQuery('''
+                    select * from THONGTINNGUOIDUNG where MANGUOIDUNG = '${StaticData.userID}'
+                    ''');
+    StaticData.isDarkMode = (queryRows.first['DARKMODE'] == 1);
+  }
 }
 
 void initializeNotification() async {

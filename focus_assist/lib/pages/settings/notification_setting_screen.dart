@@ -65,28 +65,28 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 1,
         title: Text(
           'Notification',
           style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
+            //fontSize: 18.0,
+            //fontWeight: FontWeight.bold,
+            color: Theme.of(context).appBarTheme.titleTextStyle.color,
             letterSpacing: 0.5,
           ),
         ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
+        // leading: IconButton(
+        //   onPressed: () {
+        //     Navigator.pop(context);
+        //   },
+        //   icon: Icon(
+        //     Icons.arrow_back,
+        //     // color: Colors.black,
+        //   ),
+        // ),
       ),
       body: ListView(
         children: <Widget>[
@@ -103,7 +103,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
             ),
           ),
           ListTile (
-            tileColor: Colors.white,
+            tileColor: Theme.of(context).scaffoldBackgroundColor,
             onTap: () async {
               setState(() {
                 isNotificationOn = !isNotificationOn;
@@ -166,7 +166,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
           ListTile (
             enabled: isNotificationOn,
             minVerticalPadding: 30.0,
-            tileColor: Colors.white,
+            tileColor: Theme.of(context).scaffoldBackgroundColor,
             onTap: () async {
               setState(() {
                 isMorningNotification = !isMorningNotification;
@@ -183,7 +183,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
             leading: Icon(
               Icons.wb_twighlight,
               size: 32.0,
-              color: Colors.blue,
+              color: Theme.of(context).iconTheme.color,
             ),
             title: Text(
               'Morning',
@@ -205,10 +205,10 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               },
             ),
           ),
-          Divider(height:0, thickness: 1, color: Colors.grey[400]),
+          Divider(height:0, thickness: 1,),
           ListTile(
             enabled: isMorningNotification,
-            tileColor: Colors.white,
+            tileColor: Theme.of(context).scaffoldBackgroundColor,
             onTap: () {
               selectMorningTime(context);
             },
@@ -238,7 +238,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
           ListTile (
             enabled: isNotificationOn,
             minVerticalPadding: 30.0,
-            tileColor: Colors.white,
+            tileColor: Theme.of(context).scaffoldBackgroundColor,
             onTap: () async {
               setState(() {
                 isEveningNotification = !isEveningNotification;
@@ -255,7 +255,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
             leading: Icon(
               Icons.nightlight_round,
               size: 32.0,
-              color: Colors.blue,
+              color: Theme.of(context).iconTheme.color,
             ),
             title: Text(
               'Evening',
@@ -277,10 +277,10 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               }
             ),
           ),
-          Divider(height:0, thickness: 1, color: Colors.grey[400]),
+          Divider(height:0, thickness: 1,),
           ListTile(
             enabled: isEveningNotification,
-            tileColor: Colors.white,
+            tileColor: Theme.of(context).scaffoldBackgroundColor,
             onTap: () {
               selectEveningTime(context);
             },

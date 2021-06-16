@@ -20,37 +20,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f06c0000-89ee-4b2e-b46b-5e99bd76893b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/focus_assist/android/app/google-services.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/google_logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/img_not_available.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/stickers/gif1.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/stickers/gif2.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/stickers/gif3.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/stickers/gif4.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/stickers/gif5.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/stickers/gif6.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/stickers/gif7.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/stickers/gif8.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/stickers/gif9.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/ios/Runner/GoogleService-Info.plist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/lib/classes/user_chat.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/chat_login_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/chat_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/full_photo_widget.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/google_sign_in_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/focus_assist/lib/classes/theme_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/about_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/change_theme_switch_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/ios/Runner/AppDelegate.swift" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/ios/Runner/AppDelegate.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/classes/Data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/classes/Data.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/focus_assist/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/account_setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/account_setting_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/audio/song1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/audio/song1.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/audio/song2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/audio/song2.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/focusAssist.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/focusAssist.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/login/screen/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/login/screen/login_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/main_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/notification_setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/notification_setting_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/privacy_lock_setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/privacy_lock_setting_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/setting_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/progress_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/progress_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/account_setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/account_setting_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/chat_login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/chat_login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/chat_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/chat_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/google_sign_in_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/google_sign_in_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/notification_setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/notification_setting_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/setting_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/statistic/journal_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/statistic/journal_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/focus_assist/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/focus_assist/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/pubspec.yaml" afterDir="false" />
     </list>
@@ -143,18 +129,19 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="223" y="72" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620486282361">
-      <screen x="0" y="0" width="1536" height="834" />
+    <state x="223" y="71" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1623744718006">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="223" y="71" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1623744718006" />
     <state x="223" y="72" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.834@0.0.1536.834" timestamp="1620486282361" />
     <state x="498" y="207" key="#com.intellij.ide.util.TreeFileChooserDialog" timestamp="1620486062495">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="498" y="207" key="#com.intellij.ide.util.TreeFileChooserDialog/0.0.1536.834@0.0.1536.834" timestamp="1620486062495" />
-    <state x="100" y="108" width="944" height="584" key="AVDManager" timestamp="1622912679491">
+    <state x="100" y="108" width="944" height="584" key="AVDManager" timestamp="1623765893602">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="100" y="108" width="944" height="584" key="AVDManager/0.0.1536.824@0.0.1536.824" timestamp="1622912679491" />
+    <state x="100" y="108" width="944" height="584" key="AVDManager/0.0.1536.824@0.0.1536.824" timestamp="1623765893602" />
     <state x="390" y="147" key="AndroidProcessChooserDialog" timestamp="1622263761945">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -163,22 +150,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1623696777276" />
-    <state width="1084" height="179" key="GridCell.Tab.0.bottom" timestamp="1623695998914">
+    <state width="1084" height="167" key="GridCell.Tab.0.bottom" timestamp="1623850795041">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1084" height="179" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1623695998914" />
-    <state width="1084" height="179" key="GridCell.Tab.0.center" timestamp="1623695998913">
+    <state width="1084" height="167" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1623850795041" />
+    <state width="1084" height="167" key="GridCell.Tab.0.center" timestamp="1623850795040">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1084" height="179" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1623695998913" />
-    <state width="1084" height="179" key="GridCell.Tab.0.left" timestamp="1623695998913">
+    <state width="1084" height="167" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1623850795040" />
+    <state width="1084" height="167" key="GridCell.Tab.0.left" timestamp="1623850795039">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1084" height="179" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1623695998913" />
-    <state width="1084" height="179" key="GridCell.Tab.0.right" timestamp="1623695998914">
+    <state width="1084" height="167" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1623850795039" />
+    <state width="1084" height="167" key="GridCell.Tab.0.right" timestamp="1623850795040">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1084" height="179" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1623695998914" />
+    <state width="1084" height="167" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1623850795040" />
     <state x="153" y="143" key="IDE.errors.dialog" timestamp="1622917623035">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -188,13 +175,21 @@
     </state>
     <state x="277" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1623574334654" />
     <state x="277" y="62" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1620486252689" />
+    <state x="386" y="310" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1623822091098">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="386" y="310" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1623822091098" />
     <state x="280" y="133" width="586" height="534" key="find.popup" timestamp="1623566768094">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="280" y="133" width="586" height="534" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1623566768094" />
-    <state x="230" y="183" width="672" height="677" key="run.anything.popup" timestamp="1623468477250">
+    <state x="230" y="183" width="672" height="677" key="run.anything.popup" timestamp="1623822063171">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="230" y="183" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1623468477250" />
+    <state x="230" y="183" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1623822063171" />
+    <state x="239" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1623841360736">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="239" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1623841360736" />
   </component>
 </project>

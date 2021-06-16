@@ -36,7 +36,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
   Widget build(BuildContext context) {
     print('build');
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 0),
@@ -107,7 +107,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                       //borderRadius: BorderRadius.circular(20.0),
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Colors.blue,
+                        color: Theme.of(context).iconTheme.color,
                         width: 5.0,
                       ),
                     ),
@@ -152,7 +152,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 0.5,
-                        color: Colors.grey[800],
+                        // color: Colors.grey[800],
                       ),
                     ),
                     DropdownButton(

@@ -888,7 +888,7 @@ class _JournalScreenState extends State<JournalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
+      // backgroundColor: Color(0xffffffff),
       body: ListView(children: <Widget>[
         SizedBox(
           height: 30,

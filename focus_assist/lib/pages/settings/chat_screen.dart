@@ -10,6 +10,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import 'package:focus_assist/classes/Data.dart';
+
 class Chat extends StatelessWidget {
   final UserChat userChat = new UserChat(id: 'TP31Qc1W5lQqqnRl3nertdvXk2D2', photoUrl: 'https://lh3.googleusercontent.com/a-/AOh14Gg4xzCGGS-I0yp6wbLAxib1uUH8dHVNH_vxXs4M=s96-c', nickname: 'Focus Assist');
   final UserChat currentUserChat;
@@ -19,16 +21,16 @@ class Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           '${userChat.nickname}',
           style: TextStyle(
-            color: Colors.black54,
+            color: Theme.of(context).appBarTheme.titleTextStyle.color,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: Theme.of(context).appBarTheme.color,
         centerTitle: true,
       ),
       body: ChatScreen(
@@ -174,7 +176,7 @@ class ChatScreenState extends State<ChatScreen> {
       });
       listScrollController.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     } else {
-      Fluttertoast.showToast(msg: 'Nothing to send', backgroundColor: Colors.black, textColor: Colors.red);
+      Fluttertoast.showToast(msg: 'Nothing to send', textColor: Colors.red);
     }
   }
 
@@ -189,11 +191,11 @@ class ChatScreenState extends State<ChatScreen> {
                 ? Container(
               child: Text(
                 document.get('content'),
-                style: TextStyle(color: Colors.black87),
+                style: TextStyle(color: Colors.white),
               ),
               padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
               width: 200.0,
-              decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(8.0)),
+              decoration: BoxDecoration(color: (!StaticData.isDarkMode)?Colors.blue:Colors.grey[800], borderRadius: BorderRadius.circular(8.0)),
               margin: EdgeInsets.only(bottom: isLastMessageRight(index) ? 20.0 : 10.0, right: 10.0),
             )
                 : document.get('type') == 1
@@ -317,11 +319,11 @@ class ChatScreenState extends State<ChatScreen> {
                       ? Container(
                     child: Text(
                       document.get('content'),
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     ),
                     padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
                     width: 200.0,
-                    decoration: BoxDecoration(color: Colors.amberAccent, borderRadius: BorderRadius.circular(8.0)),
+                    decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(8.0)),
                     margin: EdgeInsets.only(left: 10.0),
                   )
                       : document.get('type') == 1
@@ -574,7 +576,7 @@ class ChatScreenState extends State<ChatScreen> {
           ],
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         ),
-        decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey[200], width: 0.5)), color: Colors.white),
+        decoration: BoxDecoration(border: Border(top: BorderSide(color: (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[850], width: 0.5)), color: Colors.white),
         padding: EdgeInsets.all(5.0),
         height: 180.0,
       ),
@@ -598,10 +600,10 @@ class ChatScreenState extends State<ChatScreen> {
               child: IconButton(
                 icon: Icon(Icons.image),
                 onPressed: getImage,
-                color: Colors.black87,
+                color: (!StaticData.isDarkMode)?Colors.black87:Colors.grey,
               ),
             ),
-            color: Colors.white,
+            // color: Colors.white,
           ),
           Material(
             child: Container(
@@ -609,26 +611,33 @@ class ChatScreenState extends State<ChatScreen> {
               child: IconButton(
                 icon: Icon(Icons.face),
                 onPressed: getSticker,
-                color: Colors.black87,
+                color: (!StaticData.isDarkMode)?Colors.black87:Colors.grey,
               ),
             ),
-            color: Colors.white,
+            // color: Colors.white,
           ),
 
           // Edit text
           Flexible(
             child: Container(
-              child: TextField(
-                onSubmitted: (value) {
-                  onSendMessage(textEditingController.text, 0);
-                },
-                style: TextStyle(color: Colors.black87, fontSize: 15.0),
-                controller: textEditingController,
-                decoration: InputDecoration.collapsed(
-                  hintText: 'Type your message...',
-                  hintStyle: TextStyle(color: Colors.grey),
+              decoration: BoxDecoration(
+                // borderRadius: BorderRadius.circular(10.0),
+                color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[800],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  onSubmitted: (value) {
+                    onSendMessage(textEditingController.text, 0);
+                  },
+                  style: TextStyle(color: (!StaticData.isDarkMode)?Colors.black87:Colors.white, fontSize: 15.0),
+                  controller: textEditingController,
+                  decoration: InputDecoration.collapsed(
+                    hintText: 'Type your message...',
+                    hintStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.grey:Colors.white70),
+                  ),
+                  focusNode: focusNode,
                 ),
-                focusNode: focusNode,
               ),
             ),
           ),
@@ -640,16 +649,16 @@ class ChatScreenState extends State<ChatScreen> {
               child: IconButton(
                 icon: Icon(Icons.send),
                 onPressed: () => onSendMessage(textEditingController.text, 0),
-                color: Colors.black87,
+                color: (!StaticData.isDarkMode)?Colors.black87:Colors.grey,
               ),
             ),
-            color: Colors.white,
+            // color: (!StaticData.isDarkMode)?Colors.white:Colors.grey,
           ),
         ],
       ),
       width: double.infinity,
       height: 50.0,
-      decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey[200], width: 0.5)), color: Colors.white),
+      decoration: BoxDecoration(border: Border(top: BorderSide(color: (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[800], width: 0.5)), color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[800]),
     );
   }
 

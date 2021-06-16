@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/Data.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
+import 'package:focus_assist/classes/theme_provider.dart';
 import 'package:focus_assist/pages/settings/account_setting_screen.dart';
 import 'package:focus_assist/pages/settings/chat_login_screen.dart';
 import 'package:focus_assist/pages/settings/notification_setting_screen.dart';
 import 'package:focus_assist/pages/settings/privacy_lock_setting_screen.dart';
+import 'package:focus_assist/pages/settings/change_theme_switch_widget.dart';
+import 'package:focus_assist/pages/settings/about_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SettingScreen extends StatefulWidget {
   @override
@@ -10,12 +17,12 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-  bool isDarkMode = false;
+  bool isDarkMode = StaticData.isDarkMode;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0.0, 20.0, 00.0, 0),
@@ -51,7 +58,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 leading: Icon(
                   Icons.account_circle_outlined,
                   size: 36.0,
-                  color: Colors.blue,
+                  color: Theme.of(context).iconTheme.color,
                 ),
                 trailing: Icon(Icons.navigate_next),
               ),
@@ -82,7 +89,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 leading: Icon(
                   Icons.notifications,
                   size: 36.0,
-                  color: Colors.blue,
+                  color: Theme.of(context).iconTheme.color,
                 ),
                 trailing: Icon(Icons.navigate_next),
               ),
@@ -100,16 +107,25 @@ class _SettingScreenState extends State<SettingScreen> {
                 leading: Icon(
                   Icons.lock_outline_rounded,
                   size: 36.0,
-                  color: Colors.blue,
+                  color: Theme.of(context).iconTheme.color,
                 ),
                 trailing: Icon(Icons.navigate_next),
               ),
               Divider(height: 10.0, thickness: 2.0, indent: 65.0,),
               ListTile (
-                onTap: () {
+                onTap: () async {
+                  final provider = Provider.of<ThemeProvider>(context, listen: false);
+                  provider.toggleTheme(!isDarkMode);
                   setState(() {
                     isDarkMode = !isDarkMode;
                   });
+                  StaticData.isDarkMode = isDarkMode;
+                  Database db = await DbProvider.instance.database;
+                  await db.execute('''
+                      UPDATE THONGTINNGUOIDUNG
+                      SET DARKMODE = ${(StaticData.isDarkMode)?1:0}
+                      WHERE MANGUOIDUNG = '${StaticData.userID}'
+                      ''');
                 },
                 title: Text(
                   'Dark Mode',
@@ -117,16 +133,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 leading: Icon(
                   Icons.nights_stay_rounded,
                   size: 36.0,
-                  color: Colors.blue,
+                  color: Theme.of(context).iconTheme.color,
                 ),
-                trailing: Switch(
-                  value: isDarkMode,
-                  onChanged: (value) {
-                    setState(() {
-                      isDarkMode = value;
-                    });
-                  }
-                ),
+                trailing: ChangeThemeSwitchWidget(),
               ),
               Divider(height: 10.0, thickness: 2.0, indent: 65.0,),
               SizedBox(height: 15.0,),
@@ -155,7 +164,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 leading: Icon(
                   Icons.chat_rounded,
                   size: 36.0,
-                  color: Colors.blue,
+                  color: Theme.of(context).iconTheme.color,
                 ),
                 trailing: Icon(Icons.navigate_next),
               ),
@@ -174,14 +183,19 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               SizedBox(height: 5.0,),
               ListTile (
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AboutScreen()),
+                  );
+                },
                 title: Text(
                   'About',
                 ),
                 leading: Icon(
                   Icons.info_rounded,
                   size: 36.0,
-                  color: Colors.blue,
+                  color: Theme.of(context).iconTheme.color,
                 ),
                 trailing: Icon(Icons.navigate_next),
               ),

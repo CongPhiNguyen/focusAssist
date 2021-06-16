@@ -4,11 +4,13 @@ import 'dart:typed_data';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
+import 'package:focus_assist/classes/theme_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:focus_assist/pages/login/screen/welcome_screen.dart';
+import 'package:focus_assist/classes/theme_provider.dart';
 
 import 'package:focus_assist/classes/DbProvider.dart';
 
@@ -29,6 +31,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(ThemeProvider().themeMode.toString());
     LoadUsername();
     LoadUserImage();
   }
@@ -67,7 +70,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(00.0, 20.0, 00.0, 0),
@@ -91,7 +94,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                             backgroundImage: (image == null)
                                 ? AssetImage('assets/default.png')
                                 : null,
-                            backgroundColor: Colors.white,
+                            backgroundColor: Colors.transparent,
                             radius: 50.0,
                             child: ClipRRect(
                               child: (image != null) ? image : null,
@@ -124,7 +127,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                                   children: <Widget>[
                                     Icon(
                                       Icons.account_circle,
-                                      color: Colors.blue,
+                                      // color: Colors.blue,
                                     ),
                                     Text('   Change Avatar'),
                                   ],
@@ -140,7 +143,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                                   children: <Widget>[
                                     Icon(
                                       Icons.edit,
-                                      color: Colors.blue,
+                                      // color: Colors.blue,
                                     ),
                                     Text('   Edit Username'),
                                   ],
@@ -159,7 +162,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                       '$username',
                       style: TextStyle(
                         fontSize: 24.0,
-                        color: Colors.grey[700],
+                        // color: Colors.grey[700],
                       ),
                     ),
                   ),
@@ -202,10 +205,11 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue[500],
+                            color: (!StaticData.isDarkMode)?Colors.blue[500]:Colors.white,
                           ),
                         ),
-                        tileColor: Colors.blue[50],
+                        tileColor: (!StaticData.isDarkMode)?Colors.blue[50]:Colors.grey[800],
+                        // tileColor: Colors.grey[800],
                       ),
                     ),
                     Card(
@@ -221,10 +225,10 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue[500],
+                            color: (!StaticData.isDarkMode)?Colors.blue[500]:Colors.white,
                           ),
                         ),
-                        tileColor: Colors.blue[50],
+                        tileColor: (!StaticData.isDarkMode)?Colors.blue[50]:Colors.grey[800],
                       ),
                     ),
                     SizedBox(
@@ -267,9 +271,11 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.red[500],
+                            // color: (!StaticData.isDarkMode)?Colors.red[500]:Colors.red[500],
                           ),
                         ),
-                        tileColor: Colors.red[50],
+                        // tileColor: Colors.red[50],
+                        tileColor: (!StaticData.isDarkMode)?Colors.red[50]:Colors.red[200],
                       ),
                     ),
                     Card(
@@ -288,9 +294,11 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.red[500],
+                            // color: (!StaticData.isDarkMode)?Colors.red[500]:Colors.red,
                           ),
                         ),
-                        tileColor: Colors.red[50],
+                        // tileColor: Colors.red[50],
+                        tileColor: (!StaticData.isDarkMode)?Colors.red[50]:Colors.red[200],
                       ),
                     ),
                   ],
@@ -417,7 +425,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
         return AlertDialog(
           title: Center(
               child: Text(
-            'Edit Username',
+            'Edit Name',
             style: TextStyle(color: Colors.blue),
           )),
           content: SingleChildScrollView(
@@ -618,6 +626,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                         MANGUOIDUNG = '';
                     ''');
                 StaticData.flutterLocalNotificationsPlugin.cancelAll();
+                StaticData.isDarkMode = false;
                 Navigator.pop(context);
                 Navigator.pop(context);
                 Navigator.pushReplacement(

@@ -8,6 +8,7 @@ import 'ClassTimerHistory.dart';
 
 class StaticData {
   static bool isSignedIn = false;
+  static bool isDarkMode = false;
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   static String userID = '';
   static int Vang = 0;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
+import 'package:focus_assist/classes/theme_provider.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
 import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
@@ -11,6 +12,7 @@ import 'package:focus_assist/pages/login/feature_ui/edit_text_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/edit_text_password_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/forget_password.dart';
 import 'package:focus_assist/pages/login/screen/sign_up_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/pages/main_screen.dart';
@@ -172,6 +174,12 @@ class LoginScreen extends StatelessWidget {
       SET DADANGNHAP = 1,
           MANGUOIDUNG = '${StaticData.userID}';
       ''');
+    List<Map<String, dynamic>> queryRows = await DbProvider.instance.rawQuery('''
+                    select * from THONGTINNGUOIDUNG where MANGUOIDUNG = '${StaticData.userID}'
+                    ''');
+    StaticData.isDarkMode = (queryRows.first['DARKMODE'] == 1);
+    final provider = Provider.of<ThemeProvider>(context, listen: false);
+    provider.toggleTheme(StaticData.isDarkMode);
     InitUserNotification();
     Navigator.pop(context);
     Navigator.pushReplacement(

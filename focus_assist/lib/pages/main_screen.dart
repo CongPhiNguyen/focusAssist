@@ -15,7 +15,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _page = 3;
+  int _page = 4;
   // GlobalKey _bottomNavigationKey = GlobalKey();
 
 
@@ -24,16 +24,16 @@ class _MainScreenState extends State<MainScreen> {
   Widget _pageChooser(int page) {
     switch (page) {
       case 0:
-        return TimerScreen();
-        break;
-      case 1:
         return JournalScreen();
         break;
+      case 1:
+        return TimerScreen();
+        break;
       case 2:
-        return  FarmScreen();
+        return ProgressScreen();
         break;
       case 3:
-        return ProgressScreen();
+        return  FarmScreen();
         break;
       case 4:
         return SettingScreen();
@@ -51,14 +51,21 @@ class _MainScreenState extends State<MainScreen> {
         // key: _bottomNavigationKey,
         index: _page,
         items: <Widget>[
-          Icon(Icons.timer, size: 30),
-          Icon(Icons.wysiwyg_rounded, size: 30),
-          Icon(Icons.style,size:30),
-          Icon(Icons.waterfall_chart, size: 30),
-          Icon(Icons.settings, size: 30),
+          Icon(Icons.wysiwyg_rounded, size: 30,),
+          Icon(Icons.timer, size: 30,),
+          Icon(Icons.waterfall_chart, size: 30,),
+          Icon(Icons.star, size: 30,),
+          Icon(Icons.settings, size: 30,),
+
+          // Icon(Icons.wysiwyg_rounded, size: 30, color: (_page == 0)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
+          // Icon(Icons.timer, size: 30, color: (_page == 1)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
+          // Icon(Icons.waterfall_chart, size: 30, color: (_page == 2)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
+          // Icon(Icons.star,size:30, color: (_page == 3)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
+          // Icon(Icons.settings, size: 30, color: (_page == 4)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
         ],
-        color: Colors.amber[200],
-        backgroundColor: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+        buttonBackgroundColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 600),
         onTap: (int tappedIndex) {

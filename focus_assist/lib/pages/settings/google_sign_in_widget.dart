@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/user_chat.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -25,7 +26,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
       )
           : OutlinedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.white),
+          backgroundColor: MaterialStateProperty.all((!StaticData.isDarkMode)?Colors.white:Colors.grey[800]),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(40),
@@ -51,7 +52,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   'Sign in with Google',
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.black54,
+                    color: (!StaticData.isDarkMode)?Colors.black54:Colors.white70,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
