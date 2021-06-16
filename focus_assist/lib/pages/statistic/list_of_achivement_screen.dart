@@ -119,7 +119,7 @@ class _ListAchivementState extends State<ListAchivement> {
     currentActivityTarget = 0;
     currentActivityLevel = 1;
     currentDoneLevel = 1;
-    targetToReach = 4;
+    targetToReach = 75;
     getData();
   }
 
