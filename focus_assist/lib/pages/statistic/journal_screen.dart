@@ -1024,7 +1024,7 @@ class _JournalScreenState extends State<JournalScreen> {
         });
       return;
     }
-    int levelNow = (done * 1.0 / 75).round();
+    int levelNow = (done * 1.0 / 75).floor();
     int achivedLevel = await getCurrentActivityLevel();
     print('levelNow $levelNow');
     if (levelNow > achivedLevel) {
