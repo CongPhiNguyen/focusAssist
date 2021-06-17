@@ -19,7 +19,6 @@ class _EditGroupState extends State<EditGroup> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getGroupName = TextEditingController(text: widget.groupName);
     isOK = true;
@@ -32,6 +31,7 @@ class _EditGroupState extends State<EditGroup> {
         List.generate(len, (index) => r.nextInt(33) + 89));
   }
 
+  // ignore: non_constant_identifier_names
   void AddNewGroup() async {
     Map<String, dynamic> row = {
       'MANHOM': getRandomString(5),
@@ -105,9 +105,13 @@ class _EditGroupState extends State<EditGroup> {
                 onTap: () {
                   if (getGroupName.text == null ||
                       getGroupName.text.length < 1) {
-                    setState(() {
-                      isOK = false;
-                    });
+                    if (this.mounted) {
+                      setState(() {
+                        isOK = false;
+                      });
+                    } else
+                      return;
+
                     print("Fuck");
                   } else {
                     editGroup();

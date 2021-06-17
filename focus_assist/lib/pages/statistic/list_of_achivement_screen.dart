@@ -12,13 +12,6 @@ class ListAchivement extends StatefulWidget {
 
 class _ListAchivementState extends State<ListAchivement> {
   //Đây sẽ list các thành tựu các kiếu sau
-  Future<int> countActivity() async {
-    String key = StaticData.userID;
-    List<Map<String, dynamic>> data = await dbHelper.rawQuery(
-        '''select count(*) as SOMUCTIEU from MUCTIEU where MANGUOIDUNG='$key' ''');
-    return data[0]['SOMUCTIEU'];
-  }
-
   Future<int> countDone() async {
     String key = StaticData.userID;
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
@@ -26,80 +19,62 @@ class _ListAchivementState extends State<ListAchivement> {
     return data[0]['SOLAN'];
   }
 
-  int doneNum = 0, activityNum = 0;
   Future<void> getCount() async {
     int dones = await countDone();
-    int activities = await countActivity();
     doneNum = dones;
-    activityNum = activities;
   }
 
   void getData() async {
     await getCount();
     await getCurrentLevel();
-    setState(() {
-      currentDoneTarget = currentDoneLevel * 10;
-      if (currentDoneTarget > 30) currentDoneTarget = 30;
-      percentDone = doneNum * 1.0 / currentDoneTarget;
-    });
+    if (this.mounted) {
+      setState(() {
+        if (currentDoneLevel == 4)
+          currentDoneTarget = targetDone[2];
+        else
+          currentDoneTarget = targetDone[currentDoneLevel - 1];
+        percentDone = doneNum * 1.0 / currentDoneTarget;
 
-    setState(() {
-      currentActivityTarget = currentActivityLevel * 3;
-      if (currentActivityTarget > 30) currentActivityTarget = 30;
-      percentActivity = activityNum * 1.0 / currentActivityTarget;
-    });
+        percentActivity = doneNumLeft * 1.0 / targetToReach;
+      });
+    } else
+      return;
   }
 
   Future<int> getCurrentActivityLevel() async {
-    String userID = StaticData.userID;
-    // Xem thử đã qua cấp 3 chưa
-    String maThanhTuu = 'ACTIVE3';
+    //int levelNow = (doneNum / 75).round();
+    int countDatabaseLevel = 0;
+    String key = StaticData.userID;
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
-        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
-    if (data[0]['DEM'] > 0) {
-      setState(() {
-        isFullActive = true;
-      });
-      return 4;
-    }
-    // Xem thử đã qua cấp 2 chưa
-    maThanhTuu = 'ACTIVE2';
-    List<Map<String, dynamic>> data1 = await dbHelper.rawQuery(
-        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
-    if (data1[0]['DEM'] > 0) {
-      return 3;
-    }
-    // Xem thử qua cấp 1 hay chưa
-    maThanhTuu = 'ACTIVE1';
-    List<Map<String, dynamic>> data2 = await dbHelper.rawQuery(
-        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
-    if (data2[0]['DEM'] > 0) {
-      return 2;
-    }
-    return 1;
+        '''select count(*) as SOLAN from THANHTUU t join THANHTUUNGUOIDUNG tn on t.MATHANHTUU=tn.MATHANHTUU where tn.MANGUOIDUNG='$key' and t.VANG=20  ''');
+    countDatabaseLevel = data[0]['SOLAN'];
+    print('shit' + countDatabaseLevel.toString());
+    return countDatabaseLevel;
   }
 
   Future<int> getCurrentDoneLevel() async {
     String userID = StaticData.userID;
     // Xem thử đã qua cấp 3 chưa
-    String maThanhTuu = 'DONE3';
+    String maThanhTuu = 'TT03';
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
         '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
     if (data[0]['DEM'] > 0) {
-      setState(() {
-        isFullDone = true;
-      });
+      if (this.mounted) {
+        setState(() {
+          isFullDone = true;
+        });
+      }
       return 4;
     }
     // Xem thử đã qua cấp 2 chưa
-    maThanhTuu = 'DONE2';
+    maThanhTuu = 'TT04';
     List<Map<String, dynamic>> data1 = await dbHelper.rawQuery(
         '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
     if (data1[0]['DEM'] > 0) {
       return 3;
     }
     // Xem thử qua cấp 1 hay chưa
-    maThanhTuu = 'DONE1';
+    maThanhTuu = 'TT01';
     List<Map<String, dynamic>> data2 = await dbHelper.rawQuery(
         '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
     if (data2[0]['DEM'] > 0) {
@@ -112,23 +87,31 @@ class _ListAchivementState extends State<ListAchivement> {
     int currentDone = await getCurrentDoneLevel();
     int currentActive = await getCurrentActivityLevel();
     print('currentDone: $currentDone currentActive: $currentActive');
-    setState(() {
-      currentDoneLevel = currentDone;
-      currentActivityLevel = currentActive;
-    });
+    if (this.mounted) {
+      setState(() {
+        currentDoneLevel = currentDone;
+        currentActivityLevel = currentActive;
+      });
+      setState(() {
+        doneNumLeft = doneNum - currentActive * targetToReach;
+      });
+    } else
+      return;
   }
 
+  int targetToReach;
+  int doneNum = 0, doneNumLeft = 0;
+  List<int> targetDone = [100, 500, 1500]; //[1, 3, 5]; //[100, 500, 1500];
   int currentDoneLevel,
       currentActivityLevel,
       currentDoneTarget,
       currentActivityTarget;
   double percentDone, percentActivity;
   final dbHelper = DbProvider.instance;
-  bool isFullActive = false, isFullDone = false;
+  bool isFullDone = false;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     percentDone = 0.0;
     percentActivity = 0.0;
@@ -136,30 +119,36 @@ class _ListAchivementState extends State<ListAchivement> {
     currentActivityTarget = 0;
     currentActivityLevel = 1;
     currentDoneLevel = 1;
+    targetToReach = 75;
     getData();
   }
 
-  void FinishClick() async {
+  void finishClick() async {
     if (percentDone < 1.0) return;
     if (currentDoneLevel >= 4) {
-      setState(() {
-        isFullDone = true;
-      });
+      if (this.mounted) {
+        setState(() {
+          isFullDone = true;
+        });
+      } else
+        return;
+
       return;
     } else if (currentDoneLevel == 3) {
       Map<String, dynamic> row = {
-        'MATHANHTUU': 'DONE3',
-        'TENTHANHTUU': 'Finish 30 times',
+        'MATHANHTUU': 'TT03',
+        'TENTHANHTUU': 'Finish $currentDoneTarget times',
         'CAPDO': 3,
-        'VANG': 100
+        'VANG': 300
       };
+      print(row);
       final id = await dbHelper.insert('THANHTUU', row);
       print('inserted row id: $id');
-      row = {'MATHANHTUU': 'DONE3', 'MANGUOIDUNG': StaticData.userID};
+      row = {'MATHANHTUU': 'TT03', 'MANGUOIDUNG': StaticData.userID};
       final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
       print('inserted row id: $id2');
 
-      int golds = StaticData.Vang += 50;
+      int golds = StaticData.Vang += 300;
       //Add vào database
       String userKey = StaticData.userID;
       dbHelper.rawQuery(
@@ -168,18 +157,19 @@ class _ListAchivementState extends State<ListAchivement> {
       getData();
     } else if (currentDoneLevel == 2) {
       Map<String, dynamic> row = {
-        'MATHANHTUU': 'DONE2',
-        'TENTHANHTUU': 'Finish 20 times',
+        'MATHANHTUU': 'TT04',
+        'TENTHANHTUU': 'Finish $currentDoneTarget times',
         'CAPDO': 2,
         'VANG': 100
       };
+      print(row);
       final id = await dbHelper.insert('THANHTUU', row);
       print('inserted row id: $id');
-      row = {'MATHANHTUU': 'DONE2', 'MANGUOIDUNG': StaticData.userID};
+      row = {'MATHANHTUU': 'TT04', 'MANGUOIDUNG': StaticData.userID};
       final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
       print('inserted row id: $id2');
 
-      int golds = StaticData.Vang += 50;
+      int golds = StaticData.Vang += 100;
       //Add vào database
       String userKey = StaticData.userID;
       dbHelper.rawQuery(
@@ -188,18 +178,18 @@ class _ListAchivementState extends State<ListAchivement> {
       getData();
     } else if (currentDoneLevel == 1) {
       Map<String, dynamic> row = {
-        'MATHANHTUU': 'DONE1',
-        'TENTHANHTUU': 'Finish 10 times',
+        'MATHANHTUU': 'TT01',
+        'TENTHANHTUU': 'Finish $currentDoneTarget times',
         'CAPDO': 1,
-        'VANG': 100
+        'VANG': 25
       };
       final id = await dbHelper.insert('THANHTUU', row);
       print('inserted row id: $id');
-      row = {'MATHANHTUU': 'DONE1', 'MANGUOIDUNG': StaticData.userID};
+      row = {'MATHANHTUU': 'TT01', 'MANGUOIDUNG': StaticData.userID};
       final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
       print('inserted row id: $id2');
 
-      int golds = StaticData.Vang += 50;
+      int golds = StaticData.Vang += 25;
       //Add vào database
       String userKey = StaticData.userID;
       dbHelper.rawQuery(
@@ -209,74 +199,35 @@ class _ListAchivementState extends State<ListAchivement> {
     }
   }
 
-  void HaveClick() async {
+  void haveClick() async {
     if (percentActivity < 1.0) return;
-    if (currentActivityLevel >= 4) {
-      setState(() {
-        isFullActive = true;
-      });
-      return;
-    } else if (currentActivityLevel == 3) {
-      Map<String, dynamic> row = {
-        'MATHANHTUU': 'ACTIVE3',
-        'TENTHANHTUU': 'Have 9 activities',
-        'CAPDO': 3,
-        'VANG': 100
-      };
-      final id = await dbHelper.insert('THANHTUU', row);
-      print('inserted row id: $id');
-      row = {'MATHANHTUU': 'ACTIVE3', 'MANGUOIDUNG': StaticData.userID};
-      final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
-      print('inserted row id: $id2');
-
-      int golds = StaticData.Vang += 50;
-      //Add vào database
-      String userKey = StaticData.userID;
-      dbHelper.rawQuery(
-          ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
-
-      getData();
-    } else if (currentActivityLevel == 2) {
-      Map<String, dynamic> row = {
-        'MATHANHTUU': 'ACTIVE2',
-        'TENTHANHTUU': 'Have 6 activities',
-        'CAPDO': 2,
-        'VANG': 100
-      };
-      final id = await dbHelper.insert('THANHTUU', row);
-      print('inserted row id: $id');
-      row = {'MATHANHTUU': 'ACTIVE2', 'MANGUOIDUNG': StaticData.userID};
-      final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
-      print('inserted row id: $id2');
-
-      int golds = StaticData.Vang += 50;
-      //Add vào database
-      String userKey = StaticData.userID;
-      dbHelper.rawQuery(
-          ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
-
-      getData();
-    } else if (currentActivityLevel == 1) {
-      Map<String, dynamic> row = {
-        'MATHANHTUU': 'ACTIVE1',
-        'TENTHANHTUU': 'Have 3 activities',
-        'CAPDO': 1,
-        'VANG': 100
-      };
-      final id = await dbHelper.insert('THANHTUU', row);
-      print('inserted row id: $id');
-      row = {'MATHANHTUU': 'ACTIVE1', 'MANGUOIDUNG': StaticData.userID};
-      final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
-      print('inserted row id: $id2');
-
-      int golds = StaticData.Vang += 50;
-      //Add vào database
-      String userKey = StaticData.userID;
-      dbHelper.rawQuery(
-          ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
-
-      getData();
+    String maThanhTuu = 'TT';
+    int newNum = 5 + (currentActivityLevel % 53);
+    String newNum2 = newNum.toString();
+    while (newNum2.length < 2) {
+      newNum2 = '0' + newNum2;
     }
+    maThanhTuu += newNum2;
+    Map<String, dynamic> row = {
+      'MATHANHTUU': maThanhTuu,
+      'TENTHANHTUU':
+          'Finish ${(currentActivityLevel + 1) * targetToReach} times',
+      'CAPDO': 1,
+      'VANG': 20
+    };
+    print('have:$row');
+    final id = await dbHelper.insert('THANHTUU', row);
+    print('inserted row id: $id');
+    row = {'MATHANHTUU': maThanhTuu, 'MANGUOIDUNG': StaticData.userID};
+    final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
+    print('inserted row id: $id2');
+
+    int golds = StaticData.Vang += 20;
+    //Add vàng vào database
+    String userKey = StaticData.userID;
+    dbHelper.rawQuery(
+        ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
+    getData();
   }
 
   @override
@@ -297,7 +248,7 @@ class _ListAchivementState extends State<ListAchivement> {
                 ),
                 Center(
                     child: Text(
-                  "All achivements",
+                  "Achivements",
                   style: TextStyle(fontSize: 30),
                 )),
               ]),
@@ -326,12 +277,15 @@ class _ListAchivementState extends State<ListAchivement> {
                   ),
                   Expanded(
                       flex: 1,
-                      child: ElevatedButton(
-                        onPressed: FinishClick,
+                      child: TextButton(
+                        onPressed: finishClick,
                         style: ElevatedButton.styleFrom(
                           primary: !isFullDone ? Colors.blue : Colors.grey,
                         ),
-                        child: Text('Claim'),
+                        child: Text(
+                          'Claim',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
                       ))
                 ]),
               ),
@@ -343,14 +297,13 @@ class _ListAchivementState extends State<ListAchivement> {
                   Expanded(
                       flex: 2,
                       child: Center(
-                        child: Text("Have $currentActivityTarget activity",
+                        child: Text("Done $targetToReach times",
                             style: TextStyle(fontSize: 20)),
                       )),
                   Expanded(
                     flex: 2,
                     child: LinearPercentIndicator(
-                      center: Text("$activityNum/$currentActivityTarget"),
-                      //width: 100.0,
+                      center: Text("$doneNumLeft/$targetToReach"),
                       lineHeight: 14.0,
                       percent: (percentActivity > 1) ? 1.0 : percentActivity,
                       backgroundColor: Colors.grey,
@@ -359,12 +312,15 @@ class _ListAchivementState extends State<ListAchivement> {
                   ),
                   Expanded(
                       flex: 1,
-                      child: ElevatedButton(
-                        onPressed: HaveClick,
+                      child: TextButton(
+                        onPressed: haveClick,
                         style: ElevatedButton.styleFrom(
-                          primary: !isFullActive ? Colors.blue : Colors.grey,
+                          primary: Colors.blue,
                         ),
-                        child: Text('Claim'),
+                        child: Text(
+                          'Claim',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
                       ))
                 ]),
               ),

@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'dart:math';
 import 'package:focus_assist/pages/statistic/add_new_group_dialog.dart';
@@ -45,7 +42,6 @@ class _EditActivityState extends State<EditActivity> {
     allGroup = ['Choose a group'];
     dropDownGroup = allGroup[0];
     allGroupKey = ['None'];
-    // TODO: implement initState
     super.initState();
     dropDownValue = 'Fixed';
     startTime = DateTime.now();
@@ -78,48 +74,67 @@ class _EditActivityState extends State<EditActivity> {
     ''');
     String groupKey;
     if (database.length > 0) {
-      setState(() {
-        getActivity = TextEditingController(text: database[0]['TENMUCTIEU']);
-        getDescription = TextEditingController(text: database[0]['MOTA']);
-        groupKey = database[0]['MANHOM'];
-        startTime =
-            intToDateTime(int.parse(database[0]['NGAYBATDAU'].toString()));
-      });
+      if (this.mounted) {
+        setState(() {
+          getActivity = TextEditingController(text: database[0]['TENMUCTIEU']);
+          getDescription = TextEditingController(text: database[0]['MOTA']);
+          groupKey = database[0]['MANHOM'];
+          startTime =
+              intToDateTime(int.parse(database[0]['NGAYBATDAU'].toString()));
+        });
+      } else
+        return;
+
       String type = database[0]['LOAIHINH'];
       if (type == 'Fixed') {
-        setState(() {
-          dropDownValue = 'Fixed';
-        });
+        if (this.mounted) {
+          setState(() {
+            dropDownValue = 'Fixed';
+          });
+        } else
+          return;
+
         String cacNgay = database[0]['CACNGAY'].toString();
         while (cacNgay.length < 7) {
           cacNgay = '0' + cacNgay;
         }
         for (int i = 0; i < 7; i++) {
-          setState(() {
-            checkDay[i] = (cacNgay[i] == '1') ? true : false;
-          });
+          if (this.mounted) {
+            setState(() {
+              checkDay[i] = (cacNgay[i] == '1') ? true : false;
+            });
+          } else
+            return;
         }
       } else if (type == 'Flexible') {
-        setState(() {
-          dropDownValue = 'Flexible';
-          getDayPerWeek =
-              TextEditingController(text: database[0]['SOLAN'].toString());
-        });
+        if (this.mounted) {
+          setState(() {
+            dropDownValue = 'Flexible';
+            getDayPerWeek =
+                TextEditingController(text: database[0]['SOLAN'].toString());
+          });
+        } else
+          return;
       } else if (type == 'Repeating') {
-        setState(() {
-          dropDownValue = 'Repeating';
-          getRepeatingDay = TextEditingController(
-              text: database[0]['KHOANGTHOIGIAN'].toString());
-        });
+        if (this.mounted) {
+          setState(() {
+            dropDownValue = 'Repeating';
+            getRepeatingDay = TextEditingController(
+                text: database[0]['KHOANGTHOIGIAN'].toString());
+          });
+        } else
+          return;
       }
     }
     database = await dbHelper.rawQuery('''
         select * from NHOMMUCTIEU where MANHOM='$groupKey'
     ''');
-    if (database.length > 0)
+    if (database.length > 0) if (this.mounted) {
       setState(() {
         dropDownGroup = database[0]['TENNHOM'];
       });
+    } else
+      return;
   }
 
   //Hàm tạo string random để Tạo khoá
@@ -130,6 +145,7 @@ class _EditActivityState extends State<EditActivity> {
   }
 
   // List các hàm tạo các widget phù hợp với từng loại hoạt động
+  // ignore: non_constant_identifier_names
   List<Widget> Flexible() {
     return <Widget>[
       Center(
@@ -170,6 +186,7 @@ class _EditActivityState extends State<EditActivity> {
     ];
   }
 
+  // ignore: non_constant_identifier_names
   List<Widget> Fixed() {
     return <Widget>[
       Column(children: [
@@ -193,9 +210,12 @@ class _EditActivityState extends State<EditActivity> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        setState(() {
-                          checkDay[index] = !checkDay[index];
-                        });
+                        if (this.mounted) {
+                          setState(() {
+                            checkDay[index] = !checkDay[index];
+                          });
+                        } else
+                          return;
                       },
                       child: Container(
                           decoration: BoxDecoration(
@@ -241,6 +261,7 @@ class _EditActivityState extends State<EditActivity> {
     ];
   }
 
+  // ignore: non_constant_identifier_names
   List<Widget> Repeating() {
     return <Widget>[
       Center(
@@ -448,18 +469,26 @@ class _EditActivityState extends State<EditActivity> {
       String days = getRepeatingDay.text;
       val += ''', KHOANGTHOIGIAN='$days' ''';
     }
-    setState(() {
-      text = val;
-    });
+    if (this.mounted) {
+      setState(() {
+        text = val;
+      });
+    } else
+      return;
+
     dbHelper.rawQuery('''update MUCTIEU
      set $val where MAMUCTIEU='$key' ''');
   }
 
   void getAllGroup() async {
     List<Map<String, dynamic>> database = await dbHelper.query('NHOMMUCTIEU');
-    setState(() {
-      text2 = database.toString();
-    });
+    if (this.mounted) {
+      setState(() {
+        text2 = database.toString();
+      });
+    } else
+      return;
+
     // setState(() {
     //   allGroup = [];
     //   allGroupKey = [];
@@ -474,10 +503,13 @@ class _EditActivityState extends State<EditActivity> {
     }
 
     if (allGroup.length == 0) {
-      setState(() {
-        allGroup = ['None', 'None1', 'None2'];
-        dropDownValue = allGroup[0];
-      });
+      if (this.mounted) {
+        setState(() {
+          allGroup = ['None', 'None1', 'None2'];
+          dropDownValue = allGroup[0];
+        });
+      } else
+        return;
     }
   }
 
@@ -488,7 +520,7 @@ class _EditActivityState extends State<EditActivity> {
           backgroundColor: Color(0xff8A2BE2),
           title: Text("Add new activity", style: TextStyle(fontSize: 25)),
           actions: [
-            FlatButton(
+            TextButton(
                 onPressed: () {
                   editActivity();
                   Navigator.pop(context);
@@ -616,7 +648,7 @@ class _EditActivityState extends State<EditActivity> {
                     startTime.toString().substring(0, 10),
                     style: TextStyle(fontSize: 20),
                   ),
-                  FlatButton.icon(
+                  TextButton.icon(
                     icon: Icon(Icons.date_range),
                     onPressed: () {
                       showDatePicker(
@@ -625,9 +657,12 @@ class _EditActivityState extends State<EditActivity> {
                               firstDate: DateTime.utc(2020, 1, 1),
                               lastDate: DateTime.utc(2120, 31, 12))
                           .then((date) {
-                        setState(() {
-                          if (date != null) startTime = date;
-                        });
+                        if (this.mounted) {
+                          setState(() {
+                            if (date != null) startTime = date;
+                          });
+                        } else
+                          return;
                       });
                     },
                     label: Text(""),
@@ -667,9 +702,12 @@ class _EditActivityState extends State<EditActivity> {
                       color: Colors.deepPurpleAccent,
                     ),
                     onChanged: (String newValue) {
-                      setState(() {
-                        dropDownGroup = newValue;
-                      });
+                      if (this.mounted) {
+                        setState(() {
+                          dropDownGroup = newValue;
+                        });
+                      } else
+                        return;
                     },
                     items:
                         allGroup.map<DropdownMenuItem<String>>((String value) {
@@ -723,9 +761,12 @@ class _EditActivityState extends State<EditActivity> {
                       color: Colors.deepPurpleAccent,
                     ),
                     onChanged: (String newValue) {
-                      setState(() {
-                        dropDownValue = newValue;
-                      });
+                      if (this.mounted) {
+                        setState(() {
+                          dropDownValue = newValue;
+                        });
+                      } else
+                        return;
                     },
                     items: <String>['Fixed', 'Flexible', 'Repeating']
                         .map<DropdownMenuItem<String>>((String value) {

@@ -10,8 +10,7 @@ class FocusAssist extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Focus Assist',
-      home: (StaticData.isSignedIn)?MainScreen():WelcomeScreen(),
+      home: (StaticData.isSignedIn) ? MainScreen() : WelcomeScreen(),
     );
   }
 }
-
