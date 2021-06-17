@@ -67,13 +67,13 @@ class MyThemes {
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
       titleTextStyle: TextStyle(
-        color: Colors.black,
+        color: Colors.black87,
       ),
       iconTheme: IconThemeData(
-        color: Colors.black,
+        color: Colors.black87,
       ),
       actionsIconTheme: IconThemeData(
-        color: Colors.black,
+        color: Colors.black87,
       ),
     ),
   );

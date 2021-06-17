@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/services.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
@@ -304,112 +305,112 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   ],
                 ),
               ),
-              TextButton(
-                onPressed: () async {
-                  Database db = await DbProvider.instance.database;
-                  // Map<String, dynamic> row = {
-                  //   'MAMUCTIEU': 'MT00001',
-                  //   'NGAYHOANTHANH': 20210529
-                  // };
-                  // Map<String, dynamic> row = {
-                  //   'MAMUCTIEU': 'MT00001',
-                  //   'MANGUOIDUNG': '${StaticData.userID}',
-                  //   'MANHOM': '',
-                  //   'TENMUCTIEU': 'Đọc sách',
-                  //   'MOTA': '',
-                  //   'NGAYBATDAU': 20210524,
-                  //   'LOAIHINH': 'FIXED',
-                  //   'CACNGAY': 1101011
-                  // };
-                  // Map<String, dynamic> row = {
-                  //   'MAMUCTIEU': 'MT00002',
-                  //   'MANGUOIDUNG': '${StaticData.userID}',
-                  //   'MANHOM': '',
-                  //   'TENMUCTIEU': 'Chạy bộ',
-                  //   'MOTA': '',
-                  //   'NGAYBATDAU': 20210524,
-                  //   'LOAIHINH': 'FLEXIBLE',
-                  //   'SOLAN': 3
-                  // };
-                  // Map<String, dynamic> row = {
-                  //   'MAMUCTIEU': 'MT00003',
-                  //   'MANGUOIDUNG': '${StaticData.userID}',
-                  //   'MANHOM': '',
-                  //   'TENMUCTIEU': 'Dọn nhà',
-                  //   'MOTA': '',
-                  //   'NGAYBATDAU': 20210524,
-                  //   'LOAIHINH': 'REPEATING',
-                  //   'KHOANGTHOIGIAN': 5
-                  // };
-                  // Map<String, dynamic> row = {
-                  //   'DADANGNHAP': 0,
-                  //   'MANGUOIDUNG': ''
-                  // };
-                  Map<String, dynamic> row = {
-                    'MATRICHDAN': 'TD005',
-                    'TRICHDAN': 'The will to win, the desire to succeed, the urge to reach your full potential... these are the keys that will unlock the door to personal excellence',
-                    'TACGIA': 'Confucius'
-                  };
-                  print(await db.insert('TRICHDAN', row));
-
-                  // Database db = await DbProvider.instance.database;
-                  // await db.execute(
-                  //   '''
-                  //   INSERT INTO THONGTINNGUOIDUNG VALUES ('${StaticData.userID}', 'Crack of Dawn', '', 100, 1, 1, 1, '07:00:00', '21:00:00', 0, 0, '');
-                  //   '''
-                  // );
-                  print('Complete insert into table');
-                },
-                child: Text(
-                  'Insert',
-                ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  Database db = await DbProvider.instance.database;
-                  List<Map<String, dynamic>> queryRows =
-                      await db.query('NGUOIDUNG');
-                  print(queryRows);
-                },
-                child: Text(
-                  'Query',
-                ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  Database db = await DbProvider.instance.database;
-                  db.execute('''
-                  CREATE TABLE THAMSO (
-                      DADANGNHAP BOOL,
-                      MANGUOIDUNG TEXT,
-                      PRIMARY KEY (DADANGNHAP, MANGUOIDUNG)
-                  );
-                    ''');
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN LOCKPASSCODE TEXT;
-                  //   '''
-                  // );
-                  print('Complete update table');
-                },
-                child: Text(
-                  'Update',
-                ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  Database db = await DbProvider.instance.database;
-                  db.execute('''
-                    DELETE FROM THONGKE
-                    WHERE MAMUCTIEU = 'MT00001' AND NGAYHOANTHANH = 20210613;
-                    ''');
-                  print('Complete delete');
-                },
-                child: Text(
-                  'Delete',
-                ),
-              ),
+              // TextButton(
+              //   onPressed: () async {
+              //     Database db = await DbProvider.instance.database;
+              //     // Map<String, dynamic> row = {
+              //     //   'MAMUCTIEU': 'MT00001',
+              //     //   'NGAYHOANTHANH': 20210529
+              //     // };
+              //     // Map<String, dynamic> row = {
+              //     //   'MAMUCTIEU': 'MT00001',
+              //     //   'MANGUOIDUNG': '${StaticData.userID}',
+              //     //   'MANHOM': '',
+              //     //   'TENMUCTIEU': 'Đọc sách',
+              //     //   'MOTA': '',
+              //     //   'NGAYBATDAU': 20210524,
+              //     //   'LOAIHINH': 'FIXED',
+              //     //   'CACNGAY': 1101011
+              //     // };
+              //     // Map<String, dynamic> row = {
+              //     //   'MAMUCTIEU': 'MT00002',
+              //     //   'MANGUOIDUNG': '${StaticData.userID}',
+              //     //   'MANHOM': '',
+              //     //   'TENMUCTIEU': 'Chạy bộ',
+              //     //   'MOTA': '',
+              //     //   'NGAYBATDAU': 20210524,
+              //     //   'LOAIHINH': 'FLEXIBLE',
+              //     //   'SOLAN': 3
+              //     // };
+              //     // Map<String, dynamic> row = {
+              //     //   'MAMUCTIEU': 'MT00003',
+              //     //   'MANGUOIDUNG': '${StaticData.userID}',
+              //     //   'MANHOM': '',
+              //     //   'TENMUCTIEU': 'Dọn nhà',
+              //     //   'MOTA': '',
+              //     //   'NGAYBATDAU': 20210524,
+              //     //   'LOAIHINH': 'REPEATING',
+              //     //   'KHOANGTHOIGIAN': 5
+              //     // };
+              //     // Map<String, dynamic> row = {
+              //     //   'DADANGNHAP': 0,
+              //     //   'MANGUOIDUNG': ''
+              //     // };
+              //     Map<String, dynamic> row = {
+              //       'MATRICHDAN': 'TD005',
+              //       'TRICHDAN': 'The will to win, the desire to succeed, the urge to reach your full potential... these are the keys that will unlock the door to personal excellence',
+              //       'TACGIA': 'Confucius'
+              //     };
+              //     print(await db.insert('TRICHDAN', row));
+              //
+              //     // Database db = await DbProvider.instance.database;
+              //     // await db.execute(
+              //     //   '''
+              //     //   INSERT INTO THONGTINNGUOIDUNG VALUES ('${StaticData.userID}', 'Crack of Dawn', '', 100, 1, 1, 1, '07:00:00', '21:00:00', 0, 0, '');
+              //     //   '''
+              //     // );
+              //     print('Complete insert into table');
+              //   },
+              //   child: Text(
+              //     'Insert',
+              //   ),
+              // ),
+              // TextButton(
+              //   onPressed: () async {
+              //     Database db = await DbProvider.instance.database;
+              //     List<Map<String, dynamic>> queryRows =
+              //         await db.query('NGUOIDUNG');
+              //     print(queryRows);
+              //   },
+              //   child: Text(
+              //     'Query',
+              //   ),
+              // ),
+              // TextButton(
+              //   onPressed: () async {
+              //     Database db = await DbProvider.instance.database;
+              //     db.execute('''
+              //     CREATE TABLE THAMSO (
+              //         DADANGNHAP BOOL,
+              //         MANGUOIDUNG TEXT,
+              //         PRIMARY KEY (DADANGNHAP, MANGUOIDUNG)
+              //     );
+              //       ''');
+              //     // db.execute(
+              //     //   '''
+              //     //   ALTER TABLE THONGTINNGUOIDUNG
+              //     //   ADD COLUMN LOCKPASSCODE TEXT;
+              //     //   '''
+              //     // );
+              //     print('Complete update table');
+              //   },
+              //   child: Text(
+              //     'Update',
+              //   ),
+              // ),
+              // TextButton(
+              //   onPressed: () async {
+              //     Database db = await DbProvider.instance.database;
+              //     db.execute('''
+              //       DELETE FROM THONGKE
+              //       WHERE MAMUCTIEU = 'MT00001' AND NGAYHOANTHANH = 20210613;
+              //       ''');
+              //     print('Complete delete');
+              //   },
+              //   child: Text(
+              //     'Delete',
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -418,6 +419,10 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   }
 
   _showEditUsernameDialog(BuildContext context) {
+    OutlineInputBorder outlineInputBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(4)),
+      borderSide: BorderSide(width: 1, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey),
+    );
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -437,9 +442,16 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 ),
                 TextField(
                   controller: usernameEditingController,
+                  style: TextStyle(fontSize: 18,),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
+                    focusedBorder: outlineInputBorder,
+                    disabledBorder: outlineInputBorder,
+                    enabledBorder: outlineInputBorder,
+                    errorBorder: outlineInputBorder,
+                    focusedErrorBorder: outlineInputBorder,
                     labelText: 'Username',
+                    labelStyle: TextStyle(fontSize: 18, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
                     hintText: username,
                   ),
                 ),
@@ -646,27 +658,37 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   _showChangePassworDialog(BuildContext context) {
     return showDialog(
       context: context,
-      //barrierDismissible: true,
+      barrierDismissible: false,
       builder: (BuildContext context) {
+        OutlineInputBorder outlineInputBorder = OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+          borderSide: BorderSide(width: 1, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey),
+        );
         return AlertDialog(
           title: Center(
               child: Text(
                 'Change Password',
-                style: TextStyle(color: Colors.blue),
+                style: TextStyle(color: (!StaticData.isDarkMode)?Colors.blue:Colors.white),
               )),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          contentPadding: EdgeInsets.fromLTRB(20, 25, 20, 0),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                // Divider(
-                //   height: 5,
-                //   color: Colors.blue,
-                // ),
+                // SizedBox(height: 10,),
                 TextField(
                   controller: passwordEditingController,
                   obscureText: true,
+                  style: TextStyle(fontSize: 18),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
+                    focusedBorder: outlineInputBorder,
+                    disabledBorder: outlineInputBorder,
+                    enabledBorder: outlineInputBorder,
+                    errorBorder: outlineInputBorder,
+                    focusedErrorBorder: outlineInputBorder,
                     labelText: 'Password',
+                    labelStyle: TextStyle(fontSize: 18, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
                     //hintText: 'Password',
                   ),
                 ),
@@ -678,9 +700,16 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 TextField(
                   controller: newPasswordEditingController,
                   obscureText: true,
+                  style: TextStyle(fontSize: 18),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
+                    focusedBorder: outlineInputBorder,
+                    disabledBorder: outlineInputBorder,
+                    enabledBorder: outlineInputBorder,
+                    errorBorder: outlineInputBorder,
+                    focusedErrorBorder: outlineInputBorder,
                     labelText: 'New Password',
+                    labelStyle: TextStyle(fontSize: 18, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
                     //hintText: 'New Password',
                   ),
                 ),
@@ -692,9 +721,16 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 TextField(
                   controller: confirmNewPasswordEditingController,
                   obscureText: true,
+                  style: TextStyle(fontSize: 18),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
+                    focusedBorder: outlineInputBorder,
+                    disabledBorder: outlineInputBorder,
+                    enabledBorder: outlineInputBorder,
+                    errorBorder: outlineInputBorder,
+                    focusedErrorBorder: outlineInputBorder,
                     labelText: 'Confirm Password',
+                    labelStyle: TextStyle(fontSize: 18, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
                     //hintText: 'Confirm New Password',
                   ),
                 ),
