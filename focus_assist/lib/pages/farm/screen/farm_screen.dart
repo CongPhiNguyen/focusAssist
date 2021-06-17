@@ -63,6 +63,16 @@ class _FarmScreenState extends State<FarmScreen> {
   }
 
   void deletePokemon(context,int index){
+    int rank = 1;
+    if(StaticData.PokemonUsers[index].Level >= 24 && StaticData.PokemonUsers[index].Level < 50 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+    {
+      rank = 2;
+    }
+    if (StaticData.PokemonUsers[index].Level >= 49 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+    {
+      rank = 3;
+    }
+
     Alert(
         context: context,
         title: 'DELETE POKEMON',
@@ -79,7 +89,7 @@ class _FarmScreenState extends State<FarmScreen> {
                 ),
               ),
             ),
-            Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+'Down1.png'),),
+            Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+rank.toString()+'Down1.png'),),
           ],
         ),
         buttons: [
@@ -140,6 +150,16 @@ class _FarmScreenState extends State<FarmScreen> {
   }
 
   void showFail(context, int index,int goldLevelUp, String message){
+    int rank = 1;
+    if(StaticData.PokemonUsers[index].Level >= 24 && StaticData.PokemonUsers[index].Level < 50 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+    {
+      rank = 2;
+    }
+    if (StaticData.PokemonUsers[index].Level >= 49 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+    {
+      rank = 3;
+    }
+
     Alert(
       context: context,
       title: 'LEVEL UP',
@@ -156,7 +176,8 @@ class _FarmScreenState extends State<FarmScreen> {
               ),
             ),
           ),
-          Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+'Down1.png'),),
+          Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+'$rank'+'Down1.png')
+          ),
         ],
       ),
       buttons: [
@@ -178,6 +199,15 @@ class _FarmScreenState extends State<FarmScreen> {
 
 
   void showSuccess(context, int index,int goldLevelUp) {
+    int rank = 1;
+    if(StaticData.PokemonUsers[index].Level >= 24 && StaticData.PokemonUsers[index].Level < 50 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+    {
+      rank = 2;
+    }
+    if (StaticData.PokemonUsers[index].Level >= 49 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+    {
+      rank = 3;
+    }
       Alert(
         context: context,
         title: 'LEVEL UP',
@@ -194,7 +224,7 @@ class _FarmScreenState extends State<FarmScreen> {
                 ),
               ),
             ),
-            Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+'Down1.png'),),
+            Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+"$rank"+'Down1.png'),),
           ],
         ),
         buttons: [
