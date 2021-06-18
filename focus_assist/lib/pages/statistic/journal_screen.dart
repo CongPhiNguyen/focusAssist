@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/statistic//edit_group_dialog.dart';
-import 'package:focus_assist/pages/statistic//list_of_achivement.dart';
-import 'package:focus_assist/pages/statistic//view_activity.dart';
+import 'package:focus_assist/pages/statistic//list_of_achivement_screen.dart';
+import 'package:focus_assist/pages/statistic//view_activity_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:focus_assist/pages/statistic//add_screen.dart';
+import 'package:focus_assist/pages/statistic//add_new_activity_screen.dart';
 import 'package:focus_assist/pages/statistic//add_new_group_dialog.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
@@ -41,14 +41,18 @@ class _JournalScreenState extends State<JournalScreen> {
   List<String> allGroup, allGroupKey;
   List<List<String>> allGroupActivity, allGroupActivityKey;
   List<String> doneList, doneListKey;
+  String quotes;
 
   String rate;
+
+  bool gotAchive;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    gotAchive = false;
+    quotes = '';
     allGroup = ['Fuck'];
-    doneList = ['Không có gì'];
+    doneList = ['Nothing'];
     doneListKey = ['None'];
     allGroupKey = ['NONE'];
     allGroupActivity = [];
@@ -58,18 +62,20 @@ class _JournalScreenState extends State<JournalScreen> {
     _selectedDay = _focusedDay;
     items1 = ["Chơi cờ vua", "Luyện tập code", "Cày game"];
     toDos = [
-      ToDo(check: false, task: "Không có gì", taskKey: 'None'),
+      ToDo(check: false, task: "Nothing", taskKey: 'None'),
     ];
 
     items = [];
     dataMap = {"Skip": 500, "Done": 322, "Fail": 112};
-    allActivity = ["Không có gì"];
+    allActivity = ["Nothing"];
     allActivityKey = ['None'];
     loadGold();
     getAllActivity();
     getToDoList();
     getAllGroup();
     getDoneTask();
+    //loadQuote();
+    achiveNotification();
     rate = '0';
   }
 
@@ -89,24 +95,45 @@ class _JournalScreenState extends State<JournalScreen> {
     List<Map<String, dynamic>> database = await dbHelper.rawQuery(
         ''' select * from THONGTINNGUOIDUNG where MANGUOIDUNG='$userID' ''');
     if (database.length > 0) {
-      setState(() {
-        StaticData.Vang = database[0]['VANG'];
-      });
-    }
+      if (this.mounted) {
+        setState(() {
+          StaticData.Vang = database[0]['VANG'];
+        });
+        print('vang' + database[0]['VANG'].toString());
+      } else {
+        print('bug1');
+        return;
+      }
+    } else
+      print('bug2');
   }
 
   // Các hàm cần thiết để load dữ liệu
+  void loadQuote() async {
+    List<Map<String, dynamic>> database = await dbHelper
+        .rawQuery(''' select * from TRICHDAN order by RANDOM() limit 1''');
+    if (database.length > 0) {
+      if (this.mounted) {
+        setState(() {
+          quotes = database[0]['TRICHDAN'] + ' - ' + database[0]['TACGIA'];
+        });
+      }
+    }
+  }
+
   void getDoneTask() async {
-    print("Fuck Done");
     String userID = StaticData.userID;
     int selectedDay = dateTimeToInt(_selectedDay);
     database = await dbHelper.rawQuery(
         ''' select * from MUCTIEU where MAMUCTIEU in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) and MANGUOIDUNG='$userID' ''');
     if (database.length == 0) {
-      setState(() {
-        doneList = ['Không có gì'];
-        doneListKey = ['None'];
-      });
+      if (this.mounted) {
+        setState(() {
+          doneList = ['Nothing'];
+          doneListKey = ['None'];
+        });
+      } else
+        return;
     }
     if (database.length > 0) {
       doneList = [];
@@ -143,25 +170,34 @@ class _JournalScreenState extends State<JournalScreen> {
             h = '0' + h;
           }
           if (h[indexOfK] == '1') {
+            if (this.mounted) {
+              setState(() {
+                doneList.add(database[i]['TENMUCTIEU']);
+                doneListKey.add(database[i]['MAMUCTIEU']);
+              });
+            } else
+              return;
+          }
+        } else if (database[i]['LOAIHINH'] == 'Flexible') {
+          if (this.mounted) {
             setState(() {
               doneList.add(database[i]['TENMUCTIEU']);
               doneListKey.add(database[i]['MAMUCTIEU']);
             });
-          }
-        } else if (database[i]['LOAIHINH'] == 'Flexible') {
-          setState(() {
-            doneList.add(database[i]['TENMUCTIEU']);
-            doneListKey.add(database[i]['MAMUCTIEU']);
-          });
+          } else
+            return;
         } else if (database[i]['LOAIHINH'] == 'Repeating') {
-          int val = int.parse(database[i]['KHOANGTHOIGIAN']);
+          int val = int.parse(database[i]['KHOANGTHOIGIAN'].toString());
           Duration diff = start.difference(_selectedDay);
           if (diff.inDays % val == 0) {
             print(val);
-            setState(() {
-              doneList.add(database[i]['TENMUCTIEU']);
-              doneListKey.add(database[i]['MAMUCTIEU']);
-            });
+            if (this.mounted) {
+              setState(() {
+                doneList.add(database[i]['TENMUCTIEU']);
+                doneListKey.add(database[i]['MAMUCTIEU']);
+              });
+            } else
+              return;
           }
         }
       }
@@ -178,21 +214,26 @@ class _JournalScreenState extends State<JournalScreen> {
           100.0 /
           (toDos.length.toDouble() + doneList.length.toDouble())));
     if (rateInt > 100) rateInt = 100;
-    setState(() {
-      rate = rateInt.toString();
-      if (rate.length > 8) {
-        rate = rate.substring(0, 8);
-      }
-    });
+    if (this.mounted) {
+      setState(() {
+        rate = rateInt.toString();
+        if (rate.length > 8) {
+          rate = rate.substring(0, 8);
+        }
+      });
+    } else
+      return;
   }
 
+  // ignore: non_constant_identifier_names
   Widget DoneTask() {
     return Column(
       children: [
         Container(
             decoration: BoxDecoration(
-              color: (!StaticData.isDarkMode)?Color(0xff73a656):Colors.grey[800],
-              borderRadius: BorderRadius.only(
+              // color: (!StaticData.isDarkMode)?Color(0xff73a656):Colors.grey[800],
+                color: (!StaticData.isDarkMode)?Colors.greenAccent[700]:Colors.grey[800],
+                borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
               )
@@ -213,7 +254,7 @@ class _JournalScreenState extends State<JournalScreen> {
                 Expanded(
                   flex: 6,
                   child: Text(
-                    "Done activities",
+                    "Done",
                     style: TextStyle(color: Colors.white, fontSize: 22),
                     // style: TextStyle(fontSize: 22),
                   ),
@@ -242,7 +283,8 @@ class _JournalScreenState extends State<JournalScreen> {
         Container(
           height: 20,
           decoration: BoxDecoration(
-              color: (!StaticData.isDarkMode)?Color(0xff73a656):Colors.grey[800],
+              // color: (!StaticData.isDarkMode)?Color(0xff73a656):Colors.grey[800],
+              color: (!StaticData.isDarkMode)?Colors.greenAccent[700]:Colors.grey[800],
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10),
@@ -257,20 +299,26 @@ class _JournalScreenState extends State<JournalScreen> {
     database = await dbHelper
         .rawQuery('''select * from MUCTIEU where MANGUOIDUNG='$userID' ''');
     if (database.length == 0) {
-      setState(() {
-        allActivity = ['Không có gì'];
-        allActivityKey = ['None'];
-      });
+      if (this.mounted) {
+        setState(() {
+          allActivity = ['Nothing'];
+          allActivityKey = ['None'];
+        });
+      } else
+        return;
     }
     if (database.length > 0) {
-      setState(() {
-        allActivity.clear();
-        allActivityKey.clear();
-        for (int i = 0; i < database.length; i++) {
-          allActivity.add(database[i]['TENMUCTIEU']);
-          allActivityKey.add(database[i]['MAMUCTIEU']);
-        }
-      });
+      if (this.mounted) {
+        setState(() {
+          allActivity.clear();
+          allActivityKey.clear();
+          for (int i = 0; i < database.length; i++) {
+            allActivity.add(database[i]['TENMUCTIEU']);
+            allActivityKey.add(database[i]['MAMUCTIEU']);
+          }
+        });
+      } else
+        return;
     }
   }
 
@@ -282,11 +330,14 @@ class _JournalScreenState extends State<JournalScreen> {
         ''' select * from MUCTIEU where MAMUCTIEU not in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) and MANGUOIDUNG='$userID' ''');
     List<Map<String, dynamic>> flexibleData = [];
     if (database.length == 0) {
-      setState(() {
-        toDos = [
-          ToDo(check: false, task: "Không có gì", taskKey: 'None'),
-        ];
-      });
+      if (this.mounted) {
+        setState(() {
+          toDos = [
+            ToDo(check: false, task: "Nothing", taskKey: 'None'),
+          ];
+        });
+      } else
+        return;
     }
     if (database.length > 0) {
       toDos = [];
@@ -322,29 +373,35 @@ class _JournalScreenState extends State<JournalScreen> {
             h = '0' + h;
           }
           if (h[indexOfK] == '1') {
-            setState(() {
-              toDos.add(ToDo(
-                  check: false,
-                  task: database[i]['TENMUCTIEU'],
-                  taskKey: database[i]['MAMUCTIEU']));
-            });
+            if (this.mounted) {
+              setState(() {
+                toDos.add(ToDo(
+                    check: false,
+                    task: database[i]['TENMUCTIEU'],
+                    taskKey: database[i]['MAMUCTIEU']));
+              });
+            } else
+              return;
           }
         } else if (database[i]['LOAIHINH'] == 'Flexible') {
           // Quăng ra ngoài rồi hẵn xử lý
           flexibleData.add(database[i]);
         } else if (database[i]['LOAIHINH'] == 'Repeating') {
-          int val = int.parse(database[i]['KHOANGTHOIGIAN']);
+          int val = int.parse(database[i]['KHOANGTHOIGIAN'].toString());
           Duration diff = start.difference(_selectedDay);
           if (diff.inDays % val == 0) {
             print(val);
-            setState(() {
-              toDos.add(
-                ToDo(
-                    check: false,
-                    task: database[i]['TENMUCTIEU'],
-                    taskKey: database[i]['MAMUCTIEU']),
-              );
-            });
+            if (this.mounted) {
+              setState(() {
+                toDos.add(
+                  ToDo(
+                      check: false,
+                      task: database[i]['TENMUCTIEU'],
+                      taskKey: database[i]['MAMUCTIEU']),
+                );
+              });
+            } else
+              return;
           }
         }
       }
@@ -383,30 +440,35 @@ class _JournalScreenState extends State<JournalScreen> {
       if (flexibleData[i]['SOLAN'] <= count) {
         continue;
       }
-      setState(() {
-        toDos.add(
-          ToDo(
-              check: false,
-              task: flexibleData[i]['TENMUCTIEU'] +
-                  '  $count/' +
-                  flexibleData[i]['SOLAN'].toString(),
-              taskKey: flexibleData[i]['MAMUCTIEU']),
-        );
-      });
+      if (this.mounted) {
+        setState(() {
+          toDos.add(
+            ToDo(
+                check: false,
+                task: flexibleData[i]['TENMUCTIEU'] +
+                    '  $count/' +
+                    flexibleData[i]['SOLAN'].toString(),
+                taskKey: flexibleData[i]['MAMUCTIEU']),
+          );
+        });
+      } else
+        return;
     }
     if (toDos.length == 0) {
       toDos = [
-        ToDo(check: false, task: "Không có gì", taskKey: 'None'),
+        ToDo(check: false, task: "Nothing", taskKey: 'None'),
       ];
     }
   }
 
+  // ignore: non_constant_identifier_names
   Widget ToDoList() {
     return Column(
       children: [
         Container(
             decoration: BoxDecoration(
-                color: (!StaticData.isDarkMode)?Color(0xffe7e732):Colors.grey[800],
+                // color: (!StaticData.isDarkMode)?Color(0xffe7e732):Colors.grey[800],
+                color: (!StaticData.isDarkMode)?Colors.amberAccent[700]:Colors.grey[800],
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
@@ -475,8 +537,8 @@ class _JournalScreenState extends State<JournalScreen> {
                                     setState(() {
                                       toDos[index].check = value;
                                     });
-                                    // Thêm 50 vàng
-                                    int golds = StaticData.Vang += 50;
+                                    // Thêm 5 vàng
+                                    int golds = StaticData.Vang + 5;
                                     //Add vào database
                                     String userKey = StaticData.userID;
                                     dbHelper.rawQuery(
@@ -509,7 +571,8 @@ class _JournalScreenState extends State<JournalScreen> {
         Container(
           height: 20,
           decoration: BoxDecoration(
-              color: (!StaticData.isDarkMode)?Color(0xffe7e732):Colors.grey[800],
+              // color: (!StaticData.isDarkMode)?Color(0xffe7e732):Colors.grey[800],
+              color: (!StaticData.isDarkMode)?Colors.amberAccent[700]:Colors.grey[800],
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10),
@@ -519,6 +582,7 @@ class _JournalScreenState extends State<JournalScreen> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget AllActivity() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -590,6 +654,7 @@ class _JournalScreenState extends State<JournalScreen> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget GroupTable() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -622,37 +687,51 @@ class _JournalScreenState extends State<JournalScreen> {
       tempActivity.add(database[j]['TENMUCTIEU']);
       tempActivityKey.add(database[j]['MAMUCTIEU']);
     }
-    setState(() {
-      allGroupActivity[index] = tempActivity;
-      allGroupActivityKey[index] = tempActivityKey;
-    });
+    if (this.mounted) {
+      setState(() {
+        allGroupActivity[index] = tempActivity;
+        allGroupActivityKey[index] = tempActivityKey;
+      });
+    } else
+      return;
   }
 
   void getAllGroup() async {
-    setState(() {
-      allGroup = [];
-      allGroupKey = [];
-    });
+    if (this.mounted) {
+      setState(() {
+        allGroup = [];
+        allGroupKey = [];
+      });
+    } else
+      return;
+
     String userID = StaticData.userID;
     database = await dbHelper
         .rawQuery('''select * from NHOMMUCTIEU where MANGUOIDUNG='$userID' ''');
     for (int i = 0; i < database.length; i++) {
-      setState(() {
-        allGroup.add(database[i]['TENNHOM']);
-        allGroupKey.add(database[i]['MANHOM']);
-      });
+      if (this.mounted) {
+        setState(() {
+          allGroup.add(database[i]['TENNHOM']);
+          allGroupKey.add(database[i]['MANHOM']);
+        });
+      } else
+        return;
     }
     for (int i = 0; i < allGroupKey.length; i++) {
-      setState(() {
-        allGroupActivity.add([]);
-        allGroupActivityKey.add([]);
-      });
+      if (this.mounted) {
+        setState(() {
+          allGroupActivity.add([]);
+          allGroupActivityKey.add([]);
+        });
+      } else
+        return;
     }
     for (int i = 0; i < allGroup.length; i++) {
       getGroupActivity(i);
     }
   }
 
+  // ignore: non_constant_identifier_names
   Widget GroupActivity(inDex) {
     return Align(
       alignment: Alignment.topLeft,
@@ -663,6 +742,7 @@ class _JournalScreenState extends State<JournalScreen> {
             Container(
                 decoration: BoxDecoration(
                     color: (!StaticData.isDarkMode)?Color(0xffe66771):Colors.grey[800],
+                    // color: (!StaticData.isDarkMode)?Colors.red[300]:Colors.grey[800],
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
@@ -704,20 +784,20 @@ class _JournalScreenState extends State<JournalScreen> {
                                           AlertDialog(
                                             title: Text("Message"),
                                             content: Text(
-                                                "Are you sure to delete this group and all activity belong to it ?"),
+                                                "Are you sure to delete this group ?"),
                                             actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("No"),
+                                              ),
                                               TextButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                   deleteGroup(inDex);
                                                 },
                                                 child: Text("Yes"),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text("No"),
                                               )
                                             ],
                                           ));
@@ -784,18 +864,12 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   void deleteGroup(inDex) {
-    //Delete activitys of group
-    for (int i = 0; i < allGroupActivityKey[inDex].length; i++) {
-      String key = allGroupActivityKey[inDex][i];
-      dbHelper.rawQuery(''' delete from MUCTIEU where MAMUCTIEU='$key' ''');
-      // Delete trong bảng thống kê
-      dbHelper.rawQuery(''' delete from THONGKE where MAMUCTIEU='$key' ''');
-    }
     String key = allGroupKey[inDex];
     //Delete group
     dbHelper.rawQuery(''' delete from NHOMMUCTIEU where MANHOM='$key' ''');
   }
 
+  // ignore: non_constant_identifier_names
   Widget Calendar() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -804,6 +878,7 @@ class _JournalScreenState extends State<JournalScreen> {
           TableCalendar(
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
+            startingDayOfWeek: StartingDayOfWeek.monday,
             focusedDay: _focusedDay,
             calendarFormat: _calendarFormat,
             selectedDayPredicate: (day) {
@@ -811,27 +886,34 @@ class _JournalScreenState extends State<JournalScreen> {
             },
             onDaySelected: (selectedDay, focusedDay) {
               if (!isSameDay(_selectedDay, selectedDay)) {
-                setState(() {
-                  _selectedDay = selectedDay;
-                  _focusedDay = focusedDay;
-                  if (_selectedDay == DateTime.utc(2021, 4, 25)) {
-                    setState(() {
-                      this.items = items1;
-                    });
-                  } else
-                    setState(() {
-                      this.items = [];
-                    });
-                });
+                if (this.mounted) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay = focusedDay;
+                    if (_selectedDay == DateTime.utc(2021, 4, 25)) {
+                      setState(() {
+                        this.items = items1;
+                      });
+                    } else
+                      setState(() {
+                        this.items = [];
+                      });
+                  });
+                } else
+                  return;
+
                 getToDoList();
                 getDoneTask();
               }
             },
             onFormatChanged: (format) {
               if (_calendarFormat != format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
+                if (this.mounted) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                } else
+                  return;
               }
             },
             onPageChanged: (focusedDay) {
@@ -872,14 +954,15 @@ class _JournalScreenState extends State<JournalScreen> {
                 ////Chỉnh các ngày cuối tuần
                 weekendStyle: TextStyle(
                   fontSize: 16,
-                  color: Colors.red,
+                  // color: Colors.red,
+                  color: (!StaticData.isDarkMode)?Colors.black:Colors.grey,
                   // fontWeight: FontWeight.bold,
                 ),
 
                 ////Chỉnh các ngày trong tuần
                 weekdayStyle: TextStyle(
                   fontSize: 16,
-                  color: Colors.black,
+                  color: (!StaticData.isDarkMode)?Colors.black:Colors.grey,
                 )),
           ),
           SizedBox(height: 10,),
@@ -898,6 +981,83 @@ class _JournalScreenState extends State<JournalScreen> {
     );
   }
 
+  Future<int> countDone() async {
+    String key = StaticData.userID;
+    List<Map<String, dynamic>> data = await dbHelper.rawQuery(
+        '''select count(*) as SOLAN from THONGKE tk join MUCTIEU mt on tk.MAMUCTIEU=mt.MAMUCTIEU where mt.MANGUOIDUNG='$key' ''');
+    return data[0]['SOLAN'];
+  }
+
+  Future<int> getCurrentDoneLevel() async {
+    String userID = StaticData.userID;
+    // Xem thử đã qua cấp 3 chưa
+    String maThanhTuu = 'TT03';
+    List<Map<String, dynamic>> data = await dbHelper.rawQuery(
+        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
+    if (data[0]['DEM'] > 0) {
+      return 4;
+    }
+    // Xem thử đã qua cấp 2 chưa
+    maThanhTuu = 'TT04';
+    List<Map<String, dynamic>> data1 = await dbHelper.rawQuery(
+        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
+    if (data1[0]['DEM'] > 0) {
+      return 3;
+    }
+    // Xem thử qua cấp 1 hay chưa
+    maThanhTuu = 'TT01';
+    List<Map<String, dynamic>> data2 = await dbHelper.rawQuery(
+        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
+    if (data2[0]['DEM'] > 0) {
+      return 2;
+    }
+    return 1;
+  }
+
+  Future<int> getCurrentActivityLevel() async {
+    int countDatabaseLevel = 0;
+    String key = StaticData.userID;
+    List<Map<String, dynamic>> data = await dbHelper.rawQuery(
+        '''select count(*) as SOLAN from THANHTUU t join THANHTUUNGUOIDUNG tn on t.MATHANHTUU=tn.MATHANHTUU where tn.MANGUOIDUNG='$key' and t.VANG=20  ''');
+    countDatabaseLevel = data[0]['SOLAN'];
+    print('shit' + countDatabaseLevel.toString());
+    return countDatabaseLevel;
+  }
+
+  Future<void> achiveNotification() async {
+    int level = await getCurrentDoneLevel();
+    if (level == 4) {
+      if (this.mounted)
+        setState(() {
+          gotAchive = false;
+        });
+      return;
+    }
+
+    int done = await countDone();
+    List<int> targetDone = [100, 500, 1500]; //[1, 3, 5]; //[100, 500, 1500];
+    if (done > targetDone[level - 1]) {
+      if (this.mounted)
+        setState(() {
+          gotAchive = true;
+        });
+      return;
+    }
+    int levelNow = (done * 1.0 / 75).floor();
+    int achivedLevel = await getCurrentActivityLevel();
+    print('levelNow $levelNow');
+    if (levelNow > achivedLevel) {
+      if (this.mounted)
+        setState(() {
+          gotAchive = true;
+        });
+    } else {
+      setState(() {
+        gotAchive = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -912,6 +1072,7 @@ class _JournalScreenState extends State<JournalScreen> {
               context: context,
               builder: (_) => ListAchivement(),
             );
+            achiveNotification();
             loadGold();
           },
           child: Row(
@@ -922,6 +1083,11 @@ class _JournalScreenState extends State<JournalScreen> {
                 radius: 15,
                 child: Image.asset('assets/gold.png', width: 30, height: 30),
               ),
+              Text(gotAchive ? '!' : '',
+                  style: TextStyle(
+                      fontSize: 28,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold)),
               SizedBox(
                 width: 10,
               ),
@@ -934,18 +1100,6 @@ class _JournalScreenState extends State<JournalScreen> {
               ),
             ],
           ),
-        ),
-        //Đây để hiện cái dòng qoutes
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: Text(
-                "\' No pain, no gain \'",
-                style: TextStyle(fontSize: 30),
-              ),
-            ),
-          ],
         ),
         SizedBox(
           height: 10,

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'login/screen/welcome_screen.dart';
 
 class FocusAssist extends StatelessWidget {
+  @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
     create: (context) => ThemeProvider(),
     builder: (context, _) {
@@ -22,4 +23,3 @@ class FocusAssist extends StatelessWidget {
     },
   );
 }
-

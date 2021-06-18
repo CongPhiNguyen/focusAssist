@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:focus_assist/classes/Data.dart';
@@ -44,7 +42,6 @@ class _AddNewState extends State<AddNew> {
     allGroup = ['Choose a group'];
     dropDownGroup = allGroup[0];
     allGroupKey = ['None'];
-    // TODO: implement initState
     super.initState();
     dropDownValue = 'Fixed';
     startTime = DateTime.now();
@@ -65,6 +62,7 @@ class _AddNewState extends State<AddNew> {
   }
 
   // List các hàm tạo các widget phù hợp với từng loại hoạt động
+  // ignore: non_constant_identifier_names
   List<Widget> Flexible() {
     return <Widget>[
       Center(
@@ -91,7 +89,15 @@ class _AddNewState extends State<AddNew> {
                           keyboardType: TextInputType.number,
                           controller: getDayPerWeek,
                           textAlign: TextAlign.center,
-                          decoration: InputDecoration(hintText: 'days'),
+                          decoration: InputDecoration(
+                            hintText: 'days',
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                          ),
                           style: TextStyle(fontSize: 20),
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
@@ -113,6 +119,7 @@ class _AddNewState extends State<AddNew> {
     ];
   }
 
+  // ignore: non_constant_identifier_names
   List<Widget> Fixed() {
     return <Widget>[
       Center(
@@ -136,9 +143,12 @@ class _AddNewState extends State<AddNew> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        setState(() {
-                          checkDay[index] = !checkDay[index];
-                        });
+                        if (this.mounted) {
+                          setState(() {
+                            checkDay[index] = !checkDay[index];
+                          });
+                        } else
+                          return;
                       },
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
@@ -196,6 +206,7 @@ class _AddNewState extends State<AddNew> {
     ];
   }
 
+  // ignore: non_constant_identifier_names
   List<Widget> Repeating() {
     return <Widget>[
       Center(
@@ -212,7 +223,15 @@ class _AddNewState extends State<AddNew> {
                   keyboardType: TextInputType.number,
                   controller: getRepeatingDay,
                   textAlign: TextAlign.center,
-                  decoration: InputDecoration(hintText: 'num'),
+                  decoration: InputDecoration(
+                    hintText: 'num',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
                   style: TextStyle(fontSize: 20),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly,
@@ -271,6 +290,30 @@ class _AddNewState extends State<AddNew> {
     //             ],
     //           ));
     // }
+    if (getDescription.text == null || getDescription.text.length < 1) {
+      bool k = await showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text("Message"),
+                content:
+                    Text("Are you sure not to add description to activity ?"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, false);
+                    },
+                    child: Text("No"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: Text("Yes"),
+                  )
+                ],
+              ));
+      if (k == false) return k;
+    }
 
     // Trường hợp nhập sai của Flexible
     if (dropDownValue == 'Flexible') {
@@ -353,21 +396,28 @@ class _AddNewState extends State<AddNew> {
     }
     // Trường hợp thiếu nhóm:
     if (dropDownGroup == 'Choose a group') {
-      showDialog(
+      bool k = await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
                 title: Text("Message"),
-                content: Text("You must choose a group"),
+                content:
+                    Text("Are you sure you don't want to add this activity to a group ?"),
                 actions: [
                   TextButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, false);
                     },
-                    child: Text("OK"),
+                    child: Text("No"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: Text("Yes"),
                   )
                 ],
               ));
-      return false;
+      if (k == false) return k;
     }
     return true;
   }
@@ -402,18 +452,28 @@ class _AddNewState extends State<AddNew> {
     } else if (dropDownValue == 'Repeating') {
       row['KHOANGTHOIGIAN'] = getRepeatingDay.text;
     }
-    setState(() {
-      text = row.toString();
-    });
+    if (this.mounted) {
+      setState(() {
+        text = row.toString();
+      });
+    } else
+      return;
+
     final id = await dbHelper.insert('MUCTIEU', row);
     print('inserted row id: $id');
   }
 
-  void getAllGroup() async {
-    List<Map<String, dynamic>> database = await dbHelper.query('NHOMMUCTIEU');
-    setState(() {
-      text2 = database.toString();
-    });
+  Future<void> getAllGroup() async {
+    String userID = StaticData.userID;
+    List<Map<String, dynamic>> database = await dbHelper
+        .rawQuery('''select * from NHOMMUCTIEU where MANGUOIDUNG='$userID' ''');
+    if (this.mounted) {
+      setState(() {
+        text2 = database.toString();
+      });
+    } else
+      return;
+
     // setState(() {
     //   allGroup = [];
     //   allGroupKey = [];
@@ -428,10 +488,13 @@ class _AddNewState extends State<AddNew> {
     }
 
     if (allGroup.length == 0) {
-      setState(() {
-        allGroup = ['None', 'None1', 'None2'];
-        dropDownValue = allGroup[0];
-      });
+      if (this.mounted) {
+        setState(() {
+          allGroup = ['None', 'None1', 'None2'];
+          dropDownValue = allGroup[0];
+        });
+      } else
+        return;
     }
   }
 
@@ -583,9 +646,12 @@ class _AddNewState extends State<AddNew> {
                                 firstDate: DateTime.utc(2020, 1, 1),
                                 lastDate: DateTime.utc(2120, 31, 12))
                             .then((date) {
-                          setState(() {
-                            if (date != null) startTime = date;
-                          });
+                          if (this.mounted) {
+                            setState(() {
+                              if (date != null) startTime = date;
+                            });
+                          } else
+                            return;
                         });
                       },
                       label: Text(""),
@@ -626,9 +692,12 @@ class _AddNewState extends State<AddNew> {
                       color: Colors.blue,
                     ),
                     onChanged: (String newValue) {
-                      setState(() {
-                        dropDownGroup = newValue;
-                      });
+                      if (this.mounted) {
+                        setState(() {
+                          dropDownGroup = newValue;
+                        });
+                      } else
+                        return;
                     },
                     items:
                         allGroup.map<DropdownMenuItem<String>>((String value) {
@@ -641,11 +710,19 @@ class _AddNewState extends State<AddNew> {
                   SizedBox(width: 20),
                   InkWell(
                     onTap: () async {
-                      await showDialog(
+                      bool l = await showDialog(
                         context: context,
                         builder: (_) => AddGroup(),
                       );
-                      getAllGroup();
+                      await getAllGroup();
+                      print(l);
+                      if (l != null && l == true) {
+                        if (this.mounted) {
+                          setState(() {
+                            dropDownGroup = allGroup[allGroup.length - 1];
+                          });
+                        }
+                      }
                     },
                     child: Text(
                       "New",
@@ -682,9 +759,12 @@ class _AddNewState extends State<AddNew> {
                       color: Colors.blue,
                     ),
                     onChanged: (String newValue) {
-                      setState(() {
-                        dropDownValue = newValue;
-                      });
+                      if (this.mounted) {
+                        setState(() {
+                          dropDownValue = newValue;
+                        });
+                      } else
+                        return;
                     },
                     items: <String>['Fixed', 'Flexible', 'Repeating']
                         .map<DropdownMenuItem<String>>((String value) {
@@ -705,6 +785,7 @@ class _AddNewState extends State<AddNew> {
                     : (dropDownValue == 'Flexible')
                         ? Flexible()
                         : Repeating()),
+            //debugWidget(),
           ],
         ));
   }
@@ -731,9 +812,12 @@ class _AddNewState extends State<AddNew> {
               onPressed: () async {
                 List<Map<String, dynamic>> data = await dbHelper
                     .rawQuery('''select * from THONGTINNGUOIDUNG''');
-                setState(() {
-                  text3 = data.toString();
-                });
+                if (this.mounted) {
+                  setState(() {
+                    text3 = data.toString();
+                  });
+                } else
+                  return;
               },
               child: Text(text3, style: TextStyle(fontSize: 30))),
         ),
