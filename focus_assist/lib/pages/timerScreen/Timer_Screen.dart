@@ -17,9 +17,9 @@ import 'package:focus_assist/classes/Data.dart';
 import 'setTimer.dart' as st;
 
 //
-const kPrimaryColor = Color(0xFF0C9869);
-const kTextColor = Color(0xFF3C4046);
-const kBackgroundColor = Color(0xFFF9F8FD);
+// Color kPrimaryColor = (!StaticData.isDarkMode)?Color(0xFF0C9869):Colors.grey;
+// Color kTextColor = (!StaticData.isDarkMode)?Color(0xFF3C4046):Colors.black;
+// Color kBackgroundColor = (!StaticData.isDarkMode)?Color(0xFFF9F8FD):Colors.grey[800];
 const double kDefaultPadding = 20.0;
 //
 
@@ -38,7 +38,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
   IconData _controlIcon;
   bool timerRunning = false;
 
-  String duration = "00:00:00";
+  // String duration = "00:00:00";
   final dbHelper = DbProvider.instance;
   void initState() {
     // TODO: implement initState
@@ -127,8 +127,15 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber,
-        title: const Text('Focus Timer'),
+        backgroundColor: (!StaticData.isDarkMode)?Colors.amber:Colors.grey[850],
+        // elevation: 1.0,
+        title: Text(
+          '     Focus Timer',
+          style: TextStyle(
+            color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[300],
+            letterSpacing: 0.5
+          ),
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.library_music_rounded),
@@ -137,40 +144,48 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
               dialogHelper.musicList(context);
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.alarm),
-            tooltip: 'Go to the next page',
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute<void>(
-                builder: (BuildContext context) {
-                  return Scaffold(
-                    appBar: AppBar(
-                      backgroundColor: Colors.amber,
-                      title: const Text('Timer history'),
-                      actions: <Widget>[
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          tooltip: 'Clear History',
-                          onPressed: () {
-                             print("cleared history");
-                             clearHistory();
-                             _showSuccess(context, "Timer history deleted!");
-                          },
+          Padding(
+            padding: const EdgeInsets.fromLTRB(5, 0, 15, 0),
+            child: IconButton(
+              icon: const Icon(Icons.alarm),
+              tooltip: 'Go to the next page',
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute<void>(
+                  builder: (BuildContext context) {
+                    return Scaffold(
+                      appBar: AppBar(
+                        backgroundColor: (!StaticData.isDarkMode)?Colors.amber:Colors.grey[850],
+                        title: Text(
+                          'Timer history',
+                          style: TextStyle(
+                            color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[100],
+                          ),
                         ),
-                      ]
-                    ),
-                    body: timerHistory(),
-                  );
-                },
-              ));
-            },
+                        actions: <Widget>[
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            tooltip: 'Clear History',
+                            onPressed: () {
+                               print("cleared history");
+                               clearHistory();
+                               _showSuccess(context, "Timer history deleted!");
+                            },
+                          ),
+                        ]
+                      ),
+                      body: timerHistory(),
+                    );
+                  },
+                ));
+              },
+            ),
           ),
         ],
       ),
       body: Container(
         decoration: BoxDecoration(
           //background color here
-            color: Colors.orange,
+            color: (!StaticData.isDarkMode)?Colors.orange:Colors.grey[900],
         ),
         child: Column(
           children: [
@@ -181,17 +196,17 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                 IconButton (
                   icon: Icon(Icons.keyboard_arrow_down_sharp),
                   iconSize: 50,
-                  color: Colors.white,
+                  color: (!StaticData.isDarkMode)?Colors.white:Colors.grey,
                   onPressed: () {
                     decrease();
                   }
                 ),
-                Text( '0$hour : $min : 00',
-                style: TextStyle(fontSize: 40, color: Colors.white),
+                Text('${(hour < 10)?'0${hour.toString()}':hour.toString()}' + ':' + '${(min < 10)?'0${min.toString()}':min.toString()}' + ':00',
+                style: TextStyle(fontSize: 40, color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[400]),
                 ),
                 IconButton (
                   icon: Icon(Icons.keyboard_arrow_up_sharp ),
-                   color: Colors.white,
+                   color: (!StaticData.isDarkMode)?Colors.white:Colors.grey,
                   iconSize: 50,
                   onPressed: () {
                     increase();
@@ -204,7 +219,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
             SizedBox(height: 40,
             
               child: Text("Stay calm, stay focused!", 
-                style: TextStyle(color: Colors.white, fontSize: 30),
+                style: TextStyle(color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[400], fontSize: 30),
               ),
              ),
             Expanded(
@@ -224,12 +239,12 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
               //     ),
               //   ),
                 child: Container(
-                height: MediaQuery.of(context).size.height* 0.8 + 100,
-                width: MediaQuery.of(context).size.width*0.8 + 200,
+                  height: MediaQuery.of(context).size.height* 0.8 + 100,
+                  width: MediaQuery.of(context).size.width*0.8 + 200,
                   margin: EdgeInsets.only(top: 10,),
                   child: GifImage(
                       controller: gifcontroller,
-                      image: AssetImage("assets/images/clock.gif"),
+                      image: (!StaticData.isDarkMode)?AssetImage("assets/images/clock.gif"):AssetImage("assets/images/clock_darkmode.gif"),
                     ),
                 ),
             ),
@@ -240,10 +255,10 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                     height: 90,  // height of white range
                     margin: EdgeInsets.only(top: 60),
                     decoration: BoxDecoration(
-                      color: Colors.yellow[100],
+                      color: (!StaticData.isDarkMode)?Colors.yellow[100]:Colors.grey[850],
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black26,
+                          color: Colors.black12,
                           offset: Offset(0, -12),
                           blurRadius: 12,
                         ),
@@ -287,14 +302,16 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                   ),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                       margin: EdgeInsets.only(top: 70, left: 20),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        // mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           CircleAvatar(
-                            backgroundColor: Color(0xffffffff),
+                            // backgroundColor: (!StaticData.isDarkMode)?Color(0xffffffff):Colors.grey[850],
+                            backgroundColor: (!StaticData.isDarkMode)?Colors.yellow[100]:Colors.grey[850],
                             radius: 15,
                             child: Image.asset('assets/gold.png', width: 30, height: 30),
                           ),
@@ -305,16 +322,16 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                             StaticData.Vang.toString(),
                             style: TextStyle(fontSize: 30),
                           ),
-                          SizedBox(
-                            width: 30,
-                          ),
+                          // SizedBox(
+                          //   width: 30,
+                          // ),
                         ],
                       ),
                     ),
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 150, top: 70),
+                          padding: EdgeInsets.only(top: 70, right: 30),
                           child: Text(
                             "Time Focus",
                             style: TextStyle(
@@ -322,7 +339,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                             ),),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 170, top: 5),
+                          padding: EdgeInsets.only(top: 5, right: 30),
                           child: Text(
                             (timetoDisplay=="")? "00:00:00": timetoDisplay ,
                             style: TextStyle(
@@ -357,13 +374,26 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
   bool checkTimer = true;
 
     void increase(){           
-        setState(() {
-          if(min < 0) min = 0;
-          if(min == 55 ) { hour = hour + 1 ; min = -5; }         
-        min = min + 5;
-        if (hour >= 5 ){ hour= 5;}
-        print("Increase timer by 5 min : $min " );
-            });
+        // setState(() {
+        //   if(min < 0) min = 0;
+        //   if(min == 55 ) { hour = hour + 1 ; min = -5; }
+        // min = min + 5;
+        // if (hour >= 5 ){ hour= 5;}
+        // print("Increase timer by 5 min : $min " );
+        //     });
+      setState(() {
+        if (hour < 5) {
+          min += 5;
+          if (min >= 60) {
+            min -= 60;
+            hour++;
+          }
+        }
+        else {
+          hour = 5;
+          min = 0;
+        }
+      });
     }
     void decrease(){
       setState(() {
@@ -377,8 +407,9 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
         // if (min <= 15) min = 15;
         // min = min -5;
         // print("Decrease timer by 5 min : $min " );
-        min = 1;
-        updateGold(50);
+
+        // min = 1;
+        // updateGold(50);
       });
     }
   @override
@@ -417,13 +448,13 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
 
         // xử lý chuyển đổi timer
         else if (timeForTimer < 60){
-          timetoDisplay = "00:00:" + timeForTimer.toString();
+          timetoDisplay = "00:00:" + '${(timeForTimer < 10)?'0${timeForTimer.toString()}':timeForTimer.toString()}';
           timeForTimer = timeForTimer - 1;
         }
         else if (timeForTimer < 3600){
           int m = timeForTimer ~/ 60;
           int s = timeForTimer - (60*m);
-          timetoDisplay = "00:" + m.toString() + ":" + s.toString();
+          timetoDisplay = "00:" + '${(m < 10)?'0${m.toString()}':m.toString()}' + ":" + '${(s < 10)?'0${s.toString()}':s.toString()}';
           timeForTimer = timeForTimer -1;
         }
         else {
@@ -431,7 +462,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
           int t = timeForTimer - (3600*h);
           int m = t ~/ 60;
           int s = t - (60*m);
-          timetoDisplay = h.toString() + ":" + m.toString() + ":" + s.toString();
+          timetoDisplay = '${(h < 10)?'0${h.toString()}':h.toString()}' + ":" + '${(m < 10)?'0${m.toString()}':m.toString()}' + ":" + '${(s < 10)?'0${s.toString()}':s.toString()}';
           timeForTimer = timeForTimer -1;
         }
       });

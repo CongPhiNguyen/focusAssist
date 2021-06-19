@@ -41,9 +41,11 @@ class MyThemes {
       backgroundColor: Colors.grey[800],
     ),
     appBarTheme: AppBarTheme(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.grey[850],
+      elevation: 1.0,
       titleTextStyle: TextStyle(
-          color: Colors.white,
+        color: Colors.grey[100],
+        // color: Colors.white,
       ),
       iconTheme: IconThemeData(
         color: Colors.white,
@@ -66,6 +68,7 @@ class MyThemes {
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
+      elevation: 4.0,
       titleTextStyle: TextStyle(
         color: Colors.black87,
       ),

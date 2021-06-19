@@ -323,7 +323,7 @@ class ChatScreenState extends State<ChatScreen> {
                     ),
                     padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
                     width: 200.0,
-                    decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(8.0)),
+                    decoration: BoxDecoration(color: (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[400], borderRadius: BorderRadius.circular(8.0)),
                     margin: EdgeInsets.only(left: 10.0),
                   )
                       : document.get('type') == 1

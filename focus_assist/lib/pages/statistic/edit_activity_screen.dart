@@ -340,19 +340,19 @@ class _EditActivityState extends State<EditActivity> {
           builder: (BuildContext context) => AlertDialog(
                 title: Text("Message"),
                 content:
-                    Text("Are you sure not to add description to activity ?"),
+                    Text("Are you sure you don't want to add description ?"),
                 actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, true);
-                    },
-                    child: Text("Yes"),
-                  ),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context, false);
                     },
                     child: Text("No"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: Text("Yes"),
                   )
                 ],
               ));

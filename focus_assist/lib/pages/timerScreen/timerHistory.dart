@@ -37,10 +37,10 @@ class _timerHistoryState extends State<timerHistory> {
               itemBuilder: (context, num) {
                 return Container(
                   child: ListTile(  
-                      leading: Text('$num', style: TextStyle(fontSize: 25),),   
+                      leading: Text('${num + 1}', style: TextStyle(fontSize: 25),),
                       title: Text(StaticData.timerHistoriesList[num].thoiGian.toString() + "   -   " 
                       + (StaticData.timerHistoriesList[num].daHoanThanh == "true"?"Completed":"Incompleted").toString(),
-                      style: TextStyle(fontSize: 20), ),   
+                      style: TextStyle(fontSize: 20), overflow: TextOverflow.fade,),
                     ), 
                 );
               });

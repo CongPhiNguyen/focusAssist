@@ -21,7 +21,7 @@ class _ChatLoginScreenState extends State<ChatLoginScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Theme.of(context).appBarTheme.color,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         centerTitle: true,
       ),
       body: Center(

@@ -126,6 +126,7 @@ flutter:
     - assets/Database/create_tables_script.sql
     - assets/images/focusTime_background.png
     - assets/images/clock.gif
+    - assets/images/clock_darkmode.gif
     - assets/audio/Song1.mp3
     - assets/audio/Song2.mp3
     - assets/
