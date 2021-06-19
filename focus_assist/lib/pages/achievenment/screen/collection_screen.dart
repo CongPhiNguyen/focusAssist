@@ -23,40 +23,76 @@ class _CollectionScreenState extends State<CollectionScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.amber,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back,color: Colors.black,),
-          onPressed: (){Navigator.pop(context);},
-        ),
-        backgroundColor: Colors.amber,
-        title: Text('Collection',
-        style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black)),
-        elevation: 0,
-        centerTitle: true,
-      ),
-      body: ListView(
-        children: [Column(
-          //crossAxisAlignment: CrossAxisAlignment.center,
-         // mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: size.height*0.2,
-                child: Image.asset('assets/achievenment/ui/ui_collection.png'),
-            ),
+      // appBar: AppBar(
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back,color: Colors.black,),
+      //     onPressed: (){Navigator.pop(context);},
+      //   ),
+      //   backgroundColor: Colors.amber,
+      //   title: Text('Collection',
+      //   style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black)),
+      //   elevation: 0,
+      //   centerTitle: true,
+      // ),
+      body: Container(
+            height: size.height,
+            child: Column(
+                //crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15,top: 15),
+                    child: Container(
+                      height: size.height*0.07,
+                      child: Row(
+                        children: [
+                          Container(
+                            // color: Colors.white,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.white,
+                            ),
+                            child: IconButton(
+                              icon: Icon(Icons.arrow_back),
+                              onPressed: (){
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: size.width*0.2,
+                          ),
+                          Text(
+                            'Collection',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: size.height*0.2,
+                    child: Image.asset('assets/achievenment/ui/ui_collection.png'),
+                  ),
 
-            Container(
-              margin: EdgeInsets.only(left: 20,right: 20),
-              padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: Colors.amber[200],
-              ),
-              height: size.height*0.7,
-              child: DetailCardCollection(size: size),
+                  Container(
+                    margin: EdgeInsets.only(left: 20,right: 20),
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Colors.amber[200],
+                    ),
+                    height: size.height*0.7,
+                    child: DetailCardCollection(size: size),
+                  ),
+                ],
+
             ),
-          ],
-        )],
-      ),
+          ),
+
     );
 
   }

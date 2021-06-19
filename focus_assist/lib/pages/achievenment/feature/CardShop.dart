@@ -3,8 +3,6 @@ import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-
-
 class card_shop extends StatefulWidget {
   final String MAVP;
   final String name;
@@ -13,11 +11,23 @@ class card_shop extends StatefulWidget {
   final Color rareColor;
   final bool isBuy;
   final Size size;
+  final Function updateVang;
 
-  const card_shop({Key key, this.MAVP, this.name, this.price, this.imageEgg, this.rareColor, this.isBuy, this.size}) : super(key: key);
+  const card_shop(
+      {Key key,
+      this.MAVP,
+      this.name,
+      this.price,
+      this.imageEgg,
+      this.rareColor,
+      this.isBuy,
+      this.size,
+      this.updateVang})
+      : super(key: key);
 
   @override
-  _testState createState() => _testState(MAVP,name,price,imageEgg,rareColor,isBuy,size);
+  _testState createState() => _testState(
+      MAVP, name, price, imageEgg, rareColor, isBuy, size, updateVang);
 }
 
 class _testState extends State<card_shop> {
@@ -28,68 +38,72 @@ class _testState extends State<card_shop> {
   Color rareColor;
   bool isBuy;
   Size size;
+  final Function updateVang;
 
-  _testState(this.MAVP, this.name, this.price, this.imageEgg, this.rareColor, this.isBuy, this.size);
-
+  _testState(this.MAVP, this.name, this.price, this.imageEgg, this.rareColor,
+      this.isBuy, this.size, this.updateVang);
 
   void _Update() async {
-
     String id = StaticData.userID;
     //Kiểm tra có đủ tiền mua hay không
-    if (StaticData.Vang >= price ) {
+    if (StaticData.Vang >= price) {
       final e = await DbProvider.instance.rawQuery('''
                                   select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id' and MAVATPHAM = '$MAVP'
-                                  '''
-      );
+                                  ''');
 
       //Kiểm tra đã có trứng này chưa
       if (e.length == 0) {
-        Map<String, dynamic> row = {'MAVATPHAM':MAVP , 'MANGUOIDUNG':StaticData.userID};
+        Map<String, dynamic> row = {
+          'MAVATPHAM': MAVP,
+          'MANGUOIDUNG': StaticData.userID
+        };
         int i = await DbProvider.instance.insert('VATPHAMNGUOIDUNG', row);
         setState(() {
           StaticData.Vang -= price;
         });
-
-
+        updateVang();
         //Nhận thành tựu
         bool isCheck = false;
-        for(int i = 0; i <StaticData.AchiUser.length;i++)
-          {
-            if (StaticData.AchiUser[i].TENTHANHTUU == name)
-              {
-                isCheck = true;
-              }
-          }
-
-
-        if(isCheck == false) {
-        int bonus;
-        for (int i = 0; i < StaticData.AchiList.length; i++)
-        {
-          if(StaticData.AchiList[i].TENTHANHTUU == name)
-          {
-            StaticData.AchiUser.add(StaticData.AchiList[i]);
-            bonus = StaticData.AchiList[i].bonus;
-            setState(() {
-              StaticData.Vang += StaticData.AchiList[i].bonus;
-            });
-
-            row = {'MATHANHTUU':StaticData.AchiList[i].MATHANHTUU, 'MANGUOIDUNG':StaticData.userID};
-            int e = await DbProvider.instance.insert('THANHTUUNGUOIDUNG', row);
+        for (int i = 0; i < StaticData.AchiUser.length; i++) {
+          if (StaticData.AchiUser[i].TENTHANHTUU == name) {
+            isCheck = true;
           }
         }
 
-        setState(() {
-          isBuy = true;
-        });
-        int vang = StaticData.Vang;
-        final k = await DbProvider.instance.rawQuery('''
+        if (isCheck == false) {
+          int bonus;
+          for (int i = 0; i < StaticData.AchiList.length; i++) {
+            if (StaticData.AchiList[i].TENTHANHTUU == name) {
+              StaticData.AchiUser.add(StaticData.AchiList[i]);
+              bonus = StaticData.AchiList[i].bonus;
+              setState(() {
+                StaticData.Vang += StaticData.AchiList[i].bonus;
+              });
+
+              row = {
+                'MATHANHTUU': StaticData.AchiList[i].MATHANHTUU,
+                'MANGUOIDUNG': StaticData.userID
+              };
+              int e =
+                  await DbProvider.instance.insert('THANHTUUNGUOIDUNG', row);
+            }
+          }
+
+          setState(() {
+            isBuy = true;
+          });
+          int vang = StaticData.Vang;
+          final k = await DbProvider.instance.rawQuery('''
                                      UPDATE THONGTINNGUOIDUNG
                                      SET VANG = $vang
                                      WHERE MANGUOIDUNG = '$id'
                                      ''');
 
-        _showBILL(context, "Bạn nhận được thành tựu trứng $name và thưởng $bonus vàng", true);} else {
+          _showBILL(
+              context,
+              "Bạn nhận được thành tựu trứng $name và thưởng $bonus vàng",
+              true);
+        } else {
           setState(() {
             StaticData.Vang -= price;
             isBuy = true;
@@ -102,11 +116,9 @@ class _testState extends State<card_shop> {
                                      ''');
           _showBILL(context, "Mua thành công!", true);
         }
-      }
-      else {
+      } else {
         _showBILL(context, "Bạn đã sở hữu quả trứng này!", false);
       }
-
     } else {
       _showBILL(context, "Không làm mà đòi có ăn :) ", false);
     }
@@ -115,18 +127,18 @@ class _testState extends State<card_shop> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
       child: Stack(
         children: <Widget>[
           Container(
-            height: size.height*0.15,
+            height: size.height * 0.15,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
                   color: Colors.white,
                   blurRadius: 1,
-                  offset: Offset(0,5),
+                  offset: Offset(0, 5),
                 ),
               ],
             ),
@@ -139,41 +151,51 @@ class _testState extends State<card_shop> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(height: size.height*0.03,),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
                       Text(
                         name,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: size.height*0.02,
+                          fontSize: size.height * 0.02,
                           letterSpacing: 2,
                           color: rareColor,
                         ),
                       ),
-                      SizedBox(height: size.height*0.01,),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
                       Text(
                         price.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
-                          fontSize: size.height*0.015,
+                          fontSize: size.height * 0.015,
                           fontStyle: FontStyle.italic,
                           decoration: TextDecoration.overline,
                         ),
                       ),
-                      SizedBox(height: size.height*0.01,),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
                       Container(
-                        height: size.height*0.05,
-                        width: size.width*0.2,
+                        height: size.height * 0.05,
+                        width: size.width * 0.2,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(25),
-                          child: FlatButton(
-                            color: isBuy ? Colors.grey : Colors.green[400],
+                          child: ElevatedButton(
+                            //color: isBuy ? Colors.grey : Colors.green[400],
+                            style: ElevatedButton.styleFrom(
+                              primary: isBuy ? Colors.grey : Colors.green[400],
+                            ),
+
                             onPressed: _Update,
                             child: Text(
                               isBuy ? 'Đã mua' : 'Mua',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: size.height*0.015,
+                                fontSize: size.height * 0.015,
                               ),
                             ),
                           ),
@@ -186,8 +208,8 @@ class _testState extends State<card_shop> {
                   flex: 2,
                   child: Image.asset(
                     imageEgg,
-                    height: size.width*0.25,
-                    width: size.width*0.2,
+                    height: size.width * 0.25,
+                    width: size.width * 0.2,
                   ),
                 ),
               ],
@@ -198,7 +220,7 @@ class _testState extends State<card_shop> {
     );
   }
 
-  void _showBILL(context, String message, bool isBuy){
+  void _showBILL(context, String message, bool isBuy) {
     if (isBuy == true) {
       Alert(
         context: context,

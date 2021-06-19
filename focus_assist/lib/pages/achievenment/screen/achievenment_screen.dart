@@ -24,45 +24,71 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.amber[50],
-      appBar: AppBar(
-        backgroundColor: Colors.amber,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        centerTitle: true,
-        title: Text(
-          'Achievement',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      backgroundColor: Colors.amber[300],
+      body: Column(
+         children: <Widget>[
+           Padding(
+             padding: EdgeInsets.only(left: 15,top: 15,bottom: 15),
+             child: Container(
+               height: size.height*0.07,
+               child: Row(
+                 children: [
+                   Container(
+                     // color: Colors.white,
+                     decoration: BoxDecoration(
+                       borderRadius: BorderRadius.circular(15),
+                       color: Colors.white,
+                     ),
+                     child: IconButton(
+                       icon: Icon(Icons.arrow_back),
+                       onPressed: (){
+                         Navigator.pop(context);
+                       },
+                     ),
+                   ),
+                   SizedBox(
+                     width: size.width*0.14,
+                   ),
+                   Text(
+                     'Achievenment',
+                     style: TextStyle(
+                       fontWeight: FontWeight.bold,
+                       fontSize: 25
+                     ),
+                   ),
+                 ],
+               ),
+             ),
+           ),
+           Padding(
+             padding: EdgeInsets.only(left: 15,right: 15),
+             child: Container(
+               decoration: BoxDecoration(
+                 borderRadius: BorderRadius.circular(25),
+                 color: Colors.amber[100],
+               ),
+               height: size.height*0.85,
+               child: ListView.builder(
+                   itemCount: StaticData.AchiUser.length,
+                   itemBuilder: (context, num) {
+                     return Center(
+                       child: CardAchievement(
+                         name: StaticData.AchiUser[num].TENTHANHTUU,
+                         mota: StaticData.AchiUser[num].MOTA,
+                         diemThanhtuu: StaticData.AchiUser[num].bonus,
+                         star: StaticData.AchiUser[num].star,
+                         endColor: StaticData.AchiUser[num].endColor,
+                         startColor: StaticData.AchiUser[num].startColor,
+                         imageAchi: StaticData.AchiUser[num].MATHANHTUU,
+                       ),
+                     );
+                   }),
+             ),
+           ),
+         ],
       ),
-      body: ListView.builder(
-          itemCount: StaticData.AchiUser.length,
-          itemBuilder: (context, num) {
-            return Center(
-              child: CardAchievement(
-                name: StaticData.AchiUser[num].TENTHANHTUU,
-                mota: StaticData.AchiUser[num].MOTA == null
-                    ? ''
-                    : StaticData.AchiUser[num].MOTA,
-                diemThanhtuu: StaticData.AchiUser[num].bonus,
-                star: StaticData.AchiUser[num].star,
-                endColor: StaticData.AchiUser[num].endColor,
-                startColor: StaticData.AchiUser[num].startColor,
-                imageAchi: StaticData.AchiUser[num].MATHANHTUU,
-              ),
-            );
-          }),
     );
   }
 
@@ -141,10 +167,30 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
     StaticData.EggUser.clear();
     String id = StaticData.userID;
     final k = await DbProvider.instance.rawQuery('''
+      select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
+      '''
+    );
+
+
+    for (int i = 0 ; i < k.length; i++)
+    {
+      for (int j = 0; j < StaticData.EggShop.length; j++ )
+      {
+        if(StaticData.EggShop[j].MaVP == k[i]['MAVATPHAM'])
+        {
+          setState(() {
+            StaticData.EggUser.add(StaticData.EggShop[j]);
+          });
+        }
+      }
+    }
+
+    StaticData.EggUser.clear();
+
+    await DbProvider.instance.rawQuery('''
                                 select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
                                 ''');
-    if (k.length == 0) print("null");
-    k.forEach(print);
+
 
     for (int i = 0; i < k.length; i++) {
       for (int j = 0; j < StaticData.EggShop.length; j++) {
@@ -153,5 +199,6 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
         }
       }
     }
+
   }
 }
