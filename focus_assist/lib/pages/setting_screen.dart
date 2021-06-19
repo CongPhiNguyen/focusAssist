@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/account_setting_screen.dart';
+import 'package:focus_assist/pages/farm/screen/about_us_screen.dart';
 import 'package:focus_assist/pages/notification_setting_screen.dart';
 import 'package:focus_assist/pages/privacy_lock_setting_screen.dart';
+
 
 class SettingScreen extends StatefulWidget {
   @override
@@ -168,7 +170,16 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               SizedBox(height: 5.0,),
               ListTile (
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context){
+                        return AboutUsScreen();
+                      },
+                    ),
+                  );
+                },
                 title: Text(
                   'About',
                 ),
