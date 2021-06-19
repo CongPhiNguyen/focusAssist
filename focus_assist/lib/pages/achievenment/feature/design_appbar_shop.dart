@@ -26,7 +26,7 @@ class _design_appbar_shopState extends State<design_appbar_shop> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: size.height * 0.2,
+      height: size.height * 0.3,
       child: Container(
         width: size.width,
         height: size.height*0.2,
@@ -37,7 +37,47 @@ class _design_appbar_shopState extends State<design_appbar_shop> {
                   bottomRight: Radius.circular(36),
                 ),
               ),
-        child: Image.asset('assets/achievenment/ui/ui_shop.PNG'),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 15,top: 15,bottom: 15),
+              child: Container(
+                height: size.height*0.07,
+                child: Row(
+                  children: [
+                    Container(
+                      // color: Colors.white,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white,
+                      ),
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.width*0.25,
+                    ),
+                    Text(
+                      'Shop',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              height: size.height*0.17,
+             child: Image.asset('assets/achievenment/ui/ui_shop.PNG'),
+            ),
+          ],
+        ),
       ),
     );
   }

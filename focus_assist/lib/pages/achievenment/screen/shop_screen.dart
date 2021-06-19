@@ -29,27 +29,26 @@ class _ShopScreenState extends State<ShopScreen> {
     Size size = MediaQuery.of(context).size;
     bool isBuy;
     return Scaffold(
-      backgroundColor: Colors.amber[50],
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back,color: Colors.black,),
-          onPressed: (){Navigator.pop(context);},
-        ),
-        backgroundColor: Colors.amber,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'SHOP',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      backgroundColor: Colors.amber[100],
+      // appBar: AppBar(
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back,color: Colors.black,),
+      //     onPressed: (){Navigator.pop(context);},
+      //   ),
+      //   backgroundColor: Colors.amber,
+      //   elevation: 0,
+      //   centerTitle: true,
+      //   title: Text(
+      //     'SHOP',
+      //     style: TextStyle(
+      //       color: Colors.black,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      // ),
       body: Container(
         height: size.height,
-        child: ListView(
-          children: [ Column(
+        child:  Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -106,7 +105,6 @@ class _ShopScreenState extends State<ShopScreen> {
                     }),
               ),
             ],
-          )],
         ),
       ),
     );

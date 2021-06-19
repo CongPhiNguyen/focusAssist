@@ -234,7 +234,7 @@ class _FarmScreenState extends State<FarmScreen> {
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onPressed: () async {
-              StaticData.PokemonUsers[index].Level+=1;
+              StaticData.PokemonUsers[index].Level+=25;
               setState(() {
                 StaticData.Vang -= goldLevelUp;
               });
@@ -679,6 +679,16 @@ class _FarmScreenState extends State<FarmScreen> {
 }
 
 void receiveAchi(context,String message, int index) {
+  int rank = 1;
+  if(StaticData.PokemonUsers[index].Level >= 24 && StaticData.PokemonUsers[index].Level < 50 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+  {
+    rank = 2;
+  }
+  if (StaticData.PokemonUsers[index].Level >= 49 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+  {
+    rank = 3;
+  }
+
   Alert(
       context: context,
       title: 'Achievenment',
@@ -695,7 +705,7 @@ void receiveAchi(context,String message, int index) {
               ),
             ),
           ),
-          Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+'Down1.png'),),
+          Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+rank.toString()+'Down1.png'),),
         ],
       ),
       buttons: [
