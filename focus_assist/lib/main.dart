@@ -13,12 +13,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
 
-  Map<String, dynamic> row = {
-    'DADANGNHAP': 0,
-    'MANGUOIDUNG': ''
-  };
-
-  await DbProvider.instance.insert('THAMSO', row);
+  // Map<String, dynamic> row = {
+  //   'DADANGNHAP': 0,
+  //   'MANGUOIDUNG': ''
+  // };
+  //
+  // await DbProvider.instance.insert('THAMSO', row);
 
   await initAppSetting();
   await initializeNotification();

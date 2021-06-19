@@ -16,7 +16,6 @@ class _AddGroupState extends State<AddGroup> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getGroupName = TextEditingController();
     isOK = true;
@@ -29,6 +28,7 @@ class _AddGroupState extends State<AddGroup> {
         List.generate(len, (index) => r.nextInt(33) + 89));
   }
 
+  // ignore: non_constant_identifier_names
   void AddNewGroup() async {
     Map<String, dynamic> row = {
       'MANHOM': getRandomString(5),
@@ -94,13 +94,17 @@ class _AddGroupState extends State<AddGroup> {
                 onTap: () {
                   if (getGroupName.text == null ||
                       getGroupName.text.length < 1) {
-                    setState(() {
-                      isOK = false;
-                    });
+                    if (this.mounted) {
+                      setState(() {
+                        isOK = false;
+                      });
+                    } else
+                      return;
                     print("Fuck");
                   } else {
                     AddNewGroup();
-                    Navigator.pop(context);
+                    // trả về true khi tạo thành công
+                    Navigator.pop(context, true);
                   }
                 },
                 child: Text('Create',

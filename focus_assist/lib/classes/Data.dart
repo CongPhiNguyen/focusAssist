@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/ClassCardAchievenment.dart';
 import 'package:focus_assist/classes/ClassPokemon.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 import 'ClassCardShop.dart';
 import 'ClassTimerHistory.dart';
 
@@ -21,6 +20,7 @@ class StaticData {
   static List<InfoPokemon> PokemonUsers = [];
   static List<timerHistories> timerHistoriesList = [];
   static bool focusTimerIsRunning;
+  static int timeToGold;
 }
 
 class Info{
