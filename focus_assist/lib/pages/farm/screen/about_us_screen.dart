@@ -24,7 +24,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
             stops: [0.3,0.7],
           ),
         ),
-        child: SafeArea(
+        child: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
