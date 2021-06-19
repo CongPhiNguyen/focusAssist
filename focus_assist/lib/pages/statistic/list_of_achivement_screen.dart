@@ -93,7 +93,7 @@ class _ListAchivementState extends State<ListAchivement> {
         currentActivityLevel = currentActive;
       });
       setState(() {
-        doneNumLeft = doneNum - currentActive * targetToReach;
+        doneNumLeft = doneNum - (currentActive - 1) * targetToReach;
       });
     } else
       return;
@@ -270,7 +270,7 @@ class _ListAchivementState extends State<ListAchivement> {
                       center: Text('$doneNum/$currentDoneTarget'),
                       //width: 100.0,
                       lineHeight: 14.0,
-                      percent: (percentDone > 1) ? 1.0 : percentDone,
+                      percent: (percentDone >= 1) ? 1.0 : percentDone,
                       backgroundColor: Colors.grey,
                       progressColor: Colors.blue,
                     ),
@@ -305,7 +305,7 @@ class _ListAchivementState extends State<ListAchivement> {
                     child: LinearPercentIndicator(
                       center: Text("$doneNumLeft/$targetToReach"),
                       lineHeight: 14.0,
-                      percent: (percentActivity > 1) ? 1.0 : percentActivity,
+                      percent: (percentActivity >= 1) ? 1.0 : percentActivity,
                       backgroundColor: Colors.grey,
                       progressColor: Colors.blue,
                     ),
