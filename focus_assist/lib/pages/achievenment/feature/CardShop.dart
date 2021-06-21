@@ -136,7 +136,7 @@ class _testState extends State<card_shop> {
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white,
+                  color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[800],
                   blurRadius: 1,
                   offset: Offset(0, 5),
                 ),
@@ -186,7 +186,7 @@ class _testState extends State<card_shop> {
                           child: ElevatedButton(
                             //color: isBuy ? Colors.grey : Colors.green[400],
                             style: ElevatedButton.styleFrom(
-                              primary: isBuy ? Colors.grey : Colors.green[400],
+                              primary: isBuy ? Colors.grey[600] : (!StaticData.isDarkMode)?Colors.green[400]:Colors.green[600],
                             ),
 
                             onPressed: _Update,
@@ -228,12 +228,18 @@ class _testState extends State<card_shop> {
         title: "",
         closeIcon: Icon(Icons.error),
         desc: message,
+        style: AlertStyle(
+          descStyle: TextStyle(
+            color: (!StaticData.isDarkMode)?Colors.black87:Colors.grey[300],
+          ),
+        ),
         buttons: [
           DialogButton(
             child: Text(
               "ACCEPT",
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              style: TextStyle(color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[300], fontSize: 20),
             ),
+            color: (!StaticData.isDarkMode)?Colors.greenAccent:Colors.grey[700],
             onPressed: () {
               Navigator.pop(context);
             },
@@ -248,12 +254,18 @@ class _testState extends State<card_shop> {
         title: "",
         closeIcon: Icon(Icons.error),
         desc: message,
+        style: AlertStyle(
+          descStyle: TextStyle(
+            color: (!StaticData.isDarkMode)?Colors.black87:Colors.grey[300],
+          ),
+        ),
         buttons: [
           DialogButton(
             child: Text(
               "ACCEPT",
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              style: TextStyle(color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[300], fontSize: 20),
             ),
+            color: (!StaticData.isDarkMode)?Colors.greenAccent:Colors.grey[700],
             onPressed: () {
               Navigator.pop(context);
             },

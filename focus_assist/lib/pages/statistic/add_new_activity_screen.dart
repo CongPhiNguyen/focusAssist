@@ -69,10 +69,11 @@ class _AddNewState extends State<AddNew> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Text(
-                "How often do you want to perform the activity: ",
+                "How often do you want to perform the activity?",
                 style: TextStyle(fontSize: 18),
+                softWrap: true,
               ),
             ),
             Center(
@@ -83,11 +84,20 @@ class _AddNewState extends State<AddNew> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 70,
+                        width: 50,
                         child: TextField(
                           keyboardType: TextInputType.number,
                           controller: getDayPerWeek,
-                          decoration: InputDecoration(hintText: 'days'),
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                            hintText: 'days',
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                          ),
                           style: TextStyle(fontSize: 20),
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
@@ -95,7 +105,7 @@ class _AddNewState extends State<AddNew> {
                         ),
                       ),
                       SizedBox(
-                        width: 10,
+                        width: 20,
                       ),
                       Text("per week", style: TextStyle(fontSize: 20))
                     ],
@@ -112,76 +122,86 @@ class _AddNewState extends State<AddNew> {
   // ignore: non_constant_identifier_names
   List<Widget> Fixed() {
     return <Widget>[
-      Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-            child: Text("Select the day you want to do the activity:",
-                style: TextStyle(fontSize: 17)),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Container(
-                  height: 50,
-                  width: 370,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: dayOfWeek.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          if (this.mounted) {
-                            setState(() {
-                              checkDay[index] = !checkDay[index];
-                            });
-                          } else
-                            return;
-                        },
+      Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Text("When do you want to do the activity?",
+                  style: TextStyle(fontSize: 18)),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+                height: 45,
+                width: 370,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: dayOfWeek.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        if (this.mounted) {
+                          setState(() {
+                            checkDay[index] = !checkDay[index];
+                          });
+                        } else
+                          return;
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
                         child: Container(
+                          width: 48.5,
                             decoration: BoxDecoration(
                               color: checkDay[index]
-                                  ? Color(0xff8A2BE2)
-                                  : Color(0xffF0FFF0),
+                                  // ? Color(0xff8A2BE2)
+                                  // : Color(0xffF0FFF0),
+                                  ? (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[700]
+                                  : (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[800],
                               border: Border(
                                   bottom: BorderSide(
                                       color: !checkDay[index]
-                                          ? Color(0xff8A2BE2)
-                                          : Color(0xffF0FFF0),
-                                      width: 1),
-                                  top: BorderSide(
-                                      color: !checkDay[index]
-                                          ? Color(0xff8A2BE2)
-                                          : Color(0xffF0FFF0),
-                                      width: 1),
-                                  right: BorderSide(
-                                      color: !checkDay[index]
-                                          ? Color(0xff8A2BE2)
-                                          : Color(0xffF0FFF0),
-                                      width: 1),
-                                  left: BorderSide(
-                                      color: !checkDay[index]
-                                          ? Color(0xff8A2BE2)
-                                          : Color(0xffF0FFF0),
-                                      width: (index == 0) ? 1 : 0)),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
+                                          ? (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[800]
+                                          : (!StaticData.isDarkMode)?Colors.blue:Colors.grey[500],
+                                      width: 5),
+                                  // top: BorderSide(
+                                  //     color: !checkDay[index]
+                                  //         ? (!StaticData.isDarkMode)?Colors.blue:Colors.grey[700]
+                                  //         : (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[500],
+                                  //     width: 1),
+                                  // right: BorderSide(
+                                  //     color: !checkDay[index]
+                                  //         ? (!StaticData.isDarkMode)?Colors.blue:Colors.grey[700]
+                                  //         : (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[500],
+                                  //     width: 1),
+                                  // left: BorderSide(
+                                  //     color: !checkDay[index]
+                                  //         ? (!StaticData.isDarkMode)?Colors.blue:Colors.grey[700]
+                                  //         : (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[500],
+                                  //     width: (index == 0) ? 1 : 0)
+                              ),
+                              ),
+                            child: Center(
                               child: Text(dayOfWeek[index],
                                   style: TextStyle(
+                                    fontSize: 12,
                                       color: !checkDay[index]
-                                          ? Color(0xff8A2BE2)
-                                          : Color(0xffF0FFF0))),
-                            )),
-                      );
-                    },
-                  )),
-            ),
-          ),
-        ],
+                                          // ? Color(0xff8A2BE2)
+                                          // : Color(0xffF0FFF0))
+                                          ? Colors.black
+                                          : Colors.black,
+                                  )
+                              ),
+                            )
+                        ),
+                      ),
+                    );
+                  },
+                )),
+          ],
+        ),
       )
     ];
   }
@@ -189,30 +209,37 @@ class _AddNewState extends State<AddNew> {
   // ignore: non_constant_identifier_names
   List<Widget> Repeating() {
     return <Widget>[
-      SizedBox(
-        height: 10,
-      ),
       Center(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Repeating every", style: TextStyle(fontSize: 20)),
+              Text("Repeating every", style: TextStyle(fontSize: 18)),
               SizedBox(width: 20),
               Container(
-                width: 70,
+                width: 50,
                 child: TextField(
                   keyboardType: TextInputType.number,
                   controller: getRepeatingDay,
-                  decoration: InputDecoration(hintText: 'num'),
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    hintText: 'num',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
                   style: TextStyle(fontSize: 20),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly,
                   ],
                 ),
               ),
-              Text("day", style: TextStyle(fontSize: 20)),
+              SizedBox(width: 20,),
+              Text("days", style: TextStyle(fontSize: 18)),
             ],
           ),
         ),
@@ -240,6 +267,29 @@ class _AddNewState extends State<AddNew> {
       return false;
     }
     // Nhập desciption(không bắt buộc)
+    // if (getDescription.text == null || getDescription.text.length < 1) {
+    //   return await showDialog(
+    //       context: context,
+    //       builder: (BuildContext context) => AlertDialog(
+    //             title: Text("Confirmation"),
+    //             content:
+    //                 Text("Are you sure you don't want to add description?"),
+    //             actions: [
+    //               TextButton(
+    //                 onPressed: () {
+    //                   Navigator.pop(context, false);
+    //                 },
+    //                 child: Text("No"),
+    //               ),
+    //               TextButton(
+    //                 onPressed: () {
+    //                   Navigator.pop(context, true);
+    //                 },
+    //                 child: Text("Yes"),
+    //               )
+    //             ],
+    //           ));
+    // }
     if (getDescription.text == null || getDescription.text.length < 1) {
       bool k = await showDialog(
           context: context,
@@ -250,15 +300,15 @@ class _AddNewState extends State<AddNew> {
                 actions: [
                   TextButton(
                     onPressed: () {
-                      Navigator.pop(context, true);
-                    },
-                    child: Text("Yes"),
-                  ),
-                  TextButton(
-                    onPressed: () {
                       Navigator.pop(context, false);
                     },
                     child: Text("No"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: Text("Yes"),
                   )
                 ],
               ));
@@ -351,19 +401,19 @@ class _AddNewState extends State<AddNew> {
           builder: (BuildContext context) => AlertDialog(
                 title: Text("Message"),
                 content:
-                    Text("Are you sure to not add this activity to a group ?"),
+                    Text("Are you sure you don't want to add this activity to a group ?"),
                 actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, true);
-                    },
-                    child: Text("Yes"),
-                  ),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context, false);
                     },
                     child: Text("No"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: Text("Yes"),
                   )
                 ],
               ));
@@ -463,12 +513,23 @@ class _AddNewState extends State<AddNew> {
   Widget build(BuildContext context) {
     OutlineInputBorder k = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(4)),
-      borderSide: BorderSide(width: 1, color: Colors.white),
+      borderSide: BorderSide(width: 1, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey),
     );
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff8A2BE2),
-          title: Text("Add new activity", style: TextStyle(fontSize: 25)),
+          // backgroundColor: Color(0xff8A2BE2),
+          backgroundColor: Theme.of(context).appBarTheme.color,
+          // title: Text("Add new activity", style: TextStyle(fontSize: 25)),
+          elevation: 1,
+          title: Text(
+            'New activity',
+            style: TextStyle(
+              //fontSize: 18.0,
+              //fontWeight: FontWeight.bold,
+              color: Theme.of(context).appBarTheme.titleTextStyle.color,
+              letterSpacing: 0.5,
+            ),
+          ),
           actions: [
             TextButton(
                 onPressed: () async {
@@ -477,15 +538,20 @@ class _AddNewState extends State<AddNew> {
                   } else
                     Navigator.pop(context);
                 },
+                style: ButtonStyle(
+                  // backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[100]),
+                  // shape: MaterialStateOutlinedBorder(),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
                   child: Text(
-                    "Create",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
+                    "Create     ",
+                    // style: TextStyle(fontSize: 20, color: Colors.white),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                ))
+                )
+            )
           ],
-          elevation: 1,
         ),
         body: ListView(
           shrinkWrap: true,
@@ -493,8 +559,11 @@ class _AddNewState extends State<AddNew> {
             // Thêm tên của activity và các description
             Container(
                 decoration: BoxDecoration(
-                    color: Color(0xff8A2BE2),
-                    borderRadius: BorderRadius.all(Radius.circular(0))),
+                    // color: Color(0xff8A2BE2),
+                  color: (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[850],
+                  // color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(0)),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
@@ -507,16 +576,21 @@ class _AddNewState extends State<AddNew> {
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
                           alignLabelWithHint: true,
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            // borderRadius: BorderRadius.circular(8.0),
+                            // borderSide: BorderSide(
+                            //   color: Colors.black,
+                            // ),
+                          ),
                           labelText: 'Activity Name',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400], fontSize: 18),
                           focusedBorder: k,
                           disabledBorder: k,
                           enabledBorder: k,
                           errorBorder: k,
                           focusedErrorBorder: k,
                         ),
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        // style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       SizedBox(
                         height: 10,
@@ -526,18 +600,23 @@ class _AddNewState extends State<AddNew> {
                         controller: getDescription,
                         decoration: InputDecoration(
                             isDense: true,
-                            contentPadding: EdgeInsets.all(18),
+                            contentPadding: EdgeInsets.all(8),
                             focusedBorder: k,
                             disabledBorder: k,
                             enabledBorder: k,
                             errorBorder: k,
                             focusedErrorBorder: k,
-                            border: OutlineInputBorder(),
-                            labelText: 'Description',
-                            labelStyle:
-                                TextStyle(color: Colors.white, fontSize: 20)),
+                            border: OutlineInputBorder(
+                              // borderRadius: BorderRadius.circular(8.0),
+                              // borderSide: BorderSide(
+                              //   color: Colors.grey,
+                              // ),
+                            ),
+                            labelText: 'Description (optional)',
+                            labelStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400], fontSize: 18)
+                          ),
                         maxLines: 3,
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        // style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       SizedBox(
                         height: 10,
@@ -547,16 +626,16 @@ class _AddNewState extends State<AddNew> {
                 )),
             Center(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
+                padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
                 child: Center(
                   child: Row(mainAxisSize: MainAxisSize.min, children: [
                     Text(
-                      "Start date: ",
-                      style: TextStyle(fontSize: 20),
+                      "Start date:   ",
+                      style: TextStyle(fontSize: 18),
                     ),
                     Text(
                       startTime.toString().substring(0, 10),
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 18),
                     ),
                     TextButton.icon(
                       icon: Icon(Icons.date_range),
@@ -584,7 +663,7 @@ class _AddNewState extends State<AddNew> {
 
             Divider(
               height: 10,
-              color: Colors.black,
+              color: (!StaticData.isDarkMode)?Colors.black:Colors.grey,
             ),
             //Chọn group của các activity
             Center(
@@ -596,7 +675,7 @@ class _AddNewState extends State<AddNew> {
                   ),
                   Text(
                     "Group",
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 18),
                   ),
                   SizedBox(
                     width: 30,
@@ -607,10 +686,10 @@ class _AddNewState extends State<AddNew> {
                     iconSize: 24,
                     elevation: 16,
                     style:
-                        const TextStyle(color: Colors.deepPurple, fontSize: 20),
+                        const TextStyle(color: Colors.blue, fontSize: 18),
                     underline: Container(
                       height: 2,
-                      color: Colors.deepPurpleAccent,
+                      color: Colors.blue,
                     ),
                     onChanged: (String newValue) {
                       if (this.mounted) {
@@ -647,7 +726,7 @@ class _AddNewState extends State<AddNew> {
                     },
                     child: Text(
                       "New",
-                      style: TextStyle(fontSize: 22),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                 ],
@@ -663,7 +742,7 @@ class _AddNewState extends State<AddNew> {
                   ),
                   Text(
                     "Select type",
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 18),
                   ),
                   SizedBox(
                     width: 30,
@@ -674,10 +753,10 @@ class _AddNewState extends State<AddNew> {
                     iconSize: 24,
                     elevation: 16,
                     style:
-                        const TextStyle(color: Colors.deepPurple, fontSize: 20),
+                        const TextStyle(color: Colors.blue, fontSize: 18),
                     underline: Container(
                       height: 2,
-                      color: Colors.deepPurpleAccent,
+                      color: Colors.blue,
                     ),
                     onChanged: (String newValue) {
                       if (this.mounted) {
@@ -706,7 +785,7 @@ class _AddNewState extends State<AddNew> {
                     : (dropDownValue == 'Flexible')
                         ? Flexible()
                         : Repeating()),
-            //debugWidget(),
+            // debugWidget(),
           ],
         ));
   }

@@ -9,8 +9,6 @@ import 'package:focus_assist/classes/LocalNotificationManager.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../classes/LocalNotificationManager.dart';
-import '../classes/LocalNotificationManager.dart';
 
 class NotificationSettingScreen extends StatefulWidget {
   @override
@@ -67,28 +65,29 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      // backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: (!StaticData.isDarkMode)?Colors.grey[50]:Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        // elevation: 1,
         title: Text(
           'Notification',
           style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
+            //fontSize: 18.0,
+            //fontWeight: FontWeight.bold,
+            color: Theme.of(context).appBarTheme.titleTextStyle.color,
             letterSpacing: 0.5,
           ),
         ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
+        // leading: IconButton(
+        //   onPressed: () {
+        //     Navigator.pop(context);
+        //   },
+        //   icon: Icon(
+        //     Icons.arrow_back,
+        //     // color: Colors.black,
+        //   ),
+        // ),
       ),
       body: ListView(
         children: <Widget>[
@@ -105,7 +104,8 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
             ),
           ),
           ListTile (
-            tileColor: Colors.white,
+            // tileColor: Theme.of(context).scaffoldBackgroundColor,
+            tileColor: (!StaticData.isDarkMode)?Colors.white:Theme.of(context).backgroundColor,
             onTap: () async {
               setState(() {
                 isNotificationOn = !isNotificationOn;
@@ -168,7 +168,8 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
           ListTile (
             enabled: isNotificationOn,
             minVerticalPadding: 30.0,
-            tileColor: Colors.white,
+            // tileColor: Theme.of(context).scaffoldBackgroundColor,
+            tileColor: (!StaticData.isDarkMode)?Colors.white:Theme.of(context).backgroundColor,
             onTap: () async {
               setState(() {
                 isMorningNotification = !isMorningNotification;
@@ -185,7 +186,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
             leading: Icon(
               Icons.wb_twighlight,
               size: 32.0,
-              color: Colors.blue,
+              color: Theme.of(context).iconTheme.color,
             ),
             title: Text(
               'Morning',
@@ -207,10 +208,11 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               },
             ),
           ),
-          Divider(height:0, thickness: 1, color: Colors.grey[400]),
+          Divider(height:0, thickness: 1,),
           ListTile(
             enabled: isMorningNotification,
-            tileColor: Colors.white,
+            // tileColor: Theme.of(context).scaffoldBackgroundColor,
+            tileColor: (!StaticData.isDarkMode)?Colors.white:Theme.of(context).backgroundColor,
             onTap: () {
               selectMorningTime(context);
             },
@@ -240,7 +242,8 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
           ListTile (
             enabled: isNotificationOn,
             minVerticalPadding: 30.0,
-            tileColor: Colors.white,
+            // tileColor: Theme.of(context).scaffoldBackgroundColor,
+            tileColor: (!StaticData.isDarkMode)?Colors.white:Theme.of(context).backgroundColor,
             onTap: () async {
               setState(() {
                 isEveningNotification = !isEveningNotification;
@@ -257,7 +260,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
             leading: Icon(
               Icons.nightlight_round,
               size: 32.0,
-              color: Colors.blue,
+              color: Theme.of(context).iconTheme.color,
             ),
             title: Text(
               'Evening',
@@ -279,10 +282,11 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               }
             ),
           ),
-          Divider(height:0, thickness: 1, color: Colors.grey[400]),
+          Divider(height:0, thickness: 1,),
           ListTile(
             enabled: isEveningNotification,
-            tileColor: Colors.white,
+            // tileColor: Theme.of(context).scaffoldBackgroundColor,
+            tileColor: (!StaticData.isDarkMode)?Colors.white:Theme.of(context).backgroundColor,
             onTap: () {
               selectEveningTime(context);
             },
@@ -308,30 +312,30 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               ],
             ),
           ),
-          TextButton(
-            onPressed: () async {
-              Time time = new Time(selectedMorningTime.hour, selectedMorningTime.minute);
-              await showNotification();
-              //await LocalNotificationManager.showNotification();
-            },
-            child: Text('Send Notification'),
-          ),
-          TextButton(
-            onPressed: () async {
-              var list = await getListPendingNotification();
-              print(list.length);
-              for (int i = 0; i < list.length; i++) {
-                print('${list[i].id}  /  ${list[i].body}');
-              }
-            },
-            child: Text('List Notification'),
-          ),
-          TextButton(
-            onPressed: () async {
-              await cancelAllNotification();
-            },
-            child: Text('Cancel All Notification'),
-          ),
+          // TextButton(
+          //   onPressed: () async {
+          //     Time time = new Time(selectedMorningTime.hour, selectedMorningTime.minute);
+          //     await showNotification();
+          //     //await LocalNotificationManager.showNotification();
+          //   },
+          //   child: Text('Send Notification'),
+          // ),
+          // TextButton(
+          //   onPressed: () async {
+          //     var list = await getListPendingNotification();
+          //     print(list.length);
+          //     for (int i = 0; i < list.length; i++) {
+          //       print('${list[i].id}  /  ${list[i].body}');
+          //     }
+          //   },
+          //   child: Text('List Notification'),
+          // ),
+          // TextButton(
+          //   onPressed: () async {
+          //     await cancelAllNotification();
+          //   },
+          //   child: Text('Cancel All Notification'),
+          // ),
         ],
       ),
     );

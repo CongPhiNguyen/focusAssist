@@ -38,7 +38,7 @@ class WelcomeScreen extends StatelessWidget {
             )),
             SizedBox(height: size.height*0.01,),
             FadeAnimation(1.2,Text(
-              'Focus Assistance',
+              'Focus Assist',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: size.height*0.025,

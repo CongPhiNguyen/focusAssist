@@ -389,7 +389,8 @@ class _FarmScreenState extends State<FarmScreen> {
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/achievenment/ui/background.png'),
+              // image: AssetImage('assets/achievenment/ui/background.png'),
+              image: (!StaticData.isDarkMode)?AssetImage('assets/achievenment/ui/background.png'):AssetImage('assets/achievenment/ui/background_darkmode.jpg'),
               fit: BoxFit.fill,
             )
         ),
@@ -483,7 +484,7 @@ class _FarmScreenState extends State<FarmScreen> {
                     // Icon(Icons.wallet_giftcard,color: Colors.green,),
                     SizedBox(width: 5,),
                     Text(StaticData.Vang.toString() +' Gold',
-                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.black),
+                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[300]),
                     ),
                   ],
                 ),
@@ -591,11 +592,11 @@ class _FarmScreenState extends State<FarmScreen> {
     }
 
 
-    final D = await DbProvider.instance.rawQuery('''
-    UPDATE THONGTINNGUOIDUNG 
-     SET VANG = 70000;
-     WHERE MANGUOIDUNG = '$id'
-    ''');
+    // final D = await DbProvider.instance.rawQuery('''
+    // UPDATE THONGTINNGUOIDUNG
+    //  SET VANG = 70000;
+    //  WHERE MANGUOIDUNG = '$id'
+    // ''');
 
     final updateBonus = await DbProvider.instance.rawQuery('''
     SELECT * FROM THONGTINNGUOIDUNG WHERE MANGUOIDUNG = '$id'

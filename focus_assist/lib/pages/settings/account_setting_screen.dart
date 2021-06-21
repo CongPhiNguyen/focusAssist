@@ -1,16 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/services.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
+import 'package:focus_assist/classes/theme_provider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:focus_assist/pages/login/screen/welcome_screen.dart';
+import 'package:focus_assist/classes/theme_provider.dart';
 
-import '../classes/DbProvider.dart';
+import 'package:focus_assist/classes/DbProvider.dart';
 
 class AccountSettingScreen extends StatefulWidget {
   @override
@@ -29,6 +33,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(ThemeProvider().themeMode.toString());
     LoadUsername();
     LoadUserImage();
   }
@@ -67,7 +72,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(00.0, 20.0, 00.0, 0),
@@ -91,7 +96,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                             backgroundImage: (image == null)
                                 ? AssetImage('assets/default.png')
                                 : null,
-                            backgroundColor: Colors.white,
+                            backgroundColor: Colors.transparent,
                             radius: 50.0,
                             child: ClipRRect(
                               child: (image != null) ? image : null,
@@ -124,7 +129,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                                   children: <Widget>[
                                     Icon(
                                       Icons.account_circle,
-                                      color: Colors.blue,
+                                      // color: Colors.blue,
                                     ),
                                     Text('   Change Avatar'),
                                   ],
@@ -140,7 +145,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                                   children: <Widget>[
                                     Icon(
                                       Icons.edit,
-                                      color: Colors.blue,
+                                      // color: Colors.blue,
                                     ),
                                     Text('   Edit Username'),
                                   ],
@@ -159,7 +164,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                       '$username',
                       style: TextStyle(
                         fontSize: 24.0,
-                        color: Colors.grey[700],
+                        // color: Colors.grey[700],
                       ),
                     ),
                   ),
@@ -202,10 +207,11 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue[500],
+                            color: (!StaticData.isDarkMode)?Colors.blue[500]:Colors.white,
                           ),
                         ),
-                        tileColor: Colors.blue[50],
+                        tileColor: (!StaticData.isDarkMode)?Colors.blue[50]:Colors.grey[800],
+                        // tileColor: Colors.grey[800],
                       ),
                     ),
                     Card(
@@ -221,10 +227,10 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue[500],
+                            color: (!StaticData.isDarkMode)?Colors.blue[500]:Colors.white,
                           ),
                         ),
-                        tileColor: Colors.blue[50],
+                        tileColor: (!StaticData.isDarkMode)?Colors.blue[50]:Colors.grey[800],
                       ),
                     ),
                     SizedBox(
@@ -267,9 +273,11 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.red[500],
+                            // color: (!StaticData.isDarkMode)?Colors.red[500]:Colors.red[500],
                           ),
                         ),
-                        tileColor: Colors.red[50],
+                        // tileColor: Colors.red[50],
+                        tileColor: (!StaticData.isDarkMode)?Colors.red[50]:Colors.red[200],
                       ),
                     ),
                     Card(
@@ -288,120 +296,122 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.red[500],
+                            // color: (!StaticData.isDarkMode)?Colors.red[500]:Colors.red,
                           ),
                         ),
-                        tileColor: Colors.red[50],
+                        // tileColor: Colors.red[50],
+                        tileColor: (!StaticData.isDarkMode)?Colors.red[50]:Colors.red[200],
                       ),
                     ),
                   ],
                 ),
               ),
-              TextButton(
-                onPressed: () async {
-                  Database db = await DbProvider.instance.database;
-                  // Map<String, dynamic> row = {
-                  //   'MAMUCTIEU': 'MT00001',
-                  //   'NGAYHOANTHANH': 20210529
-                  // };
-                  // Map<String, dynamic> row = {
-                  //   'MAMUCTIEU': 'MT00001',
-                  //   'MANGUOIDUNG': '${StaticData.userID}',
-                  //   'MANHOM': '',
-                  //   'TENMUCTIEU': 'Đọc sách',
-                  //   'MOTA': '',
-                  //   'NGAYBATDAU': 20210524,
-                  //   'LOAIHINH': 'FIXED',
-                  //   'CACNGAY': 1101011
-                  // };
-                  // Map<String, dynamic> row = {
-                  //   'MAMUCTIEU': 'MT00002',
-                  //   'MANGUOIDUNG': '${StaticData.userID}',
-                  //   'MANHOM': '',
-                  //   'TENMUCTIEU': 'Chạy bộ',
-                  //   'MOTA': '',
-                  //   'NGAYBATDAU': 20210524,
-                  //   'LOAIHINH': 'FLEXIBLE',
-                  //   'SOLAN': 3
-                  // };
-                  // Map<String, dynamic> row = {
-                  //   'MAMUCTIEU': 'MT00003',
-                  //   'MANGUOIDUNG': '${StaticData.userID}',
-                  //   'MANHOM': '',
-                  //   'TENMUCTIEU': 'Dọn nhà',
-                  //   'MOTA': '',
-                  //   'NGAYBATDAU': 20210524,
-                  //   'LOAIHINH': 'REPEATING',
-                  //   'KHOANGTHOIGIAN': 5
-                  // };
-                  // Map<String, dynamic> row = {
-                  //   'DADANGNHAP': 0,
-                  //   'MANGUOIDUNG': ''
-                  // };
-                  Map<String, dynamic> row = {
-                    'MATRICHDAN': 'TD005',
-                    'TRICHDAN': 'The will to win, the desire to succeed, the urge to reach your full potential... these are the keys that will unlock the door to personal excellence',
-                    'TACGIA': 'Confucius'
-                  };
-                  print(await db.insert('TRICHDAN', row));
-
-                  // Database db = await DbProvider.instance.database;
-                  // await db.execute(
-                  //   '''
-                  //   INSERT INTO THONGTINNGUOIDUNG VALUES ('${StaticData.userID}', 'Crack of Dawn', '', 100, 1, 1, 1, '07:00:00', '21:00:00', 0, 0, '');
-                  //   '''
-                  // );
-                  print('Complete insert into table');
-                },
-                child: Text(
-                  'Insert',
-                ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  Database db = await DbProvider.instance.database;
-                  List<Map<String, dynamic>> queryRows =
-                      await db.query('NGUOIDUNG');
-                  print(queryRows);
-                },
-                child: Text(
-                  'Query',
-                ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  Database db = await DbProvider.instance.database;
-                  db.execute('''
-                  CREATE TABLE THAMSO (
-                      DADANGNHAP BOOL,
-                      MANGUOIDUNG TEXT,
-                      PRIMARY KEY (DADANGNHAP, MANGUOIDUNG)
-                  );
-                    ''');
-                  // db.execute(
-                  //   '''
-                  //   ALTER TABLE THONGTINNGUOIDUNG
-                  //   ADD COLUMN LOCKPASSCODE TEXT;
-                  //   '''
-                  // );
-                  print('Complete update table');
-                },
-                child: Text(
-                  'Update',
-                ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  Database db = await DbProvider.instance.database;
-                  db.execute('''
-                    DELETE FROM THONGKE
-                    WHERE MAMUCTIEU = 'MT00001' AND NGAYHOANTHANH = 20210613;
-                    ''');
-                  print('Complete delete');
-                },
-                child: Text(
-                  'Delete',
-                ),
-              ),
+              // TextButton(
+              //   onPressed: () async {
+              //     Database db = await DbProvider.instance.database;
+              //     // Map<String, dynamic> row = {
+              //     //   'MAMUCTIEU': 'MT00001',
+              //     //   'NGAYHOANTHANH': 20210529
+              //     // };
+              //     // Map<String, dynamic> row = {
+              //     //   'MAMUCTIEU': 'MT00001',
+              //     //   'MANGUOIDUNG': '${StaticData.userID}',
+              //     //   'MANHOM': '',
+              //     //   'TENMUCTIEU': 'Đọc sách',
+              //     //   'MOTA': '',
+              //     //   'NGAYBATDAU': 20210524,
+              //     //   'LOAIHINH': 'FIXED',
+              //     //   'CACNGAY': 1101011
+              //     // };
+              //     // Map<String, dynamic> row = {
+              //     //   'MAMUCTIEU': 'MT00002',
+              //     //   'MANGUOIDUNG': '${StaticData.userID}',
+              //     //   'MANHOM': '',
+              //     //   'TENMUCTIEU': 'Chạy bộ',
+              //     //   'MOTA': '',
+              //     //   'NGAYBATDAU': 20210524,
+              //     //   'LOAIHINH': 'FLEXIBLE',
+              //     //   'SOLAN': 3
+              //     // };
+              //     // Map<String, dynamic> row = {
+              //     //   'MAMUCTIEU': 'MT00003',
+              //     //   'MANGUOIDUNG': '${StaticData.userID}',
+              //     //   'MANHOM': '',
+              //     //   'TENMUCTIEU': 'Dọn nhà',
+              //     //   'MOTA': '',
+              //     //   'NGAYBATDAU': 20210524,
+              //     //   'LOAIHINH': 'REPEATING',
+              //     //   'KHOANGTHOIGIAN': 5
+              //     // };
+              //     // Map<String, dynamic> row = {
+              //     //   'DADANGNHAP': 0,
+              //     //   'MANGUOIDUNG': ''
+              //     // };
+              //     Map<String, dynamic> row = {
+              //       'MATRICHDAN': 'TD005',
+              //       'TRICHDAN': 'The will to win, the desire to succeed, the urge to reach your full potential... these are the keys that will unlock the door to personal excellence',
+              //       'TACGIA': 'Confucius'
+              //     };
+              //     print(await db.insert('TRICHDAN', row));
+              //
+              //     // Database db = await DbProvider.instance.database;
+              //     // await db.execute(
+              //     //   '''
+              //     //   INSERT INTO THONGTINNGUOIDUNG VALUES ('${StaticData.userID}', 'Crack of Dawn', '', 100, 1, 1, 1, '07:00:00', '21:00:00', 0, 0, '');
+              //     //   '''
+              //     // );
+              //     print('Complete insert into table');
+              //   },
+              //   child: Text(
+              //     'Insert',
+              //   ),
+              // ),
+              // TextButton(
+              //   onPressed: () async {
+              //     Database db = await DbProvider.instance.database;
+              //     List<Map<String, dynamic>> queryRows =
+              //         await db.query('NGUOIDUNG');
+              //     print(queryRows);
+              //   },
+              //   child: Text(
+              //     'Query',
+              //   ),
+              // ),
+              // TextButton(
+              //   onPressed: () async {
+              //     Database db = await DbProvider.instance.database;
+              //     db.execute('''
+              //     CREATE TABLE THAMSO (
+              //         DADANGNHAP BOOL,
+              //         MANGUOIDUNG TEXT,
+              //         PRIMARY KEY (DADANGNHAP, MANGUOIDUNG)
+              //     );
+              //       ''');
+              //     // db.execute(
+              //     //   '''
+              //     //   ALTER TABLE THONGTINNGUOIDUNG
+              //     //   ADD COLUMN LOCKPASSCODE TEXT;
+              //     //   '''
+              //     // );
+              //     print('Complete update table');
+              //   },
+              //   child: Text(
+              //     'Update',
+              //   ),
+              // ),
+              // TextButton(
+              //   onPressed: () async {
+              //     Database db = await DbProvider.instance.database;
+              //     db.execute('''
+              //       DELETE FROM THONGKE
+              //       WHERE MAMUCTIEU = 'MT00001' AND NGAYHOANTHANH = 20210613;
+              //       ''');
+              //     print('Complete delete');
+              //   },
+              //   child: Text(
+              //     'Delete',
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -410,6 +420,10 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   }
 
   _showEditUsernameDialog(BuildContext context) {
+    OutlineInputBorder outlineInputBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(4)),
+      borderSide: BorderSide(width: 1, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey),
+    );
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -417,7 +431,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
         return AlertDialog(
           title: Center(
               child: Text(
-            'Edit Username',
+            'Edit Name',
             style: TextStyle(color: Colors.blue),
           )),
           content: SingleChildScrollView(
@@ -429,9 +443,16 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 ),
                 TextField(
                   controller: usernameEditingController,
+                  style: TextStyle(fontSize: 18,),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
+                    focusedBorder: outlineInputBorder,
+                    disabledBorder: outlineInputBorder,
+                    enabledBorder: outlineInputBorder,
+                    errorBorder: outlineInputBorder,
+                    focusedErrorBorder: outlineInputBorder,
                     labelText: 'Username',
+                    labelStyle: TextStyle(fontSize: 18, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
                     hintText: username,
                   ),
                 ),
@@ -455,11 +476,13 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   Fluttertoast.showToast(msg: 'Please enter username', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 }
                 else {
-                  username = usernameEditingController.text;
+                  setState(() {
+                    username = usernameEditingController.text;
+                  });
                   UpdateUsername(username);
+                  usernameEditingController.clear();
                   Navigator.pop(context);
                 }
-
               },
             ),
           ],
@@ -592,22 +615,6 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 'Sign Out',
                 style: TextStyle(color: Colors.blue),
               )),
-          // content: SingleChildScrollView(
-          //   child: ListBody(
-          //     children: <Widget>[
-          //       // Divider(
-          //       //   height: 1,
-          //       //   color: Colors.blue,
-          //       // ),
-          //       SizedBox(
-          //         height: 20,
-          //         child: Text(
-          //           'Do you want to sign out?'
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           content: SingleChildScrollView(
             child: Center(
               child: Text(
@@ -633,12 +640,18 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                     SET DADANGNHAP = 0,
                         MANGUOIDUNG = '';
                     ''');
+                StaticData.flutterLocalNotificationsPlugin.cancelAll();
+                StaticData.isDarkMode = false;
+                StaticData.isPrivacyLockOn = false;
+                final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+                themeProvider.changeToLightModeWithoutUpdateUser();
                 Navigator.pop(context);
                 Navigator.pop(context);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => WelcomeScreen()),
                 );
+                Fluttertoast.showToast(msg: 'Sign out successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_SHORT);
                 StaticData.userID = '';
               },
             ),
@@ -651,27 +664,37 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
   _showChangePassworDialog(BuildContext context) {
     return showDialog(
       context: context,
-      //barrierDismissible: true,
+      barrierDismissible: false,
       builder: (BuildContext context) {
+        OutlineInputBorder outlineInputBorder = OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+          borderSide: BorderSide(width: 1, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey),
+        );
         return AlertDialog(
           title: Center(
               child: Text(
                 'Change Password',
-                style: TextStyle(color: Colors.blue),
+                style: TextStyle(color: (!StaticData.isDarkMode)?Colors.blue:Colors.white),
               )),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          contentPadding: EdgeInsets.fromLTRB(20, 25, 20, 0),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                // Divider(
-                //   height: 5,
-                //   color: Colors.blue,
-                // ),
+                // SizedBox(height: 10,),
                 TextField(
                   controller: passwordEditingController,
                   obscureText: true,
+                  style: TextStyle(fontSize: 18),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
+                    focusedBorder: outlineInputBorder,
+                    disabledBorder: outlineInputBorder,
+                    enabledBorder: outlineInputBorder,
+                    errorBorder: outlineInputBorder,
+                    focusedErrorBorder: outlineInputBorder,
                     labelText: 'Password',
+                    labelStyle: TextStyle(fontSize: 18, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
                     //hintText: 'Password',
                   ),
                 ),
@@ -683,9 +706,16 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 TextField(
                   controller: newPasswordEditingController,
                   obscureText: true,
+                  style: TextStyle(fontSize: 18),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
+                    focusedBorder: outlineInputBorder,
+                    disabledBorder: outlineInputBorder,
+                    enabledBorder: outlineInputBorder,
+                    errorBorder: outlineInputBorder,
+                    focusedErrorBorder: outlineInputBorder,
                     labelText: 'New Password',
+                    labelStyle: TextStyle(fontSize: 18, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
                     //hintText: 'New Password',
                   ),
                 ),
@@ -697,9 +727,16 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 TextField(
                   controller: confirmNewPasswordEditingController,
                   obscureText: true,
+                  style: TextStyle(fontSize: 18),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
+                    focusedBorder: outlineInputBorder,
+                    disabledBorder: outlineInputBorder,
+                    enabledBorder: outlineInputBorder,
+                    errorBorder: outlineInputBorder,
+                    focusedErrorBorder: outlineInputBorder,
                     labelText: 'Confirm Password',
+                    labelStyle: TextStyle(fontSize: 18, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
                     //hintText: 'Confirm New Password',
                   ),
                 ),

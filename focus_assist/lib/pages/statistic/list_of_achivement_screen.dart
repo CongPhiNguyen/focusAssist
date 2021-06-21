@@ -242,14 +242,14 @@ class _ListAchivementState extends State<ListAchivement> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(children: [
-                Image.asset('assets/achievement.png', width: 60, height: 60),
+                Image.asset('assets/achievement.png', width: 55, height: 55),
                 SizedBox(
                   width: 20,
                 ),
                 Center(
                     child: Text(
                   "Achivements",
-                  style: TextStyle(fontSize: 30),
+                  style: TextStyle(fontSize: 27),
                 )),
               ]),
               Divider(),
@@ -259,32 +259,32 @@ class _ListAchivementState extends State<ListAchivement> {
               Center(
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
                   Expanded(
-                      flex: 2,
+                      flex: 4,
                       child: Center(
-                        child: Text("Finish $currentDoneTarget times",
+                        child: Text("Done $currentDoneTarget times",
                             style: TextStyle(fontSize: 20)),
                       )),
                   Expanded(
-                    flex: 2,
+                    flex: 4,
                     child: LinearPercentIndicator(
                       center: Text('$doneNum/$currentDoneTarget'),
                       //width: 100.0,
                       lineHeight: 14.0,
-                      percent: (percentDone >= 1) ? 1.0 : percentDone,
-                      backgroundColor: Colors.grey,
-                      progressColor: Colors.blue,
+                      percent: (percentDone > 1) ? 1.0 : percentDone,
+                      backgroundColor: (!StaticData.isDarkMode)?Colors.grey[300]:Colors.grey[500],
+                      progressColor: (!StaticData.isDarkMode)?Colors.blue:Colors.blueGrey[600],
                     ),
                   ),
                   Expanded(
-                      flex: 1,
-                      child: TextButton(
-                        onPressed: finishClick,
-                        style: ElevatedButton.styleFrom(
-                          primary: !isFullDone ? Colors.blue : Colors.grey,
-                        ),
-                        child: Text(
-                          'Claim',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                      flex: 3,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        child: ElevatedButton(
+                          onPressed: finishClick,
+                          style: ElevatedButton.styleFrom(
+                            primary: !isFullDone ? (!StaticData.isDarkMode)?Colors.blue:Colors.blueGrey[600] : Colors.grey,
+                          ),
+                          child: Text('Claim', style: TextStyle(color: Colors.white), overflow: TextOverflow.clip, softWrap: false,),
                         ),
                       ))
                 ]),
@@ -295,31 +295,31 @@ class _ListAchivementState extends State<ListAchivement> {
               Center(
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
                   Expanded(
-                      flex: 2,
+                      flex: 4,
                       child: Center(
-                        child: Text("Done $targetToReach times",
+                        child: Text("Have $currentActivityTarget activities",
                             style: TextStyle(fontSize: 20)),
                       )),
                   Expanded(
-                    flex: 2,
+                    flex: 4,
                     child: LinearPercentIndicator(
                       center: Text("$doneNumLeft/$targetToReach"),
                       lineHeight: 14.0,
-                      percent: (percentActivity >= 1) ? 1.0 : percentActivity,
-                      backgroundColor: Colors.grey,
-                      progressColor: Colors.blue,
+                      percent: (percentActivity > 1) ? 1.0 : percentActivity,
+                      backgroundColor: (!StaticData.isDarkMode)?Colors.grey[300]:Colors.grey[500],
+                      progressColor: (!StaticData.isDarkMode)?Colors.blue:Colors.blueGrey[600],
                     ),
                   ),
                   Expanded(
-                      flex: 1,
-                      child: TextButton(
-                        onPressed: haveClick,
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
-                        ),
-                        child: Text(
-                          'Claim',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                      flex: 3,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        child: TextButton(
+                          onPressed: haveClick,
+                          style: ElevatedButton.styleFrom(
+                            primary: !isFullDone ? (!StaticData.isDarkMode)?Colors.blue:Colors.blueGrey[600] : Colors.grey,
+                          ),
+                          child: Text('Claim', style: TextStyle(color: Colors.white), overflow: TextOverflow.clip, softWrap: false,),
                         ),
                       ))
                 ]),

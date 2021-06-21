@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'dart:math';
 import 'package:focus_assist/pages/statistic/add_new_group_dialog.dart';
@@ -149,115 +150,134 @@ class _EditActivityState extends State<EditActivity> {
   List<Widget> Flexible() {
     return <Widget>[
       Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
-          child: Text(
-            "How often do you want to perform the activity: ",
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-      ),
-      Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 70,
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  controller: getDayPerWeek,
-                  decoration: InputDecoration(hintText: 'days'),
-                  style: TextStyle(fontSize: 20),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Text(
+                "How often do you want to perform the activity?",
+                style: TextStyle(fontSize: 18),
+                softWrap: true,
+              ),
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+                child: Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 50,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: getDayPerWeek,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(hintText: 'days'),
+                          style: TextStyle(fontSize: 20),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("per week", style: TextStyle(fontSize: 20))
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Text("per week", style: TextStyle(fontSize: 20))
-            ],
-          ),
+            ),
+          ],
         ),
       ),
+
     ];
   }
 
   // ignore: non_constant_identifier_names
   List<Widget> Fixed() {
     return <Widget>[
-      Column(children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-          child: Text("Select the day you want to do the activity:",
-              style: TextStyle(fontSize: 17)),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Container(
-                height: 50,
-                width: 370,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: dayOfWeek.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        if (this.mounted) {
+      Center(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+            child: Text("When do you want to do the activity?",
+                style: TextStyle(fontSize: 18)),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Container(
+                  height: 45,
+                  width: 370,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: dayOfWeek.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
                           setState(() {
                             checkDay[index] = !checkDay[index];
                           });
-                        } else
-                          return;
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(
-                            color: checkDay[index]
-                                ? Color(0xff8A2BE2)
-                                : Color(0xffF0FFF0),
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: !checkDay[index]
-                                        ? Color(0xff8A2BE2)
-                                        : Color(0xffF0FFF0),
-                                    width: 1),
-                                top: BorderSide(
-                                    color: !checkDay[index]
-                                        ? Color(0xff8A2BE2)
-                                        : Color(0xffF0FFF0),
-                                    width: 1),
-                                right: BorderSide(
-                                    color: !checkDay[index]
-                                        ? Color(0xff8A2BE2)
-                                        : Color(0xffF0FFF0),
-                                    width: 1),
-                                left: BorderSide(
-                                    color: !checkDay[index]
-                                        ? Color(0xff8A2BE2)
-                                        : Color(0xffF0FFF0),
-                                    width: (index == 0) ? 1 : 0)),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Text(dayOfWeek[index],
-                                style: TextStyle(
-                                    color: !checkDay[index]
-                                        ? Color(0xff8A2BE2)
-                                        : Color(0xffF0FFF0))),
-                          )),
-                    );
-                  },
-                )),
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+                          child: Container(
+                              width: 48.5,
+                              decoration: BoxDecoration(
+                                color: checkDay[index]
+                                // ? Color(0xff8A2BE2)
+                                // : Color(0xffF0FFF0),
+                                    ? (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[700]
+                                    : (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[800],
+                                border: Border(
+                                  bottom: BorderSide(
+                                      color: !checkDay[index]
+                                          ? (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[800]
+                                          : (!StaticData.isDarkMode)?Colors.blue:Colors.grey[500],
+                                      width: 5),
+                                  // top: BorderSide(
+                                  //     color: !checkDay[index]
+                                  //         ? (!StaticData.isDarkMode)?Colors.blue:Colors.grey[700]
+                                  //         : (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[500],
+                                  //     width: 1),
+                                  // right: BorderSide(
+                                  //     color: !checkDay[index]
+                                  //         ? (!StaticData.isDarkMode)?Colors.blue:Colors.grey[700]
+                                  //         : (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[500],
+                                  //     width: 1),
+                                  // left: BorderSide(
+                                  //     color: !checkDay[index]
+                                  //         ? (!StaticData.isDarkMode)?Colors.blue:Colors.grey[700]
+                                  //         : (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[500],
+                                  //     width: (index == 0) ? 1 : 0)
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(dayOfWeek[index],
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: !checkDay[index]
+                                            ? Colors.black
+                                            : Colors.black,
+                                    )
+                                ),
+                              )),
+                        ),
+                      );
+                    },
+                  )),
+            ),
           ),
-        ),
-      ])
+        ]),
+      )
     ];
   }
 
@@ -266,19 +286,18 @@ class _EditActivityState extends State<EditActivity> {
     return <Widget>[
       Center(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Repeating every", style: TextStyle(fontSize: 20)),
-              SizedBox(
-                width: 10,
-              ),
+              Text("Repeating every", style: TextStyle(fontSize: 18)),
+              SizedBox(width: 20),
               Container(
-                width: 70,
+                width: 50,
                 child: TextField(
                   keyboardType: TextInputType.number,
                   controller: getRepeatingDay,
+                  textAlign: TextAlign.center,
                   decoration: InputDecoration(hintText: 'num'),
                   style: TextStyle(fontSize: 20),
                   inputFormatters: <TextInputFormatter>[
@@ -286,7 +305,8 @@ class _EditActivityState extends State<EditActivity> {
                   ],
                 ),
               ),
-              Text("day", style: TextStyle(fontSize: 20)),
+              SizedBox(width: 20,),
+              Text("days", style: TextStyle(fontSize: 18)),
             ],
           ),
         ),
@@ -320,19 +340,19 @@ class _EditActivityState extends State<EditActivity> {
           builder: (BuildContext context) => AlertDialog(
                 title: Text("Message"),
                 content:
-                    Text("Are you sure not to add description to activity ?"),
+                    Text("Are you sure you don't want to add description ?"),
                 actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, true);
-                    },
-                    child: Text("Yes"),
-                  ),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context, false);
                     },
                     child: Text("No"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: Text("Yes"),
                   )
                 ],
               ));
@@ -515,10 +535,20 @@ class _EditActivityState extends State<EditActivity> {
 
   @override
   Widget build(BuildContext context) {
+    OutlineInputBorder k = OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(4)),
+      borderSide: BorderSide(width: 1, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey),
+    );
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff8A2BE2),
-          title: Text("Add new activity", style: TextStyle(fontSize: 25)),
+          backgroundColor: Theme.of(context).appBarTheme.color,
+          title: Text(
+              "Edit activity",
+              style: TextStyle(
+                color: Theme.of(context).appBarTheme.titleTextStyle.color,
+                letterSpacing: 0.5,
+              ),
+          ),
           actions: [
             TextButton(
                 onPressed: () {
@@ -528,8 +558,8 @@ class _EditActivityState extends State<EditActivity> {
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
                   child: Text(
-                    "Edit",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
+                    "Edit      ",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ))
           ],
@@ -541,7 +571,7 @@ class _EditActivityState extends State<EditActivity> {
             // Thêm tên của activity và các description
             Container(
                 decoration: BoxDecoration(
-                    color: Color(0xff8A2BE2),
+                    color: (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[850],
                     borderRadius: BorderRadius.all(Radius.circular(0))),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -557,34 +587,40 @@ class _EditActivityState extends State<EditActivity> {
                           alignLabelWithHint: true,
                           border: OutlineInputBorder(),
                           labelText: 'Activity Name',
-                          labelStyle: TextStyle(color: Colors.white),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.white),
-                          ),
-                          disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.white),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.white),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.white)),
-                          focusedErrorBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.white)),
+                          labelStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400], fontSize: 18),
+                          // focusedBorder: OutlineInputBorder(
+                          //   borderRadius: BorderRadius.all(Radius.circular(4)),
+                          //   borderSide:
+                          //       BorderSide(width: 1, color: Colors.white),
+                          // ),
+                          // disabledBorder: OutlineInputBorder(
+                          //   borderRadius: BorderRadius.all(Radius.circular(4)),
+                          //   borderSide:
+                          //       BorderSide(width: 1, color: Colors.white),
+                          // ),
+                          // enabledBorder: OutlineInputBorder(
+                          //   borderRadius: BorderRadius.all(Radius.circular(4)),
+                          //   borderSide:
+                          //       BorderSide(width: 1, color: Colors.white),
+                          // ),
+                          // errorBorder: OutlineInputBorder(
+                          //     borderRadius:
+                          //         BorderRadius.all(Radius.circular(4)),
+                          //     borderSide:
+                          //         BorderSide(width: 1, color: Colors.white)),
+                          // focusedErrorBorder: OutlineInputBorder(
+                          //     borderRadius:
+                          //         BorderRadius.all(Radius.circular(4)),
+                          //     borderSide:
+                          //         BorderSide(width: 1, color: Colors.white)
+                          // ),
+                          focusedBorder: k,
+                          disabledBorder: k,
+                          enabledBorder: k,
+                          errorBorder: k,
+                          focusedErrorBorder: k,
                         ),
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        // style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       SizedBox(
                         height: 10,
@@ -594,41 +630,47 @@ class _EditActivityState extends State<EditActivity> {
                         controller: getDescription,
                         decoration: InputDecoration(
                             isDense: true,
-                            contentPadding: EdgeInsets.all(28),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.white),
-                            ),
-                            disabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.white),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.white),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                                borderSide:
-                                    BorderSide(width: 1, color: Colors.white)),
-                            focusedErrorBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                                borderSide:
-                                    BorderSide(width: 1, color: Colors.white)),
+                            contentPadding: EdgeInsets.all(8),
+                            // focusedBorder: OutlineInputBorder(
+                            //   borderRadius:
+                            //       BorderRadius.all(Radius.circular(4)),
+                            //   borderSide:
+                            //       BorderSide(width: 1, color: Colors.white),
+                            // ),
+                            // disabledBorder: OutlineInputBorder(
+                            //   borderRadius:
+                            //       BorderRadius.all(Radius.circular(4)),
+                            //   borderSide:
+                            //       BorderSide(width: 1, color: Colors.white),
+                            // ),
+                            // enabledBorder: OutlineInputBorder(
+                            //   borderRadius:
+                            //       BorderRadius.all(Radius.circular(4)),
+                            //   borderSide:
+                            //       BorderSide(width: 1, color: Colors.white),
+                            // ),
+                            // errorBorder: OutlineInputBorder(
+                            //     borderRadius:
+                            //         BorderRadius.all(Radius.circular(4)),
+                            //     borderSide:
+                            //         BorderSide(width: 1, color: Colors.white)),
+                            // focusedErrorBorder: OutlineInputBorder(
+                            //     borderRadius:
+                            //         BorderRadius.all(Radius.circular(4)),
+                            //     borderSide:
+                            //         BorderSide(width: 1, color: Colors.white)
+                            // ),
+                            focusedBorder: k,
+                            disabledBorder: k,
+                            enabledBorder: k,
+                            errorBorder: k,
+                            focusedErrorBorder: k,
                             border: OutlineInputBorder(),
-                            labelText: 'Description',
-                            labelStyle:
-                                TextStyle(color: Colors.white, fontSize: 20)),
+                            labelText: 'Description (optional)',
+                            labelStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400], fontSize: 18)
+                        ),
                         maxLines: 3,
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        // style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       SizedBox(
                         height: 10,
@@ -637,16 +679,16 @@ class _EditActivityState extends State<EditActivity> {
                   ),
                 )),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
+              padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
               child: Center(
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
                   Text(
                     "Start date: ",
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 18),
                   ),
                   Text(
                     startTime.toString().substring(0, 10),
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 18),
                   ),
                   TextButton.icon(
                     icon: Icon(Icons.date_range),
@@ -673,7 +715,7 @@ class _EditActivityState extends State<EditActivity> {
 
             Divider(
               height: 10,
-              color: Colors.black,
+              color: (!StaticData.isDarkMode)?Colors.black:Colors.grey,
             ),
             //Chọn group của các activity
             Center(
@@ -696,10 +738,10 @@ class _EditActivityState extends State<EditActivity> {
                     iconSize: 24,
                     elevation: 16,
                     style:
-                        const TextStyle(color: Colors.deepPurple, fontSize: 20),
+                        const TextStyle(color: Colors.blue, fontSize: 18),
                     underline: Container(
                       height: 2,
-                      color: Colors.deepPurpleAccent,
+                      color: Colors.blue,
                     ),
                     onChanged: (String newValue) {
                       if (this.mounted) {
@@ -728,7 +770,7 @@ class _EditActivityState extends State<EditActivity> {
                     },
                     child: Text(
                       "New",
-                      style: TextStyle(fontSize: 22),
+                      style: TextStyle(fontSize: 20),
                     ),
                   )
                 ],
@@ -744,7 +786,7 @@ class _EditActivityState extends State<EditActivity> {
                   ),
                   Text(
                     "Select type",
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 18),
                   ),
                   SizedBox(
                     width: 30,
@@ -755,10 +797,10 @@ class _EditActivityState extends State<EditActivity> {
                     iconSize: 24,
                     elevation: 16,
                     style:
-                        const TextStyle(color: Colors.deepPurple, fontSize: 20),
+                      const TextStyle(color: Colors.blue, fontSize: 18),
                     underline: Container(
                       height: 2,
-                      color: Colors.deepPurpleAccent,
+                      color: Colors.blue,
                     ),
                     onChanged: (String newValue) {
                       if (this.mounted) {

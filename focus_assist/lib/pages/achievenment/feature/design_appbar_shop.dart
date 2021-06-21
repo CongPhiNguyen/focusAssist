@@ -31,7 +31,7 @@ class _design_appbar_shopState extends State<design_appbar_shop> {
         width: size.width,
         height: size.height*0.2,
         decoration: BoxDecoration(
-                color: Colors.amber,
+                color: (!StaticData.isDarkMode)?Colors.amber:Colors.grey[800],
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(36),
                   bottomRight: Radius.circular(36),
@@ -49,7 +49,7 @@ class _design_appbar_shopState extends State<design_appbar_shop> {
                       // color: Colors.white,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        color: Colors.white,
+                        color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[700],
                       ),
                       child: IconButton(
                         icon: Icon(Icons.arrow_back),

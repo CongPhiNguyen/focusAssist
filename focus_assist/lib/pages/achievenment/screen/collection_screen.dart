@@ -22,7 +22,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.amber,
+      backgroundColor: (!StaticData.isDarkMode)?Colors.amber[400]:Colors.grey[900],
       // appBar: AppBar(
       //   leading: IconButton(
       //     icon: Icon(Icons.arrow_back,color: Colors.black,),
@@ -50,7 +50,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
                             // color: Colors.white,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: Colors.white,
+                              color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[800],
                             ),
                             child: IconButton(
                               icon: Icon(Icons.arrow_back),
@@ -83,7 +83,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      color: Colors.amber[200],
+                      color: (!StaticData.isDarkMode)?Colors.amber[200]:Colors.grey[800],
                     ),
                     height: size.height*0.7,
                     child: DetailCardCollection(size: size),

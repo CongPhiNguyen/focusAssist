@@ -29,7 +29,7 @@ class _ShopScreenState extends State<ShopScreen> {
     Size size = MediaQuery.of(context).size;
     bool isBuy;
     return Scaffold(
-      backgroundColor: Colors.amber[100],
+      backgroundColor: (!StaticData.isDarkMode)?Colors.amber[100]:Colors.grey[900],
       // appBar: AppBar(
       //   leading: IconButton(
       //     icon: Icon(Icons.arrow_back,color: Colors.black,),
@@ -57,7 +57,7 @@ class _ShopScreenState extends State<ShopScreen> {
               Container(
                 width: size.width*0.4,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[800],
                   borderRadius: BorderRadius.circular(30),
                     ),
                 child: Row(
@@ -68,7 +68,7 @@ class _ShopScreenState extends State<ShopScreen> {
                     ),
                     SizedBox(width: 5,),
                     Text('$vang Gold',
-                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.black),
+                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[300]),
                     ),
                   ],
                 ),

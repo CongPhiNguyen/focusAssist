@@ -26,7 +26,8 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.amber[300],
+      // backgroundColor: Colors.amber[300],
+      backgroundColor: (!StaticData.isDarkMode)?Colors.amber[300]:Colors.grey[900],
       body: Column(
          children: <Widget>[
            Padding(
@@ -39,7 +40,7 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
                      // color: Colors.white,
                      decoration: BoxDecoration(
                        borderRadius: BorderRadius.circular(15),
-                       color: Colors.white,
+                       color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[800],
                      ),
                      child: IconButton(
                        icon: Icon(Icons.arrow_back),
@@ -55,7 +56,8 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
                      'Achievenment',
                      style: TextStyle(
                        fontWeight: FontWeight.bold,
-                       fontSize: 25
+                       fontSize: 25,
+                       color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[300],
                      ),
                    ),
                  ],
@@ -67,7 +69,7 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
              child: Container(
                decoration: BoxDecoration(
                  borderRadius: BorderRadius.circular(25),
-                 color: Colors.amber[100],
+                 color: (!StaticData.isDarkMode)?Colors.amber[100]:Colors.grey[800],
                ),
                height: size.height*0.85,
                child: ListView.builder(
