@@ -9,38 +9,44 @@ class timerHistory extends StatefulWidget {
 }
 
 class _timerHistoryState extends State<timerHistory> {
+  List<timerHistories> timerHistoriesList = [];
+
   void initState(){
     super.initState();
     loadingDatabase();
   }
   void loadingDatabase() async {
-    String id = StaticData.userID;
+    print(DateTime.now());
+
+    // await DbProvider.instance.rawQuery('''DELETE FROM LICHSUTIMER''');
+
     final histories = await DbProvider.instance.rawQuery('''
-      select * from LICHSUTIMER where MANGUOIDUNG = '$id'
+      select * from LICHSUTIMER where MANGUOIDUNG = '${StaticData.userID}'
       ''');
-      StaticData.timerHistoriesList.clear();
-      for (int i = 0; i < histories.length; i++) {
-            timerHistories index = new timerHistories(
-                histories[i]['MANGUOIDUNG'],
-                histories[i]['THOIGIAN'],
-                histories[i]['DAHOANTHANH'],
-                );
-            setState(() {
-              StaticData.timerHistoriesList.add(index);
-            });
-      }
+    print(histories);
+    timerHistoriesList.clear();
+    for (int i = 0; i < histories.length; i++) {
+      timerHistories index = new timerHistories(
+          histories[i]['MANGUOIDUNG'],
+          DateTime.parse(histories[i]['THOIGIAN']),
+          histories[i]['DAHOANTHANH'],
+          );
+      setState(() {
+        timerHistoriesList.add(index);
+      });
+    }
   }
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-              itemCount: StaticData.timerHistoriesList.length,
+              itemCount: timerHistoriesList.length,
               itemBuilder: (context, num) {
                 return Container(
                   child: ListTile(  
-                      leading: Text('${num + 1}', style: TextStyle(fontSize: 25),),
-                      title: Text(StaticData.timerHistoriesList[num].thoiGian.toString() + "   -   " 
-                      + (StaticData.timerHistoriesList[num].daHoanThanh == "true"?"Completed":"Incompleted").toString(),
-                      style: TextStyle(fontSize: 20), overflow: TextOverflow.fade,),
+                      leading: Text('${(num + 1 < 10)?' ${num + 1}':(num + 1)}', style: TextStyle(fontSize: 20),),
+                      title: Text(timerHistoriesList[num].thoiGian.toString().split('.')[0] + "   -   "
+                      + (timerHistoriesList[num].daHoanThanh == "true"?"Completed":"Incompleted").toString(),
+                      style: TextStyle(fontSize: 19), overflow: TextOverflow.fade,),
                     ), 
                 );
               });

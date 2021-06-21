@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/classes/theme_provider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -475,11 +476,13 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   Fluttertoast.showToast(msg: 'Please enter username', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 }
                 else {
-                  username = usernameEditingController.text;
+                  setState(() {
+                    username = usernameEditingController.text;
+                  });
                   UpdateUsername(username);
+                  usernameEditingController.clear();
                   Navigator.pop(context);
                 }
-
               },
             ),
           ],
@@ -639,6 +642,8 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                     ''');
                 StaticData.flutterLocalNotificationsPlugin.cancelAll();
                 StaticData.isDarkMode = false;
+                final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+                themeProvider.changeToLightModeWithoutUpdateUser();
                 Navigator.pop(context);
                 Navigator.pop(context);
                 Navigator.pushReplacement(

@@ -206,9 +206,6 @@ INSERT INTO THANHTUU (MATHANHTUU,TENTHANHTUU,MOTA,CAPDO,VANG) VALUES ('TT58', 'S
 INSERT INTO THANHTUU (MATHANHTUU,TENTHANHTUU,MOTA,CAPDO,VANG) VALUES ('TT59', 'Sweety 3', 'Sweety level 100',3, 1500);
 INSERT INTO THANHTUU (MATHANHTUU,TENTHANHTUU,MOTA,CAPDO,VANG) VALUES ('TT60', 'Water 3', 'Water level 100', 3, 1500);
 
-<<<<<<< HEAD
-INSERT INTO THAMSO VALUES (0, '');
-=======
 INSERT INTO THAMSO (DADANGNHAP, MANGUOIDUNG) VALUES (0, '');
 
 INSERT INTO TRICHDAN(MATRICHDAN, TRICHDAN, TACGIA) VALUES ('1','“We cannot solve problems with the kind of thinking we employed when we came up with them.”','Albert Einstein');
@@ -218,7 +215,6 @@ INSERT INTO TRICHDAN(MATRICHDAN, TRICHDAN, TACGIA) VALUES ('4','“Develop succe
 INSERT INTO TRICHDAN(MATRICHDAN, TRICHDAN, TACGIA) VALUES ('5','“I never dreamed about success. I worked for it.”','Estée Lauder');
 INSERT INTO TRICHDAN(MATRICHDAN, TRICHDAN, TACGIA) VALUES ('6','“Don’t let yesterday take up too much of today.”','Will Rogers');
 
->>>>>>> cdd1be3b9354ecd4a8687fa0d9ede623c6589a62
 
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;

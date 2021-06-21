@@ -86,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
           //   //_showPage = _pageChooser(tappedIndex);
           //   _page = tappedIndex;
           // });
-          if (_page == 0 && StaticData.focusTimerIsRunning == true){
+          if (_page == 1 && StaticData.focusTimerIsRunning == true){
             showDialogChange(context, "Timer is running, change tab now?", tappedIndex);
           }
           else {
@@ -145,6 +145,12 @@ class _MainScreenState extends State<MainScreen> {
                   StaticData.timer2.cancel();
                 }
               }
+              if (StaticData.timer3 != null) {
+                if (StaticData.timer3.isActive) {
+                  StaticData.timer3.cancel();
+                }
+              }
+              if(StaticData.gifcontroller.isAnimating) StaticData.gifcontroller.dispose();
               setState(() {
                 //_showPage = _pageChooser(tappedIndex);
                 _page = tappedIndex;
@@ -159,10 +165,10 @@ class _MainScreenState extends State<MainScreen> {
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onPressed: () {
-              setState(() {
-                //_showPage = _pageChooser(tappedIndex);
-                _page = 0;
-              });
+              // setState(() {
+              //   //_showPage = _pageChooser(tappedIndex);
+              //   _page = 1;
+              // });
               Navigator.pop(context);
             },
             gradient: LinearGradient(colors: [

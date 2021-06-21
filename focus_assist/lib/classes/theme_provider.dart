@@ -27,6 +27,11 @@ class ThemeProvider extends ChangeNotifier {
                       ''');
     notifyListeners();
   }
+
+  void changeToLightModeWithoutUpdateUser() {
+    themeMode = ThemeMode.light;
+    notifyListeners();
+  }
 }
 
 class MyThemes {

@@ -34,7 +34,7 @@ class TimerScreen extends StatefulWidget {
 class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin{
   bool isVisible = true;
   bool isNotVisible = false;
-  GifController gifcontroller;
+  // GifController gifcontroller;
   IconData _controlIcon;
   bool timerRunning = false;
 
@@ -44,7 +44,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     // TODO: implement initState
     tb = TabController(length: 1, vsync: this);
     super.initState();
-    gifcontroller= GifController(vsync: this);
+    StaticData.gifcontroller= GifController(vsync: this);
     _controlIcon = Icons.play_arrow;
     loadGold();
   }
@@ -62,21 +62,21 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     finally {
       print("da cap nhat duoc gold");
     }
-    
   }
   void updateGold(int reward) async {
     int golds = StaticData.Vang += reward;
         //Add vào database
-        String userKey = StaticData.userID;
         dbHelper.rawQuery(
-            ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
+            ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='${StaticData.userID}' ''');
         loadGold();
     
   }
   void updateHistories(bool hoanThanh, String duration) async {
     DateTime now = DateTime.now();
-    String dateTime = now.year.toString() + "-" + now.month.toString()+ "-"+ now.day.toString()+ " "+ now.hour.toString() 
-        + ":" + now.minute.toString() + ":" + now.second.toString();
+    // String dateTime = now.year.toString() + "-" + now.month.toString()+ "-"+ now.day.toString()+ " "+ now.hour.toString()
+    //     + ":" + now.minute.toString() + ":" + now.second.toString();
+    String dateTime = DateTime.now().toString().split('.')[0];
+    print(dateTime);
     String userKey = StaticData.userID;
         dbHelper.rawQuery(
             ''' INSERT INTO LICHSUTIMER (THOIGIAN, DAHOANTHANH, MANGUOIDUNG)
@@ -243,7 +243,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                   width: MediaQuery.of(context).size.width*0.8 + 200,
                   margin: EdgeInsets.only(top: 10,),
                   child: GifImage(
-                      controller: gifcontroller,
+                      controller: StaticData.gifcontroller,
                       image: (!StaticData.isDarkMode)?AssetImage("assets/images/clock.gif"):AssetImage("assets/images/clock_darkmode.gif"),
                     ),
                 ),
@@ -288,9 +288,9 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                               //started? (start()): null;
                               if (started) {
                                 start();
-                                gifcontroller.repeat(min:0,max:95,period:Duration(milliseconds: 3000));
+                                StaticData.gifcontroller.repeat(min:0,max:99,period:Duration(milliseconds: 3000));
                               } else 
-                              started = null;
+                              started = false;
                             }
                             _timerIsRunning =! _timerIsRunning;
                             StaticData.focusTimerIsRunning = _timerIsRunning;
@@ -320,7 +320,10 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                           ),
                           Text(
                             StaticData.Vang.toString(),
-                            style: TextStyle(fontSize: 30),
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: (!StaticData.isDarkMode)?Colors.grey[800]:Colors.grey[300],
+                            ),
                           ),
                           // SizedBox(
                           //   width: 30,
@@ -336,6 +339,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                             "Time Focus",
                             style: TextStyle(
                               fontSize: 17,
+                              color: (!StaticData.isDarkMode)?Colors.grey[800]:Colors.grey[300],
                             ),),
                         ),
                         Padding(
@@ -344,6 +348,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                             (timetoDisplay=="")? "00:00:00": timetoDisplay ,
                             style: TextStyle(
                               fontSize: 28,
+                              color: (!StaticData.isDarkMode)?Colors.grey[800]:Colors.grey[300],
                             ),),
                         ),
 
@@ -397,6 +402,19 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     }
     void decrease(){
       setState(() {
+        if (hour > 0) {
+          min -= 5;
+          if (min < 0)  {
+            min += 60;
+            hour--;
+          }
+        }
+        else if (hour == 0) {
+          min -= 5;
+          if (min <= 5) min = 5;
+        }
+
+
         // if (min <= 0) {
         //   if (hour > 0) {
         //     hour--;
@@ -420,23 +438,24 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     });
     timeForTimer = (hour*60 *60) + min*60 + sec;
     //debugPrint(timeForTimer.toString());
-    StaticData.timeToGold = timeForTimer;
-    int reward = (StaticData.timeToGold~/150);
+    int reward = (timeForTimer~/120);
     print("nếu hoàn thành thưởng "+reward.toString());
-    Timer.periodic(
+    StaticData.timer3 = Timer.periodic(
       Duration(seconds: 1), (Timer t){
       try{
           setState(() {
         if(timeForTimer < 1 || checkTimer == false) {
           t.cancel();
-          if(timeForTimer  == 0) {
+          if(timeForTimer == 0) {
             // dùng để xử lý sau này khi kết thúc cần sự kiện
             debugPrint("Completed the task");
+            StaticData.focusTimerIsRunning = false;
             _controlIcon = Icons.play_arrow;
             // gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
             updateGold(reward);
-            _showSuccess(this.context, "Hoàn thành nhiệm vụ \n + $reward gold");
-            gifcontroller.stop();
+            _showSuccess(this.context, " \n + $reward gold");
+            StaticData.gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
+            StaticData.gifcontroller.stop();
             updateHistories(true, "00:10:00");
             checkThanhTuu();
           }
@@ -468,7 +487,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
       });
 
       } catch(e){ print("loi timer dong 397 timerScreen");}
-      finally {print("ko loi timer 397"); }
+      // finally {print("ko loi timer 397"); }
       
     });
    
@@ -490,72 +509,103 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     
   }
   void _showSuccess(context, String message){
-  Alert(
-    context: context,
-    type: AlertType.success,
-    title: "Thông báo",
-    closeIcon: Icon(Icons.error),
-    desc: message,
-    buttons: [
-      DialogButton(
-        child: Text(
-          "OK",
-          style: TextStyle(color: Colors.white, fontSize: 20),
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: "Congratulation",
+      closeIcon: Icon(Icons.close),
+      desc: message,
+      style: AlertStyle(
+        titleStyle: TextStyle(
+          color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400],
+          fontWeight: FontWeight.w500,
         ),
-        onPressed: () {
-          Navigator.pop(context);
-          //runApp(focus());
-        },
-        width: 120,
-        color: Colors.green[400],
-      )
-    ],
-  ).show();
+        descStyle: TextStyle(
+          color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400],
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "OK",
+            style: TextStyle(color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[200], fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            //runApp(focus());
+          },
+          width: 120,
+          color: Colors.green[400],
+        )
+      ],
+    ).show();
   }
   void _showSuccessThanhTuu(context, String message, int reward){
-  try { 
-    Alert(
-    context: context,
-    type: AlertType.success,
-    title: "Thông báo",
-    closeIcon: Icon(Icons.cancel_outlined),
-    desc: message,
-    buttons: [
-      DialogButton(
-        child: Text(
-          "OK",
-          style: TextStyle(color: Colors.white, fontSize: 20),
+    try {
+      Alert(
+        context: context,
+        type: AlertType.success,
+        title: "Congratulation",
+        closeIcon: Icon(Icons.close),
+        desc: message,
+        style: AlertStyle(
+          titleStyle: TextStyle(
+            color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400],
+            fontWeight: FontWeight.w500,
+          ),
+          descStyle: TextStyle(
+            color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400],
+            fontWeight: FontWeight.w500,
+          ),
         ),
-        onPressed: () {
-          updateGold(reward);
-          Navigator.pop(context);
-          //runApp(focus());
-        },
-        width: 120,
-        color: Colors.green[400],
-      )
-    ],
-  ).show();
-  }
-  catch(e) {print("loi o show thanh tuu");}
+        buttons: [
+          DialogButton(
+            child: Text(
+              "OK",
+              style: TextStyle(color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[200], fontSize: 20),
+            ),
+            onPressed: () {
+              updateGold(reward);
+              Navigator.pop(context);
+              //runApp(focus());
+            },
+            width: 120,
+            color: Colors.green[400],
+          )
+        ],
+      ).show();
+    }
+    catch(e) {print("loi o show thanh tuu");}
   }
   void showDialogResetTimer(context,String message){
     Alert(
       context: context,
       type: AlertType.warning,
-      title: 'Warning!!!',
-      closeIcon: Icon(Icons.close_outlined),
+      title: 'Warning!',
+      closeIcon: Icon(Icons.close),
       desc: message,
+        style: AlertStyle(
+          titleStyle: TextStyle(
+            color: (!StaticData.isDarkMode)?Colors.red:Colors.red,
+            fontWeight: FontWeight.w500,
+          ),
+          descStyle: TextStyle(
+            color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400],
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       buttons: [
               DialogButton(
                 child: Text(
                   "Continue",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[200], fontSize: 20),
                 ),
                 onPressed: () {
                       checkThanhTuu();
-                      stoped ? null : stop();
-                      gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
+                      if(!stoped) stop();
+                      StaticData.gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
+                      StaticData.gifcontroller.stop();
                         _controlIcon = Icons.play_arrow;
                       // duration = timetoDisplay;  
                       // print(timetoDisplay);
@@ -567,7 +617,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
               DialogButton(
                 child: Text(
                   "Cancel",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[200], fontSize: 20),
                 ),
                 onPressed: () { 
                     _controlIcon = Icons.pause;

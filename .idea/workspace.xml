@@ -20,19 +20,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f06c0000-89ee-4b2e-b46b-5e99bd76893b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/images/clock_darkmode.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/assets/Database/create_tables_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/Database/create_tables_script.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/classes/ClassTimerHistory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/classes/ClassTimerHistory.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/classes/Data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/classes/Data.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/focus_assist/lib/classes/theme_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/classes/theme_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/chat_login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/chat_login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/chat_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/chat_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/notification_setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/notification_setting_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/statistic/edit_activity_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/statistic/edit_activity_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/timerScreen/PlayPauseButton.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/timerScreen/PlayPauseButton.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/audio/song1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/audio/song1.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/audio/song2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/audio/song2.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/account_setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/account_setting_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/statistic/add_new_activity_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/statistic/add_new_activity_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/statistic/journal_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/statistic/journal_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/timerScreen/Timer_Screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/timerScreen/Timer_Screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/timerScreen/musicDialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/timerScreen/musicDialog.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/timerScreen/timerHistory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/timerScreen/timerHistory.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,34 +134,38 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="498" y="207" key="#com.intellij.ide.util.TreeFileChooserDialog/0.0.1536.834@0.0.1536.834" timestamp="1620486062495" />
-    <state x="100" y="108" width="944" height="584" key="AVDManager" timestamp="1624074873348">
+    <state x="257" y="53" key="#com.intellij.unscramble.UnscrambleDialog" timestamp="1624261207944">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="100" y="108" width="944" height="584" key="AVDManager/0.0.1536.824@0.0.1536.824" timestamp="1624074873348" />
+    <state x="257" y="53" key="#com.intellij.unscramble.UnscrambleDialog/0.0.1536.824@0.0.1536.824" timestamp="1624261207944" />
+    <state x="100" y="108" width="944" height="584" key="AVDManager" timestamp="1624261237898">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="100" y="108" width="944" height="584" key="AVDManager/0.0.1536.824@0.0.1536.824" timestamp="1624261237898" />
     <state x="390" y="147" key="AndroidProcessChooserDialog" timestamp="1622263761945">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="390" y="147" key="AndroidProcessChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1622263761945" />
-    <state x="549" y="171" key="FileChooserDialogImpl" timestamp="1624042842600">
+    <state x="549" y="171" key="FileChooserDialogImpl" timestamp="1624107827148">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1624042842600" />
-    <state width="1084" height="164" key="GridCell.Tab.0.bottom" timestamp="1624084865410">
+    <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1624107827148" />
+    <state width="1084" height="164" key="GridCell.Tab.0.bottom" timestamp="1624126493522">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1084" height="164" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1624084865410" />
-    <state width="1084" height="164" key="GridCell.Tab.0.center" timestamp="1624084865409">
+    <state width="1084" height="164" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1624126493522" />
+    <state width="1084" height="164" key="GridCell.Tab.0.center" timestamp="1624126493521">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1084" height="164" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1624084865409" />
-    <state width="1084" height="164" key="GridCell.Tab.0.left" timestamp="1624084865409">
+    <state width="1084" height="164" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1624126493521" />
+    <state width="1084" height="164" key="GridCell.Tab.0.left" timestamp="1624126493520">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1084" height="164" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1624084865409" />
-    <state width="1084" height="164" key="GridCell.Tab.0.right" timestamp="1624084865409">
+    <state width="1084" height="164" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1624126493520" />
+    <state width="1084" height="164" key="GridCell.Tab.0.right" timestamp="1624126493521">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1084" height="164" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1624084865409" />
+    <state width="1084" height="164" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1624126493521" />
     <state x="153" y="143" key="IDE.errors.dialog" timestamp="1622917623035">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -1064,7 +1064,7 @@ class _JournalScreenState extends State<JournalScreen> {
       // backgroundColor: Color(0xffffffff),
       body: ListView(children: <Widget>[
         SizedBox(
-          height: 30,
+          height: 15,
         ),
         InkWell(
           onTap: () async {
@@ -1079,9 +1079,9 @@ class _JournalScreenState extends State<JournalScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               CircleAvatar(
-                backgroundColor: Color(0xffffffff),
+                backgroundColor: Colors.transparent,
                 radius: 15,
-                child: Image.asset('assets/gold.png', width: 30, height: 30),
+                child: Image.asset('assets/gold.png', width: 25, height: 25),
               ),
               Text(gotAchive ? '!' : '',
                   style: TextStyle(
@@ -1093,7 +1093,7 @@ class _JournalScreenState extends State<JournalScreen> {
               ),
               Text(
                 StaticData.Vang.toString(),
-                style: TextStyle(fontSize: 30),
+                style: TextStyle(fontSize: 25),
               ),
               SizedBox(
                 width: 30,
