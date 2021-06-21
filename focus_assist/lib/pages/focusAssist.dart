@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/theme_provider.dart';
+import 'package:focus_assist/pages/login/screen/lock_screen.dart';
 import 'package:focus_assist/pages/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'login/screen/welcome_screen.dart';
@@ -18,7 +19,7 @@ class FocusAssist extends StatelessWidget {
         themeMode: themeProvider.themeMode,
         theme: MyThemes.lightTheme,
         darkTheme: MyThemes.darkTheme,
-        home: (StaticData.isSignedIn)?MainScreen():WelcomeScreen(),
+        home: (StaticData.isSignedIn)?((StaticData.isPrivacyLockOn)?LockScreen():MainScreen()):WelcomeScreen(),
       );
     },
   );

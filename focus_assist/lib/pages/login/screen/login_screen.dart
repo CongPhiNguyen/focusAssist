@@ -103,9 +103,9 @@ class LoginScreen extends StatelessWidget {
                         },
                       )),
                       SizedBox(height: size.height*0.07,),
-                      FadeAnimation(1.4, forgot_password(
-
-                      )),
+                      // FadeAnimation(1.4, forgot_password(
+                      //
+                      // )),
                       FadeAnimation(1.6,button_login(
                         text: 'LOGIN',
                         press: () async {
@@ -178,6 +178,7 @@ class LoginScreen extends StatelessWidget {
                     select * from THONGTINNGUOIDUNG where MANGUOIDUNG = '${StaticData.userID}'
                     ''');
     StaticData.isDarkMode = (queryRows.first['DARKMODE'] == 1);
+    StaticData.isPrivacyLockOn = queryRows.first['PRIVACYLOCK'] == 1;
     final provider = Provider.of<ThemeProvider>(context, listen: false);
     provider.toggleTheme(StaticData.isDarkMode);
     InitUserNotification();

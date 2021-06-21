@@ -93,7 +93,7 @@ class _ListAchivementState extends State<ListAchivement> {
         currentActivityLevel = currentActive;
       });
       setState(() {
-        doneNumLeft = doneNum - currentActive * targetToReach;
+        doneNumLeft = doneNum - (currentActive - 1) * targetToReach;
       });
     } else
       return;

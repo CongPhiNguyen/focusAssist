@@ -15,7 +15,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _page = 4;
+  int _page = 0;
   // GlobalKey _bottomNavigationKey = GlobalKey();
 
 

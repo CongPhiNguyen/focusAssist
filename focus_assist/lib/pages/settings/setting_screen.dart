@@ -7,9 +7,10 @@ import 'package:focus_assist/pages/settings/chat_login_screen.dart';
 import 'package:focus_assist/pages/settings/notification_setting_screen.dart';
 import 'package:focus_assist/pages/settings/privacy_lock_setting_screen.dart';
 import 'package:focus_assist/pages/settings/change_theme_switch_widget.dart';
-import 'package:focus_assist/pages/settings/about_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:focus_assist/pages/settings//about_us_screen.dart';
+
 
 class SettingScreen extends StatefulWidget {
   @override
@@ -186,7 +187,11 @@ class _SettingScreenState extends State<SettingScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AboutScreen()),
+                    MaterialPageRoute(
+                      builder: (context){
+                        return AboutUsScreen();
+                      },
+                    ),
                   );
                 },
                 title: Text(

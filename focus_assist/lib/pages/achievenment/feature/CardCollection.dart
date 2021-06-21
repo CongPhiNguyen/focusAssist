@@ -31,7 +31,7 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
             margin: EdgeInsets.only(top:3,bottom: 3,left: 6,right: 6),
             width: size.width*0.4,
             decoration: BoxDecoration(
-              color: Colors.amber[100],
+              color: (!StaticData.isDarkMode)?Colors.amber[100]:Colors.grey[700],
               borderRadius: BorderRadius.circular(20),
             ),
             child: Column(
@@ -81,6 +81,14 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
     Alert(
       context: context,
       title: 'Information',
+      style: AlertStyle(
+        titleStyle: TextStyle(
+          color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
+        ),
+        descStyle: TextStyle(
+          color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
+        ),
+      ),
       closeIcon: Icon(Icons.info_outlined),
       desc: 'Đã sở hữu',
       content: Column(
@@ -89,16 +97,17 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
         children: <Widget>[
           Center(child: Image.asset(imageEgg)),
           Center(child: Text(name,style: TextStyle(color: rareColor),)),
-          Text('Mô tả : '+mota),
-          Text('Price: ' + price.toString(),),
+          Text('Mô tả : '+mota, style: TextStyle(color: (!StaticData.isDarkMode)?Colors.black87:Colors.grey[300]),),
+          Text('Price: ' + price.toString(), style: TextStyle(color: (!StaticData.isDarkMode)?Colors.black87:Colors.grey[300]),),
         ],
       ),
       buttons: [
         DialogButton(
           child: Text(
             "USE",
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: TextStyle(color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[300], fontSize: 20),
           ),
+          color: (!StaticData.isDarkMode)?Colors.greenAccent:Colors.grey[700],
           onPressed: () async {
             String id = StaticData.userID;
             Map<String, dynamic> row;
@@ -146,13 +155,14 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
         DialogButton(
           child: Text(
             "CANCEL",
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: TextStyle(color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[300], fontSize: 20),
           ),
           onPressed: () => Navigator.pop(context),
-          gradient: LinearGradient(colors: [
-            Color.fromRGBO(116, 116, 191, 1.0),
-            Color.fromRGBO(52, 138, 199, 1.0)
-          ]),
+          // gradient: LinearGradient(colors: [
+          //   Color.fromRGBO(116, 116, 191, 1.0),
+          //   Color.fromRGBO(52, 138, 199, 1.0)
+          // ]),
+          color: (!StaticData.isDarkMode)?Colors.blueAccent:Colors.grey[700],
         )
       ],
     ).show();

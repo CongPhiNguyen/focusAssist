@@ -42,7 +42,7 @@ class _CardAchievementState extends State<CardAchievement> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top: 8,bottom: 8,right: 16,left: 16),
       child: Stack(
         children: <Widget>[
           Container(

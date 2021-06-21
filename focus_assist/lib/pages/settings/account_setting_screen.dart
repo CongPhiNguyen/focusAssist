@@ -642,6 +642,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                     ''');
                 StaticData.flutterLocalNotificationsPlugin.cancelAll();
                 StaticData.isDarkMode = false;
+                StaticData.isPrivacyLockOn = false;
                 final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
                 themeProvider.changeToLightModeWithoutUpdateUser();
                 Navigator.pop(context);

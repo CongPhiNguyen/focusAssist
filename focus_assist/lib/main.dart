@@ -7,6 +7,8 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:focus_assist/classes/Data.dart';
 import 'classes/DbProvider.dart';
+import 'classes/DbProvider.dart';
+import 'classes/DbProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +16,7 @@ void main() async {
   await Firebase.initializeApp();
   await initAppSetting();
   await initializeNotification();
+
   runApp(FocusAssist());
 }
 
@@ -27,6 +30,7 @@ Future<void> initAppSetting() async {
                     select * from THONGTINNGUOIDUNG where MANGUOIDUNG = '${StaticData.userID}'
                     ''');
     StaticData.isDarkMode = (queryRows.first['DARKMODE'] == 1);
+    StaticData.isPrivacyLockOn = queryRows.first['PRIVACYLOCK'] == 1;
   }
 }
 

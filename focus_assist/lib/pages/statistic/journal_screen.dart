@@ -74,7 +74,6 @@ class _JournalScreenState extends State<JournalScreen> {
     getToDoList();
     getAllGroup();
     getDoneTask();
-    //loadQuote();
     achiveNotification();
     rate = '0';
   }
@@ -108,32 +107,19 @@ class _JournalScreenState extends State<JournalScreen> {
       print('bug2');
   }
 
-  // Các hàm cần thiết để load dữ liệu
-  void loadQuote() async {
-    List<Map<String, dynamic>> database = await dbHelper
-        .rawQuery(''' select * from TRICHDAN order by RANDOM() limit 1''');
-    if (database.length > 0) {
-      if (this.mounted) {
-        setState(() {
-          quotes = database[0]['TRICHDAN'] + ' - ' + database[0]['TACGIA'];
-        });
-      }
-    }
-  }
-
-  void getDoneTask() async {
+  Future<void> getDoneTask() async {
     String userID = StaticData.userID;
     int selectedDay = dateTimeToInt(_selectedDay);
     database = await dbHelper.rawQuery(
         ''' select * from MUCTIEU where MAMUCTIEU in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) and MANGUOIDUNG='$userID' ''');
+    print('Done task length ${database.length}');
     if (database.length == 0) {
       if (this.mounted) {
         setState(() {
           doneList = ['Nothing'];
           doneListKey = ['None'];
         });
-      } else
-        return;
+      }
     }
     if (database.length > 0) {
       doneList = [];
@@ -175,8 +161,7 @@ class _JournalScreenState extends State<JournalScreen> {
                 doneList.add(database[i]['TENMUCTIEU']);
                 doneListKey.add(database[i]['MAMUCTIEU']);
               });
-            } else
-              return;
+            }
           }
         } else if (database[i]['LOAIHINH'] == 'Flexible') {
           if (this.mounted) {
@@ -184,8 +169,7 @@ class _JournalScreenState extends State<JournalScreen> {
               doneList.add(database[i]['TENMUCTIEU']);
               doneListKey.add(database[i]['MAMUCTIEU']);
             });
-          } else
-            return;
+          }
         } else if (database[i]['LOAIHINH'] == 'Repeating') {
           int val = int.parse(database[i]['KHOANGTHOIGIAN'].toString());
           Duration diff = start.difference(_selectedDay);
@@ -196,8 +180,7 @@ class _JournalScreenState extends State<JournalScreen> {
                 doneList.add(database[i]['TENMUCTIEU']);
                 doneListKey.add(database[i]['MAMUCTIEU']);
               });
-            } else
-              return;
+            }
           }
         }
       }
@@ -221,8 +204,15 @@ class _JournalScreenState extends State<JournalScreen> {
           rate = rate.substring(0, 8);
         }
       });
-    } else
-      return;
+    }
+    if (doneList.length == 0) {
+      if (this.mounted) {
+        setState(() {
+          doneList = ['Nothing'];
+          doneListKey = ['None'];
+        });
+      }
+    }
   }
 
   // ignore: non_constant_identifier_names
@@ -304,8 +294,7 @@ class _JournalScreenState extends State<JournalScreen> {
           allActivity = ['Nothing'];
           allActivityKey = ['None'];
         });
-      } else
-        return;
+      }
     }
     if (database.length > 0) {
       if (this.mounted) {
@@ -317,12 +306,11 @@ class _JournalScreenState extends State<JournalScreen> {
             allActivityKey.add(database[i]['MAMUCTIEU']);
           }
         });
-      } else
-        return;
+      }
     }
   }
 
-  void getToDoList() async {
+  Future<void> getToDoList() async {
     print("Fuck Done");
     int selectedDay = dateTimeToInt(_selectedDay);
     String userID = StaticData.userID;
@@ -336,8 +324,7 @@ class _JournalScreenState extends State<JournalScreen> {
             ToDo(check: false, task: "Nothing", taskKey: 'None'),
           ];
         });
-      } else
-        return;
+      }
     }
     if (database.length > 0) {
       toDos = [];
@@ -380,8 +367,7 @@ class _JournalScreenState extends State<JournalScreen> {
                     task: database[i]['TENMUCTIEU'],
                     taskKey: database[i]['MAMUCTIEU']));
               });
-            } else
-              return;
+            }
           }
         } else if (database[i]['LOAIHINH'] == 'Flexible') {
           // Quăng ra ngoài rồi hẵn xử lý
@@ -400,8 +386,7 @@ class _JournalScreenState extends State<JournalScreen> {
                       taskKey: database[i]['MAMUCTIEU']),
                 );
               });
-            } else
-              return;
+            }
           }
         }
       }
@@ -451,13 +436,16 @@ class _JournalScreenState extends State<JournalScreen> {
                 taskKey: flexibleData[i]['MAMUCTIEU']),
           );
         });
-      } else
-        return;
+      }
     }
     if (toDos.length == 0) {
-      toDos = [
-        ToDo(check: false, task: "Nothing", taskKey: 'None'),
-      ];
+      if (this.mounted) {
+        setState(() {
+          toDos = [
+            ToDo(check: false, task: "Nothing", taskKey: 'None'),
+          ];
+        });
+      }
     }
   }
 
@@ -692,8 +680,7 @@ class _JournalScreenState extends State<JournalScreen> {
         allGroupActivity[index] = tempActivity;
         allGroupActivityKey[index] = tempActivityKey;
       });
-    } else
-      return;
+    }
   }
 
   void getAllGroup() async {
@@ -702,8 +689,7 @@ class _JournalScreenState extends State<JournalScreen> {
         allGroup = [];
         allGroupKey = [];
       });
-    } else
-      return;
+    }
 
     String userID = StaticData.userID;
     database = await dbHelper
@@ -714,8 +700,7 @@ class _JournalScreenState extends State<JournalScreen> {
           allGroup.add(database[i]['TENNHOM']);
           allGroupKey.add(database[i]['MANHOM']);
         });
-      } else
-        return;
+      }
     }
     for (int i = 0; i < allGroupKey.length; i++) {
       if (this.mounted) {
@@ -723,8 +708,7 @@ class _JournalScreenState extends State<JournalScreen> {
           allGroupActivity.add([]);
           allGroupActivityKey.add([]);
         });
-      } else
-        return;
+      }
     }
     for (int i = 0; i < allGroup.length; i++) {
       getGroupActivity(i);
@@ -899,8 +883,7 @@ class _JournalScreenState extends State<JournalScreen> {
                         this.items = [];
                       });
                   });
-                } else
-                  return;
+                }
 
                 getToDoList();
                 getDoneTask();
@@ -912,8 +895,7 @@ class _JournalScreenState extends State<JournalScreen> {
                   setState(() {
                     _calendarFormat = format;
                   });
-                } else
-                  return;
+                }
               }
             },
             onPageChanged: (focusedDay) {
@@ -1052,9 +1034,10 @@ class _JournalScreenState extends State<JournalScreen> {
           gotAchive = true;
         });
     } else {
-      setState(() {
-        gotAchive = false;
-      });
+      if (this.mounted)
+        setState(() {
+          gotAchive = false;
+        });
     }
   }
 
