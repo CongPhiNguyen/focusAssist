@@ -55,7 +55,7 @@ class _ListAchivementState extends State<ListAchivement> {
   Future<int> getCurrentDoneLevel() async {
     String userID = StaticData.userID;
     // Xem thử đã qua cấp 3 chưa
-    String maThanhTuu = 'TT03';
+    String maThanhTuu = 'TT03' + StaticData.userID;
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
         '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
     if (data[0]['DEM'] > 0) {
@@ -67,14 +67,14 @@ class _ListAchivementState extends State<ListAchivement> {
       return 4;
     }
     // Xem thử đã qua cấp 2 chưa
-    maThanhTuu = 'TT04';
+    maThanhTuu = 'TT04' + StaticData.userID;
     List<Map<String, dynamic>> data1 = await dbHelper.rawQuery(
         '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
     if (data1[0]['DEM'] > 0) {
       return 3;
     }
     // Xem thử qua cấp 1 hay chưa
-    maThanhTuu = 'TT01';
+    maThanhTuu = 'TT01' + StaticData.userID;
     List<Map<String, dynamic>> data2 = await dbHelper.rawQuery(
         '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
     if (data2[0]['DEM'] > 0) {
@@ -93,7 +93,7 @@ class _ListAchivementState extends State<ListAchivement> {
         currentActivityLevel = currentActive;
       });
       setState(() {
-        doneNumLeft = doneNum - (currentActive - 1) * targetToReach;
+        doneNumLeft = doneNum - (currentActive) * targetToReach;
       });
     } else
       return;
@@ -136,7 +136,7 @@ class _ListAchivementState extends State<ListAchivement> {
       return;
     } else if (currentDoneLevel == 3) {
       Map<String, dynamic> row = {
-        'MATHANHTUU': 'TT03',
+        'MATHANHTUU': 'TT03' + StaticData.userID,
         'TENTHANHTUU': 'Finish $currentDoneTarget times',
         'CAPDO': 3,
         'VANG': 300
@@ -144,7 +144,10 @@ class _ListAchivementState extends State<ListAchivement> {
       print(row);
       final id = await dbHelper.insert('THANHTUU', row);
       print('inserted row id: $id');
-      row = {'MATHANHTUU': 'TT03', 'MANGUOIDUNG': StaticData.userID};
+      row = {
+        'MATHANHTUU': 'TT03' + StaticData.userID,
+        'MANGUOIDUNG': StaticData.userID
+      };
       final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
       print('inserted row id: $id2');
 
@@ -157,7 +160,7 @@ class _ListAchivementState extends State<ListAchivement> {
       getData();
     } else if (currentDoneLevel == 2) {
       Map<String, dynamic> row = {
-        'MATHANHTUU': 'TT04',
+        'MATHANHTUU': 'TT04' + StaticData.userID,
         'TENTHANHTUU': 'Finish $currentDoneTarget times',
         'CAPDO': 2,
         'VANG': 100
@@ -165,7 +168,10 @@ class _ListAchivementState extends State<ListAchivement> {
       print(row);
       final id = await dbHelper.insert('THANHTUU', row);
       print('inserted row id: $id');
-      row = {'MATHANHTUU': 'TT04', 'MANGUOIDUNG': StaticData.userID};
+      row = {
+        'MATHANHTUU': 'TT04' + StaticData.userID,
+        'MANGUOIDUNG': StaticData.userID
+      };
       final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
       print('inserted row id: $id2');
 
@@ -178,14 +184,17 @@ class _ListAchivementState extends State<ListAchivement> {
       getData();
     } else if (currentDoneLevel == 1) {
       Map<String, dynamic> row = {
-        'MATHANHTUU': 'TT01',
+        'MATHANHTUU': 'TT01' + StaticData.userID,
         'TENTHANHTUU': 'Finish $currentDoneTarget times',
         'CAPDO': 1,
         'VANG': 25
       };
       final id = await dbHelper.insert('THANHTUU', row);
       print('inserted row id: $id');
-      row = {'MATHANHTUU': 'TT01', 'MANGUOIDUNG': StaticData.userID};
+      row = {
+        'MATHANHTUU': 'TT01' + StaticData.userID,
+        'MANGUOIDUNG': StaticData.userID
+      };
       final id2 = await dbHelper.insert('THANHTUUNGUOIDUNG', row);
       print('inserted row id: $id2');
 
@@ -207,11 +216,10 @@ class _ListAchivementState extends State<ListAchivement> {
     while (newNum2.length < 2) {
       newNum2 = '0' + newNum2;
     }
-    maThanhTuu += newNum2;
+    maThanhTuu += newNum2 + StaticData.userID;
     Map<String, dynamic> row = {
       'MATHANHTUU': maThanhTuu,
-      'TENTHANHTUU':
-          'Finish ${(currentActivityLevel + 1) * targetToReach} times',
+      'TENTHANHTUU': 'Done ${(currentActivityLevel + 1) * targetToReach} times',
       'CAPDO': 1,
       'VANG': 20
     };

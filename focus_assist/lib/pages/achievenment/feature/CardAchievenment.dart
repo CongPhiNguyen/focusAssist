@@ -20,11 +20,12 @@ class CardAchievement extends StatefulWidget {
       this.iconImage,
       this.star,
       this.endColor,
-      this.startColor, this.imageAchi})
+      this.startColor,
+      this.imageAchi})
       : super(key: key);
   @override
-  _CardAchievementState createState() => _CardAchievementState(
-      name, mota, diemThanhtuu, iconImage, star, endColor, startColor,imageAchi);
+  _CardAchievementState createState() => _CardAchievementState(name, mota,
+      diemThanhtuu, iconImage, star, endColor, startColor, imageAchi);
 }
 
 class _CardAchievementState extends State<CardAchievement> {
@@ -78,7 +79,9 @@ class _CardAchievementState extends State<CardAchievement> {
                 Expanded(
                   flex: 2,
                   child: Image.asset(
-                    'assets/achievenment/achieImage/'+imageAchi+'.png',
+                    'assets/achievenment/achieImage/' +
+                        imageAchi.substring(0, 4) +
+                        '.png',
                     height: size.height * 0.06,
                   ),
                 ),

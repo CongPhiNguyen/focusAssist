@@ -46,10 +46,12 @@ class _JournalScreenState extends State<JournalScreen> {
   String rate;
 
   bool gotAchive;
+  int targetToReach;
   @override
   void initState() {
     super.initState();
     gotAchive = false;
+    targetToReach = 75;
     quotes = '';
     allGroup = ['Fuck'];
     doneList = ['Nothing'];
@@ -75,6 +77,7 @@ class _JournalScreenState extends State<JournalScreen> {
     getAllGroup();
     getDoneTask();
     achiveNotification();
+
     rate = '0';
   }
 
@@ -954,21 +957,21 @@ class _JournalScreenState extends State<JournalScreen> {
   Future<int> getCurrentDoneLevel() async {
     String userID = StaticData.userID;
     // Xem thử đã qua cấp 3 chưa
-    String maThanhTuu = 'TT03';
+    String maThanhTuu = 'TT03' + StaticData.userID;
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
         '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
     if (data[0]['DEM'] > 0) {
       return 4;
     }
     // Xem thử đã qua cấp 2 chưa
-    maThanhTuu = 'TT04';
+    maThanhTuu = 'TT04' + StaticData.userID;
     List<Map<String, dynamic>> data1 = await dbHelper.rawQuery(
         '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
     if (data1[0]['DEM'] > 0) {
       return 3;
     }
     // Xem thử qua cấp 1 hay chưa
-    maThanhTuu = 'TT01';
+    maThanhTuu = 'TT01' + StaticData.userID;
     List<Map<String, dynamic>> data2 = await dbHelper.rawQuery(
         '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
     if (data2[0]['DEM'] > 0) {
@@ -989,6 +992,7 @@ class _JournalScreenState extends State<JournalScreen> {
 
   Future<void> achiveNotification() async {
     int level = await getCurrentDoneLevel();
+    print('currentDoneLevel $level');
     if (level == 4) {
       if (this.mounted)
         setState(() {
@@ -1006,7 +1010,8 @@ class _JournalScreenState extends State<JournalScreen> {
         });
       return;
     }
-    int levelNow = (done * 1.0 / 75).floor();
+
+    int levelNow = (done * 1.0 / targetToReach).floor();
     int achivedLevel = await getCurrentActivityLevel();
     print('levelNow $levelNow');
     if (levelNow > achivedLevel) {
