@@ -137,6 +137,7 @@ class _MainScreenState extends State<MainScreen> {
                 {
                   StaticData.timer2.cancel();
                 }
+              StaticData.focusTimerIsRunning = false;
               }
               setState(() {
                 //_showPage = _pageChooser(tappedIndex);

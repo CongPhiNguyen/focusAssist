@@ -15,6 +15,7 @@ import 'PlayPauseButton.dart';
 import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'setTimer.dart' as st;
+import 'package:focus_assist/pages/audio/soundControl.dart';
 
 //
 const kPrimaryColor = Color(0xFF0C9869);
@@ -260,28 +261,24 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                       child: PlayButton(
                         pauseIcon: Icon(_controlIcon, color: Colors.white, size: 60, ),   //Icons.pause
                         playIcon: Icon(_controlIcon, color: Colors.white, size: 60),     //Icons.play_arrow
-                        onPressed: () {
-                            
+                        onPressed: () { 
                             if(_timerIsRunning) {
                                //stoped ? null : stop();
                                //showAlertDialog(context);
                                showDialogResetTimer(context, "Reset timer?");
                             }
                             else {    
-                              _controlIcon = Icons.pause;  
-                                                 
+                              _controlIcon = Icons.pause;           
                               //started? (start()): null;
                               if (started) {
                                 start();
                                 gifcontroller.repeat(min:0,max:95,period:Duration(milliseconds: 3000));
                               } else 
-                              started = null;
+                              started = false;
                             }
                             _timerIsRunning =! _timerIsRunning;
-                            StaticData.focusTimerIsRunning = _timerIsRunning;
-                            
-                        },
-                        
+                            StaticData.focusTimerIsRunning = _timerIsRunning;                            
+                        },                      
                       ),
                     ),
                   ),
@@ -402,6 +399,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
             // dùng để xử lý sau này khi kết thúc cần sự kiện
             debugPrint("Completed the task");
             _controlIcon = Icons.play_arrow;
+            StaticData.focusTimerIsRunning = false;
+            control.audioPlayer.pause();
             // gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
             updateGold(reward);
             _showSuccess(this.context, "Hoàn thành nhiệm vụ \n + $reward gold");
@@ -529,6 +528,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                       // duration = timetoDisplay;  
                       // print(timetoDisplay);
                       updateHistories(false, "00:10:00");
+                      control.audioPlayer.pause();
                       Navigator.of(context).pop();
                 },
                 color: Color.fromRGBO(0, 179, 134, 1.0),
