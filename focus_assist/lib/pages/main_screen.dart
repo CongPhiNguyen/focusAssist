@@ -144,6 +144,7 @@ class _MainScreenState extends State<MainScreen> {
                 {
                   StaticData.timer2.cancel();
                 }
+              StaticData.focusTimerIsRunning = false;
               }
               if (StaticData.timer3 != null) {
                 if (StaticData.timer3.isActive) {
