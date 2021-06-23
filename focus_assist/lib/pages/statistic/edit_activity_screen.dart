@@ -37,6 +37,7 @@ class _EditActivityState extends State<EditActivity> {
   //Dùng để cho việc chọn nhóm:
   String dropDownGroup;
   bool newGroup;
+  bool isFailed = false;
   @override
   void initState() {
     newGroup = false;
@@ -192,7 +193,6 @@ class _EditActivityState extends State<EditActivity> {
           ],
         ),
       ),
-
     ];
   }
 
@@ -200,9 +200,7 @@ class _EditActivityState extends State<EditActivity> {
   List<Widget> Fixed() {
     return <Widget>[
       Center(
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: Text("When do you want to do the activity?",
@@ -233,15 +231,23 @@ class _EditActivityState extends State<EditActivity> {
                               width: 48.5,
                               decoration: BoxDecoration(
                                 color: checkDay[index]
-                                // ? Color(0xff8A2BE2)
-                                // : Color(0xffF0FFF0),
-                                    ? (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[700]
-                                    : (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[800],
+                                    // ? Color(0xff8A2BE2)
+                                    // : Color(0xffF0FFF0),
+                                    ? (!StaticData.isDarkMode)
+                                        ? Colors.grey[50]
+                                        : Colors.grey[700]
+                                    : (!StaticData.isDarkMode)
+                                        ? Colors.grey[100]
+                                        : Colors.grey[800],
                                 border: Border(
                                   bottom: BorderSide(
                                       color: !checkDay[index]
-                                          ? (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[800]
-                                          : (!StaticData.isDarkMode)?Colors.blue:Colors.grey[500],
+                                          ? (!StaticData.isDarkMode)
+                                              ? Colors.grey[50]
+                                              : Colors.grey[800]
+                                          : (!StaticData.isDarkMode)
+                                              ? Colors.blue
+                                              : Colors.grey[500],
                                       width: 5),
                                   // top: BorderSide(
                                   //     color: !checkDay[index]
@@ -265,10 +271,9 @@ class _EditActivityState extends State<EditActivity> {
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: !checkDay[index]
-                                            ? Colors.black
-                                            : Colors.black,
-                                    )
-                                ),
+                                          ? Colors.black
+                                          : Colors.black,
+                                    )),
                               )),
                         ),
                       );
@@ -305,7 +310,9 @@ class _EditActivityState extends State<EditActivity> {
                   ],
                 ),
               ),
-              SizedBox(width: 20,),
+              SizedBox(
+                width: 20,
+              ),
               Text("days", style: TextStyle(fontSize: 18)),
             ],
           ),
@@ -439,27 +446,34 @@ class _EditActivityState extends State<EditActivity> {
     }
     // Trường hợp thiếu nhóm:
     if (dropDownGroup == 'Choose a group') {
-      showDialog(
+      bool k = await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
                 title: Text("Message"),
-                content: Text("You must choose a group"),
+                content: Text(
+                    "Are you sure you don't want to add this activity to a group ?"),
                 actions: [
                   TextButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, false);
                     },
-                    child: Text("OK"),
+                    child: Text("No"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: Text("Yes"),
                   )
                 ],
               ));
-      return false;
+      if (k == false) return k;
     }
     return true;
   }
 
   // Các hàm thực hiện các việc liên quan đến dữ liệu
-  void editActivity() async {
+  Future<void> editActivity() async {
     bool valid = await checkValidActivity();
     if (valid == false) return;
     String key = widget.activityKey;
@@ -500,7 +514,7 @@ class _EditActivityState extends State<EditActivity> {
      set $val where MAMUCTIEU='$key' ''');
   }
 
-  void getAllGroup() async {
+  Future<void> getAllGroup() async {
     List<Map<String, dynamic>> database = await dbHelper.query('NHOMMUCTIEU');
     if (this.mounted) {
       setState(() {
@@ -537,23 +551,27 @@ class _EditActivityState extends State<EditActivity> {
   Widget build(BuildContext context) {
     OutlineInputBorder k = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(4)),
-      borderSide: BorderSide(width: 1, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey),
+      borderSide: BorderSide(
+          width: 1,
+          color: (!StaticData.isDarkMode) ? Colors.black : Colors.grey),
     );
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).appBarTheme.color,
           title: Text(
-              "Edit activity",
-              style: TextStyle(
-                color: Theme.of(context).appBarTheme.titleTextStyle.color,
-                letterSpacing: 0.5,
-              ),
+            "Edit activity",
+            style: TextStyle(
+              color: Theme.of(context).appBarTheme.titleTextStyle.color,
+              letterSpacing: 0.5,
+            ),
           ),
           actions: [
             TextButton(
-                onPressed: () {
-                  editActivity();
-                  Navigator.pop(context);
+                onPressed: () async {
+                  await editActivity();
+                  if (isFailed) {
+                  } else
+                    Navigator.pop(context);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
@@ -571,7 +589,9 @@ class _EditActivityState extends State<EditActivity> {
             // Thêm tên của activity và các description
             Container(
                 decoration: BoxDecoration(
-                    color: (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[850],
+                    color: (!StaticData.isDarkMode)
+                        ? Colors.grey[50]
+                        : Colors.grey[850],
                     borderRadius: BorderRadius.all(Radius.circular(0))),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -587,33 +607,11 @@ class _EditActivityState extends State<EditActivity> {
                           alignLabelWithHint: true,
                           border: OutlineInputBorder(),
                           labelText: 'Activity Name',
-                          labelStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400], fontSize: 18),
-                          // focusedBorder: OutlineInputBorder(
-                          //   borderRadius: BorderRadius.all(Radius.circular(4)),
-                          //   borderSide:
-                          //       BorderSide(width: 1, color: Colors.white),
-                          // ),
-                          // disabledBorder: OutlineInputBorder(
-                          //   borderRadius: BorderRadius.all(Radius.circular(4)),
-                          //   borderSide:
-                          //       BorderSide(width: 1, color: Colors.white),
-                          // ),
-                          // enabledBorder: OutlineInputBorder(
-                          //   borderRadius: BorderRadius.all(Radius.circular(4)),
-                          //   borderSide:
-                          //       BorderSide(width: 1, color: Colors.white),
-                          // ),
-                          // errorBorder: OutlineInputBorder(
-                          //     borderRadius:
-                          //         BorderRadius.all(Radius.circular(4)),
-                          //     borderSide:
-                          //         BorderSide(width: 1, color: Colors.white)),
-                          // focusedErrorBorder: OutlineInputBorder(
-                          //     borderRadius:
-                          //         BorderRadius.all(Radius.circular(4)),
-                          //     borderSide:
-                          //         BorderSide(width: 1, color: Colors.white)
-                          // ),
+                          labelStyle: TextStyle(
+                              color: (!StaticData.isDarkMode)
+                                  ? Colors.black
+                                  : Colors.grey[400],
+                              fontSize: 18),
                           focusedBorder: k,
                           disabledBorder: k,
                           enabledBorder: k,
@@ -631,35 +629,6 @@ class _EditActivityState extends State<EditActivity> {
                         decoration: InputDecoration(
                             isDense: true,
                             contentPadding: EdgeInsets.all(8),
-                            // focusedBorder: OutlineInputBorder(
-                            //   borderRadius:
-                            //       BorderRadius.all(Radius.circular(4)),
-                            //   borderSide:
-                            //       BorderSide(width: 1, color: Colors.white),
-                            // ),
-                            // disabledBorder: OutlineInputBorder(
-                            //   borderRadius:
-                            //       BorderRadius.all(Radius.circular(4)),
-                            //   borderSide:
-                            //       BorderSide(width: 1, color: Colors.white),
-                            // ),
-                            // enabledBorder: OutlineInputBorder(
-                            //   borderRadius:
-                            //       BorderRadius.all(Radius.circular(4)),
-                            //   borderSide:
-                            //       BorderSide(width: 1, color: Colors.white),
-                            // ),
-                            // errorBorder: OutlineInputBorder(
-                            //     borderRadius:
-                            //         BorderRadius.all(Radius.circular(4)),
-                            //     borderSide:
-                            //         BorderSide(width: 1, color: Colors.white)),
-                            // focusedErrorBorder: OutlineInputBorder(
-                            //     borderRadius:
-                            //         BorderRadius.all(Radius.circular(4)),
-                            //     borderSide:
-                            //         BorderSide(width: 1, color: Colors.white)
-                            // ),
                             focusedBorder: k,
                             disabledBorder: k,
                             enabledBorder: k,
@@ -667,8 +636,11 @@ class _EditActivityState extends State<EditActivity> {
                             focusedErrorBorder: k,
                             border: OutlineInputBorder(),
                             labelText: 'Description (optional)',
-                            labelStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400], fontSize: 18)
-                        ),
+                            labelStyle: TextStyle(
+                                color: (!StaticData.isDarkMode)
+                                    ? Colors.black
+                                    : Colors.grey[400],
+                                fontSize: 18)),
                         maxLines: 3,
                         // style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
@@ -715,7 +687,7 @@ class _EditActivityState extends State<EditActivity> {
 
             Divider(
               height: 10,
-              color: (!StaticData.isDarkMode)?Colors.black:Colors.grey,
+              color: (!StaticData.isDarkMode) ? Colors.black : Colors.grey,
             ),
             //Chọn group của các activity
             Center(
@@ -737,8 +709,7 @@ class _EditActivityState extends State<EditActivity> {
                     icon: const Icon(Icons.arrow_drop_down_outlined),
                     iconSize: 24,
                     elevation: 16,
-                    style:
-                        const TextStyle(color: Colors.blue, fontSize: 18),
+                    style: const TextStyle(color: Colors.blue, fontSize: 18),
                     underline: Container(
                       height: 2,
                       color: Colors.blue,
@@ -748,8 +719,7 @@ class _EditActivityState extends State<EditActivity> {
                         setState(() {
                           dropDownGroup = newValue;
                         });
-                      } else
-                        return;
+                      }
                     },
                     items:
                         allGroup.map<DropdownMenuItem<String>>((String value) {
@@ -762,11 +732,19 @@ class _EditActivityState extends State<EditActivity> {
                   SizedBox(width: 20),
                   InkWell(
                     onTap: () async {
-                      await showDialog(
+                      bool l = await showDialog(
                         context: context,
                         builder: (_) => AddGroup(),
                       );
-                      getAllGroup();
+                      await getAllGroup();
+                      print(l);
+                      if (l != null && l == true) {
+                        if (this.mounted) {
+                          setState(() {
+                            dropDownGroup = allGroup[allGroup.length - 1];
+                          });
+                        }
+                      }
                     },
                     child: Text(
                       "New",
@@ -796,8 +774,7 @@ class _EditActivityState extends State<EditActivity> {
                     icon: const Icon(Icons.arrow_drop_down_outlined),
                     iconSize: 24,
                     elevation: 16,
-                    style:
-                      const TextStyle(color: Colors.blue, fontSize: 18),
+                    style: const TextStyle(color: Colors.blue, fontSize: 18),
                     underline: Container(
                       height: 2,
                       color: Colors.blue,

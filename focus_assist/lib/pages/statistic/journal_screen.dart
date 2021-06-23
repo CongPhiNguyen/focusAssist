@@ -53,7 +53,7 @@ class _JournalScreenState extends State<JournalScreen> {
     gotAchive = false;
     targetToReach = 75;
     quotes = '';
-    allGroup = ['Fuck'];
+    allGroup = ['None'];
     doneList = ['Nothing'];
     doneListKey = ['None'];
     allGroupKey = ['NONE'];
@@ -224,13 +224,14 @@ class _JournalScreenState extends State<JournalScreen> {
       children: [
         Container(
             decoration: BoxDecoration(
-              // color: (!StaticData.isDarkMode)?Color(0xff73a656):Colors.grey[800],
-                color: (!StaticData.isDarkMode)?Colors.greenAccent[700]:Colors.grey[800],
+                // color: (!StaticData.isDarkMode)?Color(0xff73a656):Colors.grey[800],
+                color: (!StaticData.isDarkMode)
+                    ? Colors.greenAccent[700]
+                    : Colors.grey[800],
                 borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              )
-            ),
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                )),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child:
@@ -262,11 +263,14 @@ class _JournalScreenState extends State<JournalScreen> {
               children: [
                 ListTile(
                   title: Center(
-                    child: Text(doneList[index],
-                        // style: TextStyle(color: Colors.black)
+                    child: Text(
+                      doneList[index],
+                      // style: TextStyle(color: Colors.black)
                     ),
                   ),
-                  tileColor: (!StaticData.isDarkMode)?Colors.white:Colors.grey[700],
+                  tileColor: (!StaticData.isDarkMode)
+                      ? Colors.white
+                      : Colors.grey[700],
                 ),
                 Divider(height: 1, color: Colors.black45)
               ],
@@ -277,7 +281,9 @@ class _JournalScreenState extends State<JournalScreen> {
           height: 20,
           decoration: BoxDecoration(
               // color: (!StaticData.isDarkMode)?Color(0xff73a656):Colors.grey[800],
-              color: (!StaticData.isDarkMode)?Colors.greenAccent[700]:Colors.grey[800],
+              color: (!StaticData.isDarkMode)
+                  ? Colors.greenAccent[700]
+                  : Colors.grey[800],
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10),
@@ -314,7 +320,6 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   Future<void> getToDoList() async {
-    print("Fuck Done");
     int selectedDay = dateTimeToInt(_selectedDay);
     String userID = StaticData.userID;
     List<Map<String, dynamic>> database = await dbHelper.rawQuery(
@@ -459,7 +464,9 @@ class _JournalScreenState extends State<JournalScreen> {
         Container(
             decoration: BoxDecoration(
                 // color: (!StaticData.isDarkMode)?Color(0xffe7e732):Colors.grey[800],
-                color: (!StaticData.isDarkMode)?Colors.amberAccent[700]:Colors.grey[800],
+                color: (!StaticData.isDarkMode)
+                    ? Colors.amberAccent[700]
+                    : Colors.grey[800],
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
@@ -501,17 +508,23 @@ class _JournalScreenState extends State<JournalScreen> {
                   value: toDos[index].check,
                   controlAffinity: ListTileControlAffinity.trailing,
                   title: Center(
-                    child: Text(toDos[index].task,
-                        // style: TextStyle(color: Colors.black)
+                    child: Text(
+                      toDos[index].task,
+                      // style: TextStyle(color: Colors.black)
                     ),
                   ),
-                  tileColor: (!StaticData.isDarkMode)?Colors.white:Colors.grey[700],
+                  tileColor: (!StaticData.isDarkMode)
+                      ? Colors.white
+                      : Colors.grey[700],
                   onChanged: (bool value) async {
                     if (toDos[index].taskKey == 'None') return;
                     await showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                              title: Text("Confirmation", textAlign: TextAlign.center,),
+                              title: Text(
+                                "Confirmation",
+                                textAlign: TextAlign.center,
+                              ),
                               content: Text("Completed \'" +
                                   toDos[index].task.toString() +
                                   "\' ?"),
@@ -563,7 +576,9 @@ class _JournalScreenState extends State<JournalScreen> {
           height: 20,
           decoration: BoxDecoration(
               // color: (!StaticData.isDarkMode)?Color(0xffe7e732):Colors.grey[800],
-              color: (!StaticData.isDarkMode)?Colors.amberAccent[700]:Colors.grey[800],
+              color: (!StaticData.isDarkMode)
+                  ? Colors.amberAccent[700]
+                  : Colors.grey[800],
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10),
@@ -581,7 +596,9 @@ class _JournalScreenState extends State<JournalScreen> {
         children: [
           Container(
               decoration: BoxDecoration(
-                  color: (!StaticData.isDarkMode)?Color(0xffF4A460):Colors.grey[800],
+                  color: (!StaticData.isDarkMode)
+                      ? Color(0xffF4A460)
+                      : Colors.grey[800],
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
@@ -619,11 +636,14 @@ class _JournalScreenState extends State<JournalScreen> {
                     },
                     child: ListTile(
                       title: Center(
-                        child: Text(allActivity[index],
-                            // style: TextStyle(color: Colors.black)
+                        child: Text(
+                          allActivity[index],
+                          // style: TextStyle(color: Colors.black)
                         ),
                       ),
-                      tileColor: (!StaticData.isDarkMode)?Colors.white:Colors.grey[700],
+                      tileColor: (!StaticData.isDarkMode)
+                          ? Colors.white
+                          : Colors.grey[700],
                     ),
                   ),
                   Divider(height: 1, color: Colors.black45)
@@ -634,7 +654,9 @@ class _JournalScreenState extends State<JournalScreen> {
           Container(
             height: 20,
             decoration: BoxDecoration(
-                color: (!StaticData.isDarkMode)?Color(0xffF4A460):Colors.grey[800],
+                color: (!StaticData.isDarkMode)
+                    ? Color(0xffF4A460)
+                    : Colors.grey[800],
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
@@ -728,7 +750,9 @@ class _JournalScreenState extends State<JournalScreen> {
           children: [
             Container(
                 decoration: BoxDecoration(
-                    color: (!StaticData.isDarkMode)?Color(0xffe66771):Colors.grey[800],
+                    color: (!StaticData.isDarkMode)
+                        ? Color(0xffe66771)
+                        : Colors.grey[800],
                     // color: (!StaticData.isDarkMode)?Colors.red[300]:Colors.grey[800],
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
@@ -759,7 +783,10 @@ class _JournalScreenState extends State<JournalScreen> {
                                   );
                                   getAllGroup();
                                 },
-                                child: Icon(Icons.edit, color: (!StaticData.isDarkMode)?Colors.white:Colors.grey)),
+                                child: Icon(Icons.edit,
+                                    color: (!StaticData.isDarkMode)
+                                        ? Colors.white
+                                        : Colors.grey)),
                             SizedBox(
                               width: 20,
                             ),
@@ -792,7 +819,10 @@ class _JournalScreenState extends State<JournalScreen> {
                                   getToDoList();
                                   getAllGroup();
                                 },
-                                child: Icon(Icons.delete, color: (!StaticData.isDarkMode)?Colors.white:Colors.grey)),
+                                child: Icon(Icons.delete,
+                                    color: (!StaticData.isDarkMode)
+                                        ? Colors.white
+                                        : Colors.grey)),
                             SizedBox(
                               width: 10,
                             )
@@ -823,11 +853,14 @@ class _JournalScreenState extends State<JournalScreen> {
                       },
                       child: ListTile(
                         title: Center(
-                          child: Text(allGroupActivity[inDex][index],
-                              // style: TextStyle(color: Colors.black)
+                          child: Text(
+                            allGroupActivity[inDex][index],
+                            // style: TextStyle(color: Colors.black)
                           ),
                         ),
-                        tileColor: (!StaticData.isDarkMode)?Colors.white:Colors.grey[700],
+                        tileColor: (!StaticData.isDarkMode)
+                            ? Colors.white
+                            : Colors.grey[700],
                       ),
                     ),
                     Divider(height: 1, color: Colors.black45)
@@ -838,7 +871,9 @@ class _JournalScreenState extends State<JournalScreen> {
             Container(
               height: 15,
               decoration: BoxDecoration(
-                  color: (!StaticData.isDarkMode)?Color(0xffe66771):Colors.grey[800],
+                  color: (!StaticData.isDarkMode)
+                      ? Color(0xffe66771)
+                      : Colors.grey[800],
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),
@@ -906,18 +941,25 @@ class _JournalScreenState extends State<JournalScreen> {
             },
 
             calendarStyle: CalendarStyle(
-                defaultTextStyle: TextStyle(fontSize: 20),
-                weekendTextStyle: TextStyle(fontSize: 20),
+              defaultTextStyle: TextStyle(fontSize: 20),
+              weekendTextStyle: TextStyle(fontSize: 20),
               rowDecoration: BoxDecoration(
-                color: (!StaticData.isDarkMode)?Colors.white:Colors.blueGrey[700],
+                color: (!StaticData.isDarkMode)
+                    ? Colors.white
+                    : Colors.blueGrey[700],
               ),
             ),
 
             // Đây là các dòng chỉnh cái header ở trên của cái lịch
             headerStyle: HeaderStyle(
               decoration: BoxDecoration(
-                  color: (!StaticData.isDarkMode)?Colors.cyan:Colors.blueGrey[900],
-                  border: Border.all(color: (!StaticData.isDarkMode)?Colors.white:Colors.grey, width: 0),
+                  color: (!StaticData.isDarkMode)
+                      ? Colors.cyan
+                      : Colors.blueGrey[900],
+                  border: Border.all(
+                      color:
+                          (!StaticData.isDarkMode) ? Colors.white : Colors.grey,
+                      width: 0),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
@@ -926,31 +968,39 @@ class _JournalScreenState extends State<JournalScreen> {
               titleTextStyle: TextStyle(fontSize: 20, color: Colors.white),
               formatButtonShowsNext: true,
               formatButtonVisible: false,
-              leftChevronIcon: Icon(Icons.chevron_left, color: (!StaticData.isDarkMode)?Colors.white:Colors.grey,),
-              rightChevronIcon: Icon(Icons.chevron_right, color: (!StaticData.isDarkMode)?Colors.white:Colors.grey),
+              leftChevronIcon: Icon(
+                Icons.chevron_left,
+                color: (!StaticData.isDarkMode) ? Colors.white : Colors.grey,
+              ),
+              rightChevronIcon: Icon(Icons.chevron_right,
+                  color: (!StaticData.isDarkMode) ? Colors.white : Colors.grey),
             ),
 
             ////Chỉnh định dạng của các ngày trong tuần
             daysOfWeekHeight: 40,
             daysOfWeekStyle: DaysOfWeekStyle(
                 decoration: BoxDecoration(
-                  color: (!StaticData.isDarkMode)?Color(0xffffffff):Colors.blueGrey[800],
+                  color: (!StaticData.isDarkMode)
+                      ? Color(0xffffffff)
+                      : Colors.blueGrey[800],
                 ),
                 ////Chỉnh các ngày cuối tuần
                 weekendStyle: TextStyle(
                   fontSize: 16,
                   // color: Colors.red,
-                  color: (!StaticData.isDarkMode)?Colors.black:Colors.grey,
+                  color: (!StaticData.isDarkMode) ? Colors.black : Colors.grey,
                   // fontWeight: FontWeight.bold,
                 ),
 
                 ////Chỉnh các ngày trong tuần
                 weekdayStyle: TextStyle(
                   fontSize: 16,
-                  color: (!StaticData.isDarkMode)?Colors.black:Colors.grey,
+                  color: (!StaticData.isDarkMode) ? Colors.black : Colors.grey,
                 )),
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           Row(
             children: <Widget>[
               Expanded(
@@ -1005,7 +1055,6 @@ class _JournalScreenState extends State<JournalScreen> {
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
         '''select count(*) as SOLAN from THANHTUU t join THANHTUUNGUOIDUNG tn on t.MATHANHTUU=tn.MATHANHTUU where tn.MANGUOIDUNG='$key' and t.VANG=20  ''');
     countDatabaseLevel = data[0]['SOLAN'];
-    print('shit' + countDatabaseLevel.toString());
     return countDatabaseLevel;
   }
 
@@ -1105,7 +1154,11 @@ class _JournalScreenState extends State<JournalScreen> {
             SizedBox(width: 20),
             Text(
               'Todo and Done',
-              style: TextStyle(fontSize: 22, color: (!StaticData.isDarkMode)?Colors.black54:Colors.white70),
+              style: TextStyle(
+                  fontSize: 22,
+                  color: (!StaticData.isDarkMode)
+                      ? Colors.black54
+                      : Colors.white70),
             ),
           ]),
         ),
@@ -1161,14 +1214,20 @@ class _JournalScreenState extends State<JournalScreen> {
                     ),
                     Text(
                       'Group Activity',
-                      style: TextStyle(fontSize: 22, color: (!StaticData.isDarkMode)?Colors.black54:Colors.white70),
+                      style: TextStyle(
+                          fontSize: 22,
+                          color: (!StaticData.isDarkMode)
+                              ? Colors.black54
+                              : Colors.white70),
                     ),
                   ],
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   decoration: BoxDecoration(
-                      color: (!StaticData.isDarkMode)?Color(0xffe0e6ee):Colors.grey[700],
+                      color: (!StaticData.isDarkMode)
+                          ? Color(0xffe0e6ee)
+                          : Colors.grey[700],
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10),
@@ -1184,7 +1243,11 @@ class _JournalScreenState extends State<JournalScreen> {
                       getAllGroup();
                     },
                     child: Text('Add new',
-                        style: TextStyle(fontSize: 20, color: (!StaticData.isDarkMode)?Colors.black54:Colors.white70)),
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: (!StaticData.isDarkMode)
+                                ? Colors.black54
+                                : Colors.white70)),
                   ),
                 )
               ],
@@ -1202,10 +1265,16 @@ class _JournalScreenState extends State<JournalScreen> {
           child: Row(
             children: [
               Image.asset('assets/allactivity.png', width: 50, height: 50),
-              SizedBox(width: 20,),
+              SizedBox(
+                width: 20,
+              ),
               Text(
                 'All Activity',
-                style: TextStyle(fontSize: 22, color: (!StaticData.isDarkMode)?Colors.black54:Colors.white70),
+                style: TextStyle(
+                    fontSize: 22,
+                    color: (!StaticData.isDarkMode)
+                        ? Colors.black54
+                        : Colors.white70),
               ),
             ],
           ),
@@ -1222,7 +1291,8 @@ class _JournalScreenState extends State<JournalScreen> {
             getToDoList();
             getAllGroup();
           },
-          backgroundColor: (!StaticData.isDarkMode)?Colors.blue:Colors.black,
+          backgroundColor:
+              (!StaticData.isDarkMode) ? Colors.blue : Colors.black,
           child: Text(
             "+",
             style: TextStyle(

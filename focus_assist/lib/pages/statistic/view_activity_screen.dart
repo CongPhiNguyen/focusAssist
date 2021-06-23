@@ -109,7 +109,6 @@ class _ViewActivityState extends State<ViewActivity> {
       } else
         return;
     }
-    print('list DoneDay: $listDoneDay');
     // Lấy ngày thực hiện ngày không thực hiện
     if (database.length > 0) {
       // Xử lý trường hợp fixed
@@ -159,18 +158,15 @@ class _ViewActivityState extends State<ViewActivity> {
             failDays = failDay.toString();
             dataMap['Miss'] = failDay * 1.0;
           });
-        } else
-          return;
+        }
 
         for (int i = 0; i < toDoDays.length; i++) {
           if (!doneDay.contains(toDoDays[i])) if (this.mounted) {
             setState(() {
               listMissDay.add(intToDateTime(toDoDays[i]));
             });
-          } else
-            return;
+          }
         }
-        print('list Miss: $listMissDay');
         // Tính streak của fixed
         int conseDays = 0;
         for (int i = toDoDays.length - 1; i >= 0; i--) {
@@ -185,8 +181,7 @@ class _ViewActivityState extends State<ViewActivity> {
           setState(() {
             consecutiveDays = conseDays.toString();
           });
-        } else
-          return;
+        }
       } else if (database[0]['LOAIHINH'] == 'Repeating') {
         int cachNgay = int.parse(database[0]['KHOANGTHOIGIAN'].toString());
         // List tất cả các ngày cần làm:
@@ -210,8 +205,16 @@ class _ViewActivityState extends State<ViewActivity> {
             failDays = failDay.toString();
             dataMap['Miss'] = failDay * 1.0;
           });
-        } else
-          return;
+        }
+        // List tất cả các ngày làm là doneDay, tìm kiếm là ok
+
+        for (int i = 0; i < toDoDays.length; i++) {
+          if (!doneDay.contains(toDoDays[i])) if (this.mounted) {
+            setState(() {
+              listMissDay.add(intToDateTime(toDoDays[i]));
+            });
+          }
+        }
       } else if (database[0]['LOAIHINH'] == 'Flexible') {
         // Đếm từng tuần của flexible
         // Lấy thứ của ngày bắt đầu
@@ -230,34 +233,53 @@ class _ViewActivityState extends State<ViewActivity> {
         int indexThu = daysofWeek.indexOf(thu);
         int times = database[0]['SOLAN'];
         int startDay = database[0]['NGAYBATDAU'];
+
         if (startDay + 6 - indexThu < dateTimeToInt(startTime)) {
+          // Đếm xem thử đã trải qua 1 tuần hay chua rồi mới thực hiện tiếp
+
           int plus = 0, count = 0;
+          List<int> tempMiss = [];
           for (int i = indexThu; i < 7; i++) {
             if (doneDay.contains(startDay + plus)) {
               count++;
+            } else {
+              tempMiss.add(startDay + plus);
             }
             plus++;
           }
           if (count >= times) {
             timesByWeek.add(1);
-          } else
+          } else {
             timesByWeek.add(0);
+            for (int i = 0; i < tempMiss.length; i++) {
+              listMissDay.add(intToDateTime(tempMiss[i]));
+            }
+          }
+
           print(timesByWeek);
           int changeWeek = 0;
           count = 0;
+          tempMiss = [];
           for (int date = startDay + 7 - indexThu;
               date < dateTimeToInt(startTime);
               date++) {
             print('nextWeek');
-            if (doneDay.contains(date)) count++;
+            if (doneDay.contains(date))
+              count++;
+            else
+              tempMiss.add(date);
             changeWeek++;
             if (changeWeek == 7) {
               changeWeek = 0;
               if (count >= times)
                 timesByWeek.add(1);
-              else
+              else {
                 timesByWeek.add(0);
-              //print('count: $count, time: $times');
+                for (int i = 0; i < tempMiss.length; i++) {
+                  listMissDay.add(intToDateTime(tempMiss[i]));
+                }
+                tempMiss = [];
+              }
             }
           }
           int streak = 0;
@@ -337,8 +359,6 @@ class _ViewActivityState extends State<ViewActivity> {
       } else
         return;
     }
-    print('listDoneDay2: $listDoneDay');
-    print(listMissDay);
   }
 
   void deleteActivity() {
@@ -350,21 +370,24 @@ class _ViewActivityState extends State<ViewActivity> {
 
   static Widget _absentIcon(String day) => CircleAvatar(
         radius: 10,
-        backgroundColor: (!StaticData.isDarkMode)?Colors.redAccent[100]:Colors.red[600],
+        backgroundColor:
+            (!StaticData.isDarkMode) ? Colors.redAccent[100] : Colors.red[600],
         child: Text(
           day,
           style: TextStyle(
-            color: (!StaticData.isDarkMode)?Colors.black87:Colors.white,
+            color: (!StaticData.isDarkMode) ? Colors.black87 : Colors.white,
           ),
         ),
       );
   static Widget _presentIcon(String day) => CircleAvatar(
         radius: 10,
-        backgroundColor: (!StaticData.isDarkMode)?Colors.greenAccent[400]:Colors.green[600],
+        backgroundColor: (!StaticData.isDarkMode)
+            ? Colors.greenAccent[400]
+            : Colors.green[600],
         child: Text(
           day,
           style: TextStyle(
-            color: (!StaticData.isDarkMode)?Colors.black87:Colors.white,
+            color: (!StaticData.isDarkMode) ? Colors.black87 : Colors.white,
           ),
         ),
       );
@@ -415,20 +438,33 @@ class _ViewActivityState extends State<ViewActivity> {
       // selectedDayButtonColor: Colors.purple[300],
       // selectedDateTime: _selectedDateTime,
       // targetDateTime: _targetedDateTime,
+      firstDayOfWeek: 1,
       disableDayPressed: true,
       height: cHeight * 0.58,
-      headerTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: (!StaticData.isDarkMode)?Colors.black87:Colors.grey[200]),
-      weekdayTextStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.white),
-      daysTextStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.white),
-      weekendTextStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.white,),
-      todayTextStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.white),
+      headerTextStyle: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: (!StaticData.isDarkMode) ? Colors.black87 : Colors.grey[200]),
+      weekdayTextStyle: TextStyle(
+          color: (!StaticData.isDarkMode) ? Colors.black : Colors.white),
+      daysTextStyle: TextStyle(
+          color: (!StaticData.isDarkMode) ? Colors.black : Colors.white),
+      weekendTextStyle: TextStyle(
+        color: (!StaticData.isDarkMode) ? Colors.black : Colors.white,
+      ),
+      todayTextStyle: TextStyle(
+          color: (!StaticData.isDarkMode) ? Colors.black : Colors.white),
       leftButtonIcon: Padding(
         padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-        child: Icon(Icons.chevron_left,),
+        child: Icon(
+          Icons.chevron_left,
+        ),
       ),
       rightButtonIcon: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-        child: Icon(Icons.chevron_right,),
+        child: Icon(
+          Icons.chevron_right,
+        ),
       ),
       // selectedDayBorderColor: Colors.blue,
       showOnlyCurrentMonthDate: false,
@@ -466,7 +502,12 @@ class _ViewActivityState extends State<ViewActivity> {
               SizedBox(
                 width: 20,
               ),
-              Expanded(child: Text(name, style: TextStyle(fontSize: 20), overflow: TextOverflow.ellipsis,)),
+              Expanded(
+                  child: Text(
+                name,
+                style: TextStyle(fontSize: 20),
+                overflow: TextOverflow.ellipsis,
+              )),
               SizedBox(
                 width: 20,
               ),
@@ -520,7 +561,11 @@ class _ViewActivityState extends State<ViewActivity> {
         Center(
             child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Text(des, style: TextStyle(fontSize: 20), softWrap: true,),
+          child: Text(
+            des,
+            style: TextStyle(fontSize: 20),
+            softWrap: true,
+          ),
         )),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -534,7 +579,9 @@ class _ViewActivityState extends State<ViewActivity> {
                       width: 250,
                       decoration: new BoxDecoration(
                           // color: Color(0xffebe8e1),
-                        color: (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[800],
+                          color: (!StaticData.isDarkMode)
+                              ? Colors.grey[100]
+                              : Colors.grey[800],
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Center(
                         child: ListTile(
@@ -558,7 +605,9 @@ class _ViewActivityState extends State<ViewActivity> {
                       width: 250,
                       decoration: new BoxDecoration(
                           // color: Color(0xffebe8e1),
-                          color: (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[800],
+                          color: (!StaticData.isDarkMode)
+                              ? Colors.grey[100]
+                              : Colors.grey[800],
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Center(
                         child: ListTile(
@@ -577,7 +626,9 @@ class _ViewActivityState extends State<ViewActivity> {
                       width: 250,
                       decoration: new BoxDecoration(
                           // color: Color(0xffebe8e1),
-                          color: (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[800],
+                          color: (!StaticData.isDarkMode)
+                              ? Colors.grey[100]
+                              : Colors.grey[800],
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Center(
                         child: ListTile(
@@ -595,7 +646,9 @@ class _ViewActivityState extends State<ViewActivity> {
                       width: 250,
                       decoration: new BoxDecoration(
                           // color: Color(0xffebe8e1),
-                          color: (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[800],
+                          color: (!StaticData.isDarkMode)
+                              ? Colors.grey[100]
+                              : Colors.grey[800],
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Center(
                         child: ListTile(
