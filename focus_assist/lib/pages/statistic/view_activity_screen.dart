@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/pages/statistic/edit_activity_screen.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
@@ -133,6 +134,7 @@ class _ViewActivityState extends State<ViewActivity> {
         // Xử lý vì chuyển từ int nên có thể không đủ 7 chữ số
         while (h.length < 7) {
           h = '0' + h;
+          print('h: $h');
         }
         for (int day = database[0]['NGAYBATDAU'];
             day <= dateTimeToInt(startTime);
@@ -348,21 +350,21 @@ class _ViewActivityState extends State<ViewActivity> {
 
   static Widget _absentIcon(String day) => CircleAvatar(
         radius: 10,
-        backgroundColor: Colors.red,
+        backgroundColor: (!StaticData.isDarkMode)?Colors.redAccent[100]:Colors.red[600],
         child: Text(
           day,
           style: TextStyle(
-            color: Colors.black,
+            color: (!StaticData.isDarkMode)?Colors.black87:Colors.white,
           ),
         ),
       );
   static Widget _presentIcon(String day) => CircleAvatar(
         radius: 10,
-        backgroundColor: Colors.green,
+        backgroundColor: (!StaticData.isDarkMode)?Colors.greenAccent[400]:Colors.green[600],
         child: Text(
           day,
           style: TextStyle(
-            color: Colors.black,
+            color: (!StaticData.isDarkMode)?Colors.black87:Colors.white,
           ),
         ),
       );
@@ -410,33 +412,44 @@ class _ViewActivityState extends State<ViewActivity> {
   Widget build(BuildContext context) {
     cHeight = MediaQuery.of(context).size.height;
     _calendarCarouselNoHeader = CalendarCarousel<Event>(
-      selectedDayButtonColor: Colors.purple,
-      selectedDateTime: _selectedDateTime,
-      targetDateTime: _targetedDateTime,
-      height: cHeight * 0.54,
-      weekendTextStyle: TextStyle(
-        color: Colors.red,
+      // selectedDayButtonColor: Colors.purple[300],
+      // selectedDateTime: _selectedDateTime,
+      // targetDateTime: _targetedDateTime,
+      disableDayPressed: true,
+      height: cHeight * 0.58,
+      headerTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: (!StaticData.isDarkMode)?Colors.black87:Colors.grey[200]),
+      weekdayTextStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.white),
+      daysTextStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.white),
+      weekendTextStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.white,),
+      todayTextStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.white),
+      leftButtonIcon: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+        child: Icon(Icons.chevron_left,),
       ),
-      selectedDayBorderColor: Colors.black38,
+      rightButtonIcon: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+        child: Icon(Icons.chevron_right,),
+      ),
+      // selectedDayBorderColor: Colors.blue,
       showOnlyCurrentMonthDate: false,
-      todayButtonColor: Colors.cyan,
+      // todayButtonColor: Colors.cyan,
       markedDatesMap: _markedDateMap,
       markedDateShowIcon: true,
       markedDateIconMaxShown: 1,
       markedDateMoreShowTotal:
           null, // null for not showing hidden events indicator
-      onDayPressed: (date, event) {
-        if (this.mounted) {
-          setState(() {
-            _selectedDateTime = date;
-            _targetedDateTime = date;
-            if (date.year == 2021) {
-              print('Fuck');
-            }
-          });
-        } else
-          return;
-      },
+      // onDayPressed: (date, event) {
+      //   if (this.mounted) {
+      //     setState(() {
+      //       _selectedDateTime = date;
+      //       _targetedDateTime = date;
+      //       if (date.year == 2021) {
+      //         print('Fuck');
+      //       }
+      //     });
+      //   } else
+      //     return;
+      // },
       markedDateIconBuilder: (event) {
         return event.icon;
       },
@@ -447,12 +460,13 @@ class _ViewActivityState extends State<ViewActivity> {
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 15, 15, 10),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              BackButton(),
               SizedBox(
                 width: 20,
               ),
-              Text(name, style: TextStyle(fontSize: 30)),
+              Expanded(child: Text(name, style: TextStyle(fontSize: 20), overflow: TextOverflow.ellipsis,)),
               SizedBox(
                 width: 20,
               ),
@@ -469,44 +483,44 @@ class _ViewActivityState extends State<ViewActivity> {
                   },
                   child: Icon(Icons.edit)),
               SizedBox(
-                width: 20,
+                width: 25,
               ),
               InkWell(
                   onTap: () async {
                     await showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                              title: Text("Message"),
+                              title: Text("Confirmation"),
                               content: Text(
-                                  "Are you sure to delete this activity ?"),
+                                  "Are you sure you want to delete this activity?"),
                               actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("No"),
+                                ),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                     deleteActivity();
                                   },
                                   child: Text("Yes"),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("No"),
                                 )
                               ],
                             ));
                   },
                   child: Icon(Icons.delete)),
               SizedBox(
-                width: 10,
+                width: 5,
               )
             ],
           ),
         ),
         Center(
             child: Padding(
-          padding: const EdgeInsets.fromLTRB(40, 0, 40, 10),
-          child: Text(des, style: TextStyle(fontSize: 20)),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+          child: Text(des, style: TextStyle(fontSize: 20), softWrap: true,),
         )),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -519,7 +533,8 @@ class _ViewActivityState extends State<ViewActivity> {
                     Container(
                       width: 250,
                       decoration: new BoxDecoration(
-                          color: Color(0xffebe8e1),
+                          // color: Color(0xffebe8e1),
+                        color: (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[800],
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Center(
                         child: ListTile(
@@ -542,7 +557,8 @@ class _ViewActivityState extends State<ViewActivity> {
                     Container(
                       width: 250,
                       decoration: new BoxDecoration(
-                          color: Color(0xffebe8e1),
+                          // color: Color(0xffebe8e1),
+                          color: (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[800],
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Center(
                         child: ListTile(
@@ -560,14 +576,15 @@ class _ViewActivityState extends State<ViewActivity> {
                     Container(
                       width: 250,
                       decoration: new BoxDecoration(
-                          color: Color(0xffebe8e1),
+                          // color: Color(0xffebe8e1),
+                          color: (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[800],
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Center(
                         child: ListTile(
                           leading: Icon(Icons.done_outlined,
                               color: Colors.green, size: 50),
                           title: Text(doDays),
-                          subtitle: Text('Done times'),
+                          subtitle: Text('Times completed'),
                         ),
                       ),
                     ),
@@ -577,21 +594,22 @@ class _ViewActivityState extends State<ViewActivity> {
                     Container(
                       width: 250,
                       decoration: new BoxDecoration(
-                          color: Color(0xffebe8e1),
+                          // color: Color(0xffebe8e1),
+                          color: (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[800],
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Center(
                         child: ListTile(
                           leading:
                               Icon(Icons.block, color: Colors.red, size: 50),
                           title: Text(failDays),
-                          subtitle: Text('Missed Times'),
+                          subtitle: Text('Times missed'),
                         ),
                       ),
                     ),
                   ])),
         ),
         _calendarCarouselNoHeader,
-        SizedBox(height: 30),
+        // SizedBox(height: 30),
         Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -613,6 +631,10 @@ class _ViewActivityState extends State<ViewActivity> {
         PieChart(
           chartRadius: 200,
           dataMap: dataMap,
+          colorList: [
+            Colors.greenAccent[400],
+            Colors.redAccent[100],
+          ],
           chartType: ChartType.disc,
         )
       ])),

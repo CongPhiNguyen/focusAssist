@@ -13,7 +13,7 @@ class EditGroup extends StatefulWidget {
 
 class _EditGroupState extends State<EditGroup> {
   TextEditingController getGroupName;
-  String error = "Group name can't be blanked";
+  String error = "Group name can't be blank";
   final dbHelper = DbProvider.instance;
   bool isOK;
 
@@ -53,7 +53,7 @@ class _EditGroupState extends State<EditGroup> {
   Widget build(BuildContext context) {
     OutlineInputBorder k = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(4)),
-      borderSide: BorderSide(width: 1, color: Colors.black87),
+      borderSide: BorderSide(width: 1, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey),
     );
     return Dialog(
         shape:
@@ -62,14 +62,14 @@ class _EditGroupState extends State<EditGroup> {
             child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 10),
+            SizedBox(height: 15),
             Text(
               'Edit group',
-              style: TextStyle(fontSize: 25),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 2),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.fromLTRB(12, 20, 12, 20),
               child: TextField(
                 controller: getGroupName,
                 decoration: InputDecoration(
@@ -82,8 +82,9 @@ class _EditGroupState extends State<EditGroup> {
                     focusedErrorBorder: k,
                     border: OutlineInputBorder(),
                     labelText: 'Group Name',
-                    labelStyle: TextStyle(color: Colors.black87, fontSize: 23)),
-                style: TextStyle(fontSize: 20, color: Colors.black87),
+                    labelStyle: TextStyle(fontSize: 20, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400])
+                ),
+                style: TextStyle(fontSize: 20,),
               ),
             ),
             (isOK)
@@ -93,10 +94,15 @@ class _EditGroupState extends State<EditGroup> {
                     error,
                     style: TextStyle(color: Colors.red, fontSize: 20),
                   )),
+            SizedBox(
+              height: 10,
+            ),
             Container(
+              width: 100,
               padding: EdgeInsets.fromLTRB(15, 10, 10, 10),
               decoration: BoxDecoration(
-                  color: Color(0xffe0e6ee),
+                  // color: Color(0xffe0e6ee),
+                  color: (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[700],
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
@@ -118,12 +124,14 @@ class _EditGroupState extends State<EditGroup> {
                     Navigator.pop(context);
                   }
                 },
-                child: Text('Finish',
-                    style: TextStyle(fontSize: 20, color: Colors.black87)),
+                child: Center(
+                  child: Text('Finish',
+                      style: TextStyle(fontSize: 20,)),
+                ),
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 15,
             )
           ],
         )));

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_assist/classes/ClassCardShop.dart';
 import 'package:focus_assist/classes/Data.dart';
@@ -16,36 +17,39 @@ class _ShopScreenState extends State<ShopScreen> {
     // TODO: implement initState
     super.initState();
     LoadingDatabase();
+
+    vang = StaticData.Vang;
+
   }
+  int vang;
 
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     bool isBuy;
     return Scaffold(
-      backgroundColor: Colors.amber[50],
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back,color: Colors.black,),
-          onPressed: (){Navigator.pop(context);},
-        ),
-        backgroundColor: Colors.amber,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'SHOP',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      backgroundColor: (!StaticData.isDarkMode)?Colors.amber[100]:Colors.grey[900],
+      // appBar: AppBar(
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back,color: Colors.black,),
+      //     onPressed: (){Navigator.pop(context);},
+      //   ),
+      //   backgroundColor: Colors.amber,
+      //   elevation: 0,
+      //   centerTitle: true,
+      //   title: Text(
+      //     'SHOP',
+      //     style: TextStyle(
+      //       color: Colors.black,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      // ),
       body: Container(
         height: size.height,
-        child: ListView(
-          children: [ Column(
+        child:  Column(
             mainAxisSize: MainAxisSize.max,
-           // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               design_appbar_shop(size: size),
@@ -53,19 +57,23 @@ class _ShopScreenState extends State<ShopScreen> {
               Container(
                 width: size.width*0.4,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[800],
                   borderRadius: BorderRadius.circular(30),
                     ),
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.wallet_giftcard,color: Colors.green,),
-                    Text(StaticData.Vang.toString() +' dollar',
-                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: Colors.green),
+                    Container(
+                      height: size.height*0.035,
+                      child: Image.asset('assets/gold.png'),
+                    ),
+                    SizedBox(width: 5,),
+                    Text('$vang Gold',
+                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[300]),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: size.height*0.02,),
+
               Container(
                 height: size.height * 0.6,
                 child: ListView.builder(
@@ -87,12 +95,16 @@ class _ShopScreenState extends State<ShopScreen> {
                           imageEgg: StaticData.EggShop[num].imageEgg,
                           MAVP: StaticData.EggShop[num].MaVP,
                           isBuy: isBuy,
+                          updateVang: () {
+                            setState(() {
+                              vang = StaticData.Vang;
+                            });
+                          },
                         ),
                       );
                     }),
               ),
             ],
-          )],
         ),
       ),
     );

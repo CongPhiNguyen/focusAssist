@@ -3,15 +3,20 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:focus_assist/classes/Data.dart';
+import 'classes/DbProvider.dart';
+import 'classes/DbProvider.dart';
 import 'classes/DbProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterConfig.loadEnvVariables();
+  //await FlutterConfig.loadEnvVariables();
+  await Firebase.initializeApp();
   await initAppSetting();
   await initializeNotification();
+
   runApp(FocusAssist());
 }
 
@@ -20,6 +25,13 @@ Future<void> initAppSetting() async {
   List<Map<String, dynamic>> queryRows = await db.query('THAMSO');
   StaticData.isSignedIn = (queryRows.first['DADANGNHAP'] == 1);
   StaticData.userID = queryRows.first['MANGUOIDUNG'];
+  if (StaticData.isSignedIn) {
+    queryRows = await DbProvider.instance.rawQuery('''
+                    select * from THONGTINNGUOIDUNG where MANGUOIDUNG = '${StaticData.userID}'
+                    ''');
+    StaticData.isDarkMode = (queryRows.first['DARKMODE'] == 1);
+    StaticData.isPrivacyLockOn = queryRows.first['PRIVACYLOCK'] == 1;
+  }
 }
 
 void initializeNotification() async {
