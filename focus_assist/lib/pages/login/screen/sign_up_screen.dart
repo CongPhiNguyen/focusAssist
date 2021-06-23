@@ -23,6 +23,8 @@ class SignUpScreen extends StatelessWidget {
   final _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
   String _taiKhoan, _matKhau, _maUser, _ten;
+  final validCharacters = RegExp(r'^[a-zA-Z0-9_\-=@,\.;]+$');
+
 
   @override
   Widget build(BuildContext context) {
@@ -110,11 +112,15 @@ class SignUpScreen extends StatelessWidget {
                       FadeAnimation(1.4, button_login(
                         text: 'SIGN UP',
                         press: () async {
-                          if (_matKhau == null || _taiKhoan== null || _ten == null)
+
+                           if (_matKhau == null || _taiKhoan== null || _ten == null)
                             {
                               //_show(context, "Điền đầy đủ thông tin!");
-                              Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+                              Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 1 );
                             }
+                           else if (validCharacters.hasMatch(_taiKhoan) ==false || validCharacters.hasMatch(_matKhau)== false){
+                             Fluttertoast.showToast(msg: "Invalid username or password", textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG);
+                           }
                           else
                             {
                               _maUser = getRandomString(10);
@@ -174,7 +180,7 @@ class SignUpScreen extends StatelessWidget {
 
     if (checkTK.length >= 1) {
       //_show(context, 'Tài khoản đã tồn tại');
-      Fluttertoast.showToast(msg: 'Username already exists', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+      Fluttertoast.showToast(msg: 'Username already exists', textColor: Colors.red[300], backgroundColor: Colors.grey[100],gravity: ToastGravity.CENTER, toastLength: Toast.LENGTH_LONG);
       return;
     } else {
       Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': mk };
@@ -211,7 +217,7 @@ class SignUpScreen extends StatelessWidget {
         context,
         MaterialPageRoute(builder: (context) => MainScreen()),
       );
-      Fluttertoast.showToast(msg: 'Sign in successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_SHORT);
+      Fluttertoast.showToast(msg: 'Sign in successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100],gravity: ToastGravity.CENTER, toastLength: Toast.LENGTH_SHORT);
     }
   }
 

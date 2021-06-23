@@ -160,7 +160,14 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                 ),
                                 Container(
                                   height: size.height*0.20,
-                                  child: Image.asset('assets/achievenment/Eggs/eggDemon.png'),
+                                  width: size.height*0.2,
+                                  //child: Image.asset('assets/achievenment/Eggs/eggDemon.png'),
+                                  child: CircleAvatar(
+                                    //radius: 10,
+                                    child: ClipOval(
+                                      child: Image.asset('assets/1.PNG'),
+                                    ),
+                                  ),
                                 ),
                               ],
                             );

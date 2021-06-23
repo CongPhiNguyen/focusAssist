@@ -234,7 +234,7 @@ class _FarmScreenState extends State<FarmScreen> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {
-            StaticData.PokemonUsers[index].Level+=25;
+            StaticData.PokemonUsers[index].Level+=1;
             setState(() {
               StaticData.Vang -= goldLevelUp;
             });

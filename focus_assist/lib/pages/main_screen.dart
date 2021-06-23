@@ -69,43 +69,24 @@ class _MainScreenState extends State<MainScreen> {
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 600),
         onTap: (int tappedIndex) {
-          // if(StaticData.timer != null) {
-          //   if(StaticData.timer.isActive)
-          //   {
-          //     StaticData.timer.cancel();
-          //   }
-          // }
-          // if(StaticData.timer2 != null) {
-          //   if(StaticData.timer2.isActive)
-          //   {
-          //     StaticData.timer2.cancel();
-          //   }
-          // }
-          //
-          // setState(() {
-          //   //_showPage = _pageChooser(tappedIndex);
-          //   _page = tappedIndex;
-          // });
           if (_page == 1 && StaticData.focusTimerIsRunning == true){
             showDialogChange(context, "Timer is running, change tab now?", tappedIndex);
           }
           else {
-            if(StaticData.timer != null) {
-              if(StaticData.timer.isActive)
-              {
-                StaticData.timer.cancel();
+              if (StaticData.timer != null) {
+                if (StaticData.timer.isActive && tappedIndex != 3 ) {
+                  StaticData.timer.cancel();
+                }
               }
-            }
-            if(StaticData.timer2 != null) {
-              if(StaticData.timer2.isActive)
-              {
-                StaticData.timer2.cancel();
+              if (StaticData.timer2 != null) {
+                if (StaticData.timer2.isActive && tappedIndex != 3 ) {
+                  StaticData.timer2.cancel();
+                }
               }
-            }
-            setState(() {
-              //_showPage = _pageChooser(tappedIndex);
-              _page = tappedIndex;
-            });
+              setState(() {
+                //_showPage = _pageChooser(tappedIndex);
+                _page = tappedIndex;
+              });
           }
         },
       ),
@@ -134,12 +115,12 @@ class _MainScreenState extends State<MainScreen> {
             ),
             onPressed: () {
               if(StaticData.timer != null) {
-                if(StaticData.timer.isActive)
+                if(StaticData.timer.isActive && tappedIndex != 3 )
                 {
                   StaticData.timer.cancel();
                 }
               }
-              if(StaticData.timer2 != null) {
+              if(StaticData.timer2 != null && tappedIndex != 3 ) {
                 if(StaticData.timer2.isActive)
                 {
                   StaticData.timer2.cancel();
