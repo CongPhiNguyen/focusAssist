@@ -140,7 +140,7 @@ class LoginScreen extends StatelessWidget {
     if (tk == null || mk == null)
     {
       //print('Điền đầy đủ thông tin');
-      Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+      Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100] ,toastLength: Toast.LENGTH_LONG);
       //_show(context, 'Điền đầy đủ thông tin!');
       return;
     }
