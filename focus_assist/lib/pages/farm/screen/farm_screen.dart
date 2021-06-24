@@ -471,19 +471,21 @@ class _FarmScreenState extends State<FarmScreen> {
                 ),
               ),
               Container(
-                width: size.width*0.35,
+                width: size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+                    SizedBox(width: 10,),
                     Container(
                       height: size.height*0.035,
                       child: Image.asset('assets/gold.png'),
                     ),
                     // Icon(Icons.wallet_giftcard,color: Colors.green,),
                     SizedBox(width: 5,),
-                    Text(StaticData.Vang.toString() +' Gold',
+                    Text(StaticData.Vang.toString(),
                       style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[300]),
                     ),
                   ],

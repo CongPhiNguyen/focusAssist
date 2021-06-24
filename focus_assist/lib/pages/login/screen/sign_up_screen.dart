@@ -189,7 +189,7 @@ class SignUpScreen extends StatelessWidget {
       row = {'MANGUOIDUNG': maUser ,
         'HOTEN': name,
         'ANH':  '',
-        'VANG': 600,
+        'VANG': 1000,
         'THONGBAO': 1,
         'THONGBAOSANG': 1,
         'THONGBAOTOI' : 1,

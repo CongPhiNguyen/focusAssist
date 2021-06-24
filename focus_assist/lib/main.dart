@@ -12,8 +12,8 @@ import 'classes/DbProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterConfig.loadEnvVariables();
-  //await Firebase.initializeApp();
+  //await FlutterConfig.loadEnvVariables();
+  await Firebase.initializeApp();
 
   // Map<String, dynamic> row = {
   //   'DADANGNHAP': 0,
