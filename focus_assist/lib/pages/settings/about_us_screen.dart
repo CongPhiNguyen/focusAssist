@@ -165,7 +165,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                   child: CircleAvatar(
                                     //radius: 10,
                                     child: ClipOval(
-                                      child: Image.asset('assets/1.PNG'),
+                                      child: Image.asset('assets/'+index.toString()+'.PNG'),
                                     ),
                                   ),
                                 ),
