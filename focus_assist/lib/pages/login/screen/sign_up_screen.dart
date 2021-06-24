@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
@@ -14,13 +16,19 @@ import 'login_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:math';
 import 'package:focus_assist/pages/main_screen.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class SignUpScreen extends StatelessWidget {
+  final _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
   String _taiKhoan, _matKhau, _maUser, _ten;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    tz.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation('Asia/Ho_Chi_Minh'));
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -52,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
                           children: <Widget>[
                             FadeAnimation(1.2,  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
                             SizedBox(height: size.height*0.01,),
-                            FadeAnimation(1.2,  Text('Welcome you to Focus Assistance',style: TextStyle(color: Colors.white,fontSize: size.height*0.015),)),
+                            FadeAnimation(1.2,  Text('Welcome to Focus Assist',style: TextStyle(color: Colors.white,fontSize: size.height*0.015),)),
                             SizedBox(height: size.height*0.01,),
                           ],
                         ),
@@ -79,7 +87,7 @@ class SignUpScreen extends StatelessWidget {
                     children: <Widget>[
                       FadeAnimation(1.2,edit_text_login(
                         icon: Icons.drive_file_rename_outline,
-                        hintText: "Full name",
+                        hintText: "Your name",
                         onChanged: (value){
                           _ten = value;
                         },
@@ -87,7 +95,7 @@ class SignUpScreen extends StatelessWidget {
                       SizedBox(height: size.height*0.0015,),
                       FadeAnimation(1.2,edit_text_login(
                         icon: Icons.person,
-                        hintText: "Your Email",
+                        hintText: "Username",
                         onChanged: (value){
                           _taiKhoan = value;
                         },
@@ -104,7 +112,8 @@ class SignUpScreen extends StatelessWidget {
                         press: () async {
                           if (_matKhau == null || _taiKhoan== null || _ten == null)
                             {
-                              _show(context, "Điền đầy đủ thông tin!");
+                              //_show(context, "Điền đầy đủ thông tin!");
+                              Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                             }
                           else
                             {
@@ -152,105 +161,205 @@ class SignUpScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-//TODO Random;
-const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-Random _rnd = Random();
-String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
 
 // Check tài khoản có tồn tại hay không
-void _queryCheckUser(String tk,String mk, String maUser, String name ,context) async {
-  final checkTK = await DbProvider.instance.rawQuery('''
+  void _queryCheckUser(String tk,String mk, String maUser, String name ,context) async {
+    final checkTK = await DbProvider.instance.rawQuery('''
   select * from NGUOIDUNG where TENTAIKHOAN = '$tk'
   ''');
 
-  if (checkTK.length == 1) {
-    _show(context, 'Tài khoản đã tồn tại');
-    return;
-  } else {
-    Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': mk };
-    int i = await DbProvider.instance.insert('NGUOIDUNG', row);
+    if (checkTK.length >= 1) {
+      //_show(context, 'Tài khoản đã tồn tại');
+      Fluttertoast.showToast(msg: 'Username already exists', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+      return;
+    } else {
+      Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': mk };
+      int i = await DbProvider.instance.insert('NGUOIDUNG', row);
 
-    row = {'MANGUOIDUNG': maUser ,
-      'HOTEN': name,
-      'ANH':  '',
-      'VANG': 7000,
-      'THONGBAO': 1,
-      'THONGBAOSANG': 1,
-      'THONGBAOTOI' : 1,
-      'THOIGIANTHONGBAOSANG': '07:00:00',
-      'THOIGIANTHONGBAOTOI': '22:00:00',
-      'DARKMODE': 0,
-      'PRIVACYLOCK': 0,
-      'LOCKPASSCODE': ''};
-    int j = await DbProvider.instance.insert('THONGTINNGUOIDUNG', row);
+      row = {'MANGUOIDUNG': maUser ,
+        'HOTEN': name,
+        'ANH':  '',
+        'VANG': 7000,
+        'THONGBAO': 1,
+        'THONGBAOSANG': 1,
+        'THONGBAOTOI' : 1,
+        'THOIGIANTHONGBAOSANG': '07:00:00',
+        'THOIGIANTHONGBAOTOI': '22:00:00',
+        'DARKMODE': 0,
+        'PRIVACYLOCK': 0,
+        'LOCKPASSCODE': ''};
+      await DbProvider.instance.insert('THONGTINNGUOIDUNG', row);
 
-    print('value of insert: $i');
-    StaticData.userID = maUser;
-    _showSuccess(context, "Đăng ký thành công!");
+      print('value of insert: $i');
+      StaticData.userID = maUser;
+      //_showSuccess(context, "Đăng ký thành công!");
+      StaticData.isSignedIn = true;
+      Database db = await DbProvider.instance.database;
+      await db.execute(
+          '''
+      UPDATE THAMSO
+      SET DADANGNHAP = 1,
+          MANGUOIDUNG = '${StaticData.userID}';
+      ''');
+      InitUserNotification();
+      Navigator.pop(context);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
+      Fluttertoast.showToast(msg: 'Sign in successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_SHORT);
+    }
+  }
 
+  InitUserNotification() async {
+    List<Map<String, dynamic>> queryList = await DbProvider.instance.rawQuery('''
+                    SELECT * from THONGTINNGUOIDUNG where MANGUOIDUNG = '${StaticData.userID}'
+                    ''');
+    if (queryList.first['THONGBAOSANG'] == 1) {
+      TimeOfDay morningNotificationTime = StringToTimeOfDay(queryList.first['THOIGIANTHONGBAOSANG']);
+      showDailyMorningAtTimeNotification(Time(morningNotificationTime.hour, morningNotificationTime.minute));
+    }
+    if (queryList.first['THONGBAOTOI'] == 1) {
+      TimeOfDay eveningNotificationTime = StringToTimeOfDay(queryList.first['THOIGIANTHONGBAOTOI']);
+      showDailyEveningAtTimeNotification(Time(eveningNotificationTime.hour, eveningNotificationTime.minute));
+    }
+  }
+
+  showDailyMorningAtTimeNotification(Time time) async {
+    try {
+      Database db = await DbProvider.instance.database;
+      List<Map<String, dynamic>> queryRows = await db.rawQuery('SELECT * FROM TRICHDAN ORDER BY RANDOM() LIMIT 1');
+      var androidChannel = AndroidNotificationDetails(
+        'CHANNEL_ID 1',
+        'CHANNEL_NAME 1',
+        'CHANNEL_DESCRIPTION 1',
+        importance: Importance.max,
+        priority: Priority.high,
+        playSound: true,
+      );
+      var iOSChannel = IOSNotificationDetails();
+      var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
+      await StaticData.flutterLocalNotificationsPlugin.zonedSchedule(
+        1,
+        'Focus Assist',
+        '${queryRows.first['TRICHDAN']} - ${queryRows.first['TACGIA']}',
+        _nextInstanceOfTime(time.hour, time.minute),
+        platformChannel,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle: true,
+        payload: 'New payload',
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    }
+    catch (e) {
+      print('Morning notification error: ${e.toString()}');
+    }
+
+  }
+
+  showDailyEveningAtTimeNotification(Time time) async {
+    var androidChannel = AndroidNotificationDetails(
+      'CHANNEL_ID 1',
+      'CHANNEL_NAME 1',
+      'CHANNEL_DESCRIPTION 1',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+    );
+    var iOSChannel = IOSNotificationDetails();
+    var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
+    await StaticData.flutterLocalNotificationsPlugin.zonedSchedule(
+      2,
+      'Focus Assist',
+      'Remember to check in all your today activities',
+      _nextInstanceOfTime(time.hour, time.minute),
+      platformChannel,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      androidAllowWhileIdle: true,
+      payload: 'New payload',
+      matchDateTimeComponents: DateTimeComponents.time,
+    );
+  }
+
+  tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate =
+    tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+    return scheduledDate;
+  }
+
+  TimeOfDay StringToTimeOfDay(String timeString) {
+    List<String> splitString = timeString.split(':');
+    TimeOfDay time = TimeOfDay(hour: int.parse(splitString[0]), minute: int.parse(splitString[1]));
+    return time;
   }
 }
 
-// Báo lỗi
-void _show(context, String message){
-  Alert(
-    context: context,
-    title: 'Thông báo',
-    type: AlertType.warning,
-    closeIcon: Icon(Icons.error),
-    desc: message,
-    buttons: [
-      DialogButton(
-        child: Text(
-          "CANCEL",
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        onPressed: () => Navigator.pop(context),
-        width: 120,
-        color: Colors.red,
-      )
-    ],
-  ).show();
-}
 
-// Thông báo thành công
-void _showSuccess(context, String message){
-  Alert(
-    context: context,
-    type: AlertType.success,
-    title: "Thông báo",
-    closeIcon: Icon(Icons.error),
-    desc: message,
-    buttons: [
-      DialogButton(
-        child: Text(
-          "ACCEPT",
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        onPressed: () async {
-          StaticData.isSignedIn = true;
-          Database db = await DbProvider.instance.database;
-          await db.execute(
-              '''
-              UPDATE THAMSO
-              SET DADANGNHAP = 1,
-                  MANGUOIDUNG = '${StaticData.userID}';
-              ''');
-          Navigator.pop(context);
-          Navigator.pop(context);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => MainScreen()),
-          );
-        },
-        width: 120,
-        color: Colors.green[400],
-      )
-    ],
-  ).show();
-}
+
+// // Báo lỗi
+// void _show(context, String message){
+//   Alert(
+//     context: context,
+//     title: 'Thông báo',
+//     type: AlertType.warning,
+//     closeIcon: Icon(Icons.error),
+//     desc: message,
+//     buttons: [
+//       DialogButton(
+//         child: Text(
+//           "CANCEL",
+//           style: TextStyle(color: Colors.white, fontSize: 20),
+//         ),
+//         onPressed: () => Navigator.pop(context),
+//         width: 120,
+//         color: Colors.red,
+//       )
+//     ],
+//   ).show();
+// }
+//
+// // // Thông báo thành công
+// void _showSuccess(context, String message){
+//   Alert(
+//     context: context,
+//     type: AlertType.success,
+//     title: "Thông báo",
+//     closeIcon: Icon(Icons.error),
+//     desc: message,
+//     buttons: [
+//       DialogButton(
+//         child: Text(
+//           "ACCEPT",
+//           style: TextStyle(color: Colors.white, fontSize: 20),
+//         ),
+//         onPressed: () async {
+//           StaticData.isSignedIn = true;
+//           Database db = await DbProvider.instance.database;
+//           await db.execute(
+//               '''
+//               UPDATE THAMSO
+//               SET DADANGNHAP = 1,
+//                   MANGUOIDUNG = '${StaticData.userID}';
+//               ''');
+//           Navigator.pop(context);
+//           Navigator.pop(context);
+//           Navigator.pushReplacement(
+//             context,
+//             MaterialPageRoute(builder: (context) => MainScreen()),
+//           );
+//         },
+//         width: 120,
+//         color: Colors.green[400],
+//       )
+//     ],
+//   ).show();
+// }
 

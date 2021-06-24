@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' show pi;
 
+import 'package:focus_assist/classes/Data.dart';
+
 // child: PlayButton(
 // pauseIcon: Icon(Icons.pause, color: Colors.black, size: 90),
 // playIcon: Icon(Icons.play_arrow, color: Colors.black, size: 90),
@@ -97,7 +99,7 @@ class _PlayButtonState extends State<PlayButton> with TickerProviderStateMixin {
             ),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Color(0xffF27B35),
+              color: (!StaticData.isDarkMode)?Color(0xffF27B35):Colors.grey[800],
             ),
           ),
         ],

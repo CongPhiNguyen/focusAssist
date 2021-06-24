@@ -162,6 +162,7 @@ void _showSuccess(context, String message){
         ),
         onPressed: () {
           Navigator.pop(context);
+          Navigator.pop(context);
         },
         width: 120,
         color: Colors.green[400],

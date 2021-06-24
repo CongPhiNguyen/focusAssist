@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:focus_assist/pages/statistic//edit_group_dialog.dart';
-import 'package:focus_assist/pages/statistic//list_of_achivement.dart';
-import 'package:focus_assist/pages/statistic//view_activity.dart';
+import 'package:focus_assist/pages/statistic//list_of_achivement_screen.dart';
+import 'package:focus_assist/pages/statistic//view_activity_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:focus_assist/pages/statistic//add_screen.dart';
+import 'package:focus_assist/pages/statistic//add_new_activity_screen.dart';
 import 'package:focus_assist/pages/statistic//add_new_group_dialog.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
@@ -41,14 +41,18 @@ class _JournalScreenState extends State<JournalScreen> {
   List<String> allGroup, allGroupKey;
   List<List<String>> allGroupActivity, allGroupActivityKey;
   List<String> doneList, doneListKey;
+  String quotes;
 
   String rate;
+
+  bool gotAchive;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    gotAchive = false;
+    quotes = '';
     allGroup = ['Fuck'];
-    doneList = ['Không có gì'];
+    doneList = ['Nothing'];
     doneListKey = ['None'];
     allGroupKey = ['NONE'];
     allGroupActivity = [];
@@ -58,18 +62,19 @@ class _JournalScreenState extends State<JournalScreen> {
     _selectedDay = _focusedDay;
     items1 = ["Chơi cờ vua", "Luyện tập code", "Cày game"];
     toDos = [
-      ToDo(check: false, task: "Không có gì", taskKey: 'None'),
+      ToDo(check: false, task: "Nothing", taskKey: 'None'),
     ];
 
     items = [];
     dataMap = {"Skip": 500, "Done": 322, "Fail": 112};
-    allActivity = ["Không có gì"];
+    allActivity = ["Nothing"];
     allActivityKey = ['None'];
     loadGold();
     getAllActivity();
     getToDoList();
     getAllGroup();
     getDoneTask();
+    achiveNotification();
     rate = '0';
   }
 
@@ -89,24 +94,32 @@ class _JournalScreenState extends State<JournalScreen> {
     List<Map<String, dynamic>> database = await dbHelper.rawQuery(
         ''' select * from THONGTINNGUOIDUNG where MANGUOIDUNG='$userID' ''');
     if (database.length > 0) {
-      setState(() {
-        StaticData.Vang = database[0]['VANG'];
-      });
-    }
+      if (this.mounted) {
+        setState(() {
+          StaticData.Vang = database[0]['VANG'];
+        });
+        print('vang' + database[0]['VANG'].toString());
+      } else {
+        print('bug1');
+        return;
+      }
+    } else
+      print('bug2');
   }
 
-  // Các hàm cần thiết để load dữ liệu
-  void getDoneTask() async {
-    print("Fuck Done");
+  Future<void> getDoneTask() async {
     String userID = StaticData.userID;
     int selectedDay = dateTimeToInt(_selectedDay);
     database = await dbHelper.rawQuery(
         ''' select * from MUCTIEU where MAMUCTIEU in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) and MANGUOIDUNG='$userID' ''');
+    print('Done task length ${database.length}');
     if (database.length == 0) {
-      setState(() {
-        doneList = ['Không có gì'];
-        doneListKey = ['None'];
-      });
+      if (this.mounted) {
+        setState(() {
+          doneList = ['Nothing'];
+          doneListKey = ['None'];
+        });
+      }
     }
     if (database.length > 0) {
       doneList = [];
@@ -143,25 +156,31 @@ class _JournalScreenState extends State<JournalScreen> {
             h = '0' + h;
           }
           if (h[indexOfK] == '1') {
+            if (this.mounted) {
+              setState(() {
+                doneList.add(database[i]['TENMUCTIEU']);
+                doneListKey.add(database[i]['MAMUCTIEU']);
+              });
+            }
+          }
+        } else if (database[i]['LOAIHINH'] == 'Flexible') {
+          if (this.mounted) {
             setState(() {
               doneList.add(database[i]['TENMUCTIEU']);
               doneListKey.add(database[i]['MAMUCTIEU']);
             });
           }
-        } else if (database[i]['LOAIHINH'] == 'Flexible') {
-          setState(() {
-            doneList.add(database[i]['TENMUCTIEU']);
-            doneListKey.add(database[i]['MAMUCTIEU']);
-          });
         } else if (database[i]['LOAIHINH'] == 'Repeating') {
-          int val = int.parse(database[i]['KHOANGTHOIGIAN']);
+          int val = int.parse(database[i]['KHOANGTHOIGIAN'].toString());
           Duration diff = start.difference(_selectedDay);
           if (diff.inDays % val == 0) {
             print(val);
-            setState(() {
-              doneList.add(database[i]['TENMUCTIEU']);
-              doneListKey.add(database[i]['MAMUCTIEU']);
-            });
+            if (this.mounted) {
+              setState(() {
+                doneList.add(database[i]['TENMUCTIEU']);
+                doneListKey.add(database[i]['MAMUCTIEU']);
+              });
+            }
           }
         }
       }
@@ -178,24 +197,37 @@ class _JournalScreenState extends State<JournalScreen> {
           100.0 /
           (toDos.length.toDouble() + doneList.length.toDouble())));
     if (rateInt > 100) rateInt = 100;
-    setState(() {
-      rate = rateInt.toString();
-      if (rate.length > 8) {
-        rate = rate.substring(0, 8);
+    if (this.mounted) {
+      setState(() {
+        rate = rateInt.toString();
+        if (rate.length > 8) {
+          rate = rate.substring(0, 8);
+        }
+      });
+    }
+    if (doneList.length == 0) {
+      if (this.mounted) {
+        setState(() {
+          doneList = ['Nothing'];
+          doneListKey = ['None'];
+        });
       }
-    });
+    }
   }
 
+  // ignore: non_constant_identifier_names
   Widget DoneTask() {
     return Column(
       children: [
         Container(
             decoration: BoxDecoration(
-                color: Color(0xff73a656),
+              // color: (!StaticData.isDarkMode)?Color(0xff73a656):Colors.grey[800],
+                color: (!StaticData.isDarkMode)?Colors.greenAccent[700]:Colors.grey[800],
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                )),
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              )
+            ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child:
@@ -212,8 +244,9 @@ class _JournalScreenState extends State<JournalScreen> {
                 Expanded(
                   flex: 6,
                   child: Text(
-                    "Done activities",
+                    "Done",
                     style: TextStyle(color: Colors.white, fontSize: 22),
+                    // style: TextStyle(fontSize: 22),
                   ),
                 ),
               ]),
@@ -227,9 +260,10 @@ class _JournalScreenState extends State<JournalScreen> {
                 ListTile(
                   title: Center(
                     child: Text(doneList[index],
-                        style: TextStyle(color: Colors.black)),
+                        // style: TextStyle(color: Colors.black)
+                    ),
                   ),
-                  tileColor: Colors.white,
+                  tileColor: (!StaticData.isDarkMode)?Colors.white:Colors.grey[700],
                 ),
                 Divider(height: 1, color: Colors.black45)
               ],
@@ -239,7 +273,8 @@ class _JournalScreenState extends State<JournalScreen> {
         Container(
           height: 20,
           decoration: BoxDecoration(
-              color: Color(0xff73a656),
+              // color: (!StaticData.isDarkMode)?Color(0xff73a656):Colors.grey[800],
+              color: (!StaticData.isDarkMode)?Colors.greenAccent[700]:Colors.grey[800],
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10),
@@ -254,24 +289,28 @@ class _JournalScreenState extends State<JournalScreen> {
     database = await dbHelper
         .rawQuery('''select * from MUCTIEU where MANGUOIDUNG='$userID' ''');
     if (database.length == 0) {
-      setState(() {
-        allActivity = ['Không có gì'];
-        allActivityKey = ['None'];
-      });
+      if (this.mounted) {
+        setState(() {
+          allActivity = ['Nothing'];
+          allActivityKey = ['None'];
+        });
+      }
     }
     if (database.length > 0) {
-      setState(() {
-        allActivity.clear();
-        allActivityKey.clear();
-        for (int i = 0; i < database.length; i++) {
-          allActivity.add(database[i]['TENMUCTIEU']);
-          allActivityKey.add(database[i]['MAMUCTIEU']);
-        }
-      });
+      if (this.mounted) {
+        setState(() {
+          allActivity.clear();
+          allActivityKey.clear();
+          for (int i = 0; i < database.length; i++) {
+            allActivity.add(database[i]['TENMUCTIEU']);
+            allActivityKey.add(database[i]['MAMUCTIEU']);
+          }
+        });
+      }
     }
   }
 
-  void getToDoList() async {
+  Future<void> getToDoList() async {
     print("Fuck Done");
     int selectedDay = dateTimeToInt(_selectedDay);
     String userID = StaticData.userID;
@@ -279,11 +318,13 @@ class _JournalScreenState extends State<JournalScreen> {
         ''' select * from MUCTIEU where MAMUCTIEU not in (select MAMUCTIEU from THONGKE where NGAYHOANTHANH=$selectedDay) and MANGUOIDUNG='$userID' ''');
     List<Map<String, dynamic>> flexibleData = [];
     if (database.length == 0) {
-      setState(() {
-        toDos = [
-          ToDo(check: false, task: "Không có gì", taskKey: 'None'),
-        ];
-      });
+      if (this.mounted) {
+        setState(() {
+          toDos = [
+            ToDo(check: false, task: "Nothing", taskKey: 'None'),
+          ];
+        });
+      }
     }
     if (database.length > 0) {
       toDos = [];
@@ -319,29 +360,33 @@ class _JournalScreenState extends State<JournalScreen> {
             h = '0' + h;
           }
           if (h[indexOfK] == '1') {
-            setState(() {
-              toDos.add(ToDo(
-                  check: false,
-                  task: database[i]['TENMUCTIEU'],
-                  taskKey: database[i]['MAMUCTIEU']));
-            });
+            if (this.mounted) {
+              setState(() {
+                toDos.add(ToDo(
+                    check: false,
+                    task: database[i]['TENMUCTIEU'],
+                    taskKey: database[i]['MAMUCTIEU']));
+              });
+            }
           }
         } else if (database[i]['LOAIHINH'] == 'Flexible') {
           // Quăng ra ngoài rồi hẵn xử lý
           flexibleData.add(database[i]);
         } else if (database[i]['LOAIHINH'] == 'Repeating') {
-          int val = int.parse(database[i]['KHOANGTHOIGIAN']);
+          int val = int.parse(database[i]['KHOANGTHOIGIAN'].toString());
           Duration diff = start.difference(_selectedDay);
           if (diff.inDays % val == 0) {
             print(val);
-            setState(() {
-              toDos.add(
-                ToDo(
-                    check: false,
-                    task: database[i]['TENMUCTIEU'],
-                    taskKey: database[i]['MAMUCTIEU']),
-              );
-            });
+            if (this.mounted) {
+              setState(() {
+                toDos.add(
+                  ToDo(
+                      check: false,
+                      task: database[i]['TENMUCTIEU'],
+                      taskKey: database[i]['MAMUCTIEU']),
+                );
+              });
+            }
           }
         }
       }
@@ -380,30 +425,38 @@ class _JournalScreenState extends State<JournalScreen> {
       if (flexibleData[i]['SOLAN'] <= count) {
         continue;
       }
-      setState(() {
-        toDos.add(
-          ToDo(
-              check: false,
-              task: flexibleData[i]['TENMUCTIEU'] +
-                  '  $count/' +
-                  flexibleData[i]['SOLAN'].toString(),
-              taskKey: flexibleData[i]['MAMUCTIEU']),
-        );
-      });
+      if (this.mounted) {
+        setState(() {
+          toDos.add(
+            ToDo(
+                check: false,
+                task: flexibleData[i]['TENMUCTIEU'] +
+                    '  $count/' +
+                    flexibleData[i]['SOLAN'].toString(),
+                taskKey: flexibleData[i]['MAMUCTIEU']),
+          );
+        });
+      }
     }
     if (toDos.length == 0) {
-      toDos = [
-        ToDo(check: false, task: "Không có gì", taskKey: 'None'),
-      ];
+      if (this.mounted) {
+        setState(() {
+          toDos = [
+            ToDo(check: false, task: "Nothing", taskKey: 'None'),
+          ];
+        });
+      }
     }
   }
 
+  // ignore: non_constant_identifier_names
   Widget ToDoList() {
     return Column(
       children: [
         Container(
             decoration: BoxDecoration(
-                color: Color(0xffe7e732),
+                // color: (!StaticData.isDarkMode)?Color(0xffe7e732):Colors.grey[800],
+                color: (!StaticData.isDarkMode)?Colors.amberAccent[700]:Colors.grey[800],
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
@@ -421,8 +474,8 @@ class _JournalScreenState extends State<JournalScreen> {
                     },
                     child: Image.asset(
                       'assets/todo.png',
-                      width: 35,
-                      height: 35,
+                      width: 30,
+                      height: 30,
                     ),
                   ),
                 ),
@@ -446,27 +499,34 @@ class _JournalScreenState extends State<JournalScreen> {
                   controlAffinity: ListTileControlAffinity.trailing,
                   title: Center(
                     child: Text(toDos[index].task,
-                        style: TextStyle(color: Colors.black)),
+                        // style: TextStyle(color: Colors.black)
+                    ),
                   ),
-                  tileColor: Colors.white,
+                  tileColor: (!StaticData.isDarkMode)?Colors.white:Colors.grey[700],
                   onChanged: (bool value) async {
                     if (toDos[index].taskKey == 'None') return;
                     await showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                              title: Text("Message"),
-                              content: Text("Done it: " +
+                              title: Text("Confirmation", textAlign: TextAlign.center,),
+                              content: Text("Completed \'" +
                                   toDos[index].task.toString() +
-                                  "?"),
+                                  "\' ?"),
                               actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("No"),
+                                ),
                                 TextButton(
                                   onPressed: () async {
                                     Navigator.pop(context);
                                     setState(() {
                                       toDos[index].check = value;
                                     });
-                                    // Thêm 50 vàng
-                                    int golds = StaticData.Vang += 50;
+                                    // Thêm 5 vàng
+                                    int golds = StaticData.Vang + 5;
                                     //Add vào database
                                     String userKey = StaticData.userID;
                                     dbHelper.rawQuery(
@@ -486,12 +546,6 @@ class _JournalScreenState extends State<JournalScreen> {
                                   },
                                   child: Text("Yes"),
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("No"),
-                                )
                               ],
                             ));
                     getDoneTask();
@@ -505,7 +559,8 @@ class _JournalScreenState extends State<JournalScreen> {
         Container(
           height: 20,
           decoration: BoxDecoration(
-              color: Color(0xffe7e732),
+              // color: (!StaticData.isDarkMode)?Color(0xffe7e732):Colors.grey[800],
+              color: (!StaticData.isDarkMode)?Colors.amberAccent[700]:Colors.grey[800],
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10),
@@ -515,6 +570,7 @@ class _JournalScreenState extends State<JournalScreen> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget AllActivity() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -522,7 +578,7 @@ class _JournalScreenState extends State<JournalScreen> {
         children: [
           Container(
               decoration: BoxDecoration(
-                  color: Color(0xffF4A460),
+                  color: (!StaticData.isDarkMode)?Color(0xffF4A460):Colors.grey[800],
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
@@ -561,9 +617,10 @@ class _JournalScreenState extends State<JournalScreen> {
                     child: ListTile(
                       title: Center(
                         child: Text(allActivity[index],
-                            style: TextStyle(color: Colors.black)),
+                            // style: TextStyle(color: Colors.black)
+                        ),
                       ),
-                      tileColor: Colors.white,
+                      tileColor: (!StaticData.isDarkMode)?Colors.white:Colors.grey[700],
                     ),
                   ),
                   Divider(height: 1, color: Colors.black45)
@@ -574,7 +631,7 @@ class _JournalScreenState extends State<JournalScreen> {
           Container(
             height: 20,
             decoration: BoxDecoration(
-                color: Color(0xffF4A460),
+                color: (!StaticData.isDarkMode)?Color(0xffF4A460):Colors.grey[800],
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
@@ -585,6 +642,7 @@ class _JournalScreenState extends State<JournalScreen> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget GroupTable() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -617,37 +675,47 @@ class _JournalScreenState extends State<JournalScreen> {
       tempActivity.add(database[j]['TENMUCTIEU']);
       tempActivityKey.add(database[j]['MAMUCTIEU']);
     }
-    setState(() {
-      allGroupActivity[index] = tempActivity;
-      allGroupActivityKey[index] = tempActivityKey;
-    });
+    if (this.mounted) {
+      setState(() {
+        allGroupActivity[index] = tempActivity;
+        allGroupActivityKey[index] = tempActivityKey;
+      });
+    }
   }
 
   void getAllGroup() async {
-    setState(() {
-      allGroup = [];
-      allGroupKey = [];
-    });
+    if (this.mounted) {
+      setState(() {
+        allGroup = [];
+        allGroupKey = [];
+      });
+    }
+
     String userID = StaticData.userID;
     database = await dbHelper
         .rawQuery('''select * from NHOMMUCTIEU where MANGUOIDUNG='$userID' ''');
     for (int i = 0; i < database.length; i++) {
-      setState(() {
-        allGroup.add(database[i]['TENNHOM']);
-        allGroupKey.add(database[i]['MANHOM']);
-      });
+      if (this.mounted) {
+        setState(() {
+          allGroup.add(database[i]['TENNHOM']);
+          allGroupKey.add(database[i]['MANHOM']);
+        });
+      }
     }
     for (int i = 0; i < allGroupKey.length; i++) {
-      setState(() {
-        allGroupActivity.add([]);
-        allGroupActivityKey.add([]);
-      });
+      if (this.mounted) {
+        setState(() {
+          allGroupActivity.add([]);
+          allGroupActivityKey.add([]);
+        });
+      }
     }
     for (int i = 0; i < allGroup.length; i++) {
       getGroupActivity(i);
     }
   }
 
+  // ignore: non_constant_identifier_names
   Widget GroupActivity(inDex) {
     return Align(
       alignment: Alignment.topLeft,
@@ -657,7 +725,8 @@ class _JournalScreenState extends State<JournalScreen> {
           children: [
             Container(
                 decoration: BoxDecoration(
-                    color: Color(0xffe66771),
+                    color: (!StaticData.isDarkMode)?Color(0xffe66771):Colors.grey[800],
+                    // color: (!StaticData.isDarkMode)?Colors.red[300]:Colors.grey[800],
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
@@ -687,7 +756,7 @@ class _JournalScreenState extends State<JournalScreen> {
                                   );
                                   getAllGroup();
                                 },
-                                child: Icon(Icons.edit, color: Colors.white)),
+                                child: Icon(Icons.edit, color: (!StaticData.isDarkMode)?Colors.white:Colors.grey)),
                             SizedBox(
                               width: 20,
                             ),
@@ -699,20 +768,20 @@ class _JournalScreenState extends State<JournalScreen> {
                                           AlertDialog(
                                             title: Text("Message"),
                                             content: Text(
-                                                "Are you sure to delete this group and all activity belong to it ?"),
+                                                "Are you sure to delete this group ?"),
                                             actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("No"),
+                                              ),
                                               TextButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                   deleteGroup(inDex);
                                                 },
                                                 child: Text("Yes"),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text("No"),
                                               )
                                             ],
                                           ));
@@ -720,7 +789,7 @@ class _JournalScreenState extends State<JournalScreen> {
                                   getToDoList();
                                   getAllGroup();
                                 },
-                                child: Icon(Icons.delete, color: Colors.white)),
+                                child: Icon(Icons.delete, color: (!StaticData.isDarkMode)?Colors.white:Colors.grey)),
                             SizedBox(
                               width: 10,
                             )
@@ -752,9 +821,10 @@ class _JournalScreenState extends State<JournalScreen> {
                       child: ListTile(
                         title: Center(
                           child: Text(allGroupActivity[inDex][index],
-                              style: TextStyle(color: Colors.black)),
+                              // style: TextStyle(color: Colors.black)
+                          ),
                         ),
-                        tileColor: Colors.white,
+                        tileColor: (!StaticData.isDarkMode)?Colors.white:Colors.grey[700],
                       ),
                     ),
                     Divider(height: 1, color: Colors.black45)
@@ -765,7 +835,7 @@ class _JournalScreenState extends State<JournalScreen> {
             Container(
               height: 15,
               decoration: BoxDecoration(
-                  color: Color(0xffe66771),
+                  color: (!StaticData.isDarkMode)?Color(0xffe66771):Colors.grey[800],
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),
@@ -778,18 +848,12 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   void deleteGroup(inDex) {
-    //Delete activitys of group
-    for (int i = 0; i < allGroupActivityKey[inDex].length; i++) {
-      String key = allGroupActivityKey[inDex][i];
-      dbHelper.rawQuery(''' delete from MUCTIEU where MAMUCTIEU='$key' ''');
-      // Delete trong bảng thống kê
-      dbHelper.rawQuery(''' delete from THONGKE where MAMUCTIEU='$key' ''');
-    }
     String key = allGroupKey[inDex];
     //Delete group
     dbHelper.rawQuery(''' delete from NHOMMUCTIEU where MANHOM='$key' ''');
   }
 
+  // ignore: non_constant_identifier_names
   Widget Calendar() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -798,6 +862,7 @@ class _JournalScreenState extends State<JournalScreen> {
           TableCalendar(
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
+            startingDayOfWeek: StartingDayOfWeek.monday,
             focusedDay: _focusedDay,
             calendarFormat: _calendarFormat,
             selectedDayPredicate: (day) {
@@ -805,27 +870,32 @@ class _JournalScreenState extends State<JournalScreen> {
             },
             onDaySelected: (selectedDay, focusedDay) {
               if (!isSameDay(_selectedDay, selectedDay)) {
-                setState(() {
-                  _selectedDay = selectedDay;
-                  _focusedDay = focusedDay;
-                  if (_selectedDay == DateTime.utc(2021, 4, 25)) {
-                    setState(() {
-                      this.items = items1;
-                    });
-                  } else
-                    setState(() {
-                      this.items = [];
-                    });
-                });
+                if (this.mounted) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay = focusedDay;
+                    if (_selectedDay == DateTime.utc(2021, 4, 25)) {
+                      setState(() {
+                        this.items = items1;
+                      });
+                    } else
+                      setState(() {
+                        this.items = [];
+                      });
+                  });
+                }
+
                 getToDoList();
                 getDoneTask();
               }
             },
             onFormatChanged: (format) {
               if (_calendarFormat != format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
+                if (this.mounted) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                }
               }
             },
             onPageChanged: (focusedDay) {
@@ -834,13 +904,17 @@ class _JournalScreenState extends State<JournalScreen> {
 
             calendarStyle: CalendarStyle(
                 defaultTextStyle: TextStyle(fontSize: 20),
-                weekendTextStyle: TextStyle(fontSize: 20)),
+                weekendTextStyle: TextStyle(fontSize: 20),
+              rowDecoration: BoxDecoration(
+                color: (!StaticData.isDarkMode)?Colors.white:Colors.blueGrey[700],
+              ),
+            ),
 
             // Đây là các dòng chỉnh cái header ở trên của cái lịch
             headerStyle: HeaderStyle(
               decoration: BoxDecoration(
-                  color: Colors.cyan,
-                  border: Border.all(color: Colors.white, width: 0),
+                  color: (!StaticData.isDarkMode)?Colors.cyan:Colors.blueGrey[900],
+                  border: Border.all(color: (!StaticData.isDarkMode)?Colors.white:Colors.grey, width: 0),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
@@ -849,27 +923,31 @@ class _JournalScreenState extends State<JournalScreen> {
               titleTextStyle: TextStyle(fontSize: 20, color: Colors.white),
               formatButtonShowsNext: true,
               formatButtonVisible: false,
+              leftChevronIcon: Icon(Icons.chevron_left, color: (!StaticData.isDarkMode)?Colors.white:Colors.grey,),
+              rightChevronIcon: Icon(Icons.chevron_right, color: (!StaticData.isDarkMode)?Colors.white:Colors.grey),
             ),
 
             ////Chỉnh định dạng của các ngày trong tuần
-            daysOfWeekHeight: 51,
+            daysOfWeekHeight: 40,
             daysOfWeekStyle: DaysOfWeekStyle(
                 decoration: BoxDecoration(
-                  color: Color(0xffffffff),
+                  color: (!StaticData.isDarkMode)?Color(0xffffffff):Colors.blueGrey[800],
                 ),
                 ////Chỉnh các ngày cuối tuần
                 weekendStyle: TextStyle(
                   fontSize: 16,
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
+                  // color: Colors.red,
+                  color: (!StaticData.isDarkMode)?Colors.black:Colors.grey,
+                  // fontWeight: FontWeight.bold,
                 ),
 
                 ////Chỉnh các ngày trong tuần
                 weekdayStyle: TextStyle(
                   fontSize: 16,
-                  color: Colors.black,
+                  color: (!StaticData.isDarkMode)?Colors.black:Colors.grey,
                 )),
           ),
+          SizedBox(height: 10,),
           Row(
             children: <Widget>[
               Expanded(
@@ -885,13 +963,91 @@ class _JournalScreenState extends State<JournalScreen> {
     );
   }
 
+  Future<int> countDone() async {
+    String key = StaticData.userID;
+    List<Map<String, dynamic>> data = await dbHelper.rawQuery(
+        '''select count(*) as SOLAN from THONGKE tk join MUCTIEU mt on tk.MAMUCTIEU=mt.MAMUCTIEU where mt.MANGUOIDUNG='$key' ''');
+    return data[0]['SOLAN'];
+  }
+
+  Future<int> getCurrentDoneLevel() async {
+    String userID = StaticData.userID;
+    // Xem thử đã qua cấp 3 chưa
+    String maThanhTuu = 'TT03';
+    List<Map<String, dynamic>> data = await dbHelper.rawQuery(
+        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
+    if (data[0]['DEM'] > 0) {
+      return 4;
+    }
+    // Xem thử đã qua cấp 2 chưa
+    maThanhTuu = 'TT04';
+    List<Map<String, dynamic>> data1 = await dbHelper.rawQuery(
+        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
+    if (data1[0]['DEM'] > 0) {
+      return 3;
+    }
+    // Xem thử qua cấp 1 hay chưa
+    maThanhTuu = 'TT01';
+    List<Map<String, dynamic>> data2 = await dbHelper.rawQuery(
+        '''select count(*) as DEM from THANHTUU tt join THANHTUUNGUOIDUNG nd on tt.MATHANHTUU=nd.MATHANHTUU where MANGUOIDUNG='$userID' and tt.MATHANHTUU='$maThanhTuu' ''');
+    if (data2[0]['DEM'] > 0) {
+      return 2;
+    }
+    return 1;
+  }
+
+  Future<int> getCurrentActivityLevel() async {
+    int countDatabaseLevel = 0;
+    String key = StaticData.userID;
+    List<Map<String, dynamic>> data = await dbHelper.rawQuery(
+        '''select count(*) as SOLAN from THANHTUU t join THANHTUUNGUOIDUNG tn on t.MATHANHTUU=tn.MATHANHTUU where tn.MANGUOIDUNG='$key' and t.VANG=20  ''');
+    countDatabaseLevel = data[0]['SOLAN'];
+    print('shit' + countDatabaseLevel.toString());
+    return countDatabaseLevel;
+  }
+
+  Future<void> achiveNotification() async {
+    int level = await getCurrentDoneLevel();
+    if (level == 4) {
+      if (this.mounted)
+        setState(() {
+          gotAchive = false;
+        });
+      return;
+    }
+
+    int done = await countDone();
+    List<int> targetDone = [100, 500, 1500]; //[1, 3, 5]; //[100, 500, 1500];
+    if (done > targetDone[level - 1]) {
+      if (this.mounted)
+        setState(() {
+          gotAchive = true;
+        });
+      return;
+    }
+    int levelNow = (done * 1.0 / 75).floor();
+    int achivedLevel = await getCurrentActivityLevel();
+    print('levelNow $levelNow');
+    if (levelNow > achivedLevel) {
+      if (this.mounted)
+        setState(() {
+          gotAchive = true;
+        });
+    } else {
+      if (this.mounted)
+        setState(() {
+          gotAchive = false;
+        });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
+      // backgroundColor: Color(0xffffffff),
       body: ListView(children: <Widget>[
         SizedBox(
-          height: 30,
+          height: 15,
         ),
         InkWell(
           onTap: () async {
@@ -899,40 +1055,34 @@ class _JournalScreenState extends State<JournalScreen> {
               context: context,
               builder: (_) => ListAchivement(),
             );
+            achiveNotification();
             loadGold();
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               CircleAvatar(
-                backgroundColor: Color(0xffffffff),
+                backgroundColor: Colors.transparent,
                 radius: 15,
-                child: Image.asset('assets/gold.png', width: 30, height: 30),
+                child: Image.asset('assets/gold.png', width: 25, height: 25),
               ),
+              Text(gotAchive ? '!' : '',
+                  style: TextStyle(
+                      fontSize: 28,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold)),
               SizedBox(
                 width: 10,
               ),
               Text(
                 StaticData.Vang.toString(),
-                style: TextStyle(fontSize: 30),
+                style: TextStyle(fontSize: 25),
               ),
               SizedBox(
                 width: 30,
               ),
             ],
           ),
-        ),
-        //Đây để hiện cái dòng qoutes
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: Text(
-                "\' No pain, no gain \'",
-                style: TextStyle(fontSize: 30),
-              ),
-            ),
-          ],
         ),
         SizedBox(
           height: 10,
@@ -950,7 +1100,7 @@ class _JournalScreenState extends State<JournalScreen> {
             SizedBox(width: 20),
             Text(
               'Todo and Done',
-              style: TextStyle(fontSize: 22, color: Colors.black54),
+              style: TextStyle(fontSize: 22, color: (!StaticData.isDarkMode)?Colors.black54:Colors.white70),
             ),
           ]),
         ),
@@ -1006,14 +1156,14 @@ class _JournalScreenState extends State<JournalScreen> {
                     ),
                     Text(
                       'Group Activity',
-                      style: TextStyle(fontSize: 22, color: Colors.black54),
+                      style: TextStyle(fontSize: 22, color: (!StaticData.isDarkMode)?Colors.black54:Colors.white70),
                     ),
                   ],
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   decoration: BoxDecoration(
-                      color: Color(0xffe0e6ee),
+                      color: (!StaticData.isDarkMode)?Color(0xffe0e6ee):Colors.grey[700],
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10),
@@ -1029,7 +1179,7 @@ class _JournalScreenState extends State<JournalScreen> {
                       getAllGroup();
                     },
                     child: Text('Add new',
-                        style: TextStyle(fontSize: 20, color: Colors.black54)),
+                        style: TextStyle(fontSize: 20, color: (!StaticData.isDarkMode)?Colors.black54:Colors.white70)),
                   ),
                 )
               ],
@@ -1047,9 +1197,10 @@ class _JournalScreenState extends State<JournalScreen> {
           child: Row(
             children: [
               Image.asset('assets/allactivity.png', width: 50, height: 50),
+              SizedBox(width: 20,),
               Text(
                 'All Activity',
-                style: TextStyle(fontSize: 22, color: Colors.black54),
+                style: TextStyle(fontSize: 22, color: (!StaticData.isDarkMode)?Colors.black54:Colors.white70),
               ),
             ],
           ),
@@ -1066,6 +1217,7 @@ class _JournalScreenState extends State<JournalScreen> {
             getToDoList();
             getAllGroup();
           },
+          backgroundColor: (!StaticData.isDarkMode)?Colors.blue:Colors.black,
           child: Text(
             "+",
             style: TextStyle(

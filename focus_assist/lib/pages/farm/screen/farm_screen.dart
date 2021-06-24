@@ -11,6 +11,8 @@ import 'package:focus_assist/pages/achievenment/screen/shop_screen.dart';
 import 'package:focus_assist/pages/farm/feature_ui/object_farm.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+import '../../../classes/Data.dart';
+
 
 class FarmScreen extends StatefulWidget {
   @override
@@ -30,7 +32,7 @@ class _FarmScreenState extends State<FarmScreen> {
     InitPokemonUser();
     startAnimation();
   }
-  
+
   void InitPokemonUser () {
     List<Widget> finalList = [];
     for (int i = 0; i < StaticData.PokemonUsers.length; i++) {
@@ -53,22 +55,92 @@ class _FarmScreenState extends State<FarmScreen> {
         press: (){
           increaseLevel(index);
         },
+        longPress: (){
+          deletePokemon(context, index);
+        },
       ),
     );
   }
 
+  void deletePokemon(context,int index){
+    int rank = 1;
+    if(StaticData.PokemonUsers[index].Level >= 24 && StaticData.PokemonUsers[index].Level < 50 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+    {
+      rank = 2;
+    }
+    if (StaticData.PokemonUsers[index].Level >= 49 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+    {
+      rank = 3;
+    }
+
+    Alert(
+        context: context,
+        title: 'DELETE POKEMON',
+        closeIcon: Icon(Icons.auto_awesome),
+        desc: "Do you want to delete this pokemon?",
+        content: Column(
+          children: [
+            Center(
+              child: Text(
+                StaticData.PokemonUsers[index].TenPokemon,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: StaticData.PokemonUsers[index].rareColor,
+                ),
+              ),
+            ),
+            Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+rank.toString()+'Down1.png'),),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            child: Text(
+              "DELETE",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () async {
+
+              await DbProvider.instance.rawQuery('''
+            DELETE FROM POKEMON
+            WHERE MAPOKEMON = '${StaticData.PokemonUsers[index].MaPOKEMON}' AND MANGUOIDUNG = '${StaticData.userID}'
+            ''');
+
+              setState(() {
+                StaticData.PokemonUsers.removeAt(index);
+              });
+
+              Navigator.pop(context);
+            } ,
+            color: Colors.redAccent,
+          ),
+          DialogButton(
+            child: Text(
+              "CANCEL",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.pop(context),
+            gradient: LinearGradient(colors: [
+              Color.fromRGBO(116, 116, 191, 1.0),
+              Color.fromRGBO(52, 138, 199, 1.0)
+            ]),
+          )
+        ]
+    ).show();
+  }
+
+
   void increaseLevel(int index){
     int goldLevelUp;
     if(StaticData.PokemonUsers[index].rareColor == Colors.greenAccent ){
-      goldLevelUp = 50;
+      goldLevelUp = 5;
     } else if (StaticData.PokemonUsers[index].rareColor == Colors.blueAccent) {
-      goldLevelUp = 200;
+      goldLevelUp = 10;
     } else if (StaticData.PokemonUsers[index].rareColor == Colors.purpleAccent ){
-      goldLevelUp = 800;
+      goldLevelUp = 15;
     } else if (StaticData.PokemonUsers[index].rareColor == Colors.redAccent ){
-      goldLevelUp = 3200;
+      goldLevelUp = 20;
     }
-    if (StaticData.PokemonUsers[index].Level == 100){
+    if (StaticData.PokemonUsers[index].Level >= 50){
       showFail(context, index, goldLevelUp,"Your pokemon has been max level");
     } else if (goldLevelUp > StaticData.Vang) {
       showFail(context, index, goldLevelUp,"You don't have enough "+goldLevelUp.toString()+' gold to LevelUp');
@@ -78,6 +150,16 @@ class _FarmScreenState extends State<FarmScreen> {
   }
 
   void showFail(context, int index,int goldLevelUp, String message){
+    int rank = 1;
+    if(StaticData.PokemonUsers[index].Level >= 24 && StaticData.PokemonUsers[index].Level < 50 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+    {
+      rank = 2;
+    }
+    if (StaticData.PokemonUsers[index].Level >= 49 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+    {
+      rank = 3;
+    }
+
     Alert(
       context: context,
       title: 'LEVEL UP',
@@ -94,7 +176,8 @@ class _FarmScreenState extends State<FarmScreen> {
               ),
             ),
           ),
-          Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+'Down1.png'),),
+          Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+'$rank'+'Down1.png')
+          ),
         ],
       ),
       buttons: [
@@ -113,137 +196,174 @@ class _FarmScreenState extends State<FarmScreen> {
 
   }
 
+
+
   void showSuccess(context, int index,int goldLevelUp) {
-      Alert(
-        context: context,
-        title: 'LEVEL UP',
-        closeIcon: Icon(Icons.auto_awesome),
-        desc: "Use "+goldLevelUp.toString()+' gold to LevelUp',
-        content: Column(
-          children: [
-            Center(
-              child: Text(
-                StaticData.PokemonUsers[index].TenPokemon,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: StaticData.PokemonUsers[index].rareColor,
-                ),
+    int rank = 1;
+    if(StaticData.PokemonUsers[index].Level >= 24 && StaticData.PokemonUsers[index].Level < 50 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+    {
+      rank = 2;
+    }
+    if (StaticData.PokemonUsers[index].Level >= 49 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+    {
+      rank = 3;
+    }
+    Alert(
+      context: context,
+      title: 'LEVEL UP',
+      closeIcon: Icon(Icons.auto_awesome),
+      desc: "Use "+goldLevelUp.toString()+' gold to LevelUp',
+      content: Column(
+        children: [
+          Center(
+            child: Text(
+              StaticData.PokemonUsers[index].TenPokemon,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: StaticData.PokemonUsers[index].rareColor,
               ),
             ),
-            Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+'Down1.png'),),
-          ],
-        ),
-        buttons: [
-          DialogButton(
-            child: Text(
-              "LevelUp",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            onPressed: () async {
-              StaticData.PokemonUsers[index].Level+=1;
-
-              final k = await DbProvider.instance.rawQuery('''
+          ),
+          Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+"$rank"+'Down1.png'),),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "LevelUp",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            StaticData.PokemonUsers[index].Level+=25;
+            setState(() {
+              StaticData.Vang -= goldLevelUp;
+            });
+            final k = await DbProvider.instance.rawQuery('''
               UPDATE POKEMON
               SET LEVELPOKEMON = ${StaticData.PokemonUsers[index].Level}
               WHERE MANGUOIDUNG = '${StaticData.userID}' AND MAPOKEMON = '${StaticData.PokemonUsers[index].MaPOKEMON}'
               ''');
-              bool isCheckAchiLv50 = false;
-              bool isCheckAchiLv100 = false;
-              //Nhận thành tựu lv 50
-              if(StaticData.PokemonUsers[index].Level == 50) {
-                //Kiểm có thành tựu lv 50 hay chưa
-                for(int i = 0; i < StaticData.AchiUser.length;i++){
-                  if(StaticData.AchiUser[i].MOTA== '${StaticData.PokemonUsers[index]
-                      .TenPokemon} level ${StaticData.PokemonUsers[index]
-                      .Level.toString()}')  {
-                    isCheckAchiLv50 = true;
-                  }
+            bool isCheckAchiLv50 = false;
+            bool isCheckAchiLv100 = false;
+            //Nhận thành tựu lv 25
+            if(StaticData.PokemonUsers[index].Level == 25) {
+              //Kiểm có thành tựu lv 50 hay chưa
+              for(int i = 0; i < StaticData.AchiUser.length;i++){
+                if(StaticData.AchiUser[i].MOTA== '${StaticData.PokemonUsers[index]
+                    .TenPokemon} level ${StaticData.PokemonUsers[index]
+                    .Level.toString()}')  {
+                  isCheckAchiLv50 = true;
                 }
-                //Thêm thành tựu
-                if(isCheckAchiLv50 ==  false) {
-                  for (int i = 0; i < StaticData.AchiList.length; i++) {
-                    if (StaticData.AchiList[i].MOTA ==
-                        '${StaticData.PokemonUsers[index]
-                            .TenPokemon} level ${StaticData.PokemonUsers[index]
-                            .Level.toString()}') {
-                      StaticData.AchiUser.add(StaticData.AchiList[i]);
-                      StaticData.Vang += StaticData.AchiList[i].bonus;
+              }
+              //Thêm thành tựu
+              if(isCheckAchiLv50 ==  false) {
+                for (int i = 0; i < StaticData.AchiList.length; i++) {
+                  if (StaticData.AchiList[i].MOTA ==
+                      '${StaticData.PokemonUsers[index]
+                          .TenPokemon} level ${StaticData.PokemonUsers[index]
+                          .Level.toString()}') {
+                    StaticData.AchiUser.add(StaticData.AchiList[i]);
+                    StaticData.Vang += StaticData.AchiList[i].bonus;
 
-                      final row = {
-                        'MATHANHTUU': StaticData.AchiList[i].MATHANHTUU,
-                        'MANGUOIDUNG': StaticData.userID
-                      };
-                      int e = await DbProvider.instance.insert(
-                          'THANHTUUNGUOIDUNG', row);
+                    final row = {
+                      'MATHANHTUU': StaticData.AchiList[i].MATHANHTUU,
+                      'MANGUOIDUNG': StaticData.userID
+                    };
+                    int e = await DbProvider.instance.insert(
+                        'THANHTUUNGUOIDUNG', row);
 
 
-                      final k = await DbProvider.instance.rawQuery('''
+                    final k = await DbProvider.instance.rawQuery('''
                     UPDATE THONGTINNGUOIDUNG
                     SET VANG = ${StaticData.Vang}
                     WHERE MANGUOIDUNG = '${StaticData.userID}'
                     ''');
+                    if(StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+                    {
+                      Navigator.pop(context);
+                      receiveAchi(context, "Bạn tiến hóa và nhận thanh tựu, được bonus ${StaticData.AchiList[i].bonus}", index);
+                      return;
+                    }else {
+                      Navigator.pop(context);
+                      receiveAchi(context, "Bạn nhận đạt được thành tựu lv 25 và được bonus ${StaticData.AchiList[i].bonus}", index);
+                      return;
+
                     }
+
                   }
                 }
               }
-
-              //Nhận thành tựu lv 100
-              if(StaticData.PokemonUsers[index].Level == 100) {
-                //Kiểm có thành tựu lv 100 hay chưa
-                for(int i = 0; i < StaticData.AchiUser.length;i++){
-                  if(StaticData.AchiUser[i].MOTA== '${StaticData.PokemonUsers[index]
-                      .TenPokemon} level ${StaticData.PokemonUsers[index]
-                      .Level.toString()}')  {
-                    isCheckAchiLv100 = true;
-                  }
+            }
+            //  receiveAchi(context, "Bạn nhận đạt được thành tựu lv 25 và được bonus ${StaticData.AchiList[index].bonus}", index);
+            //Nhận thành tựu lv 50
+            if(StaticData.PokemonUsers[index].Level == 50) {
+              //Kiểm có thành tựu lv 100 hay chưa
+              for(int i = 0; i < StaticData.AchiUser.length;i++){
+                if(StaticData.AchiUser[i].MOTA== '${StaticData.PokemonUsers[index]
+                    .TenPokemon} level ${StaticData.PokemonUsers[index]
+                    .Level.toString()}')  {
+                  isCheckAchiLv100 = true;
                 }
-                //Thêm thành tựu
-                if(isCheckAchiLv100 ==  false) {
-                  for (int i = 0; i < StaticData.AchiList.length; i++) {
-                    if (StaticData.AchiList[i].MOTA ==
-                        '${StaticData.PokemonUsers[index]
-                            .TenPokemon} level ${StaticData.PokemonUsers[index]
-                            .Level.toString()}') {
-                      StaticData.AchiUser.add(StaticData.AchiList[i]);
-                      StaticData.Vang += StaticData.AchiList[i].bonus;
+              }
+              //Thêm thành tựu
+              if(isCheckAchiLv100 ==  false) {
+                for (int i = 0; i < StaticData.AchiList.length; i++) {
+                  if (StaticData.AchiList[i].MOTA ==
+                      '${StaticData.PokemonUsers[index]
+                          .TenPokemon} level ${StaticData.PokemonUsers[index]
+                          .Level.toString()}') {
+                    StaticData.AchiUser.add(StaticData.AchiList[i]);
+                    StaticData.Vang += StaticData.AchiList[i].bonus;
 
-                      final row = {
-                        'MATHANHTUU': StaticData.AchiList[i].MATHANHTUU,
-                        'MANGUOIDUNG': StaticData.userID
-                      };
-                      int e = await DbProvider.instance.insert(
-                          'THANHTUUNGUOIDUNG', row);
+                    final row = {
+                      'MATHANHTUU': StaticData.AchiList[i].MATHANHTUU,
+                      'MANGUOIDUNG': StaticData.userID
+                    };
+                    int e = await DbProvider.instance.insert(
+                        'THANHTUUNGUOIDUNG', row);
 
 
-                      final k = await DbProvider.instance.rawQuery('''
+                    final k = await DbProvider.instance.rawQuery('''
                     UPDATE THONGTINNGUOIDUNG
                     SET VANG = ${StaticData.Vang}
                     WHERE MANGUOIDUNG = '${StaticData.userID}'
                     ''');
+
+                    if(StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+                    {
+                      Navigator.pop(context);
+                      receiveAchi(context, "Bạn tiến hóa và nhận thanh tựu, được bonus ${StaticData.AchiList[i].bonus}", index);
+                      return;
+                    }else {
+                      Navigator.pop(context);
+                      receiveAchi(context, "Bạn nhận đạt được thành tựu lv 50 và được bonus ${StaticData.AchiList[i].bonus}", index);
+                      return;
+
                     }
+
                   }
                 }
               }
+            }
 
 
-
-              Navigator.pop(context);
-            },
-            color: Color.fromRGBO(0, 179, 134, 1.0),
+            Navigator.pop(context);
+          },
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+        ),
+        DialogButton(
+          child: Text(
+            "CANCEL",
+            style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          DialogButton(
-            child: Text(
-              "CANCEL",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            onPressed: () => Navigator.pop(context),
-            gradient: LinearGradient(colors: [
-              Color.fromRGBO(116, 116, 191, 1.0),
-              Color.fromRGBO(52, 138, 199, 1.0)
-            ]),
-          )
-        ],
-      ).show();
+          onPressed: () => Navigator.pop(context),
+          gradient: LinearGradient(colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0)
+          ]),
+        )
+      ],
+    ).show();
   }
 
   void startAnimation() {
@@ -268,34 +388,35 @@ class _FarmScreenState extends State<FarmScreen> {
       backgroundColor: Colors.green,
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/achievenment/ui/background.png'),
-            fit: BoxFit.fill,
-          )
+            image: DecorationImage(
+              // image: AssetImage('assets/achievenment/ui/background.png'),
+              image: (!StaticData.isDarkMode)?AssetImage('assets/achievenment/ui/background.png'):AssetImage('assets/achievenment/ui/background_darkmode.jpg'),
+              fit: BoxFit.fill,
+            )
         ),
         child: Center(
           child: Column(
             children: [
               Container(
-                height: size.height*0.2 ,
+                height: size.height*0.2,
                 child: Row(
                   children: [
                     Container(
-                        width: size.width*0.25,
-                        height: size.height*0.1,
-                        child: GestureDetector(
-                          onTap: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context){
-                                 return AchievenmentScreen();
-                                },
-                              ),
-                            );
-                          },
-                          child: Image.asset('assets/achievenment/ui/thanhtuu.PNG'),
-                        ),
+                      width: size.width*0.25,
+                      height: size.height*0.1,
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context){
+                                return AchievenmentScreen();
+                              },
+                            ),
+                          );
+                        },
+                        child: Image.asset('assets/achievenment/ui/thanhtuu.PNG'),
+                      ),
                     ),
                     Container(
                       width: size.width*0.5,
@@ -350,7 +471,26 @@ class _FarmScreenState extends State<FarmScreen> {
                 ),
               ),
               Container(
-                height: size.height*0.7,
+                width: size.width*0.35,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: size.height*0.035,
+                      child: Image.asset('assets/gold.png'),
+                    ),
+                    // Icon(Icons.wallet_giftcard,color: Colors.green,),
+                    SizedBox(width: 5,),
+                    Text(StaticData.Vang.toString() +' Gold',
+                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0,color: (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[300]),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: size.height*0.65,
                 child: Stack(
                   children: pokemonWidgetList,
                 ),
@@ -363,7 +503,27 @@ class _FarmScreenState extends State<FarmScreen> {
   }
 
   void Loading() async {
+    StaticData.EggUser.clear();
     String id = StaticData.userID;
+    final k = await DbProvider.instance.rawQuery('''
+      select * from VATPHAMNGUOIDUNG where MANGUOIDUNG = '$id'
+      '''
+    );
+
+
+    for (int i = 0 ; i < k.length; i++)
+    {
+      for (int j = 0; j < StaticData.EggShop.length; j++ )
+      {
+        if(StaticData.EggShop[j].MaVP == k[i]['MAVATPHAM'])
+        {
+          setState(() {
+            StaticData.EggUser.add(StaticData.EggShop[j]);
+          });
+        }
+      }
+    }
+
 
     final ListPokemon = await DbProvider.instance.rawQuery('''
     SELECT * FROM POKEMON WHERE MANGUOIDUNG = '$id'
@@ -371,72 +531,72 @@ class _FarmScreenState extends State<FarmScreen> {
     StaticData.PokemonUsers.clear();
 
     for (int i =0;i<ListPokemon.length;i++)
+    {
+      switch(ListPokemon[i]['DOHIEM'])
       {
-        switch(ListPokemon[i]['DOHIEM'])
-        {
-          case 1:
-            InfoPokemon index = new InfoPokemon(
-              ListPokemon[i]['MAPOKEMON'],
-              ListPokemon[i]['NAMEPOKEMON'],
-              ListPokemon[i]['LEVELPOKEMON'],
-              Colors.greenAccent,
-            );
-            index.randomDirecAndPos();
-            setState(() {
-              StaticData.PokemonUsers.add(index);
-            });
-            break;
+        case 1:
+          InfoPokemon index = new InfoPokemon(
+            ListPokemon[i]['MAPOKEMON'],
+            ListPokemon[i]['NAMEPOKEMON'],
+            ListPokemon[i]['LEVELPOKEMON'],
+            Colors.greenAccent,
+          );
+          index.randomDirecAndPos();
+          setState(() {
+            StaticData.PokemonUsers.add(index);
+          });
+          break;
 
-          case 2:
-            InfoPokemon index = new InfoPokemon(
-              ListPokemon[i]['MAPOKEMON'],
-              ListPokemon[i]['NAMEPOKEMON'],
-              ListPokemon[i]['LEVELPOKEMON'],
-              Colors.blueAccent,
-            );
-            index.randomDirecAndPos();
-            setState(() {
-              StaticData.PokemonUsers.add(index);
-            });
-            break;
+        case 2:
+          InfoPokemon index = new InfoPokemon(
+            ListPokemon[i]['MAPOKEMON'],
+            ListPokemon[i]['NAMEPOKEMON'],
+            ListPokemon[i]['LEVELPOKEMON'],
+            Colors.blueAccent,
+          );
+          index.randomDirecAndPos();
+          setState(() {
+            StaticData.PokemonUsers.add(index);
+          });
+          break;
 
-          case 3:
-            InfoPokemon index = new InfoPokemon(
-              ListPokemon[i]['MAPOKEMON'],
-              ListPokemon[i]['NAMEPOKEMON'],
-              ListPokemon[i]['LEVELPOKEMON'],
-              Colors.purpleAccent,
-            );
-            index.randomDirecAndPos();
-            setState(() {
-              StaticData.PokemonUsers.add(index);
-            });
-            break;
+        case 3:
+          InfoPokemon index = new InfoPokemon(
+            ListPokemon[i]['MAPOKEMON'],
+            ListPokemon[i]['NAMEPOKEMON'],
+            ListPokemon[i]['LEVELPOKEMON'],
+            Colors.purpleAccent,
+          );
+          index.randomDirecAndPos();
+          setState(() {
+            StaticData.PokemonUsers.add(index);
+          });
+          break;
 
-          case 4:
-            InfoPokemon index = new InfoPokemon(
-              ListPokemon[i]['MAPOKEMON'],
-              ListPokemon[i]['NAMEPOKEMON'],
-              ListPokemon[i]['LEVELPOKEMON'],
-              Colors.redAccent,
-            );
-            index.randomDirecAndPos();
-            setState(() {
-              StaticData.PokemonUsers.add(index);
-            });
-            break;
+        case 4:
+          InfoPokemon index = new InfoPokemon(
+            ListPokemon[i]['MAPOKEMON'],
+            ListPokemon[i]['NAMEPOKEMON'],
+            ListPokemon[i]['LEVELPOKEMON'],
+            Colors.redAccent,
+          );
+          index.randomDirecAndPos();
+          setState(() {
+            StaticData.PokemonUsers.add(index);
+          });
+          break;
 
-          default:
-            break;
-        }
+        default:
+          break;
       }
+    }
 
 
-    final D = await DbProvider.instance.rawQuery('''
-    UPDATE THONGTINNGUOIDUNG 
-     SET VANG = 70000;
-     WHERE MANGUOIDUNG = '$id'
-    ''');
+    // final D = await DbProvider.instance.rawQuery('''
+    // UPDATE THONGTINNGUOIDUNG
+    //  SET VANG = 70000;
+    //  WHERE MANGUOIDUNG = '$id'
+    // ''');
 
     final updateBonus = await DbProvider.instance.rawQuery('''
     SELECT * FROM THONGTINNGUOIDUNG WHERE MANGUOIDUNG = '$id'
@@ -519,3 +679,48 @@ class _FarmScreenState extends State<FarmScreen> {
   }
 }
 
+void receiveAchi(context,String message, int index) {
+  int rank = 1;
+  if(StaticData.PokemonUsers[index].Level >= 24 && StaticData.PokemonUsers[index].Level < 50 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+  {
+    rank = 2;
+  }
+  if (StaticData.PokemonUsers[index].Level >= 49 && StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
+  {
+    rank = 3;
+  }
+
+  Alert(
+      context: context,
+      title: 'Achievenment',
+      closeIcon: Icon(Icons.auto_awesome),
+      desc: message,
+      content: Column(
+        children: [
+          Center(
+            child: Text(
+              StaticData.PokemonUsers[index].TenPokemon,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: StaticData.PokemonUsers[index].rareColor,
+              ),
+            ),
+          ),
+          Center(child: Image.asset('assets/achievenment/move/'+StaticData.PokemonUsers[index].TenPokemon+rank.toString()+'Down1.png'),),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "ACCEPT",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          gradient: LinearGradient(colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0)
+          ]),
+        )
+      ]
+  ).show();
+}

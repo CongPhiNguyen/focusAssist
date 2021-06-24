@@ -25,9 +25,9 @@ dependencies:
     sdk: flutter
   sqflite:
   path:
-  path_provider:
+  path_provider: ^2.0.2
   table_calendar: ^3.0.0
-  flutter_local_notifications:
+  flutter_local_notifications: ^5.0.0
   rxdart:
   flutter_native_timezone:
   flutter_config: ^1.0.5
@@ -35,8 +35,14 @@ dependencies:
   pie_chart: ^5.0.0
   flutter_calendar_carousel: ^2.0.1
   numberpicker: ^1.0.0
-  audioplayers: ^0.16.0
-
+  audioplayers: ^0.18.0
+  timezone: ^0.7.0
+  firebase_auth: ^1.4.1
+  google_sign_in: ^5.0.4
+  cloud_firestore: ^2.2.2
+  firebase_storage: ^8.1.3
+  photo_view: 0.11.1
+  flutter_swiper: ^1.1.6
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -49,6 +55,8 @@ dependencies:
   simple_timer: ^2.0.0
   flutter_volume_slider: ^1.0.6
   flutter_gifimage: ^1.0.1
+  provider: ^4.0.5
+
 
 dev_dependencies:
   flutter_test:
@@ -110,6 +118,7 @@ flutter:
     - assets/achievenment/move/
     - assets/achievenment/ui/
     - assets/achievenment/ui/background.png
+    - assets/achievenment/ui/background_darkmode.jpg
     - assets/achievenment/ui/background_farm1.jpg
     - assets/achievenment/ui/ui_collection.png
 
@@ -118,9 +127,14 @@ flutter:
     - assets/Database/create_tables_script.sql
     - assets/images/focusTime_background.png
     - assets/images/clock.gif
+    - assets/images/clock_darkmode.gif
     - assets/audio/Song1.mp3
     - assets/audio/Song2.mp3
     - assets/
+
+    - assets/google_logo.png
+    - assets/img_not_available.jpeg
+    - assets/stickers/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

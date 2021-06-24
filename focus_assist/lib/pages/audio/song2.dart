@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:focus_assist/classes/Data.dart';
 import 'soundControl.dart';
 
 class song2 extends StatefulWidget {
@@ -26,12 +27,12 @@ class _song2State extends State<song2>  with TickerProviderStateMixin {
     //1
     //audioPlayer = new AudioPlayer();
     audioCache = new AudioCache(fixedPlayer: control.audioPlayer);
-    control.audioPlayer.durationHandler = (d) => setState(() {
-          _duration = d;
-        });
-    control.audioPlayer.positionHandler = (p) => setState(() {
-          _position = p;
-        });
+    // control.audioPlayer.durationHandler = (d) => setState(() {
+    //       _duration = d;
+    //     });
+    // control.audioPlayer.positionHandler = (p) => setState(() {
+    //       _position = p;
+    //     });
 
   }
 
@@ -89,6 +90,7 @@ class _song2State extends State<song2>  with TickerProviderStateMixin {
                 //     ),
                 //   ),
                 // ),
+                SizedBox(width: 10,),
                 MaterialButton(      
                   onPressed: () {
                     control.audioPlayer.pause();
@@ -98,10 +100,11 @@ class _song2State extends State<song2>  with TickerProviderStateMixin {
                   },
                   minWidth: 0,
                   elevation: 2.0,
-                  color: Colors.amber,
+                  color: (!StaticData.isDarkMode)?Colors.amber:Colors.grey[800],
                   child: Icon(
                     Icons.play_arrow,
                     size: 25.0,
+                    color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[400],
                   ),
                   padding: EdgeInsets.all(10.0),
                   shape: CircleBorder(),
@@ -115,21 +118,21 @@ class _song2State extends State<song2>  with TickerProviderStateMixin {
                     });
                   },
                   elevation: 2.0,
-                  color: Colors.amber,
+                  color: (!StaticData.isDarkMode)?Colors.amber:Colors.grey[800],
                   minWidth: 0,
                   child: Icon(
                     Icons.pause,
                     size: 25.0,
+                    color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[400],
                   ),
                   padding: EdgeInsets.all(10.0),
                   shape: CircleBorder(),
                 ),
-                SizedBox(width: 10,),
+                SizedBox(width: 30,),
                 Text(
                     "Keyboard sound",
-                     style: TextStyle(fontSize: 7, ),
+                     style: TextStyle(fontSize: 25, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
                     textAlign: TextAlign.left,
-                    textScaleFactor: 4.0,
                   ),  
               ],
             ),
