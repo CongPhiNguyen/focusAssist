@@ -42,7 +42,8 @@ class MyThemes {
     //colorScheme: ColorScheme.dark(),
     iconTheme: IconThemeData(color: Colors.grey, opacity: 0.8),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      selectedItemColor: Colors.black,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.grey,
       backgroundColor: Colors.grey[800],
     ),
     appBarTheme: AppBarTheme(
@@ -68,8 +69,9 @@ class MyThemes {
     //colorScheme: ColorScheme.light(),
     iconTheme: IconThemeData(color: Colors.blue),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      selectedItemColor: Colors.grey[50],
-      backgroundColor: Colors.blue.withOpacity(0.7),
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.grey,
+      backgroundColor: Colors.white,
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,

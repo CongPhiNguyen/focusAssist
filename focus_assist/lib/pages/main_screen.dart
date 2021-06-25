@@ -4,6 +4,8 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:focus_assist/pages/audio/soundControl.dart';
 import '../classes/Data.dart';
 import 'package:focus_assist/pages/timerScreen/Timer_Screen.dart';
+import '../classes/Data.dart';
+import '../classes/Data.dart';
 import 'farm/screen/farm_screen.dart';
 import 'progress_screen.dart';
 import 'settings/setting_screen.dart';
@@ -52,11 +54,11 @@ class _MainScreenState extends State<MainScreen> {
         // key: _bottomNavigationKey,
         index: _page,
         items: <Widget>[
-          Icon(Icons.wysiwyg_rounded, size: 30,),
-          Icon(Icons.timer, size: 30,),
-          Icon(Icons.waterfall_chart, size: 30,),
-          Icon(Icons.star, size: 30,),
-          Icon(Icons.settings, size: 30,),
+          Icon(Icons.wysiwyg_rounded, size: 30, color: (_page == 0)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
+          Icon(Icons.timer, size: 30, color: (_page == 1)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
+          Icon(Icons.waterfall_chart, size: 30, color: (_page == 2)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
+          Icon(Icons.star, size: 30, color: (_page == 3)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
+          Icon(Icons.settings, size: 30, color: (_page == 4)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
 
           // Icon(Icons.wysiwyg_rounded, size: 30, color: (_page == 0)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
           // Icon(Icons.timer, size: 30, color: (_page == 1)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
@@ -64,9 +66,9 @@ class _MainScreenState extends State<MainScreen> {
           // Icon(Icons.star,size:30, color: (_page == 3)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
           // Icon(Icons.settings, size: 30, color: (_page == 4)?Theme.of(context).bottomNavigationBarTheme.selectedItemColor:Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,),
         ],
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: (!StaticData.isDarkMode)?Colors.yellow[100]:Colors.grey[850],
         backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-        buttonBackgroundColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
+        buttonBackgroundColor: (!StaticData.isDarkMode)?Colors.amber[400]:Colors.black,
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 600),
         onTap: (int tappedIndex) {
@@ -85,7 +87,6 @@ class _MainScreenState extends State<MainScreen> {
                   StaticData.timer2.cancel();
                 }
               }
-            }
             setState(() {
               //_showPage = _pageChooser(tappedIndex);
               _page = tappedIndex;
