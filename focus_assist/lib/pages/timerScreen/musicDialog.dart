@@ -77,15 +77,7 @@ class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClient
                           child: Column(
                             children: <Widget>[
                               song1(),
-                              song1(),
                               song2(),
-                              song2(),
-                              // song1(),
-                              // song1(),
-                              // song1(),
-                              // song1(),
-                              // song1(),
-                              // song1(),
                             ],
                           ),
                         ),
@@ -119,7 +111,7 @@ class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClient
                     children: [
                       TextButton(
                         onPressed: (){
-                          print("button ok");
+                          //print("button ok");
                           Navigator.pop(context);
                         },
                         style: TextButton.styleFrom(

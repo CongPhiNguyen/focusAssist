@@ -92,7 +92,6 @@ flutter:
     - assets/achievenment/Eggs/eggSky.png
     - assets/achievenment/Eggs/eggWater.png
     - assets/achievenment/achieImage/
-
     - assets/achievenment/achieImage/TT02.png
     - assets/achievenment/achieImage/TT09.png
     - assets/achievenment/achieImage/TT10.png
@@ -101,7 +100,7 @@ flutter:
     - assets/achievenment/achieImage/TT15.png
     - assets/achievenment/achieImage/TT17.png
     - assets/achievenment/achieImage/TT20.png
-
+    - assets/3.PNG
     - assets/Database/create_tables_script.sql
     - assets/achievenment/Eggs/eggBlue.png
     - assets/achievenment/Eggs/eggCheese.png

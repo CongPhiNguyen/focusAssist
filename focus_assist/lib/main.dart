@@ -14,6 +14,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //await FlutterConfig.loadEnvVariables();
   await Firebase.initializeApp();
+
+  // Map<String, dynamic> row = {
+  //   'DADANGNHAP': 0,
+  //   'MANGUOIDUNG': ''
+  // };
+  //
+  // await DbProvider.instance.insert('THAMSO', row);
+
   await initAppSetting();
   await initializeNotification();
 
