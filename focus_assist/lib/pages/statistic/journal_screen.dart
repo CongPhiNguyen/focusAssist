@@ -457,6 +457,54 @@ class _JournalScreenState extends State<JournalScreen> {
     }
   }
 
+  void finishActivity(int index) async {
+    if (toDos[index].taskKey == 'None') return;
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              title: Text(
+                "Confirmation",
+                textAlign: TextAlign.center,
+              ),
+              content:
+                  Text("Completed \'" + toDos[index].task.toString() + "\' ?"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("No"),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    setState(() {
+                      toDos[index].check = true;
+                    });
+                    // Thêm 5 vàng
+                    int golds = StaticData.Vang + 5;
+                    //Add vào database
+                    String userKey = StaticData.userID;
+                    dbHelper.rawQuery(
+                        ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
+                    loadGold();
+                    // Xoá sổ todos bằng cách thêm vào bảng thống kê
+                    Map<String, dynamic> row = {
+                      'MAMUCTIEU': toDos[index].taskKey,
+                      'NGAYHOANTHANH': dateTimeToInt(_selectedDay)
+                    };
+                    final id = await dbHelper.insert('THONGKE', row);
+                    print('inserted row id: $id');
+                    getToDoList();
+                    getDoneTask();
+                  },
+                  child: Text("Yes"),
+                ),
+              ],
+            ));
+    getDoneTask();
+  }
+
   // ignore: non_constant_identifier_names
   Widget ToDoList() {
     return Column(
@@ -517,54 +565,7 @@ class _JournalScreenState extends State<JournalScreen> {
                       ? Colors.white
                       : Colors.grey[700],
                   onChanged: (bool value) async {
-                    if (toDos[index].taskKey == 'None') return;
-                    await showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                              title: Text(
-                                "Confirmation",
-                                textAlign: TextAlign.center,
-                              ),
-                              content: Text("Completed \'" +
-                                  toDos[index].task.toString() +
-                                  "\' ?"),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("No"),
-                                ),
-                                TextButton(
-                                  onPressed: () async {
-                                    Navigator.pop(context);
-                                    setState(() {
-                                      toDos[index].check = value;
-                                    });
-                                    // Thêm 5 vàng
-                                    int golds = StaticData.Vang + 5;
-                                    //Add vào database
-                                    String userKey = StaticData.userID;
-                                    dbHelper.rawQuery(
-                                        ''' update THONGTINNGUOIDUNG set VANG=$golds where MANGUOIDUNG='$userKey' ''');
-                                    loadGold();
-                                    // Xoá sổ todos bằng cách thêm vào bảng thống kê
-                                    Map<String, dynamic> row = {
-                                      'MAMUCTIEU': toDos[index].taskKey,
-                                      'NGAYHOANTHANH':
-                                          dateTimeToInt(_selectedDay)
-                                    };
-                                    final id =
-                                        await dbHelper.insert('THONGKE', row);
-                                    print('inserted row id: $id');
-                                    getToDoList();
-                                    getDoneTask();
-                                  },
-                                  child: Text("Yes"),
-                                ),
-                              ],
-                            ));
-                    getDoneTask();
+                    finishActivity(index);
                   },
                 ),
                 Divider(height: 1, color: Colors.black45)
@@ -740,6 +741,44 @@ class _JournalScreenState extends State<JournalScreen> {
     }
   }
 
+  void editGroup(inDex) async {
+    await showDialog(
+      context: context,
+      builder: (_) => EditGroup(
+        groupKey: allGroupKey[inDex],
+        groupName: allGroup[inDex],
+      ),
+    );
+    getAllGroup();
+  }
+
+  void deletingGroup(inDex) async {
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              title: Text("Message"),
+              content: Text("Are you sure to delete this group ?"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("No"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    deleteGroup(inDex);
+                  },
+                  child: Text("Yes"),
+                )
+              ],
+            ));
+    getAllActivity();
+    getToDoList();
+    getAllGroup();
+  }
+
   // ignore: non_constant_identifier_names
   Widget GroupActivity(inDex) {
     return Align(
@@ -774,14 +813,7 @@ class _JournalScreenState extends State<JournalScreen> {
                           children: [
                             InkWell(
                                 onTap: () async {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (_) => EditGroup(
-                                      groupKey: allGroupKey[inDex],
-                                      groupName: allGroup[inDex],
-                                    ),
-                                  );
-                                  getAllGroup();
+                                  editGroup(inDex);
                                 },
                                 child: Icon(Icons.edit,
                                     color: (!StaticData.isDarkMode)
@@ -792,32 +824,7 @@ class _JournalScreenState extends State<JournalScreen> {
                             ),
                             InkWell(
                                 onTap: () async {
-                                  await showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                            title: Text("Message"),
-                                            content: Text(
-                                                "Are you sure to delete this group ?"),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text("No"),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                  deleteGroup(inDex);
-                                                },
-                                                child: Text("Yes"),
-                                              )
-                                            ],
-                                          ));
-                                  getAllActivity();
-                                  getToDoList();
-                                  getAllGroup();
+                                  deletingGroup(inDex);
                                 },
                                 child: Icon(Icons.delete,
                                     color: (!StaticData.isDarkMode)
@@ -891,6 +898,21 @@ class _JournalScreenState extends State<JournalScreen> {
     dbHelper.rawQuery(''' delete from NHOMMUCTIEU where MANHOM='$key' ''');
   }
 
+  void dayChanging() {
+    getToDoList();
+    getDoneTask();
+  }
+
+  void addNewGroup() async {
+    await showDialog(
+      context: context,
+      builder: (_) => AddGroup(),
+    );
+    getAllActivity();
+    getToDoList();
+    getAllGroup();
+  }
+
   // ignore: non_constant_identifier_names
   Widget Calendar() {
     return Padding(
@@ -923,8 +945,7 @@ class _JournalScreenState extends State<JournalScreen> {
                   });
                 }
 
-                getToDoList();
-                getDoneTask();
+                dayChanging();
               }
             },
             onFormatChanged: (format) {
@@ -1095,6 +1116,15 @@ class _JournalScreenState extends State<JournalScreen> {
     }
   }
 
+  Future<void> openAchivement() async {
+    await showDialog(
+      context: context,
+      builder: (_) => ListAchivement(),
+    );
+    achiveNotification();
+    loadGold();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1104,14 +1134,7 @@ class _JournalScreenState extends State<JournalScreen> {
           height: 15,
         ),
         InkWell(
-          onTap: () async {
-            await showDialog(
-              context: context,
-              builder: (_) => ListAchivement(),
-            );
-            achiveNotification();
-            loadGold();
-          },
+          onTap: openAchivement,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -1233,15 +1256,7 @@ class _JournalScreenState extends State<JournalScreen> {
                           topRight: Radius.circular(10),
                           bottomRight: Radius.circular(10))),
                   child: InkWell(
-                    onTap: () async {
-                      await showDialog(
-                        context: context,
-                        builder: (_) => AddGroup(),
-                      );
-                      getAllActivity();
-                      getToDoList();
-                      getAllGroup();
-                    },
+                    onTap: addNewGroup,
                     child: Text('Add new',
                         style: TextStyle(
                             fontSize: 20,

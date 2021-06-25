@@ -11,7 +11,6 @@ class ListAchivement extends StatefulWidget {
 }
 
 class _ListAchivementState extends State<ListAchivement> {
-  //Đây sẽ list các thành tựu các kiếu sau
   Future<int> countDone() async {
     String key = StaticData.userID;
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
@@ -211,12 +210,17 @@ class _ListAchivementState extends State<ListAchivement> {
   void haveClick() async {
     if (percentActivity < 1.0) return;
     String maThanhTuu = 'TT';
+    int addition = (currentActivityLevel * 1.0 / 53).floor();
+
     int newNum = 5 + (currentActivityLevel % 53);
     String newNum2 = newNum.toString();
     while (newNum2.length < 2) {
       newNum2 = '0' + newNum2;
     }
     maThanhTuu += newNum2 + StaticData.userID;
+    for (int i = 0; i < addition; i++) {
+      maThanhTuu += '1';
+    }
     Map<String, dynamic> row = {
       'MATHANHTUU': maThanhTuu,
       'TENTHANHTUU': 'Done ${(currentActivityLevel + 1) * targetToReach} times',
@@ -279,8 +283,12 @@ class _ListAchivementState extends State<ListAchivement> {
                       //width: 100.0,
                       lineHeight: 14.0,
                       percent: (percentDone > 1) ? 1.0 : percentDone,
-                      backgroundColor: (!StaticData.isDarkMode)?Colors.grey[300]:Colors.grey[500],
-                      progressColor: (!StaticData.isDarkMode)?Colors.blue:Colors.blueGrey[600],
+                      backgroundColor: (!StaticData.isDarkMode)
+                          ? Colors.grey[300]
+                          : Colors.grey[500],
+                      progressColor: (!StaticData.isDarkMode)
+                          ? Colors.blue
+                          : Colors.blueGrey[600],
                     ),
                   ),
                   Expanded(
@@ -290,9 +298,18 @@ class _ListAchivementState extends State<ListAchivement> {
                         child: ElevatedButton(
                           onPressed: finishClick,
                           style: ElevatedButton.styleFrom(
-                            primary: !isFullDone ? (!StaticData.isDarkMode)?Colors.blue:Colors.blueGrey[600] : Colors.grey,
+                            primary: !isFullDone
+                                ? (!StaticData.isDarkMode)
+                                    ? Colors.blue
+                                    : Colors.blueGrey[600]
+                                : Colors.grey,
                           ),
-                          child: Text('Claim', style: TextStyle(color: Colors.white), overflow: TextOverflow.clip, softWrap: false,),
+                          child: Text(
+                            'Claim',
+                            style: TextStyle(color: Colors.white),
+                            overflow: TextOverflow.clip,
+                            softWrap: false,
+                          ),
                         ),
                       ))
                 ]),
@@ -314,8 +331,12 @@ class _ListAchivementState extends State<ListAchivement> {
                       center: Text("$doneNumLeft/$targetToReach"),
                       lineHeight: 14.0,
                       percent: (percentActivity > 1) ? 1.0 : percentActivity,
-                      backgroundColor: (!StaticData.isDarkMode)?Colors.grey[300]:Colors.grey[500],
-                      progressColor: (!StaticData.isDarkMode)?Colors.blue:Colors.blueGrey[600],
+                      backgroundColor: (!StaticData.isDarkMode)
+                          ? Colors.grey[300]
+                          : Colors.grey[500],
+                      progressColor: (!StaticData.isDarkMode)
+                          ? Colors.blue
+                          : Colors.blueGrey[600],
                     ),
                   ),
                   Expanded(
@@ -325,9 +346,18 @@ class _ListAchivementState extends State<ListAchivement> {
                         child: TextButton(
                           onPressed: haveClick,
                           style: ElevatedButton.styleFrom(
-                            primary: !isFullDone ? (!StaticData.isDarkMode)?Colors.blue:Colors.blueGrey[600] : Colors.grey,
+                            primary: !isFullDone
+                                ? (!StaticData.isDarkMode)
+                                    ? Colors.blue
+                                    : Colors.blueGrey[600]
+                                : Colors.grey,
                           ),
-                          child: Text('Claim', style: TextStyle(color: Colors.white), overflow: TextOverflow.clip, softWrap: false,),
+                          child: Text(
+                            'Claim',
+                            style: TextStyle(color: Colors.white),
+                            overflow: TextOverflow.clip,
+                            softWrap: false,
+                          ),
                         ),
                       ))
                 ]),
