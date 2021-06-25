@@ -1,7 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
+import 'package:focus_assist/pages/audio/soundControl.dart';
 import '../classes/Data.dart';
 import 'package:focus_assist/pages/timerScreen/Timer_Screen.dart';
 import 'farm/screen/farm_screen.dart';
@@ -41,6 +41,7 @@ class _MainScreenState extends State<MainScreen> {
       default:
         break;
     }
+    
   }
   @override
   Widget build(BuildContext context) {
@@ -69,6 +70,7 @@ class _MainScreenState extends State<MainScreen> {
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 600),
         onTap: (int tappedIndex) {
+
           if (_page == 1 && StaticData.focusTimerIsRunning == true){
             showDialogChange(context, "Timer is running, change tab now?", tappedIndex);
           }
@@ -83,10 +85,12 @@ class _MainScreenState extends State<MainScreen> {
                   StaticData.timer2.cancel();
                 }
               }
-              setState(() {
-                //_showPage = _pageChooser(tappedIndex);
-                _page = tappedIndex;
-              });
+            }
+            setState(() {
+              //_showPage = _pageChooser(tappedIndex);
+              _page = tappedIndex;
+              control.audioPlayer.pause();
+            });
           }
         },
       ),
@@ -126,6 +130,7 @@ class _MainScreenState extends State<MainScreen> {
                   StaticData.timer2.cancel();
                 }
               StaticData.focusTimerIsRunning = false;
+              control.audioPlayer.pause();
               }
               if (StaticData.timer3 != null) {
                 if (StaticData.timer3.isActive) {
