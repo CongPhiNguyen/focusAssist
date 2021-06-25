@@ -75,16 +75,15 @@ class _MainScreenState extends State<MainScreen> {
             showDialogChange(context, "Timer is running, change tab now?", tappedIndex);
           }
           else {
-            if(StaticData.timer != null) {
-              if(StaticData.timer.isActive)
-              {
-                StaticData.timer.cancel();
+              if (StaticData.timer != null) {
+                if (StaticData.timer.isActive && tappedIndex != 3 ) {
+                  StaticData.timer.cancel();
+                }
               }
-            }
-            if(StaticData.timer2 != null) {
-              if(StaticData.timer2.isActive)
-              {
-                StaticData.timer2.cancel();
+              if (StaticData.timer2 != null) {
+                if (StaticData.timer2.isActive && tappedIndex != 3 ) {
+                  StaticData.timer2.cancel();
+                }
               }
             }
             setState(() {
@@ -120,12 +119,12 @@ class _MainScreenState extends State<MainScreen> {
             ),
             onPressed: () {
               if(StaticData.timer != null) {
-                if(StaticData.timer.isActive)
+                if(StaticData.timer.isActive && tappedIndex != 3 )
                 {
                   StaticData.timer.cancel();
                 }
               }
-              if(StaticData.timer2 != null) {
+              if(StaticData.timer2 != null && tappedIndex != 3 ) {
                 if(StaticData.timer2.isActive)
                 {
                   StaticData.timer2.cancel();
