@@ -117,9 +117,11 @@ class _SettingScreenState extends State<SettingScreen> {
                 onTap: () async {
                   final provider = Provider.of<ThemeProvider>(context, listen: false);
                   provider.toggleTheme(!isDarkMode);
-                  setState(() {
-                    isDarkMode = !isDarkMode;
-                  });
+                  if (this.mounted) {
+                    setState(() {
+                      isDarkMode = !isDarkMode;
+                    });
+                  }
                   StaticData.isDarkMode = isDarkMode;
                   Database db = await DbProvider.instance.database;
                   await db.execute('''

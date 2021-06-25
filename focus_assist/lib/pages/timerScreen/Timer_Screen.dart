@@ -258,7 +258,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                     height: 90,  // height of white range
                     margin: EdgeInsets.only(top: 60),
                     decoration: BoxDecoration(
-                      color: (!StaticData.isDarkMode)?Colors.yellow[100]:Colors.grey[850],
+                      color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[850],
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black12,

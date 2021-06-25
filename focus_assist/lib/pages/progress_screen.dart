@@ -51,16 +51,20 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   CalendarFormat.month: 'Month',
                 },
                 onFormatChanged: (format) {
-                  setState(() {
-                    _calendarFormat = format;
-                  });
-                  LoadActivityList();
+                  if(this.mounted) {
+                    setState(() {
+                      _calendarFormat = format;
+                    });
+                    LoadActivityList();
+                  }
                 },
                 onPageChanged: (day) {
-                  setState(() {
-                    currentDayTime = day;
-                  });
-                  LoadActivityList();
+                  if (this.mounted) {
+                    setState(() {
+                      currentDayTime = day;
+                    });
+                    LoadActivityList();
+                  }
                 },
                 firstDay: DateTime.utc(2010, 10, 16),
                 lastDay: DateTime.utc(2030, 3, 14),
@@ -161,10 +165,12 @@ class _ProgressScreenState extends State<ProgressScreen> {
                         height: 0,
                       ),
                       onChanged: (value) {
-                        setState(() {
-                          dropdownValue = value;
-                        });
-                        LoadActivityList();
+                        if (this.mounted) {
+                          setState(() {
+                            dropdownValue = value;
+                          });
+                          LoadActivityList();
+                        }
                       },
                       items: <DropdownMenuItem>[
                         DropdownMenuItem(
@@ -302,13 +308,15 @@ class _ProgressScreenState extends State<ProgressScreen> {
       totalCompleted += activityCompleteMissCount[0];
       totalMissed += activityCompleteMissCount[1];
     }
-    setState(() {
-      activitiesWidgetList = widgetList;
-      totalActivityCompletedCount = totalCompleted;
-      totalActivityMissedCount = totalMissed;
-      overallPercentage = ((totalCompleted + totalMissed) != 0)?((totalActivityCompletedCount.toDouble() / (totalActivityMissedCount + totalActivityCompletedCount).toDouble() * 100).round()):100;
-    });
-    print('End LoadActivitiesList');
+    if (this.mounted) {
+      setState(() {
+        activitiesWidgetList = widgetList;
+        totalActivityCompletedCount = totalCompleted;
+        totalActivityMissedCount = totalMissed;
+        overallPercentage = ((totalCompleted + totalMissed) != 0)?((totalActivityCompletedCount.toDouble() / (totalActivityMissedCount + totalActivityCompletedCount).toDouble() * 100).round()):100;
+      });
+      print('End LoadActivitiesList');
+    }
   }
 
   Future<List<bool>> GetActivityListBool(Map<String, dynamic> activity, DateTime firstDay, DateTime lastDay) async {
