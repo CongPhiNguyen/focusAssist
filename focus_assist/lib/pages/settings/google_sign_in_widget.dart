@@ -7,6 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:focus_assist/pages/settings/chat_screen.dart';
 
+import 'package:focus_assist/classes/user_chat.dart';
+
 class GoogleSignInButton extends StatefulWidget {
   @override
   _GoogleSignInButtonState createState() => _GoogleSignInButtonState();
@@ -93,6 +95,8 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
             'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
             'chattingWith': null
           });
+          userChat = UserChat(id: firebaseUser.uid, photoUrl: firebaseUser.photoURL, nickname: firebaseUser.displayName);
+          onSendMessage('Hi, what can we help you with?', 0, firebaseUser.uid);
         } else {
           DocumentSnapshot documentSnapshot = documents[0];
           userChat = UserChat.fromDocument(documentSnapshot);
@@ -120,4 +124,42 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
       });
     }
   }
+
+  void onSendMessage(String content, int type, String id) {
+    // type: 0 = text, 1 = image, 2 = sticker
+    if (content.trim() != '') {
+      // textEditingController.clear();
+      String groupChatId;
+      if (id.hashCode <= 'TP31Qc1W5lQqqnRl3nertdvXk2D2'.hashCode) {
+        groupChatId = '$id-${'TP31Qc1W5lQqqnRl3nertdvXk2D2'}';
+      } else {
+        groupChatId = '${'TP31Qc1W5lQqqnRl3nertdvXk2D2'}-$id';
+      }
+
+      var documentReference = FirebaseFirestore.instance
+          .collection('messages')
+          .doc(groupChatId)
+          .collection(groupChatId)
+          .doc(DateTime.now().millisecondsSinceEpoch.toString());
+
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        await transaction.set(
+          documentReference,
+          {
+            'idFrom': 'TP31Qc1W5lQqqnRl3nertdvXk2D2',
+            'idTo': id,
+            'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
+            'content': content,
+            'type': type
+          },
+        );
+      });
+      // listScrollController.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+    }
+    print('onSendMessage');
+    // else {
+    //   Fluttertoast.showToast(msg: 'Nothing to send', textColor: Colors.red);
+    // }
+  }
+
 }
