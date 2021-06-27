@@ -15,10 +15,10 @@ class edit_text extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
       margin: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-          color: Colors.purple[50],
+          color: Colors.amber[50],
           borderRadius: BorderRadius.circular(25),
           boxShadow: [BoxShadow(
-            color: Colors.purple[200],
+            color: Colors.amber[200],
             blurRadius: 10.0,
             offset: Offset(1,5),
           )]

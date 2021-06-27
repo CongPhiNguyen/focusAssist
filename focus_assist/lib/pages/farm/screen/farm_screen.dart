@@ -281,13 +281,12 @@ class _FarmScreenState extends State<FarmScreen> {
                     if(StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
                     {
                       Navigator.pop(context);
-                      receiveAchi(context, "Bạn tiến hóa và nhận thanh tựu, được bonus ${StaticData.AchiList[i].bonus}", index);
+                      receiveAchi(context, "Evolved and received ${StaticData.AchiList[i].bonus} bonus gold!", index);
                       return;
                     }else {
                       Navigator.pop(context);
-                      receiveAchi(context, "Bạn nhận đạt được thành tựu lv 25 và được bonus ${StaticData.AchiList[i].bonus}", index);
+                      receiveAchi(context, "Your pokemon has reached lv 25 and received ${StaticData.AchiList[i].bonus} bonus gold", index);
                       return;
-
                     }
 
                   }
@@ -332,11 +331,11 @@ class _FarmScreenState extends State<FarmScreen> {
                     if(StaticData.PokemonUsers[index].rareColor == Colors.redAccent)
                     {
                       Navigator.pop(context);
-                      receiveAchi(context, "Bạn tiến hóa và nhận thanh tựu, được bonus ${StaticData.AchiList[i].bonus}", index);
+                      receiveAchi(context, "Evolved and received and ${StaticData.AchiList[i].bonus} bonus gold", index);
                       return;
                     }else {
                       Navigator.pop(context);
-                      receiveAchi(context, "Bạn nhận đạt được thành tựu lv 50 và được bonus ${StaticData.AchiList[i].bonus}", index);
+                      receiveAchi(context, "Your pokemon has reached lv 50 and received ${StaticData.AchiList[i].bonus} bonus gold", index);
                       return;
 
                     }
