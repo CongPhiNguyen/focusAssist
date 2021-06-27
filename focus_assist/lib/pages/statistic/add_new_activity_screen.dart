@@ -153,49 +153,55 @@ class _AddNewState extends State<AddNew> {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
                         child: Container(
-                          width: 48.5,
+                            width: 48.5,
                             decoration: BoxDecoration(
                               color: checkDay[index]
                                   // ? Color(0xff8A2BE2)
                                   // : Color(0xffF0FFF0),
-                                  ? (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[700]
-                                  : (!StaticData.isDarkMode)?Colors.grey[100]:Colors.grey[800],
+                                  ? (!StaticData.isDarkMode)
+                                      ? Colors.grey[50]
+                                      : Colors.grey[700]
+                                  : (!StaticData.isDarkMode)
+                                      ? Colors.grey[100]
+                                      : Colors.grey[800],
                               border: Border(
-                                  bottom: BorderSide(
-                                      color: !checkDay[index]
-                                          ? (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[800]
-                                          : (!StaticData.isDarkMode)?Colors.blue:Colors.grey[500],
-                                      width: 5),
-                                  // top: BorderSide(
-                                  //     color: !checkDay[index]
-                                  //         ? (!StaticData.isDarkMode)?Colors.blue:Colors.grey[700]
-                                  //         : (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[500],
-                                  //     width: 1),
-                                  // right: BorderSide(
-                                  //     color: !checkDay[index]
-                                  //         ? (!StaticData.isDarkMode)?Colors.blue:Colors.grey[700]
-                                  //         : (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[500],
-                                  //     width: 1),
-                                  // left: BorderSide(
-                                  //     color: !checkDay[index]
-                                  //         ? (!StaticData.isDarkMode)?Colors.blue:Colors.grey[700]
-                                  //         : (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[500],
-                                  //     width: (index == 0) ? 1 : 0)
+                                bottom: BorderSide(
+                                    color: !checkDay[index]
+                                        ? (!StaticData.isDarkMode)
+                                            ? Colors.grey[50]
+                                            : Colors.grey[800]
+                                        : (!StaticData.isDarkMode)
+                                            ? Colors.blue
+                                            : Colors.grey[500],
+                                    width: 5),
+                                // top: BorderSide(
+                                //     color: !checkDay[index]
+                                //         ? (!StaticData.isDarkMode)?Colors.blue:Colors.grey[700]
+                                //         : (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[500],
+                                //     width: 1),
+                                // right: BorderSide(
+                                //     color: !checkDay[index]
+                                //         ? (!StaticData.isDarkMode)?Colors.blue:Colors.grey[700]
+                                //         : (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[500],
+                                //     width: 1),
+                                // left: BorderSide(
+                                //     color: !checkDay[index]
+                                //         ? (!StaticData.isDarkMode)?Colors.blue:Colors.grey[700]
+                                //         : (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[500],
+                                //     width: (index == 0) ? 1 : 0)
                               ),
-                              ),
+                            ),
                             child: Center(
                               child: Text(dayOfWeek[index],
                                   style: TextStyle(
                                     fontSize: 12,
-                                      color: !checkDay[index]
-                                          // ? Color(0xff8A2BE2)
-                                          // : Color(0xffF0FFF0))
-                                          ? Colors.black
-                                          : Colors.black,
-                                  )
-                              ),
-                            )
-                        ),
+                                    color: !checkDay[index]
+                                        // ? Color(0xff8A2BE2)
+                                        // : Color(0xffF0FFF0))
+                                        ? Colors.black
+                                        : Colors.black,
+                                  )),
+                            )),
                       ),
                     );
                   },
@@ -238,7 +244,9 @@ class _AddNewState extends State<AddNew> {
                   ],
                 ),
               ),
-              SizedBox(width: 20,),
+              SizedBox(
+                width: 20,
+              ),
               Text("days", style: TextStyle(fontSize: 18)),
             ],
           ),
@@ -400,8 +408,8 @@ class _AddNewState extends State<AddNew> {
           context: context,
           builder: (BuildContext context) => AlertDialog(
                 title: Text("Message"),
-                content:
-                    Text("Are you sure you don't want to add this activity to a group ?"),
+                content: Text(
+                    "Are you sure you don't want to add this activity to a group ?"),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -513,7 +521,9 @@ class _AddNewState extends State<AddNew> {
   Widget build(BuildContext context) {
     OutlineInputBorder k = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(4)),
-      borderSide: BorderSide(width: 1, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey),
+      borderSide: BorderSide(
+          width: 1,
+          color: (!StaticData.isDarkMode) ? Colors.black : Colors.grey),
     );
     return Scaffold(
         appBar: AppBar(
@@ -539,9 +549,9 @@ class _AddNewState extends State<AddNew> {
                     Navigator.pop(context);
                 },
                 style: ButtonStyle(
-                  // backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[100]),
-                  // shape: MaterialStateOutlinedBorder(),
-                ),
+                    // backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[100]),
+                    // shape: MaterialStateOutlinedBorder(),
+                    ),
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
                   child: Text(
@@ -549,8 +559,7 @@ class _AddNewState extends State<AddNew> {
                     // style: TextStyle(fontSize: 20, color: Colors.white),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                )
-            )
+                ))
           ],
         ),
         body: ListView(
@@ -559,10 +568,12 @@ class _AddNewState extends State<AddNew> {
             // Thêm tên của activity và các description
             Container(
                 decoration: BoxDecoration(
-                    // color: Color(0xff8A2BE2),
-                  color: (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[850],
+                  // color: Color(0xff8A2BE2),
+                  color: (!StaticData.isDarkMode)
+                      ? Colors.grey[50]
+                      : Colors.grey[850],
                   // color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(0)),
+                  borderRadius: BorderRadius.all(Radius.circular(0)),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -577,13 +588,17 @@ class _AddNewState extends State<AddNew> {
                         decoration: InputDecoration(
                           alignLabelWithHint: true,
                           border: OutlineInputBorder(
-                            // borderRadius: BorderRadius.circular(8.0),
-                            // borderSide: BorderSide(
-                            //   color: Colors.black,
-                            // ),
-                          ),
+                              // borderRadius: BorderRadius.circular(8.0),
+                              // borderSide: BorderSide(
+                              //   color: Colors.black,
+                              // ),
+                              ),
                           labelText: 'Activity Name',
-                          labelStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400], fontSize: 18),
+                          labelStyle: TextStyle(
+                              color: (!StaticData.isDarkMode)
+                                  ? Colors.black
+                                  : Colors.grey[400],
+                              fontSize: 18),
                           focusedBorder: k,
                           disabledBorder: k,
                           enabledBorder: k,
@@ -607,14 +622,17 @@ class _AddNewState extends State<AddNew> {
                             errorBorder: k,
                             focusedErrorBorder: k,
                             border: OutlineInputBorder(
-                              // borderRadius: BorderRadius.circular(8.0),
-                              // borderSide: BorderSide(
-                              //   color: Colors.grey,
-                              // ),
-                            ),
+                                // borderRadius: BorderRadius.circular(8.0),
+                                // borderSide: BorderSide(
+                                //   color: Colors.grey,
+                                // ),
+                                ),
                             labelText: 'Description (optional)',
-                            labelStyle: TextStyle(color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400], fontSize: 18)
-                          ),
+                            labelStyle: TextStyle(
+                                color: (!StaticData.isDarkMode)
+                                    ? Colors.black
+                                    : Colors.grey[400],
+                                fontSize: 18)),
                         maxLines: 3,
                         // style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
@@ -663,7 +681,7 @@ class _AddNewState extends State<AddNew> {
 
             Divider(
               height: 10,
-              color: (!StaticData.isDarkMode)?Colors.black:Colors.grey,
+              color: (!StaticData.isDarkMode) ? Colors.black : Colors.grey,
             ),
             //Chọn group của các activity
             Center(
@@ -685,8 +703,7 @@ class _AddNewState extends State<AddNew> {
                     icon: const Icon(Icons.arrow_drop_down_outlined),
                     iconSize: 24,
                     elevation: 16,
-                    style:
-                        const TextStyle(color: Colors.blue, fontSize: 18),
+                    style: const TextStyle(color: Colors.blue, fontSize: 18),
                     underline: Container(
                       height: 2,
                       color: Colors.blue,
@@ -752,8 +769,7 @@ class _AddNewState extends State<AddNew> {
                     icon: const Icon(Icons.arrow_drop_down_outlined),
                     iconSize: 24,
                     elevation: 16,
-                    style:
-                        const TextStyle(color: Colors.blue, fontSize: 18),
+                    style: const TextStyle(color: Colors.blue, fontSize: 18),
                     underline: Container(
                       height: 2,
                       color: Colors.blue,

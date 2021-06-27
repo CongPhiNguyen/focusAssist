@@ -20,222 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f06c0000-89ee-4b2e-b46b-5e99bd76893b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue1Down1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue1Down2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue1Up1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue1Up2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue22.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue2Down1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue2Down2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue2Up1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue2Up2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese1Down1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese1Down2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese1Up1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese1Up2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese22.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese2Down1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese2Down2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese2Up1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese2Up2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate1Down1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate1Down2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate1Up1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate1Up2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate22.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate2Down1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate2Down2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate2Up1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate2Up2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest1Down1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest1Down2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest1Up1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest1Up2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest31.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest3Down1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest3Down2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest3Up1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest3Up2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety1Down1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety1Down2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety1Up1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety1Up2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety22.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety2Down1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety2Down2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety2Up1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety2Up2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/ui/about-us.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/ui/background_darkmode.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/lib/pages/login/screen/lock_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/about_us_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/Database/create_tables_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/Database/create_tables_script.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/achieImage/TT21.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/achieImage/TT21.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/achieImage/TT23.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/achieImage/TT23.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/achieImage/TT24.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/achieImage/TT24.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/achieImage/TT39.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/achieImage/TT39.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/achieImage/TT51.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/achieImage/TT51.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue31.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/BlueDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue3Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/BlueDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue3Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/BlueUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue3Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/BlueUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Blue3Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Carpentry1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Carpentry11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Carpentry2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Carpentry12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/CarpentryDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Carpentry1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/CarpentryDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Carpentry1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/CarpentryUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Carpentry1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/CarpentryUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Carpentry1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese31.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/CheeseDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese3Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/CheeseDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese3Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/CheeseUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese3Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/CheeseUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cheese3Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate31.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/ChocolateDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate3Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/ChocolateDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate3Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/ChocolateUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate3Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/ChocolateUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Chocolate3Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cream1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cream11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cream2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cream12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/CreamDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cream1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/CreamDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cream1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/CreamUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cream1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/CreamUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Cream1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DeepBlue1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DeepBlue11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DeepBlue2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DeepBlue12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DeepBlueDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DeepBlue1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DeepBlueDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DeepBlue1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DeepBlueUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DeepBlue1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DeepBlueUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DeepBlue1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Demon1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Demon11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Demon2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Demon12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DemonDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Demon1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DemonDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Demon1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DemonUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Demon1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DemonUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Demon1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Diamod1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Diamod11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Diamod2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Diamod12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DiamodDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Diamod1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DiamodDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Diamod1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DiamodUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Diamod1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/DiamodUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Diamod1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Electric1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Electric11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Electric2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Electric12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/ElectricDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Electric1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/ElectricDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Electric1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/ElectricUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Electric1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/ElectricUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Electric1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Fire1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Fire11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Fire2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Fire12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/FireDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Fire1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/FireDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Fire1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/FireUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Fire1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/FireUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Fire1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest21.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest22.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/ForestDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest2Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/ForestDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest2Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/ForestUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest2Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/ForestUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Forest2Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Ice1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Ice11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Ice2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Ice12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/IceDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Ice1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/IceDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Ice1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/IceUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Ice1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/IceUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Ice1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Loli1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Loli11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Loli2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Loli12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/LoliDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Loli1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/LoliDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Loli1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/LoliUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Loli1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/LoliUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Loli1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Magic1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Magic11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Magic2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Magic12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/MagicDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Magic1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/MagicDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Magic1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/MagicUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Magic1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/MagicUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Magic1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Rock1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Rock11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Rock2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Rock12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/RockDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Rock1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/RockDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Rock1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/RockUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Rock1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/RockUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Rock1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Silver1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Silver11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Silver2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Silver12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/SilverDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Silver1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/SilverDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Silver1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/SilverUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Silver1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/SilverUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Silver1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sky1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sky11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sky2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sky12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/SkyDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sky1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/SkyDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sky1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/SkyUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sky1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/SkyUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sky1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Strawberry1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Strawberry11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Strawberry2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Strawberry12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/StrawberryDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Strawberry1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/StrawberryDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Strawberry1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/StrawberryUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Strawberry1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/StrawberryUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Strawberry1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety31.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/SweetyDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety3Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/SweetyDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety3Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/SweetyUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety3Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/SweetyUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Sweety3Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Water1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Water11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Water2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Water12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/WaterDown1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Water1Down1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/WaterDown2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Water1Down2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/WaterUp1.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Water1Up1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/WaterUp2.png" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/assets/achievenment/move/Water1Up2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/classes/Data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/classes/Data.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/feature/CardAchievenment.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/feature/CardAchievenment.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/feature/CardCollection.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/feature/CardCollection.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/feature/CardShop.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/feature/CardShop.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/feature/design_appbar_shop.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/feature/design_appbar_shop.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/screen/achievenment_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/screen/achievenment_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/screen/collection_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/screen/collection_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/screen/shop_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/achievenment/screen/shop_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/farm/feature_ui/object_farm.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/farm/feature_ui/object_farm.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/farm/screen/farm_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/farm/screen/farm_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/focusAssist.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/focusAssist.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/login/feature_ui/forget_password.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/login/feature_ui/forget_password.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/login/screen/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/login/screen/login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/login/screen/welcome_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/login/screen/welcome_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/main_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/account_setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/account_setting_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/privacy_lock_setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/privacy_lock_setting_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/setting_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/statistic/journal_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/statistic/journal_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/statistic/list_of_achivement_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/statistic/list_of_achivement_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/focus_assist/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/google_sign_in_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/google_sign_in_widget.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,7 +60,7 @@
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="preferences.language.Kotlin" />
+    <property name="settings.editor.selected.configurable" value="flutter.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -357,30 +143,30 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1624107827148" />
-    <state width="1084" height="163" key="GridCell.Tab.0.bottom" timestamp="1624284502005">
+    <state width="1085" height="159" key="GridCell.Tab.0.bottom" timestamp="1624624376624">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1084" height="163" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1624284502005" />
-    <state width="1084" height="163" key="GridCell.Tab.0.center" timestamp="1624284502005">
+    <state width="1085" height="159" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1624624376624" />
+    <state width="1085" height="159" key="GridCell.Tab.0.center" timestamp="1624624376623">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1084" height="163" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1624284502005" />
-    <state width="1084" height="163" key="GridCell.Tab.0.left" timestamp="1624284502005">
+    <state width="1085" height="159" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1624624376623" />
+    <state width="1085" height="159" key="GridCell.Tab.0.left" timestamp="1624624376623">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1084" height="163" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1624284502005" />
-    <state width="1084" height="163" key="GridCell.Tab.0.right" timestamp="1624284502005">
+    <state width="1085" height="159" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1624624376623" />
+    <state width="1085" height="159" key="GridCell.Tab.0.right" timestamp="1624624376623">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1084" height="163" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1624284502005" />
+    <state width="1085" height="159" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1624624376623" />
     <state x="153" y="143" key="IDE.errors.dialog" timestamp="1622917623035">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="153" y="143" key="IDE.errors.dialog/0.0.1536.824@0.0.1536.824" timestamp="1622917623035" />
-    <state x="277" y="0" key="SettingsEditor" timestamp="1623574334654">
+    <state x="277" y="0" key="SettingsEditor" timestamp="1624608789771">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="277" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1623574334654" />
+    <state x="277" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1624608789771" />
     <state x="277" y="62" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1620486252689" />
     <state x="386" y="310" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1623822091098">
       <screen x="0" y="0" width="1536" height="824" />

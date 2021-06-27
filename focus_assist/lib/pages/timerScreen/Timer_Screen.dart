@@ -95,7 +95,9 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
     List<Map<String, dynamic>> database = await dbHelper.rawQuery(
             ''' SELECT COUNT(*) as count FROM LICHSUTIMER
             where MANGUOIDUNG='$userKey' and DAHOANTHANH = 'true' ''');
-    print("da hoan thanh duoc "+ database[0]['count'].toString());
+            
+    // cập nhật số lần hoàn thành tại đây
+    print("da hoan thanh duoc "+ database[0]['count'].toString() + " task");
     switch(database[0]['count']){
       case 5: {
         _showSuccessThanhTuu(this.context, "Congrat, you focused 5 times!\n + 40 gold", 40);
@@ -256,7 +258,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                     height: 90,  // height of white range
                     margin: EdgeInsets.only(top: 60),
                     decoration: BoxDecoration(
-                      color: (!StaticData.isDarkMode)?Colors.yellow[100]:Colors.grey[850],
+                      color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[850],
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black12,
@@ -486,8 +488,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
       });
 
       } catch(e){ print("loi timer dong 397 timerScreen");}
-      // finally {print("ko loi timer 397"); }
-      
+      finally { //print("ko loi timer 397"); 
+      }  
     });
    
   }
