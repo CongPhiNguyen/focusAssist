@@ -756,8 +756,8 @@ class _JournalScreenState extends State<JournalScreen> {
     await showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-              title: Text("Message"),
-              content: Text("Are you sure to delete this group ?"),
+              title: Center(child: Text("Confirmation")),
+              content: Text("Are you sure you want to delete this group ?"),
               actions: [
                 TextButton(
                   onPressed: () {
