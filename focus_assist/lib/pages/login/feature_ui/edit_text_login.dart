@@ -19,7 +19,7 @@ class edit_text_login extends StatelessWidget {
         decoration:InputDecoration(
           icon: Icon(
             icon,
-            color: mainColor,
+            color: Colors.amber[900],
           ),
           border: InputBorder.none,
           hintText: hintText,

@@ -39,9 +39,10 @@ class SignUpScreen extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               colors: [
-                Colors.purple[900],
-                Colors.purple[800],
-                Colors.purple[400],
+                Colors.amber[800],
+                Colors.amber[600],
+                Colors.amber[400],
+                Colors.amber[200],
               ], // Colors
             )
         ),
@@ -110,6 +111,7 @@ class SignUpScreen extends StatelessWidget {
                       )),
                       SizedBox(height: size.height*0.03,),
                       FadeAnimation(1.4, button_login(
+                        color: Colors.amber[600],
                         text: 'SIGN UP',
                         press: () async {
 

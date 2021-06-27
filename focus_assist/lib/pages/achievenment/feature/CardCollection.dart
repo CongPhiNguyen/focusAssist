@@ -90,14 +90,14 @@ class _DetailCardCollectionState extends State<DetailCardCollection> {
         ),
       ),
       closeIcon: Icon(Icons.info_outlined),
-      desc: 'Đã sở hữu',
+      // desc: 'Đã sở hữu',
       content: Column(
 
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Center(child: Image.asset(imageEgg)),
           Center(child: Text(name,style: TextStyle(color: rareColor),)),
-          Text('Mô tả : '+mota, style: TextStyle(color: (!StaticData.isDarkMode)?Colors.black87:Colors.grey[300]),),
+          Text('Description : '+mota, style: TextStyle(color: (!StaticData.isDarkMode)?Colors.black87:Colors.grey[300]),),
           Text('Price: ' + price.toString(), style: TextStyle(color: (!StaticData.isDarkMode)?Colors.black87:Colors.grey[300]),),
         ],
       ),

@@ -19,7 +19,7 @@ class edit_text_password_login extends StatelessWidget {
           hintText: "Password",
           icon: Icon(
             Icons.lock,
-            color: mainColor,
+            color: Colors.amber[900],
           ),
           suffixIcon: Icon(
             Icons.visibility,

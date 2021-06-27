@@ -39,9 +39,13 @@ class LoginScreen extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               colors: [
-                Colors.purple[900],
-                Colors.purple[800],
-                Colors.purple[400],
+                Colors.amber[800],
+                Colors.amber[600],
+                Colors.amber[400],
+                Colors.amber[200],
+                // Colors.purple[900],
+                // Colors.purple[800],
+                // Colors.purple[400],
               ], // Colors
             )
         ),
@@ -108,6 +112,7 @@ class LoginScreen extends StatelessWidget {
                       // )),
                       FadeAnimation(1.6,button_login(
                         text: 'LOGIN',
+                        color: Colors.amber[600],
                         press: () async {
                             _queryCheckUser(_taiKhoan, _matKhau, context);
                         },
