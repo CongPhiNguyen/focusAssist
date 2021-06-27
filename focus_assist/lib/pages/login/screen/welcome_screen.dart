@@ -16,49 +16,57 @@ class WelcomeScreen extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topLeft,
+            begin: Alignment.topRight,
             colors: [
-              Colors.purple[700],
-              Colors.white,
+              //Colors.amber[100],
+              Colors.amber[100],
+              Colors.amber[50],
+              Colors.grey[50],
+              Colors.amber[100],
+              Colors.amber[100],
+              Colors.amber[100],
             ],
           ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: size.height*0.1,),
-            FadeAnimation(1.2,Text(
+            SizedBox(height: size.height*0.13,),
+            /*FadeAnimation(1.2,Text(
               'WELCOME TO',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: size.height*0.045,
+                fontSize: size.height*0.03,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.0,
+                fontFamily: "Roboto",
               ),
-            )),
-            SizedBox(height: size.height*0.01,),
+            )),*/
+            SizedBox(height: size.height*0.011,),
             FadeAnimation(1.2,Text(
               'Focus Assist',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: size.height*0.025,
+                color: Colors.amber[900],
+                fontSize: size.height*0.06,
                 fontWeight: FontWeight.bold,
-                letterSpacing: 1.0,
+                letterSpacing: 2,
+                fontFamily: "Roboto",
               ),
             )),
             FadeAnimation(1.2,Container(
               height: size.height*0.5,
-              child: Image.asset('assets/login/ui/UI_welcome_screen.png'),
+              width: size.width*1,
+              child: Image.asset('assets/achievenment/ui/login5.png'),
             )),
             FadeAnimation(1.4, button_login(
-              color: mainColor,
+              color: Colors.amber[600],
               text: "LOGIN",
               press: () {Navigator.push(context, MaterialPageRoute(builder: (context){return LoginScreen();}));},
             )),
             FadeAnimation(1.4, button_login(
               text:"SIGN UP",
-              color: Colors.purple[50],
-              textColor: Colors.black,
+              color: Colors.amber[200],
+              textColor: Colors.grey[800],
               press: (){Navigator.push(context, MaterialPageRoute(builder: (context){return SignUpScreen();}));},
             )),
           ],

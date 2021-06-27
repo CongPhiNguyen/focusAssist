@@ -18,14 +18,15 @@ class Donthaveanaccount extends StatelessWidget {
       children: <Widget>[
         Text(
           login ? "Don't have an Account ? " : "Already have an Account ? ",
-          style: TextStyle(color: mainColor),
+          style: TextStyle(color: Colors.amber[900]),
         ),
         GestureDetector(
           onTap: press,
           child: Text(
             login ? "Sign Up": "Sign In",
             style: TextStyle(
-              color: mainColor,
+              fontSize: 15,
+              color: Colors.blue[300],
               fontWeight: FontWeight.bold,
             ),
           ),
