@@ -804,9 +804,14 @@ class _JournalScreenState extends State<JournalScreen> {
                       children: [
                         Padding(
                           padding: EdgeInsets.fromLTRB(20, 2, 2, 2),
-                          child: Text(
-                            allGroup[inDex],
-                            style: TextStyle(color: Colors.white, fontSize: 22),
+                          child: Container(
+                            width: 150,
+                            child: Text(
+                              allGroup[inDex],
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 22),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
                         Row(
@@ -862,6 +867,7 @@ class _JournalScreenState extends State<JournalScreen> {
                         title: Center(
                           child: Text(
                             allGroupActivity[inDex][index],
+                            overflow: TextOverflow.ellipsis,
                             // style: TextStyle(color: Colors.black)
                           ),
                         ),
