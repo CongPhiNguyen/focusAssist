@@ -86,8 +86,14 @@ class _LockScreenState extends State<LockScreen> {
                       child: TextField(
                         controller: passcodeEditingController,
                         obscureText: true,
+                        style: TextStyle(
+                          color: Colors.black87,
+                        ),
                         decoration: InputDecoration(
                           hintText: "Passcode",
+                          hintStyle: TextStyle(
+                            color: Colors.grey[500],
+                          ),
                           icon: Icon(
                             Icons.lock,
                             color: mainColor,

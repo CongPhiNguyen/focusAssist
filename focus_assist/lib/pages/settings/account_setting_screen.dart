@@ -116,7 +116,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                                 _showAvatarChoiceDialog(context);
                                 break;
                               case 2:
-                                _showEditUsernameDialog(context);
+                                _showEditNameDialog(context);
                                 break;
                             }
                           },
@@ -147,7 +147,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                                       Icons.edit,
                                       // color: Colors.blue,
                                     ),
-                                    Text('   Edit Username'),
+                                    Text('   Edit Name'),
                                   ],
                                 ),
                               ),
@@ -220,7 +220,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                       elevation: 0.0,
                       child: ListTile(
                         onTap: () {
-                          _showChangePassworDialog(context);
+                          _showChangePasswordDialog(context);
                         },
                         title: Text(
                           'Change Password',
@@ -419,7 +419,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
     );
   }
 
-  _showEditUsernameDialog(BuildContext context) {
+  _showEditNameDialog(BuildContext context) {
     OutlineInputBorder outlineInputBorder = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(4)),
       borderSide: BorderSide(width: 1, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey),
@@ -661,7 +661,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
     );
   }
 
-  _showChangePassworDialog(BuildContext context) {
+  _showChangePasswordDialog(BuildContext context) {
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -824,9 +824,10 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
             TextButton(
               child: Text('OK'),
               onPressed: () async {
-                await _deleteFromTableTHONGKE();
-                await _deleteFromTableNHOMMUCTIEU();
-                await _deleteFromTableMUCTIEU();
+                // await _deleteFromTableTHONGKE();
+                // await _deleteFromTableNHOMMUCTIEU();
+                // await _deleteFromTableMUCTIEU();
+                await _deleteAllActivities();
                 Fluttertoast.showToast(msg: 'Delete all activities successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 Navigator.pop(context);
               },
@@ -865,15 +866,16 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
             TextButton(
               child: Text('OK'),
               onPressed: () async {
-                _deleteFromTableTHONGKE();
-                _deleteFromTableNHOMMUCTIEU();
-                _deleteFromTableMUCTIEU();
-                _deleteFromTableLICHSUTIMER();
-                _deleteFromTableTHANHTUUNGUOIDUNG();
-                _deleteFromTableVATPHAMNGUOIDUNG();
-                _deleteFromTablePOKEMON();
-                _deleteFromTableTHONGTINNGUOIDUNG();
-                _deleteFromTableNGUOIDUNG();
+                // _deleteFromTableTHONGKE();
+                // _deleteFromTableNHOMMUCTIEU();
+                // _deleteFromTableMUCTIEU();
+                // _deleteFromTableLICHSUTIMER();
+                // _deleteFromTableTHANHTUUNGUOIDUNG();
+                // _deleteFromTableVATPHAMNGUOIDUNG();
+                // _deleteFromTablePOKEMON();
+                // _deleteFromTableTHONGTINNGUOIDUNG();
+                // _deleteFromTableNGUOIDUNG();
+                _deleteAccount();
                 Fluttertoast.showToast(msg: 'Delete account successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 StaticData.isSignedIn = false;
                 Database db = await DbProvider.instance.database;
@@ -896,6 +898,35 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
         );
       },
     );
+  }
+
+  _deleteAllActivities() async {
+    try{
+      await _deleteFromTableTHONGKE();
+      await _deleteFromTableNHOMMUCTIEU();
+      await _deleteFromTableMUCTIEU();
+    }
+    catch(e) {
+      print(e.toString());
+    }
+
+  }
+
+  _deleteAccount() async {
+    try {
+      _deleteFromTableTHONGKE();
+      _deleteFromTableNHOMMUCTIEU();
+      _deleteFromTableMUCTIEU();
+      _deleteFromTableLICHSUTIMER();
+      _deleteFromTableTHANHTUUNGUOIDUNG();
+      _deleteFromTableVATPHAMNGUOIDUNG();
+      _deleteFromTablePOKEMON();
+      _deleteFromTableTHONGTINNGUOIDUNG();
+      _deleteFromTableNGUOIDUNG();
+    }
+    catch(e) {
+      print(e.toString());
+    }
   }
 
   _deleteFromTableTHONGKE() async {

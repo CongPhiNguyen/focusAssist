@@ -196,7 +196,7 @@ class _PrivacyLockSettingScreenState extends State<PrivacyLockSettingScreen> {
               child: Text('Cancel'),
               onPressed: () {
                 print('Cancel');
-                // passcodeEditingController.clear();
+                passcodeEditingController.clear();
                 newPasscodeController.clear();
                 confirmPasscodeController.clear();
 

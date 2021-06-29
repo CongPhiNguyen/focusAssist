@@ -37,10 +37,3 @@ class Info{
 
   Info(this.name, this.birth, this.phone, this.mail, this.color, this.mssv);
 }
-
-List<Info> member = [
-  Info('Thiện Phước', '19/03/2001', '0387527010', '19522055@gm.uit.edu.vn', Colors.greenAccent,'19522055'),
-  Info('Công phi', '03/12/2001', '0329418197', '19522006@gm.uit.edu.vn', Colors.redAccent,'19522055'),
-  Info('Như Phước', '29/03/2001', '0362103314', '19522052@gm.uit.edu.vn', Colors.purpleAccent,'19522055'),
-  Info('Dận Quang', '17/10/2001', '0914394514', '19522092@gm.uit.edu.vn', Colors.blueAccent,'19522055'),
-];

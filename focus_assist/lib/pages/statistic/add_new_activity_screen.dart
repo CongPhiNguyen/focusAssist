@@ -304,7 +304,7 @@ class _AddNewState extends State<AddNew> {
           builder: (BuildContext context) => AlertDialog(
                 title: Text("Message"),
                 content:
-                    Text("Are you sure not to add description to activity ?"),
+                    Text("Are you sure you don't want to add description?"),
                 actions: [
                   TextButton(
                     onPressed: () {

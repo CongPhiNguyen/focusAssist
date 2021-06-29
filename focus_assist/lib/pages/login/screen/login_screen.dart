@@ -283,6 +283,7 @@ class LoginScreen extends StatelessWidget {
         importance: Importance.max,
         priority: Priority.high,
         playSound: true,
+        styleInformation: BigTextStyleInformation(''),
       );
       var iOSChannel = IOSNotificationDetails();
       var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
@@ -312,6 +313,7 @@ class LoginScreen extends StatelessWidget {
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
+      styleInformation: BigTextStyleInformation(''),
     );
     var iOSChannel = IOSNotificationDetails();
     var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);

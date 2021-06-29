@@ -347,7 +347,7 @@ class _EditActivityState extends State<EditActivity> {
           builder: (BuildContext context) => AlertDialog(
                 title: Text("Message"),
                 content:
-                    Text("Are you sure you don't want to add description ?"),
+                    Text("Are you sure you don't want to add description?"),
                 actions: [
                   TextButton(
                     onPressed: () {

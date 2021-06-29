@@ -789,6 +789,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
             firstDayOfWeek = lastDayOfWeek.subtract(Duration(days: lastDayOfWeek.weekday - 1));
           }
           while(DateTimeToInt(lastDayOfWeek) <= DateTimeToInt(lastDay)) {
+            if (DateTimeToInt(firstDayOfWeek) < activity['NGAYBATDAU']) firstDayOfWeek = IntToDateTime(activity['NGAYBATDAU']);
             for (int i = firstDayOfWeek.weekday - 1; i < lastDayOfWeek.weekday; i++) {
               if (activityDayString[i] == '1') activityDayCount++;
             }
