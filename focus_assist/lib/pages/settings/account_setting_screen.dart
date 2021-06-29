@@ -546,6 +546,10 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
     // setState(() {
     //   image = Image.file(File(pickedFile.path));
     // });
+    if (pickedFile == null) {
+      print('Null image');
+      return;
+    }
     String imgString = base64String(await pickedFile.readAsBytes());
     UpdateUserAvatar('${StaticData.userID}', imgString);
     setState(() {
@@ -561,6 +565,10 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
     // setState(() {
     //   image = Image.file(File(pickedFile.path));
     // });
+    if (pickedFile == null) {
+      print('Null image');
+      return;
+    }
     String imgString = base64String(await pickedFile.readAsBytes());
     UpdateUserAvatar('${StaticData.userID}', imgString);
     setState(() {

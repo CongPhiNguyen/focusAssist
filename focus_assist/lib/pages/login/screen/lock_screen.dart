@@ -27,9 +27,10 @@ class _LockScreenState extends State<LockScreen> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               colors: [
-                Colors.purple[900],
-                Colors.purple[800],
-                Colors.purple[400],
+                Colors.amber[800],
+                Colors.amber[600],
+                Colors.amber[400],
+                Colors.amber[200],
               ], // Colors
             )
         ),
@@ -84,23 +85,19 @@ class _LockScreenState extends State<LockScreen> {
                     SizedBox(height: size.height*0.05,),
                     FadeAnimation(1.4,edit_text(
                       child: TextField(
+                        style: TextStyle(color: Colors.grey[700]),
                         controller: passcodeEditingController,
                         obscureText: true,
-                        style: TextStyle(
-                          color: Colors.black87,
-                        ),
                         decoration: InputDecoration(
                           hintText: "Passcode",
-                          hintStyle: TextStyle(
-                            color: Colors.grey[500],
-                          ),
+                          hintStyle: TextStyle(color: Colors.grey,),
                           icon: Icon(
                             Icons.lock,
-                            color: mainColor,
+                            color: Colors.amber[600],
                           ),
                           suffixIcon: Icon(
                             Icons.visibility,
-                            color: colorEditText,
+                            color: Colors.amber[600],
                           ),
                           border:  InputBorder.none,
                         ),
@@ -112,6 +109,7 @@ class _LockScreenState extends State<LockScreen> {
                     // )),
                     FadeAnimation(1.6,button_login(
                       text: 'LOGIN',
+                      color: Colors.amber[600],
                       press: () async {
                         openApp();
                       },

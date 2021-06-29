@@ -101,7 +101,7 @@ class _testState extends State<card_shop> {
 
           _showBILL(
               context,
-              "Bạn nhận được thành tựu trứng $name và thưởng $bonus vàng",
+              "You got $name egg and $bonus bonus gold!",
               true);
         } else {
           setState(() {
@@ -114,13 +114,13 @@ class _testState extends State<card_shop> {
                                      SET VANG = $vang
                                      WHERE MANGUOIDUNG = '$id'
                                      ''');
-          _showBILL(context, "Mua thành công!", true);
+          _showBILL(context, "Purchased successfully!", true);
         }
       } else {
-        _showBILL(context, "Bạn đã sở hữu quả trứng này!", false);
+        _showBILL(context, "You already have this egg!", false);
       }
     } else {
-      _showBILL(context, "Không làm mà đòi có ăn :) ", false);
+      _showBILL(context, "You don't have enough gold!", false);
     }
   }
 
@@ -191,11 +191,11 @@ class _testState extends State<card_shop> {
 
                             onPressed: _Update,
                             child: Text(
-                              isBuy ? 'Đã mua' : 'Mua',
+                              isBuy ? 'Purchased' : 'Purchase',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: size.height * 0.015,
+                                fontSize: size.height * 0.012,
                               ),
                             ),
                           ),

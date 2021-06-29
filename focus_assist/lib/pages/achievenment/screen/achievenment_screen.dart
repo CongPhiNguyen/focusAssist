@@ -57,7 +57,7 @@ class _AchievenmentScreenState extends State<AchievenmentScreen> {
                      style: TextStyle(
                        fontWeight: FontWeight.bold,
                        fontSize: 25,
-                       color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[300],
+                       color: (!StaticData.isDarkMode)?Colors.grey[800]:Colors.grey[300],
                      ),
                    ),
                  ],

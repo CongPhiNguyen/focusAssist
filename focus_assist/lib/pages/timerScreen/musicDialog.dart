@@ -56,7 +56,7 @@ class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClient
                     "Play a song to help you stay focus!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       letterSpacing: 1,
                       color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[300],
                     ),

@@ -21,7 +21,7 @@ class _timerHistoryState extends State<timerHistory> {
     // await DbProvider.instance.rawQuery('''DELETE FROM LICHSUTIMER''');
 
     final histories = await DbProvider.instance.rawQuery('''
-      select * from LICHSUTIMER where MANGUOIDUNG = '${StaticData.userID}'
+      select * from LICHSUTIMER where MANGUOIDUNG = '${StaticData.userID}' ORDER BY THOIGIAN DESC
       ''');
     print(histories);
     timerHistoriesList.clear();
@@ -46,7 +46,7 @@ class _timerHistoryState extends State<timerHistory> {
                       leading: Text('${(num + 1 < 10)?' ${num + 1}':(num + 1)}', style: TextStyle(fontSize: 20),),
                       title: Text(timerHistoriesList[num].thoiGian.toString().split('.')[0] + "   -   "
                       + (timerHistoriesList[num].daHoanThanh == "true"?"Completed":"Incompleted").toString(),
-                      style: TextStyle(fontSize: 19), overflow: TextOverflow.fade,),
+                      style: TextStyle(fontSize: 18), overflow: TextOverflow.fade,),
                     ), 
                 );
               });

@@ -64,8 +64,9 @@ class _design_appbar_shopState extends State<design_appbar_shop> {
                     Text(
                       'Shop',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                        color: (!StaticData.isDarkMode)?Colors.grey[800]:Colors.grey[300],
                       ),
                     ),
                   ],

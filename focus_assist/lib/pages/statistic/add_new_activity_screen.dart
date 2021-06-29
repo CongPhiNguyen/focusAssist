@@ -720,7 +720,10 @@ class _AddNewState extends State<AddNew> {
                         allGroup.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Container(
+                            width: 150,
+                            child:
+                                Text(value, overflow: TextOverflow.ellipsis)),
                       );
                     }).toList(),
                   ),
@@ -801,7 +804,7 @@ class _AddNewState extends State<AddNew> {
                     : (dropDownValue == 'Flexible')
                         ? Flexible()
                         : Repeating()),
-            // debugWidget(),
+            //debugWidget(),
           ],
         ));
   }

@@ -725,7 +725,10 @@ class _EditActivityState extends State<EditActivity> {
                         allGroup.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Container(
+                            width: 150,
+                            child:
+                                Text(value, overflow: TextOverflow.ellipsis)),
                       );
                     }).toList(),
                   ),

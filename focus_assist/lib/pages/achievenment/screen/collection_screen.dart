@@ -66,7 +66,8 @@ class _CollectionScreenState extends State<CollectionScreen> {
                             'Collection',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 25
+                                fontSize: 25,
+                                color: (!StaticData.isDarkMode)?Colors.grey[800]:Colors.grey[300],
                             ),
                           ),
                         ],
