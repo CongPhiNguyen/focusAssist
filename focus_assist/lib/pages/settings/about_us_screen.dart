@@ -10,6 +10,14 @@ class AboutUsScreen extends StatefulWidget {
 }
 
 class _AboutUsScreenState extends State<AboutUsScreen> {
+  List<Info> member = [
+    Info('Thiện Phước', '19/03/2001', '0387527010', '19522055@gm.uit.edu.vn', Colors.greenAccent,'19522055'),
+    Info('Công Phi', '03/12/2001', '0329418197', '19522006@gm.uit.edu.vn', Colors.redAccent,'19522055'),
+    Info('Như Phước', '29/03/2001', '0362103314', '19522052@gm.uit.edu.vn', Colors.purpleAccent,'19522055'),
+    Info('Dận Quang', '17/10/2001', '0914394514', '19522092@gm.uit.edu.vn', Colors.blueAccent,'19522055'),
+    // Info('Dận Quang', '17/10/2001', '0914394514', '19522092@gm.uit.edu.vn', Colors.blueAccent,'19522055'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -163,6 +171,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                   width: size.height*0.2,
                                   //child: Image.asset('assets/achievenment/Eggs/eggDemon.png'),
                                   child: CircleAvatar(
+                                    backgroundColor: Colors.transparent,
                                     //radius: 10,
                                     child: ClipOval(
                                       child: Image.asset('assets/'+index.toString()+'.PNG'),

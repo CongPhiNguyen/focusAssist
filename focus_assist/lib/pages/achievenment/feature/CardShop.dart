@@ -195,7 +195,7 @@ class _testState extends State<card_shop> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: size.height * 0.015,
+                                fontSize: size.height * 0.012,
                               ),
                             ),
                           ),

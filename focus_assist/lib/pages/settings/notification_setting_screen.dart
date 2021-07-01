@@ -150,6 +150,15 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
                     }
                   });
                   await UpdateNotificationSetting();
+                  if (isNotificationOn) {
+                    Time time = new Time(selectedMorningTime.hour, selectedMorningTime.minute);
+                    await showDailyMorningAtTimeNotification(time);
+                    time = new Time(selectedEveningTime.hour, selectedEveningTime.minute);
+                    await showDailyEveningAtTimeNotification(time);
+                  }
+                  else {
+                    await cancelAllNotification();
+                  }
                 }
             ),
           ),
@@ -422,6 +431,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
         importance: Importance.max,
         priority: Priority.high,
         playSound: true,
+        styleInformation: BigTextStyleInformation(''),
       );
       var iOSChannel = IOSNotificationDetails();
       var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
@@ -451,6 +461,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
+      styleInformation: BigTextStyleInformation(''),
     );
     var iOSChannel = IOSNotificationDetails();
     var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
@@ -482,6 +493,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
       'CHANNEL_DESCRIPTION',
       importance: Importance.max,
       priority: Priority.high,
+      styleInformation: BigTextStyleInformation(''),
     );
     var iOSChannel = IOSNotificationDetails();
     var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);

@@ -63,7 +63,7 @@ class SignUpScreen extends StatelessWidget {
                           children: <Widget>[
                             FadeAnimation(1.2,  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
                             SizedBox(height: size.height*0.01,),
-                            FadeAnimation(1.2,  Text('Welcome to Focus Assist',style: TextStyle(color: Colors.white,fontSize: size.height*0.015),)),
+                            FadeAnimation(1.2,  Text('Welcome to Focus Assist',style: TextStyle(color: Colors.white,fontSize: size.height*0.02),)),
                             SizedBox(height: size.height*0.01,),
                           ],
                         ),
@@ -248,6 +248,7 @@ class SignUpScreen extends StatelessWidget {
         importance: Importance.max,
         priority: Priority.high,
         playSound: true,
+        styleInformation: BigTextStyleInformation(''),
       );
       var iOSChannel = IOSNotificationDetails();
       var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
@@ -277,6 +278,7 @@ class SignUpScreen extends StatelessWidget {
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
+      styleInformation: BigTextStyleInformation(''),
     );
     var iOSChannel = IOSNotificationDetails();
     var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
