@@ -322,7 +322,7 @@ class _ListAchivementState extends State<ListAchivement> {
                   Expanded(
                       flex: 4,
                       child: Center(
-                        child: Text("Have $currentActivityTarget activities",
+                        child: Text("Have 75 activities",
                             style: TextStyle(fontSize: 20)),
                       )),
                   Expanded(
