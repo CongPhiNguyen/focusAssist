@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -20,6 +23,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+import '../../../classes/DbProvider.dart';
 import '../../../classes/DbProvider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -138,7 +142,17 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
+  //Dung SHA-512224 băm mk
+  String maHoaPassWord(String PassWord){
 
+    var bytes = utf8.encode(PassWord);
+    var has = sha512224.convert(bytes);
+
+    String matKhauMaHoa = has.toString();
+
+    return matKhauMaHoa;
+  }
+  
   void _queryCheckUser(String tk, String mk,context) async
   {
 
@@ -162,7 +176,7 @@ class LoginScreen extends StatelessWidget {
       return;
     }
 
-    if (checkTK[0]['MATKHAU'] != mk)
+    if (checkTK[0]['MATKHAU'] != maHoaPassWord(mk))
     {
       //_show(context, "Sai mật khẩu");
       Fluttertoast.showToast(msg: 'Incorrect username or password', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
