@@ -100,7 +100,7 @@ class _song1State extends State<song1>  with TickerProviderStateMixin {
           color: (!StaticData.isDarkMode)?Colors.amber:Colors.grey[800],
           child: Icon(
             Icons.play_arrow,
-            size: 25.0,
+            size: 22.0,
             color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[400],
           ),
           padding: EdgeInsets.all(10.0),
@@ -119,7 +119,7 @@ class _song1State extends State<song1>  with TickerProviderStateMixin {
           minWidth: 0,
           child: Icon(
             Icons.pause,
-            size: 25.0,
+            size: 22.0,
             color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[400],
           ),
           padding: EdgeInsets.all(10.0),
@@ -127,10 +127,11 @@ class _song1State extends State<song1>  with TickerProviderStateMixin {
         ),
         SizedBox(width: 30,),
         Text(
-            "Rain sound",
-             style: TextStyle(fontSize: 25, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
-            textAlign: TextAlign.left,
-          ),
+          "Rain sound",
+          style: TextStyle(fontSize: 20, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.left,
+        ),
       ],
     );
 }

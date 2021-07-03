@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:focus_assist/classes/Data.dart';
@@ -143,7 +146,7 @@ class _LockScreenState extends State<LockScreen> {
     List<Map<String, dynamic>> queryList = await DbProvider.instance.rawQuery('''
         SELECT * FROM THONGTINNGUOIDUNG WHERE MANGUOIDUNG = '${StaticData.userID}';
         ''');
-    if (queryList.first['LOCKPASSCODE'] != passcodeEditingController.text) {
+    if (queryList.first['LOCKPASSCODE'] != maHoaPassWord(passcodeEditingController.text)) {
       Fluttertoast.showToast(msg: 'Incorrect passcode', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
       return;
     }
@@ -152,4 +155,16 @@ class _LockScreenState extends State<LockScreen> {
       MaterialPageRoute(builder: (context) => MainScreen()),
     );
   }
+
+  //Dung SHA-512224 băm mk
+  String maHoaPassWord(String PassWord){
+
+    var bytes = utf8.encode(PassWord);
+    var has = sha512224.convert(bytes);
+
+    String matKhauMaHoa = has.toString();
+
+    return matKhauMaHoa;
+  }
+
 }

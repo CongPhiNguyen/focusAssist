@@ -15,6 +15,8 @@ import 'package:sqflite/sqflite.dart';
 import 'login_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:math';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 import 'package:focus_assist/pages/main_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -63,7 +65,7 @@ class SignUpScreen extends StatelessWidget {
                           children: <Widget>[
                             FadeAnimation(1.2,  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
                             SizedBox(height: size.height*0.01,),
-                            FadeAnimation(1.2,  Text('Welcome to Focus Assist',style: TextStyle(color: Colors.white,fontSize: size.height*0.015),)),
+                            FadeAnimation(1.2,  Text('Welcome to Focus Assist',style: TextStyle(color: Colors.white,fontSize: size.height*0.02),)),
                             SizedBox(height: size.height*0.01,),
                           ],
                         ),
@@ -170,9 +172,22 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
+
+  //ramdom ma nguoi dung
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
+
+  //Dung SHA-512224 băm mk
+  String maHoaPassWord(String PassWord){
+
+    var bytes = utf8.encode(PassWord);
+    var has = sha512224.convert(bytes);
+
+    String matKhauMaHoa = has.toString();
+
+    return matKhauMaHoa;
+  }
 
 // Check tài khoản có tồn tại hay không
   void _queryCheckUser(String tk,String mk, String maUser, String name ,context) async {
@@ -185,7 +200,7 @@ class SignUpScreen extends StatelessWidget {
       Fluttertoast.showToast(msg: 'Username already exists', textColor: Colors.red[300], backgroundColor: Colors.grey[100],gravity: ToastGravity.CENTER, toastLength: Toast.LENGTH_LONG);
       return;
     } else {
-      Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': mk };
+      Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': maHoaPassWord(mk)};
       int i = await DbProvider.instance.insert('NGUOIDUNG', row);
 
       row = {'MANGUOIDUNG': maUser ,
@@ -248,6 +263,7 @@ class SignUpScreen extends StatelessWidget {
         importance: Importance.max,
         priority: Priority.high,
         playSound: true,
+        styleInformation: BigTextStyleInformation(''),
       );
       var iOSChannel = IOSNotificationDetails();
       var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);
@@ -277,6 +293,7 @@ class SignUpScreen extends StatelessWidget {
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
+      styleInformation: BigTextStyleInformation(''),
     );
     var iOSChannel = IOSNotificationDetails();
     var platformChannel = NotificationDetails(android: androidChannel, iOS: iOSChannel);

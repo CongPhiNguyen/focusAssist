@@ -4,7 +4,9 @@ import 'package:flutter_volume_slider/flutter_volume_slider.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/pages/audio/song1.dart';
 import 'package:focus_assist/pages/audio/song2.dart';
-
+import 'package:focus_assist/pages/audio/piano.dart';
+import 'package:focus_assist/pages/audio/guitar.dart';
+import 'package:focus_assist/pages/audio/coffeShop.dart';
 class musicDialog extends StatefulWidget {
   const musicDialog({Key key}) : super(key: key);
 
@@ -56,7 +58,7 @@ class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClient
                     "Play a song to help you stay focus!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       letterSpacing: 1,
                       color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[300],
                     ),
@@ -78,6 +80,9 @@ class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClient
                             children: <Widget>[
                               song1(),
                               song2(),
+                              song3(),
+                              song4(),
+                              song5(),
                             ],
                           ),
                         ),

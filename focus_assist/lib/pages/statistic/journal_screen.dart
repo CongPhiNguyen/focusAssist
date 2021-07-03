@@ -609,7 +609,7 @@ class _JournalScreenState extends State<JournalScreen> {
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Text(
-                    "All activity",
+                    "All activities",
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
                 ]),
@@ -1290,7 +1290,7 @@ class _JournalScreenState extends State<JournalScreen> {
                 width: 20,
               ),
               Text(
-                'All Activity',
+                'All Activities',
                 style: TextStyle(
                     fontSize: 22,
                     color: (!StaticData.isDarkMode)

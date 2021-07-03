@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:focus_assist/classes/Data.dart';
@@ -101,12 +104,24 @@ class _PrivacyLockSettingScreenState extends State<PrivacyLockSettingScreen> {
   }
 
   updatePasscode(String newPasscode) async {
+    String encryptedPasscode = maHoaPassWord(newPasscode);
     await DbProvider.instance.rawQuery('''
         UPDATE THONGTINNGUOIDUNG
-        SET LOCKPASSCODE = '$newPasscode'
+        SET LOCKPASSCODE = '$encryptedPasscode'
         WHERE MANGUOIDUNG = '${StaticData.userID}';
         ''');
     Fluttertoast.showToast(msg: 'Change passcode successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_SHORT);
+  }
+
+  //Dung SHA-512224 băm mk
+  String maHoaPassWord(String PassWord){
+
+    var bytes = utf8.encode(PassWord);
+    var has = sha512224.convert(bytes);
+
+    String matKhauMaHoa = has.toString();
+
+    return matKhauMaHoa;
   }
 
   showChangePasscodeDialog() {
@@ -196,7 +211,7 @@ class _PrivacyLockSettingScreenState extends State<PrivacyLockSettingScreen> {
               child: Text('Cancel'),
               onPressed: () {
                 print('Cancel');
-                // passcodeEditingController.clear();
+                passcodeEditingController.clear();
                 newPasscodeController.clear();
                 confirmPasscodeController.clear();
 
@@ -214,7 +229,7 @@ class _PrivacyLockSettingScreenState extends State<PrivacyLockSettingScreen> {
                 if (passcodeEditingController.text == '' || newPasscodeController.text == '' || confirmPasscodeController.text == '') {
                   Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 }
-                else if (passcodeEditingController.text != queryList[0]['LOCKPASSCODE']) {
+                else if (maHoaPassWord(passcodeEditingController.text) != queryList[0]['LOCKPASSCODE']) {
                   Fluttertoast.showToast(msg: 'Incorrect Passcode', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 }
                 else if (newPasscodeController.text != confirmPasscodeController.text) {
