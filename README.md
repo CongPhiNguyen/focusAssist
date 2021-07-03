@@ -1,7 +1,7 @@
 # focusAssist
 ## Mô tả
 Trong cuộc sống hiện đại ngày nay, với sự bùng nổ công nghệ kĩ thuật số, vai trò của các thiết bị thông minh như điện thoại,máy tính đã trở nên không thể tách rời trong công việc, học tập cũng như nhu cầu giải trí hằng ngày của mọi người. Đi cùng với rất nhiều lợi ích hỗ trợ con người, những thiết bị này cũng tiềm ẩn rất nhiều tác hại cả về thể chất và tinh thần, ảnh hưởng đến sức khỏe, lối sống khi bị lạm dụng, có thể kể đến như như mất tập trung, tổn hại thị lực, tốn kém thời gian, gia tăng lo âu,… ảnh hưởng tiêu cực đến cuộc sống hằng ngày.
-Mặc dù chúng ta phải cảm ơn những lợi ích mà công nghệ đem lại,  nhưng không thể phủ nhận rằng nó còn có những mặt trái gây tổn hại nghiêm trọng cho xã hội nói chung và cho sức khỏe con người nói riêng. Chính vì vậy, chúng em đã quyết định thực hiện dự án Focus Assist với mục tiêu hỗ trợ gia tăng sự tập trung trong công việc. Bên cạnh đó, Focus Assist còn là trợ thủ đắc lực trong việc quản lý và xây dựng thời gian biểu cũng như thói quen của người sử dụng. 
+Mặc dù chúng ta phải cảm ơn những lợi ích mà công nghệ đem lại,  nhưng không thể phủ nhận rằng nó còn có những mặt trái gây tổn hại nghiêm trọng cho xã hội nói chung và cho sức khỏe con người nói riêng. Chính vì vậy, chúng tôi đã quyết định thực hiện dự án Focus Assist với mục tiêu hỗ trợ gia tăng sự tập trung trong công việc. Bên cạnh đó, Focus Assist còn là trợ thủ đắc lực trong việc quản lý và xây dựng thời gian biểu cũng như thói quen của người sử dụng. 
 
 
 ## Mục tiêu
