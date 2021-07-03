@@ -1,6 +1,8 @@
 # focusAssist
 ## Mô tả
-Mở cửa hàng kinh doanh thì dễ những làm thế nào để cửa hàng vận hành một cách ổn định, giúp tăng doanh số bán hàng mà không tốn nhiều thời gian và công sức thì đây là một câu hỏi khó dành cho nhiều người kinh doanh. Việc quản lý theo phương pháp truyền thống gây mất nhiều thời gian và công sức mà hiệu quả đạt được lại không hề cao. Chính vì vậy hiện nay trên thị trường có đưa ra phần mềm quản lý bán hàng giúp tối ưu công việc quản lý kinh doanh cho những người chủ kinh doanh.
+Trong cuộc sống hiện đại ngày nay, với sự bùng nổ công nghệ kĩ thuật số, vai trò của các thiết bị thông minh như điện thoại,máy tính đã trở nên không thể tách rời trong công việc, học tập cũng như nhu cầu giải trí hằng ngày của mọi người. Đi cùng với rất nhiều lợi ích hỗ trợ con người, những thiết bị này cũng tiềm ẩn rất nhiều tác hại cả về thể chất và tinh thần, ảnh hưởng đến sức khỏe, lối sống khi bị lạm dụng, có thể kể đến như như mất tập trung, tổn hại thị lực, tốn kém thời gian, gia tăng lo âu,… ảnh hưởng tiêu cực đến cuộc sống hằng ngày.
+Mặc dù chúng ta phải cảm ơn những lợi ích mà công nghệ đem lại,  nhưng không thể phủ nhận rằng nó còn có những mặt trái gây tổn hại nghiêm trọng cho xã hội nói chung và cho sức khỏe con người nói riêng. Chính vì vậy, chúng em đã quyết định thực hiện dự án Focus Assist với mục tiêu hỗ trợ gia tăng sự tập trung trong công việc. Bên cạnh đó, Focus Assist còn là trợ thủ đắc lực trong việc quản lý và xây dựng thời gian biểu cũng như thói quen của người sử dụng. 
+
 
 ## Mục tiêu
 Vấn đề nghiên cứu đặt ra ở dự án này là: Làm sao để giúp người sử dụng tập trung hơn? Quản lý thời gian biểu như thế nào? Làm thế nào để tạo động lực cho người dùng theo đuổi mục tiêu? Người sử dụng quan sát quá trình thực hiện của mình như thế nào?
