@@ -51,14 +51,14 @@ Vấn đề nghiên cứu đặt ra ở dự án này là: Làm sao để giúp 
 * Hỗ trợ người dùng với Chat with our Support Team.
 * Thông tin liên hệ.
 ### **Thay đổi giao diện ứng dụng**
-*	Cho phép thay đổi màu chữ, màu nền của ứng dụng theo các gói đã được tạo sẵn:
+*	Cho phép thay đổi chủ đề giao diện ứng dụng:
     * Dark mode
     * Light mode
 
 ## **Cài đặt**
 ### **Yêu cầu tối thiểu dành cho thiết bị:**
-*	Android >= 4.2 Jelly Bean.
-* RAM: >= 1GB.
+*	Android >= 5.0 Lolipop.
+* RAM: >= 2GB.
 *	ROM: >= 100MB.
 
 ## Tác giả
