@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:flutter/material.dart';
@@ -772,7 +773,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                 if (passwordEditingController.text == '' || newPasswordEditingController.text == '' || confirmNewPasswordEditingController.text == '') {
                   Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 }
-                else if (passwordEditingController.text != queryList[0]['MATKHAU']) {
+                else if (maHoaPassWord(passwordEditingController.text) != queryList[0]['MATKHAU']) {
                   Fluttertoast.showToast(msg: 'Incorrect Password', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 }
                 else if (newPasswordEditingController.text != confirmNewPasswordEditingController.text) {
@@ -794,11 +795,23 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
     );
   }
 
+  //Dung SHA-512224 băm mk
+  String maHoaPassWord(String PassWord){
+
+    var bytes = utf8.encode(PassWord);
+    var has = sha512224.convert(bytes);
+
+    String matKhauMaHoa = has.toString();
+
+    return matKhauMaHoa;
+  }
+
   Future UpdatePassword(String newPassword) async {
+    String encryptedPasscode = maHoaPassWord(newPassword);
     Database db = await DbProvider.instance.database;
     db.execute('''
         UPDATE NGUOIDUNG
-        SET MATKHAU = '$newPassword'
+        SET MATKHAU = '$encryptedPasscode'
         WHERE MANGUOIDUNG = '${StaticData.userID}'
         ''');
     Fluttertoast.showToast(msg: 'Change password successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
