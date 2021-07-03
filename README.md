@@ -64,8 +64,8 @@ Vấn đề nghiên cứu đặt ra ở dự án này là: Làm sao để giúp 
 ## Tác giả
 - Hoàng Dận Quang		19522092
 - Nguyễn Công Phi		19522006
-- Lương Thiện Phước		19522052
-- Bùi Như Phước		19522055
+- Lương Thiện Phước		19522055
+- Bùi Như Phước		19522052
 ## Phản hồi
 Tạo phản hồi ở mục Issues, mỗi phản hồi của bạn sẽ giúp chúng tôi cải thiện ứng dụng tốt hơn. Cảm ơn vì sự giúp đỡ!
 
