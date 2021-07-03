@@ -82,7 +82,7 @@ class _song5State extends State<song5>  with TickerProviderStateMixin {
         ),
         SizedBox(width: 30,),
         Text(
-          "Coffee Shop background",
+          "Coffee Shop",
           style: TextStyle(fontSize: 20, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
