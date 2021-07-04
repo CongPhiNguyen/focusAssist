@@ -20,9 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f06c0000-89ee-4b2e-b46b-5e99bd76893b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/focusAssist.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/focusAssist.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/login/screen/lock_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/login/screen/lock_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/account_setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/account_setting_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/lib/pages/settings/privacy_lock_setting_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/lib/pages/settings/privacy_lock_setting_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/focus_assist/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/focus_assist/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/focus_assist/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,11 +34,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-<<<<<<< HEAD
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
-=======
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Nexus_5X_API_28_v2]" />
->>>>>>> a8a83c8b2fb43cb40df20bf34d73e26ea813534e
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -146,31 +146,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="390" y="147" key="AndroidProcessChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1622263761945" />
-    <state x="488" y="151" key="FileChooserDialogImpl" timestamp="1625322007376">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="549" y="171" key="FileChooserDialogImpl" timestamp="1624897817892">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="488" y="151" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1625322007376" />
-    <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1624107827148" />
-    <state width="923" height="176" key="GridCell.Tab.0.bottom" timestamp="1625303188632">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1624897817892" />
+    <state width="1088" height="159" key="GridCell.Tab.0.bottom" timestamp="1625321388099">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="923" height="176" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1625303188632" />
-    <state width="1085" height="159" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1624624376624" />
-    <state width="923" height="176" key="GridCell.Tab.0.center" timestamp="1625303188631">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1088" height="159" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1625321388099" />
+    <state width="1088" height="159" key="GridCell.Tab.0.center" timestamp="1625321388099">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="923" height="176" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1625303188631" />
-    <state width="1085" height="159" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1624624376623" />
-    <state width="923" height="176" key="GridCell.Tab.0.left" timestamp="1625303188631">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1088" height="159" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1625321388099" />
+    <state width="1088" height="159" key="GridCell.Tab.0.left" timestamp="1625321388098">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="923" height="176" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1625303188631" />
-    <state width="1085" height="159" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1624624376623" />
-    <state width="923" height="176" key="GridCell.Tab.0.right" timestamp="1625303188632">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1088" height="159" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1625321388098" />
+    <state width="1088" height="159" key="GridCell.Tab.0.right" timestamp="1625321388099">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="923" height="176" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1625303188632" />
-    <state width="1085" height="159" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1624624376623" />
+    <state width="1088" height="159" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1625321388099" />
     <state x="153" y="143" key="IDE.errors.dialog" timestamp="1622917623035">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
