@@ -99,6 +99,8 @@ class _testState extends State<card_shop> {
                                      WHERE MANGUOIDUNG = '$id'
                                      ''');
 
+          updateVang();
+
           _showBILL(
               context,
               "You got $name egg and $bonus bonus gold!",
