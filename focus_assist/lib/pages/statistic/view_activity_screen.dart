@@ -45,6 +45,7 @@ class _ViewActivityState extends State<ViewActivity> {
   @override
   void initState() {
     super.initState();
+    print('view_screen init');
     des = '';
     database = [];
     name = widget.activityName;
@@ -59,6 +60,7 @@ class _ViewActivityState extends State<ViewActivity> {
     _selectedDateTime = DateTime.now();
     _targetedDateTime = DateTime.now();
     markDays();
+    print('end view_screen init');
   }
 
   int dateTimeToInt(DateTime dateTime) {
@@ -93,6 +95,7 @@ class _ViewActivityState extends State<ViewActivity> {
     }
 
     // Lấy các ngày đã làm
+    print('startTime: $startTime');
     int date = dateTimeToInt(startTime);
     List<Map<String, dynamic>> data = await dbHelper.rawQuery(
         '''select * from THONGKE where MAMUCTIEU='$key' and NGAYHOANTHANH<=$date ''');
@@ -135,15 +138,20 @@ class _ViewActivityState extends State<ViewActivity> {
           h = '0' + h;
           print('h: $h');
         }
+        print('NGAYBATDAU: ${database[0]['NGAYBATDAU']}');
+        print('startTime int: ${dateTimeToInt(startTime)}');
+        int x = 0;
         for (int day = database[0]['NGAYBATDAU'];
             day <= dateTimeToInt(startTime);
-            day++) {
+            day = dateTimeToInt(intToDateTime(day).add(Duration(days: 1)))) {
+          x++;
           if (h[indexThu] == '1') {
             toDoDays.add(day);
           }
           indexThu++;
           indexThu %= 7;
         }
+        print('x: $x');
         int doDay = 0, failDay = 0;
         for (int i = 0; i < toDoDays.length; i++) {
           if (doneDay.contains(toDoDays[i])) {
@@ -188,7 +196,8 @@ class _ViewActivityState extends State<ViewActivity> {
         List<int> toDoDays = [];
         for (int day = database[0]['NGAYBATDAU'];
             day <= dateTimeToInt(startTime);
-            day += cachNgay) {
+            day = dateTimeToInt(
+                intToDateTime(day).add(Duration(days: cachNgay)))) {
           toDoDays.add(day);
         }
         int doDay = 0, failDay = 0;
@@ -234,16 +243,20 @@ class _ViewActivityState extends State<ViewActivity> {
         int times = database[0]['SOLAN'];
         int startDay = database[0]['NGAYBATDAU'];
 
-        if (startDay + 6 - indexThu < dateTimeToInt(startTime)) {
+        if (dateTimeToInt(
+                intToDateTime(startDay).add((Duration(days: 6 - indexThu)))) <
+            dateTimeToInt(startTime)) {
           // Đếm xem thử đã trải qua 1 tuần hay chua rồi mới thực hiện tiếp
 
           int plus = 0, count = 0;
           List<int> tempMiss = [];
           for (int i = indexThu; i < 7; i++) {
-            if (doneDay.contains(startDay + plus)) {
+            if (doneDay.contains(dateTimeToInt(
+                intToDateTime(startDay).add(Duration(days: plus))))) {
               count++;
             } else {
-              tempMiss.add(startDay + plus);
+              tempMiss.add(dateTimeToInt(
+                  intToDateTime(startDay).add(Duration(days: plus))));
             }
             plus++;
           }
@@ -251,6 +264,7 @@ class _ViewActivityState extends State<ViewActivity> {
             timesByWeek.add(1);
           } else {
             timesByWeek.add(0);
+            print('tempMiss: $tempMiss');
             for (int i = 0; i < tempMiss.length; i++) {
               listMissDay.add(intToDateTime(tempMiss[i]));
             }
@@ -260,10 +274,14 @@ class _ViewActivityState extends State<ViewActivity> {
           int changeWeek = 0;
           count = 0;
           tempMiss = [];
-          for (int date = startDay + 7 - indexThu;
+          for (int date = dateTimeToInt(intToDateTime(startDay)
+                  .add((Duration(days: 7)))
+                  .subtract(Duration(days: indexThu)));
               date < dateTimeToInt(startTime);
-              date++) {
-            print('nextWeek');
+              date =
+                  dateTimeToInt(intToDateTime(date).add(Duration(days: 1)))) {
+            //print('nextWeek');
+            print('date: $date');
             if (doneDay.contains(date))
               count++;
             else
@@ -275,11 +293,13 @@ class _ViewActivityState extends State<ViewActivity> {
                 timesByWeek.add(1);
               else {
                 timesByWeek.add(0);
+                print('tempMiss: $tempMiss');
                 for (int i = 0; i < tempMiss.length; i++) {
                   listMissDay.add(intToDateTime(tempMiss[i]));
                 }
-                tempMiss = [];
               }
+              count = 0;
+              tempMiss = [];
             }
           }
           int streak = 0;
