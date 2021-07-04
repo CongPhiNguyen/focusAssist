@@ -243,6 +243,11 @@ class _FarmScreenState extends State<FarmScreen> {
               SET LEVELPOKEMON = ${StaticData.PokemonUsers[index].Level}
               WHERE MANGUOIDUNG = '${StaticData.userID}' AND MAPOKEMON = '${StaticData.PokemonUsers[index].MaPOKEMON}'
               ''');
+            final t = await DbProvider.instance.rawQuery('''
+                    UPDATE THONGTINNGUOIDUNG
+                    SET VANG = ${StaticData.Vang}
+                    WHERE MANGUOIDUNG = '${StaticData.userID}'
+                    ''');
             bool isCheckAchiLv50 = false;
             bool isCheckAchiLv100 = false;
             //Nhận thành tựu lv 25
@@ -271,6 +276,7 @@ class _FarmScreenState extends State<FarmScreen> {
                     };
                     int e = await DbProvider.instance.insert(
                         'THANHTUUNGUOIDUNG', row);
+
 
 
                     final k = await DbProvider.instance.rawQuery('''
