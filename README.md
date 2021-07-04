@@ -17,6 +17,7 @@ Vấn đề nghiên cứu đặt ra ở dự án này là: Làm sao để giúp 
 *	[Flutter](https://flutter.dev/).
 *	[Firebase](https://firebase.google.com/).
 *	[Pub.dev](https://pub.dev/).
+*	[SQLite](https://www.sqlite.org/index.html).
 
 ## **Tính năng**
 ### **Quản lý tài khoản**
