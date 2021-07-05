@@ -455,8 +455,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
             // gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
             updateGold(reward);
             _showSuccess(this.context, " \n + $reward gold");
-            StaticData.gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
-            StaticData.gifcontroller.stop();
+            //StaticData.gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
+            StaticData.gifcontroller.reset();
             updateHistories(true, "00:10:00");
             checkThanhTuu();
           }
@@ -605,8 +605,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                 onPressed: () {
                       checkThanhTuu();
                       if(!stoped) stop();
-                      StaticData.gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
-                      StaticData.gifcontroller.stop();
+                      //StaticData.gifcontroller.repeat(min:0,max:0,period:Duration(milliseconds: 1));
+                      StaticData.gifcontroller.reset();
                         _controlIcon = Icons.play_arrow;
                       // duration = timetoDisplay;  
                       // print(timetoDisplay);
