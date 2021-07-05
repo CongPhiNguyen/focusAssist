@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'soundControl.dart';
 class song3 extends StatefulWidget {

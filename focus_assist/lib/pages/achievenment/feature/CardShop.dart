@@ -107,7 +107,6 @@ class _testState extends State<card_shop> {
               true);
         } else {
           setState(() {
-            StaticData.Vang -= price;
             isBuy = true;
           });
           int vang = StaticData.Vang;
