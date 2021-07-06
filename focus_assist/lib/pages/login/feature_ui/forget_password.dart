@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -12,7 +13,7 @@ class forgot_password extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _tk, _mk, _re_mk;
+    String _tk, _firstPetName,_childHoodName,_mk, _re_mk;
     return GestureDetector(
       onTap: (){
         Alert(
@@ -27,6 +28,24 @@ class forgot_password extends StatelessWidget {
                   decoration: InputDecoration(
                     icon: Icon(Icons.account_circle),
                     labelText: 'Tài khoản',
+                  ),
+                ),
+                TextField(
+                  onChanged: (value){
+                    _firstPetName = value;
+                  },
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.account_circle),
+                    labelText: "The first pet's name?",
+                  ),
+                ),
+                TextField(
+                  onChanged: (value){
+                    _childHoodName = value;
+                  },
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.account_circle),
+                    labelText: "Childhood's name?",
                   ),
                 ),
                 TextField(
@@ -58,11 +77,11 @@ class forgot_password extends StatelessWidget {
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 onPressed: () {
-                  if(_tk == null || _mk == null || _re_mk == null)
+                  if(_tk == null || _mk == null || _re_mk == null || _childHoodName == null || _firstPetName == null)
                     {
-                      _show(context, 'Điền đầy đủ thông tin');
+                      Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 1 );
                     }else {
-                    checkTK(_tk, _mk, _re_mk, context);
+                    checkTK(_tk, _firstPetName,_childHoodName,_mk, _re_mk, context);
                     Navigator.pop(context);
                   }
                 },
@@ -94,19 +113,24 @@ class forgot_password extends StatelessWidget {
 }
 
 
-void checkTK(String tk, String mk, String re_mk,context) async {
-
-
+void checkTK(String tk, String firstPetname,String childHoodname,String mk, String re_mk,context) async {
 
   final k = await DbProvider.instance.rawQuery('''
   SELECT * FROM NGUOIDUNG WHERE TENTAIKHOAN = '$tk'
   ''');
   if (k.length == 0) {
-    _show(context, 'Tài khoản không tồn tại');
+    Fluttertoast.showToast(msg: 'Account does not exist', textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 1 );
+    //_show(context, 'Tài khoản không tồn tại');
     return;
   }
+
+  if(k[0]['FIRSTPETNAME'] != firstPetname || k[0]['CHILDHOODNAME'] != childHoodname){
+    Fluttertoast.showToast(msg: 'The answer is not correct', textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 1 );
+    return;
+  }
+
   if (mk != re_mk) {
-    _show(context, 'Nhập lại mật khẩu không đúng');
+    _show(context, 'Re-password incorrect');
     return;
   }
 
@@ -115,7 +139,7 @@ void checkTK(String tk, String mk, String re_mk,context) async {
   SET MATKHAU = '$mk'
   WHERE TENTAIKHOAN = '$tk'
   ''');
-  _showSuccess(context, 'Đổi mật khẩu thành công !');
+  _showSuccess(context, 'Successfully !');
   return;
 }
 
@@ -145,7 +169,7 @@ void _showSuccess(context, String message){
   Alert(
     context: context,
     type: AlertType.success,
-    title: "Thông báo",
+    title: "",
     closeIcon: Icon(Icons.error),
     desc: message,
     buttons: [

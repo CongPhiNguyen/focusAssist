@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
+import 'package:focus_assist/pages/login/screen/question_screen.dart';
 import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
 import 'package:focus_assist/pages/login/feature_ui/dontyouhaveaccount.dart';
@@ -202,7 +203,7 @@ class SignUpScreen extends StatelessWidget {
     } else {
       Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': maHoaPassWord(mk)};
       int i = await DbProvider.instance.insert('NGUOIDUNG', row);
-
+      StaticData.userID = maUser;
       row = {'MANGUOIDUNG': maUser ,
         'HOTEN': name,
         'ANH':  '',
@@ -214,7 +215,10 @@ class SignUpScreen extends StatelessWidget {
         'THOIGIANTHONGBAOTOI': '22:00:00',
         'DARKMODE': 0,
         'PRIVACYLOCK': 0,
-        'LOCKPASSCODE': ''};
+        'LOCKPASSCODE': '',
+        'FIRSTPETNAME': 'NULL',
+        'CHILDHOODNAME': 'NULL',
+      };
       await DbProvider.instance.insert('THONGTINNGUOIDUNG', row);
 
       print('value of insert: $i');
@@ -232,7 +236,7 @@ class SignUpScreen extends StatelessWidget {
       Navigator.pop(context);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MainScreen()),
+        MaterialPageRoute(builder: (context) => QuestionScreen()),
       );
       Fluttertoast.showToast(msg: 'Sign in successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100],gravity: ToastGravity.CENTER, toastLength: Toast.LENGTH_SHORT);
     }
