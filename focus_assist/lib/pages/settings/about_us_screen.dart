@@ -27,6 +27,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
       body: ListView(
         children: [
           Container(
+            height: size.height,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [(!StaticData.isDarkMode)?Colors.blue[200]:Colors.grey[900],(!StaticData.isDarkMode)?Colors.purple[200]:Colors.grey[700]],
