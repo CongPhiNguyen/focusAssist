@@ -30,7 +30,7 @@ class forgot_password extends StatelessWidget {
                   },
                   decoration: InputDecoration(
                     icon: Icon(Icons.account_circle),
-                    labelText: 'Tài khoản',
+                    labelText: 'Username',
                   ),
                 ),
                 TextField(
@@ -39,7 +39,7 @@ class forgot_password extends StatelessWidget {
                   },
                   decoration: InputDecoration(
                     icon: Icon(Icons.account_circle),
-                    labelText: "The first pet's name?",
+                    labelText: "First pet's name",
                   ),
                 ),
                 TextField(
@@ -48,7 +48,7 @@ class forgot_password extends StatelessWidget {
                   },
                   decoration: InputDecoration(
                     icon: Icon(Icons.account_circle),
-                    labelText: "Childhood's name?",
+                    labelText: "Childhood name",
                   ),
                 ),
                 TextField(
