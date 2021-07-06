@@ -61,15 +61,15 @@ class SignUpScreen extends StatelessWidget {
                     Container(
                       width: size.width*0.6,
                       child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            FadeAnimation(1.2,  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
-                            SizedBox(height: size.height*0.01,),
-                            FadeAnimation(1.2,  Text('Welcome to Focus Assist',style: TextStyle(color: Colors.white,fontSize: size.height*0.02),)),
-                            SizedBox(height: size.height*0.01,),
-                          ],
-                        ),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          FadeAnimation(1.2,  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
+                          SizedBox(height: size.height*0.01,),
+                          FadeAnimation(1.2,  Text('Welcome to Focus Assist',style: TextStyle(color: Colors.white,fontSize: size.height*0.02),)),
+                          SizedBox(height: size.height*0.01,),
+                        ],
+                      ),
                     ),
                     FadeAnimation(2,Container(
                       width: size.width*0.3,
@@ -83,90 +83,90 @@ class SignUpScreen extends StatelessWidget {
             SizedBox(height: size.height*0.01,),
             Container(
               height: size.height,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40)),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child:  Column(
-                    children: <Widget>[
-                      FadeAnimation(1.2,edit_text_login(
-                        icon: Icons.drive_file_rename_outline,
-                        hintText: "Your name",
-                        onChanged: (value){
-                          _ten = value;
-                        },
-                      )),
-                      SizedBox(height: size.height*0.0015,),
-                      FadeAnimation(1.2,edit_text_login(
-                        icon: Icons.person,
-                        hintText: "Username",
-                        onChanged: (value){
-                          _taiKhoan = value;
-                        },
-                      )),
-                      SizedBox(height: size.height*0.0015,),
-                      FadeAnimation(1.4,edit_text_password_login(
-                        onChanged: (value){
-                          _matKhau = value;
-                        },
-                      )),
-                      SizedBox(height: size.height*0.03,),
-                      FadeAnimation(1.4, button_login(
-                        color: Colors.amber[600],
-                        text: 'SIGN UP',
-                        press: () async {
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40)),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child:  Column(
+                  children: <Widget>[
+                    FadeAnimation(1.2,edit_text_login(
+                      icon: Icons.drive_file_rename_outline,
+                      hintText: "Your name",
+                      onChanged: (value){
+                        _ten = value;
+                      },
+                    )),
+                    SizedBox(height: size.height*0.0015,),
+                    FadeAnimation(1.2,edit_text_login(
+                      icon: Icons.person,
+                      hintText: "Username",
+                      onChanged: (value){
+                        _taiKhoan = value;
+                      },
+                    )),
+                    SizedBox(height: size.height*0.0015,),
+                    FadeAnimation(1.4,edit_text_password_login(
+                      onChanged: (value){
+                        _matKhau = value;
+                      },
+                    )),
+                    SizedBox(height: size.height*0.03,),
+                    FadeAnimation(1.4, button_login(
+                      color: Colors.amber[600],
+                      text: 'SIGN UP',
+                      press: () async {
 
-                           if (_matKhau == null || _taiKhoan== null || _ten == null)
-                            {
-                              //_show(context, "Điền đầy đủ thông tin!");
-                              Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 1 );
-                            }
-                           else if (validCharacters.hasMatch(_taiKhoan) ==false || validCharacters.hasMatch(_matKhau)== false){
-                             Fluttertoast.showToast(msg: "Invalid username or password", textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG);
-                           }
-                          else
-                            {
-                              _maUser = getRandomString(10);
-                              _queryCheckUser(_taiKhoan, _matKhau, _maUser, _ten ,context);
-                            }
-                        },
-                      )),
-                      SizedBox(height: size.height*0.02,),
-                      FadeAnimation(1.4, Donthaveanaccount(
-                        login: false,
-                        press: (){Navigator.push(context, MaterialPageRoute(builder: (context){return LoginScreen();}));},
-                      )),
-                      SizedBox(height: size.height*0.02,),
-                      //FadeAnimation(1.6,Or()),
-                      //  SizedBox(height: size.height*0.03,),
-                      // FadeAnimation(1.6,  Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     login_with_socialnetwork(
-                      //       iconImage: "assets/login/icon/facebook.png",
-                      //       press: (){},
-                      //     ),
-                      //     login_with_socialnetwork(
-                      //       iconImage: "assets/login/icon/google.png",
-                      //       press: (){},
-                      //     ),
-                      //     login_with_socialnetwork(
-                      //       iconImage: "assets/login/icon/twitter.png",
-                      //       press: (){},
-                      //     ),
-                      //   ],
-                      // )),
-                      FadeAnimation(2.5,Container(
-                        height: size.height*0.15,
-                        width: size.width*0.6,
-                        child: Image.asset('assets/achievenment/ui/ui_signin.PNG'),
-                      )),
-                    ],
-                  ),
+                        if (_matKhau == null || _taiKhoan== null || _ten == null)
+                        {
+                          //_show(context, "Điền đầy đủ thông tin!");
+                          Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 1 );
+                        }
+                        else if (validCharacters.hasMatch(_taiKhoan) ==false || validCharacters.hasMatch(_matKhau)== false){
+                          Fluttertoast.showToast(msg: "Invalid username or password", textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG);
+                        }
+                        else
+                        {
+                          _maUser = getRandomString(10);
+                          _queryCheckUser(_taiKhoan, _matKhau, _maUser, _ten ,context);
+                        }
+                      },
+                    )),
+                    SizedBox(height: size.height*0.02,),
+                    FadeAnimation(1.4, Donthaveanaccount(
+                      login: false,
+                      press: (){Navigator.push(context, MaterialPageRoute(builder: (context){return LoginScreen();}));},
+                    )),
+                    SizedBox(height: size.height*0.02,),
+                    //FadeAnimation(1.6,Or()),
+                    //  SizedBox(height: size.height*0.03,),
+                    // FadeAnimation(1.6,  Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: <Widget>[
+                    //     login_with_socialnetwork(
+                    //       iconImage: "assets/login/icon/facebook.png",
+                    //       press: (){},
+                    //     ),
+                    //     login_with_socialnetwork(
+                    //       iconImage: "assets/login/icon/google.png",
+                    //       press: (){},
+                    //     ),
+                    //     login_with_socialnetwork(
+                    //       iconImage: "assets/login/icon/twitter.png",
+                    //       press: (){},
+                    //     ),
+                    //   ],
+                    // )),
+                    FadeAnimation(2.5,Container(
+                      height: size.height*0.15,
+                      width: size.width*0.6,
+                      child: Image.asset('assets/achievenment/ui/ui_signin.PNG'),
+                    )),
+                  ],
                 ),
               ),
+            ),
           ],
         ),
       ),
@@ -216,8 +216,8 @@ class SignUpScreen extends StatelessWidget {
         'DARKMODE': 0,
         'PRIVACYLOCK': 0,
         'LOCKPASSCODE': '',
-        'FIRSTPETNAME': 'NULL',
-        'CHILDHOODNAME': 'NULL',
+        'FIRSTPETNAME': '',
+        'CHILDHOODNAME': '',
       };
       await DbProvider.instance.insert('THONGTINNGUOIDUNG', row);
 
@@ -233,12 +233,12 @@ class SignUpScreen extends StatelessWidget {
           MANGUOIDUNG = '${StaticData.userID}';
       ''');
       InitUserNotification();
-      Navigator.pop(context);
+      // Navigator.pop(context);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => QuestionScreen()),
       );
-      Fluttertoast.showToast(msg: 'Sign in successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100],gravity: ToastGravity.CENTER, toastLength: Toast.LENGTH_SHORT);
+      // Fluttertoast.showToast(msg: 'Sign up successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100],gravity: ToastGravity.CENTER, toastLength: Toast.LENGTH_SHORT);
     }
   }
 
