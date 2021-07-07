@@ -10,6 +10,7 @@ import 'package:focus_assist/pages/settings/change_theme_switch_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:focus_assist/pages/settings//about_us_screen.dart';
+import 'package:focus_assist/pages/settings/tutorial_screen.dart';
 
 
 class SettingScreen extends StatefulWidget {
@@ -166,6 +167,24 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
                 leading: Icon(
                   Icons.chat_rounded,
+                  size: 36.0,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                trailing: Icon(Icons.navigate_next),
+              ),
+              Divider(height: 10.0, thickness: 2.0, indent: 65.0,),
+              ListTile (
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TutorialScreen()),
+                  );
+                },
+                title: Text(
+                  'Tutorial',
+                ),
+                leading: Icon(
+                  Icons.book_rounded,
                   size: 36.0,
                   color: Theme.of(context).iconTheme.color,
                 ),
