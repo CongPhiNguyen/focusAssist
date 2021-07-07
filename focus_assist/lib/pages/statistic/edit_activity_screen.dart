@@ -640,6 +640,7 @@ class _EditActivityState extends State<EditActivity> {
                       // Description
                       TextField(
                         controller: getDescription,
+                        textInputAction: TextInputAction.done,
                         decoration: InputDecoration(
                             isDense: true,
                             contentPadding: EdgeInsets.all(8),

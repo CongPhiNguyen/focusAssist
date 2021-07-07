@@ -10,6 +10,7 @@ import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
 
 import 'package:focus_assist/pages/login/feature_ui/edit_text.dart';
+import 'package:focus_assist/pages/login/feature_ui/forget_password.dart';
 import 'package:focus_assist/pages/main_screen.dart';
 
 
@@ -159,6 +160,7 @@ class _LockScreenState extends State<LockScreen> {
                         )
                     ),
                     SizedBox(height: size.height*0.01,),
+                    FadeAnimation(1.6, isPrivacy?SizedBox(height: 0,):forgot_password()),
                     FadeAnimation(1.6,
                         isPrivacy?
                         button_login(
@@ -267,7 +269,7 @@ class _LockScreenState extends State<LockScreen> {
       passcodeEditingController.text= '';
       new_passcodeEditingController.text='';
     });
-    Fluttertoast.showToast(msg: 'Successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_SHORT);
+    Fluttertoast.showToast(msg: 'Reset passcode successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_SHORT);
 
   }
 
@@ -287,6 +289,7 @@ class _LockScreenState extends State<LockScreen> {
       context,
       MaterialPageRoute(builder: (context) => MainScreen()),
     );
+    Fluttertoast.showToast(msg: 'Sign in successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_SHORT);
   }
 
   //Dung SHA-512224 băm mk

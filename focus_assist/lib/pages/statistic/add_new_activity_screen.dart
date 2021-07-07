@@ -613,6 +613,7 @@ class _AddNewState extends State<AddNew> {
                       // Description
                       TextField(
                         controller: getDescription,
+                        textInputAction: TextInputAction.done,
                         decoration: InputDecoration(
                             isDense: true,
                             contentPadding: EdgeInsets.all(8),
