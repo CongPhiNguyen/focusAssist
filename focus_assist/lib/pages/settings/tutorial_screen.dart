@@ -578,20 +578,20 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                   ),
                                 ),
                                 SizedBox(height: 15,),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10,right: 10),
-                                  child: Text(
-                                    '•	Thông tin liên hệ About Us sẽ cung cấp thông tin liên hệ và thông tin của các thành viên thực hiện dự án.',
-                                    style: TextStyle(
-                                      //fontWeight: FontWeight.w200,
-                                      fontSize: size.height*0.023,
-                                      color: Colors.black,
-                                    ),
-                                    textAlign: TextAlign.justify,
-                                    textScaleFactor: 1,
-                                  ),
-                                ),
-                                SizedBox(height: 15,),
+                                // Padding(
+                                //   padding: EdgeInsets.only(left: 10,right: 10),
+                                //   child: Text(
+                                //     '•	Thông tin liên hệ About Us sẽ cung cấp thông tin liên hệ và thông tin của các thành viên thực hiện dự án.',
+                                //     style: TextStyle(
+                                //       //fontWeight: FontWeight.w200,
+                                //       fontSize: size.height*0.023,
+                                //       color: Colors.black,
+                                //     ),
+                                //     textAlign: TextAlign.justify,
+                                //     textScaleFactor: 1,
+                                //   ),
+                                // ),
+                                // SizedBox(height: 15,),
                                 Padding(
                                   padding: EdgeInsets.only(left: 10,right: 10),
                                   child: Text(
@@ -617,7 +617,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                 Padding(
                                   padding: EdgeInsets.only(left: 10,right: 10),
                                   child: Text(
-                                    '•	Bảo mật ứng dụng với Privacy lock – cho phép người dùng bảo mật thông tin, yêu cầu nhập mật khẩu để vào ứng dụng.',
+                                    '•	Bảo mật ứng dụng với Privacy lock – cho phép người dùng bảo mật thông tin bằng cách yêu cầu nhập mật khẩu bảo mật để vào ứng dụng.',
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
@@ -628,20 +628,20 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                   ),
                                 ),
                                 SizedBox(height: 20,),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10,right: 10),
-                                  child: Text(
-                                    '•	Đổi mật khẩu.',
-                                    style: TextStyle(
-                                      //fontWeight: FontWeight.w200,
-                                      fontSize: size.height*0.023,
-                                      color: Colors.black,
-                                    ),
-                                    textAlign: TextAlign.justify,
-                                    textScaleFactor: 1,
-                                  ),
-                                ),
-                                SizedBox(height: 20,),
+                                // Padding(
+                                //   padding: EdgeInsets.only(left: 10,right: 10),
+                                //   child: Text(
+                                //     '•	Đổi mật khẩu.',
+                                //     style: TextStyle(
+                                //       //fontWeight: FontWeight.w200,
+                                //       fontSize: size.height*0.023,
+                                //       color: Colors.black,
+                                //     ),
+                                //     textAlign: TextAlign.justify,
+                                //     textScaleFactor: 1,
+                                //   ),
+                                // ),
+                                // SizedBox(height: 20,),
                                 Center(
                                   child: Container(
                                     width: size.width*0.7,

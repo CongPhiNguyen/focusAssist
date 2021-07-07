@@ -537,6 +537,13 @@ class _FarmScreenState extends State<FarmScreen> {
   }
 
   void Loading() async {
+
+    // await DbProvider.instance.rawQuery('''
+    //     UPDATE THONGTINNGUOIDUNG
+    //     SET VANG = 5000
+    //     WHERE MANGUOIDUNG = '${StaticData.userID}';
+    //     ''');
+
     StaticData.EggUser.clear();
     String id = StaticData.userID;
     final k = await DbProvider.instance.rawQuery('''
