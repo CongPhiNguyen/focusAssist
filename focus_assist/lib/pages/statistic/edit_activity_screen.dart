@@ -549,6 +549,18 @@ class _EditActivityState extends State<EditActivity> {
     }
   }
 
+  Future<bool> checkUniqueName(String name) async {
+    String userID = StaticData.userID;
+    List<Map<String, dynamic>> database = await dbHelper
+        .rawQuery('''select * from NHOMMUCTIEU where MANGUOIDUNG='$userID' ''');
+    for (int i = 0; i < database.length; i++) {
+      if (database[i]['TENNHOM'] == name) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     OutlineInputBorder k = OutlineInputBorder(
