@@ -14,14 +14,16 @@ class EditGroup extends StatefulWidget {
 class _EditGroupState extends State<EditGroup> {
   TextEditingController getGroupName;
   String error = "Group name can't be blank";
+  String error2 = "Group name must be unique";
   final dbHelper = DbProvider.instance;
-  bool isOK;
+  bool isOK, isUnique;
 
   @override
   void initState() {
     super.initState();
     getGroupName = TextEditingController(text: widget.groupName);
     isOK = true;
+    isUnique = true;
   }
 
 //Hàm tạo string random để Tạo khoá
@@ -49,11 +51,25 @@ class _EditGroupState extends State<EditGroup> {
         '''update NHOMMUCTIEU set TENNHOM='$newName' where MANHOM='$key'  ''');
   }
 
+  Future<bool> checkUniqueName(String name) async {
+    String userID = StaticData.userID;
+    List<Map<String, dynamic>> database = await dbHelper
+        .rawQuery('''select * from NHOMMUCTIEU where MANGUOIDUNG='$userID' ''');
+    for (int i = 0; i < database.length; i++) {
+      if (database[i]['TENNHOM'] == name) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     OutlineInputBorder k = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(4)),
-      borderSide: BorderSide(width: 1, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey),
+      borderSide: BorderSide(
+          width: 1,
+          color: (!StaticData.isDarkMode) ? Colors.black : Colors.grey),
     );
     return Dialog(
         shape:
@@ -82,17 +98,34 @@ class _EditGroupState extends State<EditGroup> {
                     focusedErrorBorder: k,
                     border: OutlineInputBorder(),
                     labelText: 'Group Name',
-                    labelStyle: TextStyle(fontSize: 20, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400])
+                    labelStyle: TextStyle(
+                        fontSize: 20,
+                        color: (!StaticData.isDarkMode)
+                            ? Colors.black
+                            : Colors.grey[400])),
+                style: TextStyle(
+                  fontSize: 20,
                 ),
-                style: TextStyle(fontSize: 20,),
               ),
             ),
             (isOK)
-                ? SizedBox()
+                ? ((isUnique)
+                    ? SizedBox()
+                    : Center(
+                        child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                        child: Text(
+                          error2,
+                          style: TextStyle(color: Colors.red, fontSize: 20),
+                        ),
+                      )))
                 : Center(
+                    child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                     child: Text(
-                    error,
-                    style: TextStyle(color: Colors.red, fontSize: 20),
+                      error,
+                      style: TextStyle(color: Colors.red, fontSize: 20),
+                    ),
                   )),
             SizedBox(
               height: 10,
@@ -102,31 +135,38 @@ class _EditGroupState extends State<EditGroup> {
               padding: EdgeInsets.fromLTRB(15, 10, 10, 10),
               decoration: BoxDecoration(
                   // color: Color(0xffe0e6ee),
-                  color: (!StaticData.isDarkMode)?Colors.grey[200]:Colors.grey[700],
+                  color: (!StaticData.isDarkMode)
+                      ? Colors.grey[200]
+                      : Colors.grey[700],
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
                       bottomRight: Radius.circular(10))),
               child: InkWell(
-                onTap: () {
+                onTap: () async {
                   if (getGroupName.text == null ||
                       getGroupName.text.length < 1) {
                     if (this.mounted) {
                       setState(() {
                         isOK = false;
                       });
-                    } else
-                      return;
-
-                    print("Fuck");
-                  } else {
+                    }
+                    return;
+                  }
+                  bool k = await checkUniqueName(getGroupName.text);
+                  setState(() {
+                    isUnique = k;
+                  });
+                  if (k) {
                     editGroup();
                     Navigator.pop(context);
                   }
                 },
                 child: Center(
                   child: Text('Finish',
-                      style: TextStyle(fontSize: 20,)),
+                      style: TextStyle(
+                        fontSize: 20,
+                      )),
                 ),
               ),
             ),
