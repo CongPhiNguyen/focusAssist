@@ -63,7 +63,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                         width: size.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.white70,
+                          color: (!StaticData.isDarkMode)?Colors.white70:Colors.grey[700],
                         ),
                         child: ListView(
                           children:[ Padding(
@@ -77,7 +77,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.height*0.03,
-                                    color: Colors.black,
+                                    color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[300],
                                   ),
                                   textAlign: TextAlign.justify,
                                   textScaleFactor: 1,
@@ -97,7 +97,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -119,7 +119,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -131,7 +131,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.height*0.03,
-                                    color: Colors.black,
+                                    color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[300],
                                   ),
                                   textAlign: TextAlign.justify,
                                   textScaleFactor: 1,
@@ -151,7 +151,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -164,7 +164,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -178,7 +178,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -187,10 +187,11 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                 Padding(
                                   padding: EdgeInsets.only(left: 40,right: 10),
                                   child: Text(
-                                    '-	Để theo dõi quá trình thực hiện của 1 thói quen, người dùng có thể ấn vào một hoạt động bất kì trên màn hình chính, tại màn hình theo dõi (màn hình 3) sẽ cho phép người dùng xem chi tiết quá trình thực hiện thói quen mỗi ngày và thống kê tiến độ thực hiện của hoạt động đó bằng biểu đồ tròn. Ngoài ra người dùng còn có thể xóa thói quen hoặc chỉnh sửa thói quen bằng các tiện ích ở trên cùng màn hình.',                                    style: TextStyle(
+                                    '-	Để theo dõi quá trình thực hiện của 1 thói quen, người dùng có thể ấn vào một hoạt động bất kì trên màn hình chính, tại màn hình theo dõi (màn hình 3) sẽ cho phép người dùng xem chi tiết quá trình thực hiện thói quen mỗi ngày và thống kê tiến độ thực hiện của hoạt động đó bằng biểu đồ tròn. Ngoài ra người dùng còn có thể xóa thói quen hoặc chỉnh sửa thói quen bằng các tiện ích ở trên cùng màn hình.',
+                                    style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -204,7 +205,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -217,7 +218,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -231,7 +232,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -244,7 +245,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -256,7 +257,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.height*0.03,
-                                    color: Colors.black,
+                                    color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[300],
                                   ),
                                   textAlign: TextAlign.justify,
                                   textScaleFactor: 1,
@@ -275,7 +276,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -288,7 +289,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -302,7 +303,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -315,7 +316,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -329,7 +330,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -342,7 +343,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -356,7 +357,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -369,7 +370,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -377,11 +378,11 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                 ),
                                 SizedBox(height: 20,),
                                 Text(
-                                  '4. Focus Famer',
+                                  '4. Focus Farm',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.height*0.03,
-                                    color: Colors.black,
+                                    color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[300],
                                   ),
                                   textAlign: TextAlign.justify,
                                   textScaleFactor: 1,
@@ -400,7 +401,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -414,7 +415,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -428,7 +429,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -442,7 +443,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -464,7 +465,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -478,7 +479,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -490,7 +491,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.height*0.03,
-                                    color: Colors.black,
+                                    color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[300],
                                   ),
                                   textAlign: TextAlign.justify,
                                   textScaleFactor: 1,
@@ -511,7 +512,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -525,7 +526,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -537,7 +538,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.height*0.03,
-                                    color: Colors.black,
+                                    color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                   ),
                                   textAlign: TextAlign.justify,
                                   textScaleFactor: 1,
@@ -557,7 +558,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -571,7 +572,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -585,7 +586,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                 //     style: TextStyle(
                                 //       //fontWeight: FontWeight.w200,
                                 //       fontSize: size.height*0.023,
-                                //       color: Colors.black,
+                                //       color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                 //     ),
                                 //     textAlign: TextAlign.justify,
                                 //     textScaleFactor: 1,
@@ -599,7 +600,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -621,7 +622,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
@@ -635,7 +636,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                 //     style: TextStyle(
                                 //       //fontWeight: FontWeight.w200,
                                 //       fontSize: size.height*0.023,
-                                //       color: Colors.black,
+                                //       color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                 //     ),
                                 //     textAlign: TextAlign.justify,
                                 //     textScaleFactor: 1,
@@ -657,7 +658,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                                     style: TextStyle(
                                       //fontWeight: FontWeight.w200,
                                       fontSize: size.height*0.023,
-                                      color: Colors.black,
+                                      color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[200],
                                     ),
                                     textAlign: TextAlign.justify,
                                     textScaleFactor: 1,
