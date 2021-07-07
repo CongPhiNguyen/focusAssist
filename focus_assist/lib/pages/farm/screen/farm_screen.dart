@@ -72,11 +72,27 @@ class _FarmScreenState extends State<FarmScreen> {
       rank = 3;
     }
 
+    double price = 0;
+    if(StaticData.PokemonUsers[index].rareColor == Colors.greenAccent){
+      price = ((100 + (5*StaticData.PokemonUsers[index].Level))*30/100);
+    }
+    if(StaticData.PokemonUsers[index].rareColor == Colors.blueAccent){
+      price = ((200 + (10*StaticData.PokemonUsers[index].Level))*30/100);
+    }
+    if(StaticData.PokemonUsers[index].rareColor == Colors.purpleAccent){
+      price = ((350 + (15*StaticData.PokemonUsers[index].Level))*30/100);
+    }
+    if(StaticData.PokemonUsers[index].rareColor == Colors.redAccent){
+      price = ((500 + (20*StaticData.PokemonUsers[index].Level))*30/100);
+    }
+
+
+
     Alert(
         context: context,
-        title: 'DELETE POKEMON',
+        title: 'SELL POKEMON',
         closeIcon: Icon(Icons.auto_awesome),
-        desc: "Do you want to delete this pokemon?",
+        desc: "Do you want to sell this pokemon with ${price.toInt()} gold?",
         content: Column(
           children: [
             Center(
@@ -99,7 +115,7 @@ class _FarmScreenState extends State<FarmScreen> {
         buttons: [
           DialogButton(
             child: Text(
-              "DELETE",
+              "SELL",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onPressed: () async {
@@ -109,8 +125,15 @@ class _FarmScreenState extends State<FarmScreen> {
             ''');
 
               setState(() {
+                StaticData.Vang += price.toInt();
                 StaticData.PokemonUsers.removeAt(index);
               });
+
+              await DbProvider.instance.rawQuery('''
+              UPDATE THONGTINNGUOIDUNG
+              SET VANG = ${StaticData.Vang}
+              WHERE MANGUOIDUNG = '${StaticData.userID}'
+              ''');
 
               Navigator.pop(context);
             },
