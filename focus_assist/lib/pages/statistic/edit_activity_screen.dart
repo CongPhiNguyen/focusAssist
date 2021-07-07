@@ -391,7 +391,7 @@ class _EditActivityState extends State<EditActivity> {
               builder: (BuildContext context) => AlertDialog(
                     title: Text("Message"),
                     content: Text(
-                        "Days per week can't greater than 7 or less than 1"),
+                        "Days per week can't be greater than 7 or less than 1"),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -640,6 +640,7 @@ class _EditActivityState extends State<EditActivity> {
                       // Description
                       TextField(
                         controller: getDescription,
+                        textInputAction: TextInputAction.done,
                         decoration: InputDecoration(
                             isDense: true,
                             contentPadding: EdgeInsets.all(8),

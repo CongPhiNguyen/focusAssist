@@ -47,8 +47,8 @@ class _ProgressScreenState extends State<ProgressScreen> {
                 focusedDay: currentDayTime,
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 availableCalendarFormats: {
-                  CalendarFormat.week: 'Week',
-                  CalendarFormat.month: 'Month',
+                  CalendarFormat.week: 'Month',
+                  CalendarFormat.month: 'Week',
                 },
                 onFormatChanged: (format) {
                   if(this.mounted) {
