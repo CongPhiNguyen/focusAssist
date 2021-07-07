@@ -349,7 +349,7 @@ class _AddNewState extends State<AddNew> {
               builder: (BuildContext context) => AlertDialog(
                     title: Text("Message"),
                     content: Text(
-                        "Days per week can't greater than 7 or less than 1"),
+                        "Days per week can't be greater than 7 or less than 1"),
                     actions: [
                       TextButton(
                         onPressed: () {

@@ -451,6 +451,28 @@ class _ViewActivityState extends State<ViewActivity> {
     );
   }
 
+  Map<String, double> CalculateOverallPercentage(Map<String, double> map) {
+    double donePercentage;
+    double missPercentage;
+    if (map['Done'] == 0) {
+      donePercentage = 0;
+      missPercentage = 100;
+    }
+    else if (map['Miss'] == 0) {
+      donePercentage = 100;
+      missPercentage = 0;
+    }
+    else {
+      donePercentage = (map['Done'] / (map['Done'] + map['Miss']) * 100).roundToDouble();
+      missPercentage = 100.0 - donePercentage;
+    }
+    Map<String, double> percentageMap = {
+      'Done': donePercentage,
+      'Miss': missPercentage,
+    };
+    return percentageMap;
+  }
+
   @override
   Widget build(BuildContext context) {
     cHeight = MediaQuery.of(context).size.height;
@@ -685,7 +707,7 @@ class _ViewActivityState extends State<ViewActivity> {
             )),
         PieChart(
           chartRadius: 200,
-          dataMap: dataMap,
+          dataMap: CalculateOverallPercentage(dataMap),
           colorList: [
             Colors.greenAccent[400],
             Colors.redAccent[100],
