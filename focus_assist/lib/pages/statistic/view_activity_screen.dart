@@ -196,7 +196,8 @@ class _ViewActivityState extends State<ViewActivity> {
         List<int> toDoDays = [];
         for (int day = database[0]['NGAYBATDAU'];
             day <= dateTimeToInt(startTime);
-            day = dateTimeToInt(intToDateTime(day).add(Duration(days: cachNgay)))) {
+            day = dateTimeToInt(
+                intToDateTime(day).add(Duration(days: cachNgay)))) {
           toDoDays.add(day);
         }
         int doDay = 0, failDay = 0;
@@ -242,16 +243,20 @@ class _ViewActivityState extends State<ViewActivity> {
         int times = database[0]['SOLAN'];
         int startDay = database[0]['NGAYBATDAU'];
 
-        if (dateTimeToInt(intToDateTime(startDay).add((Duration(days: 6 - indexThu)))) < dateTimeToInt(startTime)) {
+        if (dateTimeToInt(
+                intToDateTime(startDay).add((Duration(days: 6 - indexThu)))) <
+            dateTimeToInt(startTime)) {
           // Đếm xem thử đã trải qua 1 tuần hay chua rồi mới thực hiện tiếp
 
           int plus = 0, count = 0;
           List<int> tempMiss = [];
           for (int i = indexThu; i < 7; i++) {
-            if (doneDay.contains(dateTimeToInt(intToDateTime(startDay).add(Duration(days: plus))))) {
+            if (doneDay.contains(dateTimeToInt(
+                intToDateTime(startDay).add(Duration(days: plus))))) {
               count++;
             } else {
-              tempMiss.add(dateTimeToInt(intToDateTime(startDay).add(Duration(days: plus))));
+              tempMiss.add(dateTimeToInt(
+                  intToDateTime(startDay).add(Duration(days: plus))));
             }
             plus++;
           }
@@ -269,9 +274,12 @@ class _ViewActivityState extends State<ViewActivity> {
           int changeWeek = 0;
           count = 0;
           tempMiss = [];
-          for (int date = dateTimeToInt(intToDateTime(startDay).add((Duration(days: 7))).subtract(Duration(days: indexThu)));
+          for (int date = dateTimeToInt(intToDateTime(startDay)
+                  .add((Duration(days: 7)))
+                  .subtract(Duration(days: indexThu)));
               date < dateTimeToInt(startTime);
-              date = dateTimeToInt(intToDateTime(date).add(Duration(days: 1)))) {
+              date =
+                  dateTimeToInt(intToDateTime(date).add(Duration(days: 1)))) {
             //print('nextWeek');
             print('date: $date');
             if (doneDay.contains(date))
@@ -322,6 +330,7 @@ class _ViewActivityState extends State<ViewActivity> {
             setState(() {
               doDays = doDay.toString();
               dataMap['Done'] = doDay * 1.0;
+              failDay = failDay * times;
               failDays = failDay.toString();
               dataMap['Miss'] = failDay * 1.0;
             });
@@ -403,7 +412,6 @@ class _ViewActivityState extends State<ViewActivity> {
           ),
         ),
       );
-  CalendarCarousel _calendarCarouselNoHeader;
   void markDays() {}
   Widget debugWidget() {
     return Padding(
@@ -446,62 +454,6 @@ class _ViewActivityState extends State<ViewActivity> {
   @override
   Widget build(BuildContext context) {
     cHeight = MediaQuery.of(context).size.height;
-    _calendarCarouselNoHeader = CalendarCarousel<Event>(
-      // selectedDayButtonColor: Colors.purple[300],
-      // selectedDateTime: _selectedDateTime,
-      // targetDateTime: _targetedDateTime,
-      firstDayOfWeek: 1,
-      disableDayPressed: true,
-      height: cHeight * 0.58,
-      headerTextStyle: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: (!StaticData.isDarkMode) ? Colors.black87 : Colors.grey[200]),
-      weekdayTextStyle: TextStyle(
-          color: (!StaticData.isDarkMode) ? Colors.black : Colors.white),
-      daysTextStyle: TextStyle(
-          color: (!StaticData.isDarkMode) ? Colors.black : Colors.white),
-      weekendTextStyle: TextStyle(
-        color: (!StaticData.isDarkMode) ? Colors.black : Colors.white,
-      ),
-      todayTextStyle: TextStyle(
-          color: (!StaticData.isDarkMode) ? Colors.black : Colors.white),
-      leftButtonIcon: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-        child: Icon(
-          Icons.chevron_left,
-        ),
-      ),
-      rightButtonIcon: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-        child: Icon(
-          Icons.chevron_right,
-        ),
-      ),
-      // selectedDayBorderColor: Colors.blue,
-      showOnlyCurrentMonthDate: false,
-      // todayButtonColor: Colors.cyan,
-      markedDatesMap: _markedDateMap,
-      markedDateShowIcon: true,
-      markedDateIconMaxShown: 1,
-      markedDateMoreShowTotal:
-          null, // null for not showing hidden events indicator
-      // onDayPressed: (date, event) {
-      //   if (this.mounted) {
-      //     setState(() {
-      //       _selectedDateTime = date;
-      //       _targetedDateTime = date;
-      //       if (date.year == 2021) {
-      //         print('Fuck');
-      //       }
-      //     });
-      //   } else
-      //     return;
-      // },
-      markedDateIconBuilder: (event) {
-        return event.icon;
-      },
-    );
     return Container(
       child: Scaffold(
           body: ListView(children: [
@@ -673,7 +625,45 @@ class _ViewActivityState extends State<ViewActivity> {
                     ),
                   ])),
         ),
-        _calendarCarouselNoHeader,
+        CalendarCarousel<Event>(
+          firstDayOfWeek: 1,
+          disableDayPressed: true,
+          height: cHeight * 0.58,
+          headerTextStyle: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color:
+                  (!StaticData.isDarkMode) ? Colors.black87 : Colors.grey[200]),
+          weekdayTextStyle: TextStyle(
+              color: (!StaticData.isDarkMode) ? Colors.black : Colors.white),
+          daysTextStyle: TextStyle(
+              color: (!StaticData.isDarkMode) ? Colors.black : Colors.white),
+          weekendTextStyle: TextStyle(
+            color: (!StaticData.isDarkMode) ? Colors.black : Colors.white,
+          ),
+          todayTextStyle: TextStyle(
+              color: (!StaticData.isDarkMode) ? Colors.black : Colors.white),
+          leftButtonIcon: Padding(
+            padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+            child: Icon(
+              Icons.chevron_left,
+            ),
+          ),
+          rightButtonIcon: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+            child: Icon(
+              Icons.chevron_right,
+            ),
+          ),
+          showOnlyCurrentMonthDate: false,
+          markedDatesMap: _markedDateMap,
+          markedDateShowIcon: true,
+          markedDateIconMaxShown: 1,
+          markedDateMoreShowTotal: null,
+          markedDateIconBuilder: (event) {
+            return event.icon;
+          },
+        ),
         // SizedBox(height: 30),
         Padding(
             padding: const EdgeInsets.all(8.0),
