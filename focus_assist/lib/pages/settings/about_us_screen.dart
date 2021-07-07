@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:focus_assist/classes/Data.dart';
-import 'package:focus_assist/pages/settings/tutorial_screen.dart';
+// import 'package:focus_assist/pages/settings/tutorial_screen.dart';
 
 class AboutUsScreen extends StatefulWidget {
   const AboutUsScreen({Key key}) : super(key: key);
@@ -45,7 +45,6 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                     child: Container(
                       height: size.height*0.07,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
                             // color: Colors.white,
@@ -60,6 +59,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                               },
                             ),
                           ),
+                          SizedBox(width: size.width*0.18,),
                           Text(
                             'ABOUT US',
                             style: TextStyle(
@@ -68,26 +68,26 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                               color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[300],
                             ),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[800],
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return TutorialScreen();
-                                    },
-                                  ),
-                                );
-                              },
-                              child:
-                              Image.asset('assets/achievenment/ui/tutorial.png'),
-                            ),
-                          ),
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(15),
+                          //     color: (!StaticData.isDarkMode)?Colors.white:Colors.grey[800],
+                          //   ),
+                          //   child: GestureDetector(
+                          //     onTap: () {
+                          //       Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (context) {
+                          //             return TutorialScreen();
+                          //           },
+                          //         ),
+                          //       );
+                          //     },
+                          //     child:
+                          //     Image.asset('assets/achievenment/ui/tutorial.png'),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
