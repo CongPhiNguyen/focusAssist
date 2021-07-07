@@ -11,7 +11,7 @@ class AddGroup extends StatefulWidget {
 class _AddGroupState extends State<AddGroup> {
   TextEditingController getGroupName;
   String error = "Group name can't be blank";
-  String error2 = "Group name must be unique";
+  String error2 = "Group already exists";
   final dbHelper = DbProvider.instance;
   bool isOK, isUnique;
 
