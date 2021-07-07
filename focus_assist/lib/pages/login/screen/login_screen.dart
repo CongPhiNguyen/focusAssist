@@ -122,7 +122,7 @@ class LoginScreen extends StatelessWidget {
                       )),
                        FadeAnimation(1.6, Donthaveanaccount(
                         login: true,
-                        press: () {Navigator.push(context, MaterialPageRoute(builder: (context){return SignUpScreen();}));},
+                        press: () {Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){return SignUpScreen();}));},
                       )),
                        SizedBox(height: size.height*0.04,),
                        FadeAnimation(2, Container(
