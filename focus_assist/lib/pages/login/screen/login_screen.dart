@@ -111,9 +111,8 @@ class LoginScreen extends StatelessWidget {
                         },
                       )),
                       SizedBox(height: size.height*0.07,),
-                      // FadeAnimation(1.4, forgot_password(
-                      //
-                      // )),
+                      FadeAnimation(1.4, forgot_password(
+                      )),
                       FadeAnimation(1.6,button_login(
                         text: 'LOGIN',
                         color: Colors.amber[600],

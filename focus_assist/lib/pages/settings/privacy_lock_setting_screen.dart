@@ -18,6 +18,8 @@ class _PrivacyLockSettingScreenState extends State<PrivacyLockSettingScreen> {
   TextEditingController newPasscodeController = new TextEditingController();
   TextEditingController confirmPasscodeController = new TextEditingController();
 
+  final validCharacters = RegExp(r'^[a-zA-Z0-9_\-=@,\.;]+$');
+
   @override
   void initState() {
     // TODO: implement initState
@@ -229,11 +231,17 @@ class _PrivacyLockSettingScreenState extends State<PrivacyLockSettingScreen> {
                 if (passcodeEditingController.text == '' || newPasscodeController.text == '' || confirmPasscodeController.text == '') {
                   Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 }
+                else if (validCharacters.hasMatch(passcodeEditingController.text) ==false){
+                  Fluttertoast.showToast(msg: "Invalid passcode", textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG);
+                }
                 else if (maHoaPassWord(passcodeEditingController.text) != queryList[0]['LOCKPASSCODE']) {
                   Fluttertoast.showToast(msg: 'Incorrect Passcode', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 }
+                else if (validCharacters.hasMatch(newPasscodeController.text) ==false || validCharacters.hasMatch(confirmPasscodeController.text)== false){
+                  Fluttertoast.showToast(msg: "Invalid new passcode", textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG);
+                }
                 else if (newPasscodeController.text != confirmPasscodeController.text) {
-                  Fluttertoast.showToast(msg: 'Confirm passcode does not match', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+                  Fluttertoast.showToast(msg: 'Confirm passcode incorrect', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 }
                 else {
                   updatePasscode(newPasscodeController.text);
@@ -358,11 +366,17 @@ class _PrivacyLockSettingScreenState extends State<PrivacyLockSettingScreen> {
                 if (newPasscodeController.text == '' || confirmPasscodeController.text == '') {
                   Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 }
+                // else if (validCharacters.hasMatch(passcodeEditingController.text) ==false){
+                //   Fluttertoast.showToast(msg: "Invalid passcode", textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG);
+                // }
                 // else if (passcodeEditingController.text != queryList[0]['PASSCODE']) {
                 //   Fluttertoast.showToast(msg: 'Incorrect Passcode', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 // }
+                else if (validCharacters.hasMatch(newPasscodeController.text) ==false || validCharacters.hasMatch(confirmPasscodeController.text)== false){
+                  Fluttertoast.showToast(msg: "Invalid new passcode", textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG);
+                }
                 else if (newPasscodeController.text != confirmPasscodeController.text) {
-                  Fluttertoast.showToast(msg: 'Confirm passcode does not match', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+                  Fluttertoast.showToast(msg: 'Confirm passcode incorrect', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
                 }
                 else {
                   updatePasscode(newPasscodeController.text);
