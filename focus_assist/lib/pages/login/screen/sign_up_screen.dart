@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
 import 'package:focus_assist/pages/focusAssist.dart';
+import 'package:focus_assist/pages/login/feature_ui/edit_text.dart';
 import 'package:focus_assist/pages/login/screen/question_screen.dart';
 import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
@@ -22,12 +23,27 @@ import 'package:focus_assist/pages/main_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
+  @override
+  _SignUpScreenState createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   final _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+
   Random _rnd = Random();
-  String _taiKhoan, _matKhau, _maUser, _ten;
+
+  // String _taiKhoan, _matKhau, _maUser, _ten, _firstPetName, _childhoodName;
+  String _maUser, _matKhau;
+  TextEditingController tenEditingController = new TextEditingController();
+  TextEditingController taiKhoanEditingController = new TextEditingController();
+  // TextEditingController matKhauEditingController = new TextEditingController();
+  TextEditingController firstPetNameEditingController = new TextEditingController();
+  TextEditingController childhoodNameEditingController = new TextEditingController();
+
   final validCharacters = RegExp(r'^[a-zA-Z0-9_\-=@,\.;]+$');
 
+  bool isSignUp = true;
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +80,9 @@ class SignUpScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          FadeAnimation(1.2,  Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
+                          FadeAnimation(1.2,  Text((isSignUp?'Sign Up':'Question'),style: TextStyle(color: Colors.white,fontSize: 40.0,fontWeight: FontWeight.bold,),)),
                           SizedBox(height: size.height*0.01,),
-                          FadeAnimation(1.2,  Text('Welcome to Focus Assist',style: TextStyle(color: Colors.white,fontSize: size.height*0.02),)),
+                          FadeAnimation(1.2,  Text((isSignUp?'Welcome to Focus Assist':'To reset your password'),style: TextStyle(color: Colors.white,fontSize: size.height*0.02),)),
                           SizedBox(height: size.height*0.01,),
                         ],
                       ),
@@ -91,23 +107,56 @@ class SignUpScreen extends StatelessWidget {
                 padding: EdgeInsets.all(20),
                 child:  Column(
                   children: <Widget>[
-                    FadeAnimation(1.2,edit_text_login(
-                      icon: Icons.drive_file_rename_outline,
-                      hintText: "Your name",
-                      onChanged: (value){
-                        _ten = value;
-                      },
+                    // FadeAnimation(1.2,edit_text_login(
+                    //   icon: Icons.drive_file_rename_outline,
+                    //   hintText: (isSignUp?"Your name":"Your first pet's name"),
+                    //   onChanged: (value){
+                    //     if (isSignUp) _ten = value;
+                    //     else _firstPetName = value;
+                    //   },
+                    // )),
+                    FadeAnimation(1.2,edit_text(
+                      child: TextField(
+                        // style: TextStyle(color: Colors.grey[700]),
+                        controller: isSignUp?tenEditingController:firstPetNameEditingController,
+                        decoration: InputDecoration(
+                          hintText: (isSignUp?"Your name":"Your first pet's name"),
+                          // hintStyle: TextStyle(color: Colors.grey,),
+                          icon: Icon(
+                            Icons.drive_file_rename_outline,
+                            color: Colors.amber[900],
+                          ),
+                          border:  InputBorder.none,
+                        ),
+                      ),
                     )),
                     SizedBox(height: size.height*0.0015,),
-                    FadeAnimation(1.2,edit_text_login(
-                      icon: Icons.person,
-                      hintText: "Username",
-                      onChanged: (value){
-                        _taiKhoan = value;
-                      },
+                    // FadeAnimation(1.2,edit_text_login(
+                    //   icon: Icons.person,
+                    //   hintText: (isSignUp?"Username":"Your childhood name"),
+                    //   onChanged: (value){
+                    //     if (isSignUp) _taiKhoan = value;
+                    //     else _childhoodName = value;
+                    //   },
+                    // )),
+                    FadeAnimation(1.2,edit_text(
+                      child: TextField(
+                        // style: TextStyle(color: Colors.grey[700]),
+                        controller: isSignUp?taiKhoanEditingController:childhoodNameEditingController,
+                        decoration: InputDecoration(
+                          hintText: (isSignUp?"Username":"Your childhood name"),
+                          // hintStyle: TextStyle(color: Colors.grey,),
+                          icon: Icon(
+                            Icons.person,
+                            color: Colors.amber[900],
+                          ),
+                          border:  InputBorder.none,
+                        ),
+                      ),
                     )),
                     SizedBox(height: size.height*0.0015,),
-                    FadeAnimation(1.4,edit_text_password_login(
+                    SizedBox(height: size.height*0.0015,),
+                    FadeAnimation(1.4,(!isSignUp)?SizedBox(height: 0,):edit_text_password_login(
                       onChanged: (value){
                         _matKhau = value;
                       },
@@ -115,21 +164,39 @@ class SignUpScreen extends StatelessWidget {
                     SizedBox(height: size.height*0.03,),
                     FadeAnimation(1.4, button_login(
                       color: Colors.amber[600],
-                      text: 'SIGN UP',
+                      text: isSignUp?'SIGN UP':'CONFIRM',
                       press: () async {
-
-                        if (_matKhau == null || _taiKhoan== null || _ten == null)
-                        {
-                          //_show(context, "Điền đầy đủ thông tin!");
-                          Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 1 );
+                        if (isSignUp) {
+                          if (_matKhau == null
+                              || (taiKhoanEditingController.text == null || taiKhoanEditingController.text == '')
+                              || (tenEditingController.text == null || tenEditingController.text == ''))
+                          {
+                            //_show(context, "Điền đầy đủ thông tin!");
+                            Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 1 );
+                          }
+                          else if (validCharacters.hasMatch(taiKhoanEditingController.text) ==false || validCharacters.hasMatch(_matKhau)== false){
+                            Fluttertoast.showToast(msg: "Invalid username or password", textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG);
+                          }
+                          else
+                          {
+                            _maUser = getRandomString(10);
+                            _queryCheckUser(taiKhoanEditingController.text, _matKhau, _maUser, tenEditingController.text, context);
+                          }
                         }
-                        else if (validCharacters.hasMatch(_taiKhoan) ==false || validCharacters.hasMatch(_matKhau)== false){
-                          Fluttertoast.showToast(msg: "Invalid username or password", textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG);
-                        }
-                        else
-                        {
-                          _maUser = getRandomString(10);
-                          _queryCheckUser(_taiKhoan, _matKhau, _maUser, _ten ,context);
+                        else {
+                          if ((firstPetNameEditingController.text == null || firstPetNameEditingController.text == '')
+                              || (childhoodNameEditingController.text == null || childhoodNameEditingController.text == ''))
+                          {
+                            //_show(context, "Điền đầy đủ thông tin!");
+                            Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 1 );
+                          }
+                          else if (validCharacters.hasMatch(firstPetNameEditingController.text) == false || validCharacters.hasMatch(childhoodNameEditingController.text)== false){
+                            Fluttertoast.showToast(msg: "Invalid characters", textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG);
+                          }
+                          else
+                          {
+                            await AddUserToDatabase(taiKhoanEditingController.text, _matKhau, _maUser, tenEditingController.text, firstPetNameEditingController.text, childhoodNameEditingController.text, context);
+                          }
                         }
                       },
                     )),
@@ -173,13 +240,9 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-
-  //ramdom ma nguoi dung
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
-
-  //Dung SHA-512224 băm mk
   String maHoaPassWord(String PassWord){
 
     var bytes = utf8.encode(PassWord);
@@ -190,8 +253,7 @@ class SignUpScreen extends StatelessWidget {
     return matKhauMaHoa;
   }
 
-// Check tài khoản có tồn tại hay không
-  void _queryCheckUser(String tk,String mk, String maUser, String name ,context) async {
+  void _queryCheckUser(String tk,String mk, String maUser, String name, context) async {
     final checkTK = await DbProvider.instance.rawQuery('''
   select * from NGUOIDUNG where TENTAIKHOAN = '$tk'
   ''');
@@ -201,45 +263,90 @@ class SignUpScreen extends StatelessWidget {
       Fluttertoast.showToast(msg: 'Username already exists', textColor: Colors.red[300], backgroundColor: Colors.grey[100],gravity: ToastGravity.CENTER, toastLength: Toast.LENGTH_LONG);
       return;
     } else {
-      Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': maHoaPassWord(mk)};
-      int i = await DbProvider.instance.insert('NGUOIDUNG', row);
-      StaticData.userID = maUser;
-      row = {'MANGUOIDUNG': maUser ,
-        'HOTEN': name,
-        'ANH':  '',
-        'VANG': 1000,
-        'THONGBAO': 1,
-        'THONGBAOSANG': 1,
-        'THONGBAOTOI' : 1,
-        'THOIGIANTHONGBAOSANG': '07:00:00',
-        'THOIGIANTHONGBAOTOI': '22:00:00',
-        'DARKMODE': 0,
-        'PRIVACYLOCK': 0,
-        'LOCKPASSCODE': '',
-        'FIRSTPETNAME': '',
-        'CHILDHOODNAME': '',
-      };
-      await DbProvider.instance.insert('THONGTINNGUOIDUNG', row);
+      setState(() {
+        isSignUp = false;
+      });
 
-      print('value of insert: $i');
-      StaticData.userID = maUser;
-      //_showSuccess(context, "Đăng ký thành công!");
-      StaticData.isSignedIn = true;
-      Database db = await DbProvider.instance.database;
-      await db.execute(
-          '''
+      // Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': maHoaPassWord(mk)};
+      // int i = await DbProvider.instance.insert('NGUOIDUNG', row);
+      // StaticData.userID = maUser;
+      // row = {'MANGUOIDUNG': maUser ,
+      //   'HOTEN': name,
+      //   'ANH':  '',
+      //   'VANG': 1000,
+      //   'THONGBAO': 1,
+      //   'THONGBAOSANG': 1,
+      //   'THONGBAOTOI' : 1,
+      //   'THOIGIANTHONGBAOSANG': '07:00:00',
+      //   'THOIGIANTHONGBAOTOI': '22:00:00',
+      //   'DARKMODE': 0,
+      //   'PRIVACYLOCK': 0,
+      //   'LOCKPASSCODE': '',
+      //   'FIRSTPETNAME': '',
+      //   'CHILDHOODNAME': '',
+      // };
+      // await DbProvider.instance.insert('THONGTINNGUOIDUNG', row);
+      //
+      // print('value of insert: $i');
+      // StaticData.userID = maUser;
+      // //_showSuccess(context, "Đăng ký thành công!");
+      // StaticData.isSignedIn = true;
+      // Database db = await DbProvider.instance.database;
+      // await db.execute(
+      //     '''
+      // UPDATE THAMSO
+      // SET DADANGNHAP = 1,
+      //     MANGUOIDUNG = '${StaticData.userID}';
+      // ''');
+      // InitUserNotification();
+      // // Navigator.pop(context);
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => QuestionScreen()),
+      // );
+      // Fluttertoast.showToast(msg: 'Sign up successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100],gravity: ToastGravity.CENTER, toastLength: Toast.LENGTH_SHORT);
+    }
+  }
+
+  AddUserToDatabase(String tk,String mk, String maUser, String name, String firstPetName, String childhoodName, context) async {
+    Map<String, dynamic> row = {'MANGUOIDUNG': maUser, 'TENTAIKHOAN': tk,'MATKHAU': maHoaPassWord(mk)};
+    int i = await DbProvider.instance.insert('NGUOIDUNG', row);
+    StaticData.userID = maUser;
+    row = {'MANGUOIDUNG': maUser ,
+      'HOTEN': name,
+      'ANH':  '',
+      'VANG': 1000,
+      'THONGBAO': 1,
+      'THONGBAOSANG': 1,
+      'THONGBAOTOI' : 1,
+      'THOIGIANTHONGBAOSANG': '07:00:00',
+      'THOIGIANTHONGBAOTOI': '22:00:00',
+      'DARKMODE': 0,
+      'PRIVACYLOCK': 0,
+      'LOCKPASSCODE': '',
+      'FIRSTPETNAME': '$firstPetName',
+      'CHILDHOODNAME': '$childhoodName',
+    };
+    await DbProvider.instance.insert('THONGTINNGUOIDUNG', row);
+
+    print('value of insert: $i');
+    StaticData.userID = maUser;
+    //_showSuccess(context, "Đăng ký thành công!");
+    StaticData.isSignedIn = true;
+    Database db = await DbProvider.instance.database;
+    await db.execute(
+        '''
       UPDATE THAMSO
       SET DADANGNHAP = 1,
           MANGUOIDUNG = '${StaticData.userID}';
       ''');
-      InitUserNotification();
-      // Navigator.pop(context);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => QuestionScreen()),
-      );
-      // Fluttertoast.showToast(msg: 'Sign up successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100],gravity: ToastGravity.CENTER, toastLength: Toast.LENGTH_SHORT);
-    }
+    InitUserNotification();
+    Navigator.pop(context);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MainScreen()),
+    );
+    Fluttertoast.showToast(msg: 'Sign up successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100],gravity: ToastGravity.CENTER, toastLength: Toast.LENGTH_SHORT);
   }
 
   InitUserNotification() async {

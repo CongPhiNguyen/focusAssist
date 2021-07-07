@@ -184,7 +184,7 @@ class _LockScreenState extends State<LockScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          isPrivacy?"Forget Passcode ?":"Sign In with Passcode ?",
+                          isPrivacy?"Forget Passcode?":"Sign In with Passcode",
                           style: TextStyle(color: Colors.amber[900]),
                         ),
                         GestureDetector(
