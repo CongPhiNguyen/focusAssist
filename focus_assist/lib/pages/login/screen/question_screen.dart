@@ -90,7 +90,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     SizedBox(height: size.height*0.0015,),
                     FadeAnimation(1.2,edit_text_login(
                       icon: Icons.person,
-                      hintText: "Your childhood's name or nickname",
+                      hintText: "Your childhood name",
                       onChanged: (value){
                         _childHoodName = value;
                       },
