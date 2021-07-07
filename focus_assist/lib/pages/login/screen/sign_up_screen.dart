@@ -203,7 +203,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(height: size.height*0.02,),
                     FadeAnimation(1.4, Donthaveanaccount(
                       login: false,
-                      press: (){Navigator.push(context, MaterialPageRoute(builder: (context){return LoginScreen();}));},
+                      press: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){return LoginScreen();}));},
                     )),
                     SizedBox(height: size.height*0.02,),
                     //FadeAnimation(1.6,Or()),
