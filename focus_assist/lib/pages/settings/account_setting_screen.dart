@@ -452,7 +452,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                     enabledBorder: outlineInputBorder,
                     errorBorder: outlineInputBorder,
                     focusedErrorBorder: outlineInputBorder,
-                    labelText: 'Username',
+                    labelText: 'Your name',
                     labelStyle: TextStyle(fontSize: 18, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
                     hintText: username,
                   ),

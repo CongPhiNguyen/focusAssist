@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'package:focus_assist/classes/DbProvider.dart';
+
 import 'package:focus_assist/pages/login/feature_ui/FadeAnimation.dart';
 import 'package:focus_assist/pages/login/feature_ui/button_login.dart';
-import 'package:focus_assist/pages/login/feature_ui/color.dart';
+
 import 'package:focus_assist/pages/login/feature_ui/edit_text.dart';
 import 'package:focus_assist/pages/main_screen.dart';
+
+
 
 class LockScreen extends StatefulWidget {
   @override
@@ -18,9 +21,31 @@ class LockScreen extends StatefulWidget {
 
 class _LockScreenState extends State<LockScreen> {
   TextEditingController passcodeEditingController = new TextEditingController();
+  TextEditingController new_passcodeEditingController = new TextEditingController();
+  final validCharacters = RegExp(r'^[a-zA-Z0-9_\-=@,\.;]+$');
+
+  bool isPrivacy = true;
+  String userName;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Loading();
+  }
+
+  void Loading()async{
+    final checkTK = await DbProvider.instance.rawQuery('''
+  select * from NGUOIDUNG where MANGUOIDUNG = '${StaticData.userID}'
+  ''');
+
+  userName = checkTK[0]['TENTAIKHOAN'];
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
@@ -53,7 +78,7 @@ class _LockScreenState extends State<LockScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          FadeAnimation(1.2,Text('Login', style: TextStyle(color: Colors.white, fontSize: size.height*0.05,fontWeight: FontWeight.bold,),)),
+                          FadeAnimation(1.2,Text('Focus Assist', style: TextStyle(color: Colors.white, fontSize: size.height*0.05,fontWeight: FontWeight.bold,),)),
                           SizedBox(height: size.height*0.01,),
                           FadeAnimation(1.2,  Text('Welcome back',style: TextStyle(color: Colors.white,fontSize: size.height*0.025),)),
                           SizedBox(height: size.height*0.01,),
@@ -82,45 +107,114 @@ class _LockScreenState extends State<LockScreen> {
                   children: <Widget>[
                     SizedBox(height: size.height*0.03,),
                     FadeAnimation(1.4,Text(
-                      'PRIVACY LOCK',
+                      isPrivacy?'PRIVACY LOCK':'RESET PASSCODE',
                       style: TextStyle(color: Colors.grey[700], fontSize: size.height*0.05,fontWeight: FontWeight.bold,)
                     )),
                     SizedBox(height: size.height*0.05,),
+                    FadeAnimation(1.4, isPrivacy?Text(""):Center(child: Text(
+                      "Username : ${userName}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[600],
+                        fontSize: 20,
+                      ),
+                    ),)),
+                    SizedBox(height: size.height*0.01,),
                     FadeAnimation(1.4,edit_text(
                       child: TextField(
                         style: TextStyle(color: Colors.grey[700]),
                         controller: passcodeEditingController,
                         obscureText: true,
                         decoration: InputDecoration(
-                          hintText: "Passcode",
+                          hintText: isPrivacy?"Passcode":"Password",
                           hintStyle: TextStyle(color: Colors.grey,),
                           icon: Icon(
                             Icons.lock,
-                            color: Colors.amber[600],
-                          ),
-                          suffixIcon: Icon(
-                            Icons.visibility,
                             color: Colors.amber[600],
                           ),
                           border:  InputBorder.none,
                         ),
                       ),
                     )),
-                    SizedBox(height: size.height*0.07,),
+                    SizedBox(height: size.height*0.01,),
                     // FadeAnimation(1.4, forgot_password(
                     //
                     // )),
-                    FadeAnimation(1.6,button_login(
+                    FadeAnimation(1.4,
+                        isPrivacy?SizedBox(height: 0,):edit_text(
+                          child: TextField(
+                            style: TextStyle(color: Colors.grey[700]),
+                            controller: new_passcodeEditingController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintText: "New Passcode",
+                              hintStyle: TextStyle(color: Colors.grey,),
+                              icon: Icon(
+                                Icons.lock,
+                                color: Colors.amber[600],
+                              ),
+                              border:  InputBorder.none,
+                            ),
+                          ),
+                        )
+                    ),
+                    SizedBox(height: size.height*0.01,),
+                    FadeAnimation(1.6,
+                        isPrivacy?
+                        button_login(
                       text: 'LOGIN',
                       color: Colors.amber[600],
                       press: () async {
                         openApp();
                       },
-                    )),
+                      ) :
+                        button_login(
+                          text: 'RESET PASSCODE',
+                          color: Colors.amber[600],
+                          press: () async {
+                            signIn();
+                          },
+                    ),),
                     // FadeAnimation(1.6, Donthaveanaccount(
                     //   login: true,
                     //   press: () {Navigator.push(context, MaterialPageRoute(builder: (context){return SignUpScreen();}));},
                     // )),
+                    FadeAnimation(1.6, Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          isPrivacy?"Forget Passcode?":"Sign In with Passcode",
+                          style: TextStyle(color: Colors.amber[900]),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            if(isPrivacy == true){
+                              setState(() {
+                                isPrivacy = false;
+                                passcodeEditingController.text= '';
+                                new_passcodeEditingController.text='';
+                              });
+                            }else{
+                              setState(() {
+                                isPrivacy = true;
+                                passcodeEditingController.text= '';
+                                new_passcodeEditingController.text='';
+                              });
+                            }
+                          },
+                          child: Text(
+                            isPrivacy?"  Here":"   Return",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.blue[300],
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                    ),
                     SizedBox(height: size.height*0.04,),
                     FadeAnimation(2, Container(
                         height: size.height*0.2,
@@ -136,6 +230,45 @@ class _LockScreenState extends State<LockScreen> {
         ),
       ),
     );
+  }
+
+  signIn() async {
+    if (passcodeEditingController.text == '' || new_passcodeEditingController.text == '') {
+      Fluttertoast.showToast(msg: 'Please enter all information needed', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+      return;
+    }
+    print(StaticData.userID);
+    final checkTK = await DbProvider.instance.rawQuery('''
+  select * from NGUOIDUNG where MANGUOIDUNG = '${StaticData.userID}'
+  ''');
+
+    print(checkTK[0]['MATKHAU']);
+    if (checkTK[0]['MATKHAU'] != maHoaPassWord(passcodeEditingController.text))
+    {
+      //_show(context, "Sai mật khẩu");
+      Fluttertoast.showToast(msg: 'Incorrect password', textColor: Colors.red[300], backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_LONG);
+      return;
+    }
+
+    if (validCharacters.hasMatch(new_passcodeEditingController.text) == false){
+      Fluttertoast.showToast(msg: "Invalid passcode", textColor: Colors.red[300], backgroundColor: Colors.grey[100], gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_LONG);
+      return;
+    }
+
+    final update = await DbProvider.instance.rawQuery('''
+    UPDATE THONGTINNGUOIDUNG
+    SET LOCKPASSCODE = '${maHoaPassWord(new_passcodeEditingController.text)}'
+    WHERE MANGUOIDUNG = '${StaticData.userID}'
+    ''');
+
+
+    setState(() {
+      isPrivacy = true;
+      passcodeEditingController.text= '';
+      new_passcodeEditingController.text='';
+    });
+    Fluttertoast.showToast(msg: 'Successfully', textColor: Colors.black54, backgroundColor: Colors.grey[100], toastLength: Toast.LENGTH_SHORT);
+
   }
 
   openApp() async {
@@ -168,3 +301,4 @@ class _LockScreenState extends State<LockScreen> {
   }
 
 }
+

@@ -20,7 +20,6 @@ class _MainScreenState extends State<MainScreen> {
   int _page = 0;
   // GlobalKey _bottomNavigationKey = GlobalKey();
 
-
   // Widget _showPage = new SettingScreen();
 
   Widget _pageChooser(int page) {
@@ -29,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
         return JournalScreen();
         break;
       case 1:
-        return TimerScreen();
+        return new TimerScreen();
         break;
       case 2:
         return ProgressScreen();
@@ -43,7 +42,6 @@ class _MainScreenState extends State<MainScreen> {
       default:
         break;
     }
-    
   }
   @override
   Widget build(BuildContext context) {
@@ -72,8 +70,13 @@ class _MainScreenState extends State<MainScreen> {
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 600),
         onTap: (int tappedIndex) {
+          print("page vua chon la " + tappedIndex.toString());
 
           if (_page == 1 && StaticData.focusTimerIsRunning == true){
+            if (tappedIndex==1 ) { 
+              //print("trung"); 
+              }
+            else
             showDialogChange(context, "Timer is running, change tab now?", tappedIndex);
           }
           else {
@@ -119,6 +122,8 @@ class _MainScreenState extends State<MainScreen> {
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onPressed: () {
+              StaticData.focusTimerIsRunning = false;
+              StaticData.gifcontroller.reset();
               if(StaticData.timer != null) {
                 if(StaticData.timer.isActive && tappedIndex != 3 )
                 {
@@ -130,7 +135,7 @@ class _MainScreenState extends State<MainScreen> {
                 {
                   StaticData.timer2.cancel();
                 }
-              StaticData.focusTimerIsRunning = false;
+              
               control.audioPlayer.pause();
               }
               if (StaticData.timer3 != null) {
@@ -157,6 +162,7 @@ class _MainScreenState extends State<MainScreen> {
               //   //_showPage = _pageChooser(tappedIndex);
               //   _page = 1;
               // });
+              
               Navigator.pop(context);
             },
             gradient: LinearGradient(colors: [

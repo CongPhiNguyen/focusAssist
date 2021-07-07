@@ -515,7 +515,9 @@ class _EditActivityState extends State<EditActivity> {
   }
 
   Future<void> getAllGroup() async {
-    List<Map<String, dynamic>> database = await dbHelper.query('NHOMMUCTIEU');
+    String userID = StaticData.userID;
+    List<Map<String, dynamic>> database = await dbHelper
+        .rawQuery('''select * from NHOMMUCTIEU where MANGUOIDUNG='$userID' ''');
     if (this.mounted) {
       setState(() {
         text2 = database.toString();
