@@ -16,6 +16,7 @@ import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'setTimer.dart' as st;
 import 'package:focus_assist/pages/audio/soundControl.dart';
+import 'package:flutter_dnd/flutter_dnd.dart';
 
 //
 // Color kPrimaryColor = (!StaticData.isDarkMode)?Color(0xFF0C9869):Colors.grey;
@@ -278,7 +279,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                       child: PlayButton(
                         pauseIcon: Icon(_controlIcon, color: Colors.white, size: 60, ),   //Icons.pause
                         playIcon: Icon(_controlIcon, color: Colors.white, size: 60),     //Icons.play_arrow
-                        onPressed: () { 
+                        onPressed: () async { 
                             if(_timerIsRunning) {
                                //stoped ? null : stop();
                                //showAlertDialog(context);
@@ -292,6 +293,15 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                                 StaticData.gifcontroller.repeat(min:0,max:99,period:Duration(milliseconds: 3000));
                               } else 
                               started = false;
+
+                              // try { FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_NONE); 
+                              // }  on Exception catch (_) {
+                              //   print("throwing new error");
+                              //   throw Exception("Error");
+                              // }
+                              
+                              
+                              
                             }
                             _timerIsRunning =! _timerIsRunning;
                             StaticData.focusTimerIsRunning = _timerIsRunning;                            
@@ -487,7 +497,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
         }
       });
 
-      } catch(e){ print("loi timer dong 397 timerScreen");}
+      } catch(e){ print("loi timer dong 397 timerScreen");
+      }
       finally { //print("ko loi timer 397"); 
       }  
     });

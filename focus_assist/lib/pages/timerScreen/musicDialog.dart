@@ -7,6 +7,8 @@ import 'package:focus_assist/pages/audio/song2.dart';
 import 'package:focus_assist/pages/audio/piano.dart';
 import 'package:focus_assist/pages/audio/guitar.dart';
 import 'package:focus_assist/pages/audio/coffeShop.dart';
+import 'package:focus_assist/pages/audio/study1.dart';
+import 'package:focus_assist/pages/audio/study2.dart';
 class musicDialog extends StatefulWidget {
   const musicDialog({Key key}) : super(key: key);
 
@@ -68,7 +70,7 @@ class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClient
               SizedBox(height: 20, ),
               // this is music list
               SizedBox(
-                height: 200,
+                height: 300,
                 child: Flex(
                   direction: Axis.vertical,
                   children: <Widget>[
@@ -78,11 +80,14 @@ class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClient
                           color: (!StaticData.isDarkMode)?Colors.grey[50]:Colors.grey[900],
                           child: Column(
                             children: <Widget>[
-                              song1(),
-                              song2(),
+                              song6(),
+                              song7(),
+                              song5(),
                               song3(),
                               song4(),
-                              song5(),
+                              song1(),
+                              song2(),
+                              
                             ],
                           ),
                         ),
@@ -149,26 +154,7 @@ class _musicDialogState extends State<musicDialog> with AutomaticKeepAliveClient
                         //   borderRadius: BorderRadius.circular(15.0),
                         // ),
                       ),
-                      // RaisedButton(
-                      //   onPressed: (){
-                      //     print("Cancle Music");
-                      //     Navigator.pop(context);
-                      //   },
-                      //   padding: EdgeInsets.symmetric(
-                      //     horizontal: 40.0,
-                      //     vertical: 10.0,
-                      //   ),
-                      //   color: Colors.red,
-                      //   child: Text(
-                      //     "Cancle",
-                      //     style: TextStyle(
-                      //       fontSize: 18.0,
-                      //       color: Colors.white,
-                      //     ),),
-                      //   shape: RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.circular(15.0),
-                      //   ),
-                      // ),
+                      
                     ],)
               ),
             ],

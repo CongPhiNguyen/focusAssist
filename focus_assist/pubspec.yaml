@@ -57,7 +57,7 @@ dependencies:
   flutter_volume_slider: ^1.0.6
   flutter_gifimage: ^1.0.1
   provider: ^4.0.5
-
+  flutter_dnd: ^0.1.3
 
 
 dev_dependencies:
@@ -141,6 +141,8 @@ flutter:
     - assets/audio/coffeShop.mp3
     - assets/audio/guitar.mp3
     - assets/audio/piano.mp3
+    - assets/audio/study1.mp3
+    - assets/audio/study2.mp3
     - assets/audio/
     - assets/
 

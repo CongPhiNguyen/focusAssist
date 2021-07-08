@@ -81,7 +81,7 @@ class _song3State extends State<song3>  with TickerProviderStateMixin {
         ),
         SizedBox(width: 30,),
         Text(
-          "Piano Music",
+          "For work 1",
           style: TextStyle(fontSize: 20, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
