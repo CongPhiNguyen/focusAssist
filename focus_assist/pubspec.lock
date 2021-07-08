@@ -209,13 +209,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.8"
-  flutter_dnd:
-    dependency: "direct main"
-    description:
-      name: flutter_dnd
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.3"
   flutter_gifimage:
     dependency: "direct main"
     description:

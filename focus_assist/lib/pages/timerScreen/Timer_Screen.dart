@@ -16,7 +16,7 @@ import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:focus_assist/classes/Data.dart';
 import 'setTimer.dart' as st;
 import 'package:focus_assist/pages/audio/soundControl.dart';
-import 'package:flutter_dnd/flutter_dnd.dart';
+
 
 //
 // Color kPrimaryColor = (!StaticData.isDarkMode)?Color(0xFF0C9869):Colors.grey;
@@ -279,7 +279,7 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                       child: PlayButton(
                         pauseIcon: Icon(_controlIcon, color: Colors.white, size: 60, ),   //Icons.pause
                         playIcon: Icon(_controlIcon, color: Colors.white, size: 60),     //Icons.play_arrow
-                        onPressed: () async { 
+                        onPressed: () { 
                             if(_timerIsRunning) {
                                //stoped ? null : stop();
                                //showAlertDialog(context);
@@ -299,8 +299,6 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                               //   print("throwing new error");
                               //   throw Exception("Error");
                               // }
-                              
-                              
                               
                             }
                             _timerIsRunning =! _timerIsRunning;
