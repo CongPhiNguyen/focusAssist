@@ -127,7 +127,7 @@ class _song1State extends State<song1>  with TickerProviderStateMixin {
         ),
         SizedBox(width: 30,),
         Text(
-          "Rain sound",
+          "Natural sound 1",
           style: TextStyle(fontSize: 20, color: (!StaticData.isDarkMode)?Colors.black:Colors.grey[400]),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,

@@ -17,6 +17,7 @@ import 'package:focus_assist/classes/Data.dart';
 import 'setTimer.dart' as st;
 import 'package:focus_assist/pages/audio/soundControl.dart';
 
+
 //
 // Color kPrimaryColor = (!StaticData.isDarkMode)?Color(0xFF0C9869):Colors.grey;
 // Color kTextColor = (!StaticData.isDarkMode)?Color(0xFF3C4046):Colors.black;
@@ -292,6 +293,13 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
                                 StaticData.gifcontroller.repeat(min:0,max:99,period:Duration(milliseconds: 3000));
                               } else 
                               started = false;
+
+                              // try { FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_NONE); 
+                              // }  on Exception catch (_) {
+                              //   print("throwing new error");
+                              //   throw Exception("Error");
+                              // }
+                              
                             }
                             _timerIsRunning =! _timerIsRunning;
                             StaticData.focusTimerIsRunning = _timerIsRunning;                            
@@ -487,7 +495,8 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
         }
       });
 
-      } catch(e){ print("loi timer dong 397 timerScreen");}
+      } catch(e){ print("loi timer dong 397 timerScreen");
+      }
       finally { //print("ko loi timer 397"); 
       }  
     });

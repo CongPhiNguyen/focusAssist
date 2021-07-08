@@ -59,7 +59,6 @@ dependencies:
   provider: ^4.0.5
 
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -141,6 +140,8 @@ flutter:
     - assets/audio/coffeShop.mp3
     - assets/audio/guitar.mp3
     - assets/audio/piano.mp3
+    - assets/audio/study1.mp3
+    - assets/audio/study2.mp3
     - assets/audio/
     - assets/
 
